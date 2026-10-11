@@ -1,0 +1,22 @@
+{
+  "schemaVersion": "1.0",
+  "status": "RESEARCH_ONLY",
+  "decisionId": null,
+  "appIds": [],
+  "evidenceRecordIds": [],
+  "supportedObservation": null,
+  "counterEvidence": null,
+  "unverifiedAssumptions": [],
+  "userJob": null,
+  "formBaseSha": null,
+  "existingSpecRefs": [],
+  "candidateChange": null,
+  "candidateValidation": null,
+  "estimatedImplementationRisk": null,
+  "privacyAndCostRisks": [],
+  "decisionOwner": null,
+  "approvedAtUtc": null,
+  "devBranchMutation": false,
+  "priority": "UNRANKED",
+  "note": "Research-only proposal; not a frozen V2.2 task."
+}

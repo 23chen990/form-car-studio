@@ -1,0 +1,102 @@
+{
+  "schemaVersion": "1.0",
+  "baselineDate": "2026-10-11",
+  "storefront": "US",
+  "origin": "docs/form-handoff/research/competitor-baseline.json",
+  "note": "Identification registry. Official marketing claims are not hands-on evidence. App Store IDs must not be conflated.",
+  "apps": [
+    {
+      "appId": "6523376299",
+      "name": "Mody",
+      "developer": "Scate",
+      "focus": [
+        "first_look",
+        "local_edit",
+        "result_preservation"
+      ],
+      "source": "https://apps.apple.com/us/app/id6523376299"
+    },
+    {
+      "appId": "6743636833",
+      "name": "Driftshot",
+      "developer": "iDec Apps S.L.",
+      "focus": [
+        "identity_preservation",
+        "paywall",
+        "render_progress"
+      ],
+      "source": "https://apps.apple.com/us/app/id6743636833"
+    },
+    {
+      "appId": "6747343828",
+      "name": "Wrapr",
+      "developer": "Hachly Limited",
+      "focus": [
+        "color_finish",
+        "wheels",
+        "single_edit"
+      ],
+      "source": "https://apps.apple.com/us/app/id6747343828"
+    },
+    {
+      "appId": "6751798844",
+      "name": "Car AI - AI Car Modifications",
+      "developer": "Erdinc Gunaydin",
+      "focus": [
+        "case_discovery",
+        "style_options"
+      ],
+      "source": "https://apps.apple.com/us/app/id6751798844"
+    },
+    {
+      "appId": "6762599357",
+      "name": "Car AI: Modify, Tune & Design",
+      "developer": "Astera Dijital",
+      "focus": [
+        "template_discovery",
+        "long_press_preview",
+        "wheels"
+      ],
+      "source": "https://apps.apple.com/us/app/id6762599357"
+    },
+    {
+      "appId": "6742412025",
+      "name": "Car Editor",
+      "developer": "Uros Stojanovic",
+      "focus": [
+        "wheels",
+        "history",
+        "progress",
+        "paywall"
+      ],
+      "source": "https://apps.apple.com/us/app/id6742412025"
+    },
+    {
+      "appId": "6762754163",
+      "name": "Modyfy",
+      "developer": "Papcorns",
+      "focus": [
+        "style_options",
+        "onboarding"
+      ],
+      "source": "https://apps.apple.com/us/app/id6762754163"
+    },
+    {
+      "appId": "6760583156",
+      "name": "RideMint",
+      "developer": "Marek Sokol",
+      "focus": [
+        "trial_disclosure",
+        "history",
+        "low_friction"
+      ],
+      "source": "https://apps.apple.com/us/app/id6760583156"
+    }
+  ],
+  "adjacentAlternativeClasses": [
+    "ChatGPT Images",
+    "Google Gemini",
+    "Adobe Firefly"
+  ],
+  "appIdSeparationRule": "Apps with similar names are separate unless identical numeric appId and storefront."
+}

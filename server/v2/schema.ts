@@ -1,4 +1,4 @@
-export const V2_SCHEMA_VERSION = 1;
+export const V2_SCHEMA_VERSION = 2;
 
 export const V2_SCHEMA = `
 CREATE TABLE IF NOT EXISTS migration_version (
@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS users (
   created_at TEXT NOT NULL,
   deleted_at TEXT
 );
-CREATE TABLE IF NOT EXISTS sessions (
+CREATE TABLE IF NOT EXISTS v2_sessions (
   id TEXT PRIMARY KEY,
   owner_id TEXT NOT NULL,
   token_digest TEXT NOT NULL UNIQUE,
@@ -51,7 +51,8 @@ CREATE TABLE IF NOT EXISTS assets (
   storage_key TEXT NOT NULL,
   created_at TEXT NOT NULL,
   FOREIGN KEY (owner_id, project_id) REFERENCES projects(owner_id, id) ON DELETE CASCADE,
-  UNIQUE(owner_id, id)
+  UNIQUE(owner_id, id),
+  UNIQUE(owner_id, id, project_id)
 );
 CREATE TABLE IF NOT EXISTS versions (
   id TEXT PRIMARY KEY,
@@ -65,10 +66,11 @@ CREATE TABLE IF NOT EXISTS versions (
   favorite INTEGER NOT NULL DEFAULT 0 CHECK (favorite IN (0,1)),
   created_at TEXT NOT NULL,
   UNIQUE(owner_id, id),
+  UNIQUE(owner_id, id, project_id),
   FOREIGN KEY (owner_id, project_id) REFERENCES projects(owner_id, id) ON DELETE CASCADE,
-  FOREIGN KEY (owner_id, parent_version_id) REFERENCES versions(owner_id, id),
-  FOREIGN KEY (owner_id, master_asset_id) REFERENCES assets(owner_id, id),
-  FOREIGN KEY (owner_id, display_asset_id) REFERENCES assets(owner_id, id)
+  FOREIGN KEY (owner_id, parent_version_id, project_id) REFERENCES versions(owner_id, id, project_id),
+  FOREIGN KEY (owner_id, master_asset_id, project_id) REFERENCES assets(owner_id, id, project_id),
+  FOREIGN KEY (owner_id, display_asset_id, project_id) REFERENCES assets(owner_id, id, project_id)
 );
 CREATE TABLE IF NOT EXISTS drafts (
   id TEXT PRIMARY KEY,
@@ -93,8 +95,9 @@ CREATE TABLE IF NOT EXISTS plans (
   expires_at TEXT,
   created_at TEXT NOT NULL,
   UNIQUE(owner_id, id),
+  UNIQUE(owner_id, id, project_id),
   FOREIGN KEY (owner_id, project_id) REFERENCES projects(owner_id, id) ON DELETE CASCADE,
-  FOREIGN KEY (owner_id, source_asset_id) REFERENCES assets(owner_id, id)
+  FOREIGN KEY (owner_id, source_asset_id, project_id) REFERENCES assets(owner_id, id, project_id)
 );
 CREATE TABLE IF NOT EXISTS tasks (
   id TEXT PRIMARY KEY,
@@ -113,12 +116,13 @@ CREATE TABLE IF NOT EXISTS tasks (
   UNIQUE(owner_id, submission_id),
   UNIQUE(owner_id, confirmed_plan_id),
   FOREIGN KEY (owner_id, project_id) REFERENCES projects(owner_id, id) ON DELETE CASCADE,
-  FOREIGN KEY (owner_id, plan_id) REFERENCES plans(owner_id, id),
-  FOREIGN KEY (owner_id, result_version_id) REFERENCES versions(owner_id, id),
+  FOREIGN KEY (owner_id, plan_id, project_id) REFERENCES plans(owner_id, id, project_id),
+  FOREIGN KEY (owner_id, result_version_id, project_id) REFERENCES versions(owner_id, id, project_id),
   FOREIGN KEY (owner_id, root_task_id) REFERENCES tasks(owner_id, id)
 );
 CREATE TABLE IF NOT EXISTS supplier_attempts (
   id TEXT PRIMARY KEY,
+  owner_id TEXT NOT NULL,
   task_id TEXT NOT NULL,
   provider_profile_id TEXT NOT NULL,
   provider_request_id TEXT,
@@ -128,7 +132,7 @@ CREATE TABLE IF NOT EXISTS supplier_attempts (
   reconciled_cost_usd_micros INTEGER CHECK (reconciled_cost_usd_micros IS NULL OR reconciled_cost_usd_micros >= 0),
   started_at TEXT NOT NULL,
   ended_at TEXT,
-  FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+  FOREIGN KEY (owner_id, task_id) REFERENCES tasks(owner_id, id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS credit_lots (
   id TEXT PRIMARY KEY,
@@ -137,6 +141,7 @@ CREATE TABLE IF NOT EXISTS credit_lots (
   units INTEGER NOT NULL CHECK (units >= 0),
   available_units INTEGER NOT NULL CHECK (available_units >= 0 AND available_units <= units),
   created_at TEXT NOT NULL,
+  UNIQUE(owner_id, id),
   FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS reservations (
@@ -147,7 +152,7 @@ CREATE TABLE IF NOT EXISTS reservations (
   status TEXT NOT NULL CHECK (status IN ('reserved','settled','released')),
   created_at TEXT NOT NULL,
   FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (task_id) REFERENCES tasks(id) ON DELETE CASCADE
+  FOREIGN KEY (owner_id, task_id) REFERENCES tasks(owner_id, id) ON DELETE CASCADE
 );
 CREATE TABLE IF NOT EXISTS reservation_allocations (
   reservation_id TEXT NOT NULL,
@@ -167,9 +172,9 @@ CREATE TABLE IF NOT EXISTS ledger_events (
   units INTEGER NOT NULL CHECK (units > 0),
   created_at TEXT NOT NULL,
   UNIQUE(owner_id, ledger_event_key),
-  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (task_id) REFERENCES tasks(id),
-  FOREIGN KEY (credit_lot_id) REFERENCES credit_lots(id)
+  FOREIGN KEY (owner_id) REFERENCES users(id),
+  FOREIGN KEY (owner_id, task_id) REFERENCES tasks(owner_id, id),
+  FOREIGN KEY (owner_id, credit_lot_id) REFERENCES credit_lots(owner_id, id)
 );
 CREATE TABLE IF NOT EXISTS purchases (
   id TEXT PRIMARY KEY,
@@ -179,7 +184,7 @@ CREATE TABLE IF NOT EXISTS purchases (
   product_id TEXT NOT NULL,
   created_at TEXT NOT NULL,
   UNIQUE(environment, transaction_id),
-  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE
+  FOREIGN KEY (owner_id) REFERENCES users(id)
 );
 CREATE TABLE IF NOT EXISTS purchase_events (
   id TEXT PRIMARY KEY,
@@ -187,7 +192,7 @@ CREATE TABLE IF NOT EXISTS purchase_events (
   event_type TEXT NOT NULL,
   payload_json TEXT NOT NULL DEFAULT '{}',
   created_at TEXT NOT NULL,
-  FOREIGN KEY (purchase_id) REFERENCES purchases(id) ON DELETE CASCADE
+  FOREIGN KEY (purchase_id) REFERENCES purchases(id)
 );
 CREATE TABLE IF NOT EXISTS consents (
   id TEXT PRIMARY KEY,
@@ -205,8 +210,8 @@ CREATE TABLE IF NOT EXISTS feedback (
   category TEXT NOT NULL,
   body TEXT,
   created_at TEXT NOT NULL,
-  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (task_id) REFERENCES tasks(id)
+  FOREIGN KEY (owner_id) REFERENCES users(id),
+  FOREIGN KEY (owner_id, task_id) REFERENCES tasks(owner_id, id)
 );
 CREATE TABLE IF NOT EXISTS quality_compensations (
   id TEXT PRIMARY KEY,
@@ -214,8 +219,8 @@ CREATE TABLE IF NOT EXISTS quality_compensations (
   root_task_id TEXT NOT NULL UNIQUE,
   units INTEGER NOT NULL CHECK (units > 0),
   created_at TEXT NOT NULL,
-  FOREIGN KEY (owner_id) REFERENCES users(id) ON DELETE CASCADE,
-  FOREIGN KEY (root_task_id) REFERENCES tasks(id)
+  FOREIGN KEY (owner_id) REFERENCES users(id),
+  FOREIGN KEY (owner_id, root_task_id) REFERENCES tasks(owner_id, id)
 );
 CREATE TABLE IF NOT EXISTS trial_claims (
   id TEXT PRIMARY KEY,

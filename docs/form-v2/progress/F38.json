@@ -4,13 +4,13 @@
   "codeReady":true,
   "codeCommit":"4b7bde28d40efdcc0b2c7ea15194b84f19b922ce",
   "verification":[
-    {"kind":"policy","command":"node tools/check-ci.mjs","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/ci/F38.md","sha256":"e2c42392bb6dae08edc21f1f88d39b173effff7990a3e87e36c1a648af01ee29"},
-    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F38 --repo . --checkpoint /tmp/form-F38-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/ci/F38.md","sha256":"e2c42392bb6dae08edc21f1f88d39b173effff7990a3e87e36c1a648af01ee29"},
-    {"kind":"remote-ci","command":"GitHub Actions run on PR #3","exitCode":null,"status":"NOT_RUN","evidencePath":"docs/form-v2/ci/F38.md","sha256":"e2c42392bb6dae08edc21f1f88d39b173effff7990a3e87e36c1a648af01ee29"}
+    {"kind":"policy","command":"node tools/check-ci.mjs","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/ci/F38.md","sha256":"a5837fbb4d0144bb1ffb1c07b1ea390a7415b9d11c959c87f4b0bfb07130dcc9"},
+    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F38 --repo . --checkpoint /tmp/form-F38-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/ci/F38.md","sha256":"a5837fbb4d0144bb1ffb1c07b1ea390a7415b9d11c959c87f4b0bfb07130dcc9"},
+    {"kind":"remote-ci","command":"GitHub Actions run on PR #3","exitCode":0,"status":"PASS_RUN_38138317134","evidencePath":"docs/form-v2/ci/F38.md","sha256":"a5837fbb4d0144bb1ffb1c07b1ea390a7415b9d11c959c87f4b0bfb07130dcc9"}
   ],
   "changedFiles":[".github/workflows/form-pr.yml","tools/check-ci.mjs","docs/form-v2/ci/F38.md"],
   "knownIssues":["Action references are release-tag pinned, not immutable commit-SHA pinned; branch protection is not configured by this task."],
-  "externalPending":["Remote GitHub run/check ID and owner-managed branch protection remain pending."],
+  "externalPending":["Owner-managed branch protection remains pending."],
   "independentReviewer":null,
   "authorization":{"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
   "nextEligibleTask":"F03"

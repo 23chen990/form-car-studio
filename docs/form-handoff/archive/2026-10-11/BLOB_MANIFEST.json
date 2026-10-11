@@ -1,0 +1,114 @@
+{
+  "kind": "FORM-historical-upload",
+  "date": "2026-10-11",
+  "handoffSourceCommit": "c6fcf3a94295bbfc45a204388be3cc2bb480f017",
+  "originalBase": "3df0b392f4c81364a34d5083dc75284eafbe2eb1",
+  "files": [
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/Codex_handoff.md",
+      "blobSha": "087a2ca8812beca2e19de6e42d55bf0cfd5f209b",
+      "bytes": 12406
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/Experiment_decision_board.md",
+      "blobSha": "b513d54240c5632fe483b14aa57572042f0243a6",
+      "bytes": 5981
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/FORM_research_2026-10-11.docx",
+      "blobSha": "55514ae3705af335121b551d1990cd05daf42325",
+      "bytes": 60938
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/Launch_addendum.md",
+      "blobSha": "15b4d31ced4b04672d7cb468a7c626d0d4e39df5",
+      "bytes": 2563
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/MANIFEST.json",
+      "blobSha": "0a928b2c47e4a3da1bed3680295e5328c3a501f5",
+      "bytes": 1932
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/README.md",
+      "blobSha": "4ea017342e8125f58aee23f8fff5e6de9e26d7a7",
+      "bytes": 4435
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/User_research_protocol.md",
+      "blobSha": "7192470b858fb3fbb8c865d55ad7729482dd01d6",
+      "bytes": 7271
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/eval_runs.template.jsonl",
+      "blobSha": "34b5a77a903f561dab3ba59fde3d1a68924b6d08",
+      "bytes": 331
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/research.md",
+      "blobSha": "133edbb5ace0de24bfabcb179b1a8f96e157b5a8",
+      "bytes": 41288
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/sources.json",
+      "blobSha": "1ce9a526f863e38dc8ca0d8da29d82b7bb4bbb03",
+      "bytes": 13001
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/summarize_eval.py",
+      "blobSha": "ad82297465a622d1fe36aab5f545f120a53ec747",
+      "bytes": 8817
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v1/test_summarize_eval.py",
+      "blobSha": "9b4e2e31c1f4564ad38ab989fd2f8d4485ca2d6a",
+      "bytes": 4532
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v2/ARCHIVE_MANIFEST.json",
+      "blobSha": "c6bd17b0c857ca3bc171ac21c68e8e40b12c8c28",
+      "bytes": 5857
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v2/ARCHIVE_PROVENANCE.json",
+      "blobSha": "098c27bb613b54baac513c570e982d3ec9fbfa6f",
+      "bytes": 865
+    },
+    {
+      "path": "docs/form-handoff/evidence/guard-tests.txt",
+      "blobSha": "20b2d3912ba24efeeed74c4b9d1217b3683c6232",
+      "bytes": 141
+    },
+    {
+      "path": "docs/form-handoff/evidence/patch-tests.tap",
+      "blobSha": "780967c9b255825d3c5855dd19169acaa888fd1a",
+      "bytes": 21486
+    },
+    {
+      "path": "docs/form-handoff/evidence/prebuilt-tests.tap",
+      "blobSha": "a8130846ccbb3b51ad40dfc90d388b867ebd59c2",
+      "bytes": 21488
+    },
+    {
+      "path": "docs/form-handoff/patches/0001-v2-reference.patch",
+      "blobSha": "2b9cb19d3515cdaf36ae91c64faccf271275125f",
+      "bytes": 45311
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/FORM_EXECUTION_V2_2.zip",
+      "blobSha": "854d46075b92a12e382f17527ef9ce8adcd967ce",
+      "bytes": 119624
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/FORM_research_and_Codex_2026-10-11.zip",
+      "blobSha": "d30afc2c6f445fb7a2de496796456cb434f20e95",
+      "bytes": 103943
+    },
+    {
+      "path": "docs/form-handoff/archive/2026-10-11/v2/FORM_EXECUTION_V2_2.zip.sha256.txt",
+      "blobSha": "491b4efd3a08495b7ea71285028634a6f44afb9e",
+      "bytes": 90
+    }
+  ],
+  "note": "Git blob SHA-1 identifies exact uploaded bytes; this does not assert application correctness or live verification. V2.2 frozen 43-file MANIFEST.json is separate."
+}

@@ -1,0 +1,10 @@
+{
+  "dryRunExit": 0,
+  "dryRunNoBusinessFiles": true,
+  "writeExit": 0,
+  "filesAdded": 11,
+  "installedReferenceTests": 151,
+  "testsExit": 0,
+  "repeatWriteRefused": true,
+  "scope": "Temporary synthetic Git checkout. No remote push, npm install or original application execution."
+}

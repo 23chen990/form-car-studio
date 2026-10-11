@@ -1,0 +1,32 @@
+name: FORM PR checks
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4.2.2
+      - name: Set up Node 24
+        uses: actions/setup-node@v4.4.0
+        with:
+          node-version: 24.x
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Run legacy tests
+        run: npm test
+      - name: Run V2 reference and application tests
+        run: node tools/check-v2.mjs
+      - name: Build application
+        run: npm run build
+      - name: Install Chromium
+        run: npx playwright install --with-deps chromium
+      - name: Run browser checks
+        run: npm run test:e2e

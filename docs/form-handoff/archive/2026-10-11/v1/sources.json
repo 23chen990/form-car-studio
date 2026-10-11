@@ -1,0 +1,298 @@
+{
+  "research_date": "2026-10-11",
+  "source_count": 33,
+  "sources": [
+    {
+      "source_id": "S01",
+      "description": "Mody，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6523376299",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S02",
+      "description": "Driftshot，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/driftshot-ai-car-photography/id6743636833",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6743636833",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S03",
+      "description": "Driftshot，美区公开评论。",
+      "url": "https://apps.apple.com/us/app/driftshot-ai-car-photography/id6743636833?see-all=reviews&platform=iphone",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6743636833",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S04",
+      "description": "Wrapr，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/ai-car-tuning-paint-wrapr/id6747343828",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6747343828",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S05",
+      "description": "Car AI，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/car-ai-ai-car-modifications/id6751798844",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6751798844",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S06",
+      "description": "Rimo，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/rimo-ai-car-mods-tuning/id6749508874",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6749508874",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S07",
+      "description": "CarVisionAI，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/car-ai-designer-carvisionai/id6758027270",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6758027270",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S08",
+      "description": "CarVisionAI，开发者网站。",
+      "url": "https://carvisionai.com/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S09",
+      "description": "MOTORMIA，美区 App Store 及公开评论。",
+      "url": "https://apps.apple.com/us/app/motormia-tune-mod-your-ride/id6737239101",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6737239101",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S10",
+      "description": "3DTuning，官方网站。",
+      "url": "https://www.3dtuning.com/en-US/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S11",
+      "description": "Tire Rack，轮毂与车辆可视化。",
+      "url": "https://www.tirerack.com/wheels",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S12",
+      "description": "Avery Dennison，Wrap Visualizer。",
+      "url": "https://graphics.averydennison.com/ap-en/auto/wrap/visualizer.html",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S13",
+      "description": "Car Rim Photo Editor，美区 App Store。",
+      "url": "https://apps.apple.com/us/app/car-rim-photo-editor/id1439737490",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "1439737490",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S14",
+      "description": "Driftshot，澳区 App Store 及公开评论。",
+      "url": "https://apps.apple.com/au/app/driftshot-ai-car-photography/id6743636833",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6743636833",
+      "store_region": "au"
+    },
+    {
+      "source_id": "S15",
+      "description": "Mody，美区公开评论。",
+      "url": "https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299?see-all=reviews&platform=iphone",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6523376299",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S16",
+      "description": "Mody，英国 App Store。",
+      "url": "https://apps.apple.com/gb/app/mody-ai-car-modifications/id6523376299",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6523376299",
+      "store_region": "gb"
+    },
+    {
+      "source_id": "S17",
+      "description": "SEMA，2026 Market Report 公开摘要，发布于 2026-06-24。",
+      "url": "https://www.sema.org/news-media/enews/2026/26/new-2026-sema-market-report-reveals-nearly-53-billion-aftermarket",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S18",
+      "description": "OpenAI，Image generation guide。",
+      "url": "https://developers.openai.com/api/docs/guides/image-generation",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S19",
+      "description": "Google，Gemini image generation guide。",
+      "url": "https://ai.google.dev/gemini-api/docs/image-generation",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S20",
+      "description": "Google，Gemini Developer API pricing。",
+      "url": "https://ai.google.dev/gemini-api/docs/pricing",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S21",
+      "description": "Apple，App Review Guidelines，重点 3.1.1、5.1.1、5.1.2。",
+      "url": "https://developer.apple.com/app-store/review/guidelines/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S22",
+      "description": "Apple，App Store Small Business Program。",
+      "url": "https://developer.apple.com/app-store/small-business-program/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S23",
+      "description": "Apple，User Privacy and Data Use。",
+      "url": "https://developer.apple.com/app-store/user-privacy-and-data-use/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S24",
+      "description": "Apple，Secure your apps with App Attest，WWDC26。",
+      "url": "https://developer.apple.com/videos/play/wwdc2026/201/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S25",
+      "description": "Apple，Product Page Optimization。",
+      "url": "https://developer.apple.com/app-store/product-page-optimization/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S26",
+      "description": "Apple，Improve access to Photos in your app，WWDC21。",
+      "url": "https://developer.apple.com/videos/play/wwdc2021/10046/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S27",
+      "description": "Apple，Support customers and handle refunds，WWDC21。",
+      "url": "https://developer.apple.com/videos/play/wwdc2021/10175/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S28",
+      "description": "Apple，Custom Product Pages。",
+      "url": "https://developer.apple.com/app-store/custom-product-pages/",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S29",
+      "description": "OpenAI，Data controls in the OpenAI platform。",
+      "url": "https://developers.openai.com/api/docs/guides/your-data",
+      "checked_on": "2026-10-11",
+      "evidence_type": "primary_public_page",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S30",
+      "description": "RevenueCat，State of Subscription Apps 2026，方法说明与 AI/付费墙分组。",
+      "url": "https://www.revenuecat.com/state-of-subscription-apps",
+      "checked_on": "2026-10-11",
+      "evidence_type": "platform_observational_report",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    },
+    {
+      "source_id": "S31",
+      "description": "Car AI: Modify, Tune & Design，美区 App Store，App ID 6762599357；注意与 S05 区分。",
+      "url": "https://apps.apple.com/us/app/car-ai-modify-tune-design/id6762599357",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6762599357",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S32",
+      "description": "Car Editor: AI Design & Mods，美区 App Store、公开评论与版本记录。",
+      "url": "https://apps.apple.com/us/app/car-editor-ai-design-mods/id6742412025",
+      "checked_on": "2026-10-11",
+      "evidence_type": "app_store_listing_or_reviews",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality.",
+      "app_id": "6742412025",
+      "store_region": "us"
+    },
+    {
+      "source_id": "S33",
+      "description": "Car AI 开发者网站，2026-08-24 文章与内容导航；仅用于核验营销内容组织，不作独立技术评测。",
+      "url": "https://carmodify.app/blog/how-ai-car-modification-apps-work",
+      "checked_on": "2026-10-11",
+      "evidence_type": "developer_marketing_site",
+      "limitations": "Public-page evidence, not paid app testing or measured model quality."
+    }
+  ]
+}

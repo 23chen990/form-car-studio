@@ -1,0 +1,1 @@
+{"run_id":"replace-with-unique-id","case_id":"authorized-photo-001","pipeline_id":"candidate-a","task":"body_color","cohort":"baseline","mode":"live","currency":"USD","source_sha256":null,"source_license_ref":null,"model_id":null,"template_version":null,"status":"not_run","latency_ms":null,"provider_cost_usd":null,"review":null}

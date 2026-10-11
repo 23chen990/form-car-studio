@@ -13,6 +13,8 @@ export function openV2Database(filename: string): DatabaseSync {
   db.exec(V2_SCHEMA);
   const row = db.prepare("SELECT version FROM migration_version ORDER BY version DESC LIMIT 1").get() as { version: number } | undefined;
   if (!row) db.prepare("INSERT INTO migration_version (version, applied_at) VALUES (?,?)").run(V2_SCHEMA_VERSION, new Date().toISOString());
+  const state = db.prepare("SELECT id FROM migration_state WHERE id=1").get();
+  if (!state) db.prepare("INSERT INTO migration_state (id, schema_version, legacy_data_status, updated_at) VALUES (1,?,?,?)").run(V2_SCHEMA_VERSION, "pending", new Date().toISOString());
   return db;
 }
 

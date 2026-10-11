@@ -1,4 +1,5 @@
 import assert from "node:assert/strict";
+import { DatabaseSync } from "node:sqlite";
 import { mkdtempSync, rmSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
@@ -16,9 +17,20 @@ test("creates additive V2 tables while preserving legacy tables", () => {
   const names = new Set(
     (db.prepare("SELECT name FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").all() as { name: string }[]).map((row) => row.name),
   );
-  for (const name of ["migration_version", "users", "v2_sessions", "projects", "assets", "versions", "drafts", "plans", "tasks", "supplier_attempts", "credit_lots", "reservations", "reservation_allocations", "ledger_events", "purchases", "purchase_events", "consents", "feedback", "quality_compensations", "trial_claims", "deletion_jobs", "audit_events"]) assert.ok(names.has(name), name);
+  for (const name of ["migration_version", "migration_state", "users", "v2_sessions", "projects", "assets", "versions", "drafts", "plans", "tasks", "supplier_attempts", "credit_lots", "reservations", "reservation_allocations", "ledger_events", "purchases", "purchase_events", "consents", "feedback", "quality_compensations", "trial_claims", "deletion_jobs", "audit_events"]) assert.ok(names.has(name), name);
   assert.equal((db.prepare("SELECT version FROM migration_version").get() as { version: number }).version, 2);
+  assert.equal((db.prepare("SELECT legacy_data_status FROM migration_state WHERE id=1").get() as { legacy_data_status: string }).legacy_data_status, "pending");
   db.close();
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("distinguishes schema creation from legacy data migration", () => {
+  const dir = mkdtempSync(join(tmpdir(), "form-v2-version-"));
+  const path = join(dir, "old-v2.sqlite");
+  const raw = new DatabaseSync(path);
+  raw.exec("CREATE TABLE migration_version (version INTEGER PRIMARY KEY, applied_at TEXT NOT NULL); INSERT INTO migration_version VALUES (1,'2026-01-01T00:00:00Z');");
+  raw.close();
+  assert.throws(() => openV2Database(path), /dedicated migration task/);
   rmSync(dir, { recursive: true, force: true });
 });
 
@@ -106,6 +118,28 @@ test("retains purchase replay and refund events when account deletion is attempt
   assert.throws(() => db.prepare("DELETE FROM users WHERE id=?").run("owner-a"), /FOREIGN KEY/);
   assert.equal((db.prepare("SELECT COUNT(*) AS count FROM purchase_events WHERE id=?").get("refund-a") as { count: number }).count, 1);
   assert.equal((db.prepare("SELECT COUNT(*) AS count FROM purchases WHERE environment=? AND transaction_id=?").get("sandbox", "tx-1") as { count: number }).count, 1);
+  db.close();
+  rmSync(dir, { recursive: true, force: true });
+});
+
+test("enforces cover, task lineage, confirmed plan and allocation owner consistency", () => {
+  const dir = mkdtempSync(join(tmpdir(), "form-v2-lineage-"));
+  const db = openV2Database(join(dir, "fixture.sqlite"));
+  for (const id of ["owner-a", "owner-b"]) db.prepare("INSERT INTO users (id,created_at) VALUES (?,?)").run(id, "2026-01-01T00:00:00Z");
+  for (const [id, owner] of [["project-a", "owner-a"], ["project-b", "owner-a"], ["project-c", "owner-b"]]) db.prepare("INSERT INTO projects (id,owner_id,created_at) VALUES (?,?,?)").run(id, owner, "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO assets (id,owner_id,project_id,kind,mime,bytes,storage_key,created_at) VALUES (?,?,?,?,?,?,?,?)").run("asset-a", "owner-a", "project-a", "original", "image/png", 1, "asset-a", "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO plans (id,owner_id,project_id,source_asset_id,plan_digest,user_cost_units,created_at) VALUES (?,?,?,?,?,?,?)").run("plan-a", "owner-a", "project-a", "asset-a", "digest-a", 1, "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO tasks (id,owner_id,project_id,plan_id,confirmed_plan_id,submission_id,status,user_cost_units,created_at) VALUES (?,?,?,?,?,?,?,?,?)").run("task-a", "owner-a", "project-a", "plan-a", "plan-a", "submission-a", "failed", 1, "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO versions (id,owner_id,project_id,task_id,created_at) VALUES (?,?,?,?,?)").run("version-a", "owner-a", "project-a", "task-a", "2026-01-01T00:00:00Z");
+  db.prepare("UPDATE projects SET cover_version_id=? WHERE id=? AND owner_id=?").run("version-a", "project-a", "owner-a");
+  assert.throws(() => db.prepare("UPDATE projects SET cover_version_id=? WHERE id=? AND owner_id=?").run("version-a", "project-b", "owner-a"), /FOREIGN KEY/);
+  assert.throws(() => db.prepare("INSERT INTO versions (id,owner_id,project_id,task_id,created_at) VALUES (?,?,?,?,?)").run("version-b", "owner-a", "project-b", "task-a", "2026-01-01T00:00:00Z"), /(FOREIGN KEY|UNIQUE)/);
+  assert.throws(() => db.prepare("INSERT INTO tasks (id,owner_id,project_id,confirmed_plan_id,submission_id,status,user_cost_units,created_at) VALUES (?,?,?,?,?,?,?,?)").run("task-b", "owner-a", "project-b", "plan-a", "submission-b", "queued", 1, "2026-01-01T00:00:00Z"), /(FOREIGN KEY|UNIQUE)/);
+  db.prepare("INSERT INTO credit_lots (id,owner_id,kind,units,available_units,created_at) VALUES (?,?,?,?,?,?)").run("lot-a", "owner-a", "purchased", 1, 1, "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO credit_lots (id,owner_id,kind,units,available_units,created_at) VALUES (?,?,?,?,?,?)").run("lot-b", "owner-b", "purchased", 1, 1, "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO reservations (id,owner_id,task_id,units,status,created_at) VALUES (?,?,?,?,?,?)").run("reservation-a", "owner-a", "task-a", 1, "reserved", "2026-01-01T00:00:00Z");
+  db.prepare("INSERT INTO reservation_allocations (owner_id,reservation_id,credit_lot_id,units) VALUES (?,?,?,?)").run("owner-a", "reservation-a", "lot-a", 1);
+  assert.throws(() => db.prepare("INSERT INTO reservation_allocations (owner_id,reservation_id,credit_lot_id,units) VALUES (?,?,?,?)").run("owner-a", "reservation-a", "lot-b", 1), /FOREIGN KEY/);
   db.close();
   rmSync(dir, { recursive: true, force: true });
 });

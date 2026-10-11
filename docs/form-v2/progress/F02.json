@@ -2,15 +2,15 @@
   "taskId":"F02",
   "specVersion":"2.2",
   "codeReady":false,
-  "codeCommit":"9707aa09afcbcc10669e747d1d005662bd78ba7a",
+  "codeCommit":"0b029c51db96f8bdfc3972e3db76d80e029250c2",
   "verification":[
-    {"kind":"schema","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_9_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"audit","command":"npm audit --json","exitCode":1,"status":"HIGH_SHARP_ADVISORY_RECORDED_NO_FIX","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"},
-    {"kind":"github-ci","command":"GitHub Actions run on final repair head","exitCode":null,"status":"NOT_RUN","evidencePath":"docs/form-v2/progress/F02.md","sha256":"36d486dc2dc565156d05b6c658b425d0b89fe3cf4666537dd87e1d7b9f9170f2"}
+    {"kind":"schema","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_9_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"audit","command":"npm audit --json","exitCode":1,"status":"HIGH_SHARP_ADVISORY_RECORDED_NO_FIX","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"},
+    {"kind":"github-ci","command":"GitHub Actions run on final repair head","exitCode":null,"status":"NOT_RUN","evidencePath":"docs/form-v2/progress/F02.md","sha256":"96800fbefd06943f1cfa56b61a8483e1fdbe9ce4fe491502cc0812dc6eb25519"}
   ],
   "changedFiles":["server/v2/schema.ts","server/v2/db.ts","tests/v2/schema.test.ts"],
   "knownIssues":["Direct sharp dependency has one high advisory affecting image decoding; separate scoped upgrade review required."],

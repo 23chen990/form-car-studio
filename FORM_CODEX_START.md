@@ -1,29 +1,34 @@
-# FORM：Codex 从这里开始
+# FORM: start here (V2.2, 2026-10-11)
 
-规范版本：V2.1 / 2026-10-11。原应用审查基线：`3df0b392f4c81364a34d5083dc75284eafbe2eb1`。
+Repository: `23chen990/form-car-studio`. Audited application baseline: `3df0b392f4c81364a34d5083dc75284eafbe2eb1`.
+This handoff is self-contained. Do not require an unprovided V2/V2.1 ZIP, regenerate the specification, or use an earlier conversation as the authority. V2.2 supersedes conflicting draft handoff instructions; it does not delete the original PRD or historical product data.
 
-## 任务授权
+## Read in this order
 
-用户允许把 FORM 的实现工作提交到 GitHub，方便后续审查。允许：读取本仓库，在 `codex/form-*` 分支逐任务提交并推送，创建 Draft PR，更新同一任务 PR。禁止：直接写 main/master、强推、合并或自动合并、修改分支保护、操作生产数据库、设置 App Store 可售地区、部署、真实购买和未经预算批准的模型调用。没有权限时报告真实阻塞，不得索要或打印用户密钥。
+1. Existing repository AGENTS.md, if present; then this file.
+2. `docs/form-handoff/DECISIONS.md` and `GITHUB_WORKFLOW.md`.
+3. `docs/form-handoff/TASK_ROADMAP.md`; load just the current task using `tools/guard.py show F00`.
+4. The specific `specs/` documents named by the task, plus existing affected code/tests.
+5. `docs/form-handoff/evidence/VALIDATION.md` to distinguish tested reference logic from unverified application work.
 
-本交接分支 `handoff/form-v2-briefing-20261011` 只用于冻结说明与交付入口，不作为业务实现分支。应用目前仍是原始版本；不要把交接 PR 当作功能已完成。先读仓库中实际存在的 AGENTS.md；没有就不要虚构。若已有规范与新要求冲突，列出冲突，不静默覆盖。
+## Work order and autonomy
 
-## 唯一推荐路线
+Use one implementation branch `codex/form-v2-implementation` and one continuously updated Draft PR into main. Commit each task separately with its report. Read main and the handoff branch first; do not overwrite a newer implementation. When the handoff is not merged, branch from its verified final commit and explain the combined diff. Do not make 39 stacked PRs or wait for a separate human merge after every routine step.
 
-1. 阅读 `docs/form-handoff/BRIEFING_INTEGRATION.md`、`GITHUB_WORKFLOW.md` 和 `TASK_ROADMAP.md`。
-2. 完整执行包为对话附件 `FORM_EXECUTION_V2_1.zip`。附件含预制源码、补丁、任务白名单、测试、协议、文案与验收表。不要从一段聊天摘要重新生成它；缺少附件或 `docs/form-handoff/package/00_START_HERE.md` 时，报告 `BLOCKED_PACKAGE_MISSING`，不猜测文件内容。
-3. 完整包已在仓库内时直接读取；只有附件时按包内安装说明校验清单后导入 `docs/form-handoff/package/`，单独提交为交接导入 PR。不得覆盖应用现有源码。私钥、真实用户图片、真实账户事实表和原始支付数据绝不进入公开仓库。
-4. 第一个业务 PR 只做 F00 基线核验；第二个只做 F01 预制纯逻辑补丁，不连接真实模型、支付和生产页面。依赖未经合并时等待审查；不要让较弱执行器自行处理堆叠 PR 与冲突。
-5. 每个任务单独分支、单独 PR。通过范围检查及本任务测试后提交。正常技术小决策按规格执行；外部事实未知保持 null/pending。
+Start with F00, then F01. Follow the dependency graph, not numerical order. In particular F35-F38 precede F32. Work on one task at a time. Continue to the next eligible offline task after code checks; missing external credentials/evidence block the relevant live verification and final release, not unrelated safe implementation. A code failure blocks its dependents. Two focused failed repair attempts => record a minimal reproduction; do not expand scope.
 
-## 固定产品决定
+Allowed: modify the permitted paths, run local synthetic tests, commit/push this implementation branch, create/update its Draft PR. Forbidden: direct writes to main/master, force-push, merge, deploy, alter branch protection, buy subscriptions, invoke paid AI without separate budget approval, change App Store availability, use production databases or expose secrets. The monthly research automation stays read-only.
 
-首个公开市场只推荐美国；澳大利亚、英国是分别验证后开放的候选，新西兰后续可选，加拿大与欧盟暂缓。此建议不是已经批准发布。首版英语、iPhone、单图创作、清楚的整车风格与原图单项修改，复用 React/TypeScript/Vite + Express，以 Capacitor 构建 iOS。
+## Fixed product boundaries
 
-首版次数包，不做订阅、广告、视频、专属训练、社区、3D、真实零件适配。保留八个旧 styleId 和所有历史；只开放通过质量门槛的能力。真实试用额度默认0，真实费用授权默认0，支付默认关闭。不能因竞品写“前两次免费”就给 FORM 打开赠送。
+English iPhone first; React/TypeScript/Vite + Express retained; Node24 application runtime; Capacitor bridge for iOS. US is the first recommended public storefront; AU and GB require separate expansion checks. All release approvals remain pending.
 
-## 验收纪律
+One explicit confirmation => one logical job => at most one official version. Keep originals/history. No generation for browsing, preview, draft selection, undo, comparison, favorite or export. Direct editing of an original is supported by a new contract, not disguised as a full style. Eight old style IDs remain readable.
 
-CODE_READY、INTEGRATION_VERIFIED、QUALITY_VERIFIED、RELEASE_APPROVED 分开记录。单测通过不证明真机内购、真实出图、合法性或产品好用。任务完成回报必须给出 PR URL、base/head SHA、变更文件、实际命令和退出码、证据路径及 SHA256、未验证项。严禁删测试、放宽断言、用 mock 代替生产、伪造审批或宣称未运行的测试通过。
+First commercial version: one-off credit packs only. No subscriptions, ads, video, special training, community, 3D, exact part fitment or arbitrary reference uploads. Trial defaults off, paid generation defaults off, authorized external spend defaults zero. Never claim 4K, recognition, no data collection, on-device AI or exact vehicle fidelity without evidence.
 
-交接内容与工具本身也需要审查；文件哈希及脚本只是防误操作，不是安全保证。认证、资金、迁移、删除、预算和对外合规承诺必须独立复核。没有独立评审时明确标 `NOT_INDEPENDENT`。
+## Finish every task honestly
+
+Report code SHA (not a self-referential SHA), changed files, actual command/exit code, test environment, evidence hashes, unresolved problems, and external verification still required. CODE_READY is not LIVE_VERIFIED or RELEASE_APPROVED. Do not delete or weaken tests to obtain green checks. An agent cannot approve its own security/payment/privacy work as an independent reviewer.
+
+Run the read-only guard before committing. The guard is an accident detector, not a security boundary. Public GitHub may contain only synthetic fixtures, redacted evidence, specifications and code. Never commit real car photos, Apple credentials, complete payment payloads or filled private owner facts.

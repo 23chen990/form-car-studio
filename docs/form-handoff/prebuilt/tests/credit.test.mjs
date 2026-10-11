@@ -1,0 +1,27 @@
+import {test} from 'node:test';import assert from 'node:assert/strict';import {emptyWallet,applyCreditEvent as apply} from '../shared/credit-reservations.js';
+const seed=()=>apply(apply(emptyWallet(),{key:'purchase:t1',kind:'grant',bucket:'purchased',units:5}),{key:'promo:p1',kind:'grant',bucket:'promotional',units:1});
+const reserve={key:'reserve:task1',kind:'reserve',taskId:'task1',units:2};
+test('promo consumed before purchased',()=>{const w=apply(seed(),reserve);assert.deepEqual(w.available,{purchased:4,promotional:0});assert.deepEqual(w.reservations.task1,{purchased:1,promotional:1,status:'reserved'});});
+test('release restores exact buckets',()=>{const w=apply(apply(seed(),reserve),{key:'release:task1',kind:'release',taskId:'task1'});assert.deepEqual(w.available,seed().available);});
+test('settle does not charge again',()=>{const w=apply(apply(seed(),reserve),{key:'settle:task1',kind:'settle',taskId:'task1'});assert.deepEqual(w.available,{purchased:4,promotional:0});assert.equal(w.reservations.task1.status,'settled');});
+test('identical grant replay no duplication',()=>{const e={key:'purchase:a',kind:'grant',bucket:'purchased',units:5};const w=apply(emptyWallet(),e);assert.equal(apply(w,e),w);});
+test('same event key with different body is rejected',()=>assert.throws(()=>apply(seed(),{key:'purchase:t1',kind:'grant',bucket:'purchased',units:10}),/EVENT_KEY_CONFLICT/));
+test('identical reserve replay idempotent',()=>{const w=apply(seed(),reserve);assert.equal(apply(w,reserve),w);});
+test('same task cannot reserve under different key',()=>assert.throws(()=>apply(apply(seed(),reserve),{...reserve,key:'another'}),/TASK_ALREADY_RESERVED/));
+for(const kind of ['settle','release'])test(`repeat ${kind} under different key preserves money and records replay identity`,()=>{const w=apply(apply(seed(),reserve),{key:'terminal',kind,taskId:'task1'});const next=apply(w,{key:'new-terminal',kind,taskId:'task1'});assert.deepEqual(next.available,w.available);assert.deepEqual(next.reservations,w.reservations);assert.ok(Object.hasOwn(next.events,'new-terminal'));});
+test('release cannot rewrite settled history',()=>assert.throws(()=>apply(apply(apply(seed(),reserve),{key:'s',kind:'settle',taskId:'task1'}),{key:'r',kind:'release',taskId:'task1'}),/RESERVATION_TERMINAL_CONFLICT/));
+test('late settle after release rejected',()=>assert.throws(()=>apply(apply(apply(seed(),reserve),{key:'r',kind:'release',taskId:'task1'}),{key:'s',kind:'settle',taskId:'task1'}),/RESERVATION_TERMINAL_CONFLICT/));
+test('insufficient credits changes nothing',()=>{const w=seed(),before=JSON.stringify(w);assert.throws(()=>apply(w,{...reserve,units:7}),/INSUFFICIENT_CREDITS/);assert.equal(JSON.stringify(w),before);});
+for(const units of [0,-1,1.1,NaN,Infinity,'2',Number.MAX_SAFE_INTEGER+1])test(`bad grant ${units}`,()=>assert.throws(()=>apply(seed(),{key:'x',kind:'grant',bucket:'purchased',units})));
+test('addition overflow rejected',()=>{const w=apply(emptyWallet(),{key:'max',kind:'grant',bucket:'purchased',units:Number.MAX_SAFE_INTEGER});assert.throws(()=>apply(w,{key:'one',kind:'grant',bucket:'purchased',units:1}),/UNSAFE_CREDIT_TOTAL/);});
+test('unrecognized bucket rejected',()=>assert.throws(()=>apply(seed(),{key:'x',kind:'grant',bucket:'cash',units:1})));
+test('unknown field such as client price rejected',()=>assert.throws(()=>apply(seed(),{...reserve,price:0}),/UNKNOWN_FIELD/));
+test('prototype keys rejected',()=>assert.throws(()=>apply(seed(),{...reserve,key:'__proto__'}),/INVALID_EVENT_KEY/));
+test('missing reservation rejected',()=>assert.throws(()=>apply(seed(),{key:'r',kind:'release',taskId:'missing'}),/RESERVATION_NOT_FOUND/));
+test('prior nested records remain unchanged',()=>{const w=apply(seed(),reserve),before=JSON.stringify(w);apply(w,{key:'r',kind:'release',taskId:'task1'});assert.equal(JSON.stringify(w),before);});
+test('ledger accepts only trusted server grants, not receipt fields',()=>assert.throws(()=>apply(seed(),{key:'purchase:a',kind:'grant',bucket:'purchased',units:5,verifiedByClient:true}),/UNKNOWN_FIELD/));
+
+for(const kind of ['settle','release'])test(`recorded duplicate ${kind} key cannot become a grant`,()=>{const w=apply(apply(seed(),reserve),{key:'done',kind,taskId:'task1'});const next=apply(w,{key:'duplicate',kind,taskId:'task1'});assert.throws(()=>apply(next,{key:'duplicate',kind:'grant',bucket:'purchased',units:1}),/EVENT_KEY_CONFLICT/);});
+test('cross-bucket grant overflow rejected before mutation',()=>{const w=apply(emptyWallet(),{key:'max',kind:'grant',bucket:'purchased',units:Number.MAX_SAFE_INTEGER});assert.throws(()=>apply(w,{key:'promo',kind:'grant',bucket:'promotional',units:1}),/UNSAFE_CREDIT_TOTAL/);});
+test('invalid cross-bucket starting sum rejected',()=>{const w=emptyWallet();w.available={purchased:Number.MAX_SAFE_INTEGER,promotional:1};assert.throws(()=>apply(w,{key:'grant',kind:'grant',bucket:'purchased',units:1}),/UNSAFE_CREDIT_TOTAL/);});
+test('release cannot overflow aggregate available balance',()=>{let w=apply(emptyWallet(),{key:'p',kind:'grant',bucket:'promotional',units:Number.MAX_SAFE_INTEGER});w=apply(w,{key:'res',kind:'reserve',taskId:'task',units:1});w=apply(w,{key:'paid',kind:'grant',bucket:'purchased',units:1});assert.throws(()=>apply(w,{key:'release',kind:'release',taskId:'task'}),/UNSAFE_CREDIT_TOTAL/);});

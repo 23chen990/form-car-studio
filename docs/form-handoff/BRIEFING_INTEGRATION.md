@@ -1,96 +1,54 @@
-# 2026年10月简报合入决定 / V2.1
+# October briefing -> concrete implementation changes / V2.2
 
-日期：2026-10-11。用途：将本期竞品简报变成明确的实现与验证要求，不把竞争对手的宣传当成 FORM 必须照抄的需求。所有应用仍未付费实测。
+Input: user's October2026 baseline brief, checked 2026-10-11. This is not a new monthly trend report. We did not install/pay for the apps. Current official RideMint/Modyfy pages and Apple rules were re-opened; other historical descriptions remain baseline source claims, not new hands-on measurements.
 
-## 1. 对简报的核验与修正
+## Corrections before copying evidence
 
-八个直接跟踪对象分别为 Mody 6523376299、Driftshot 6743636833、Wrapr 6747343828、Car AI（Erdinc）6751798844、Car AI（Astera）6762599357、Car Editor 6742412025、Modyfy 6762754163、RideMint 6760583156。名称、ID、开发者、商店地区必须绑定记录；Modyfy 不是 Mody，两款 Car AI 不合并。
+Bind product name to App ID and storefront: Mody6523376299; Driftshot6743636833; Wrapr6747343828; Car AI (Erdinc)6751798844; Car AI (Astera)6762599357; Car Editor6742412025; Modyfy6762754163; RideMint6760583156. Two Car AIs and Mody/Modyfy must never be merged.
 
-用户粘贴的简报中，Modyfy 上方配图标签为 Mody，RideMint 上方标签为 Rollers；这些图片不作为对应应用证据，不复制到产品或研究资产。仅使用正确 App ID 的商店文本及后续明确核验的图片。
+The pasted Modyfy image label names Mody; the RideMint image label names Rollers. Do not use those mismatched illustrations as product evidence, and never copy them into FORM assets. Text/ID verification and image verification are separate.
 
-RideMint 的美区官方文案确实写前两次创作免费，也宣传 Premium 无限创作和本地 Garage。前者仅证明开发者当前宣称，不证明其免费次数的实际触发条件；后两者不能推出推理在设备本地、没有网络传输或无限策略有利润。FORM 不跟进无限承诺。
+RideMint's official page declares first2 builds free, unlimited Premium builds and locally saved Garage. These establish marketing statements only: not actual eligibility, economics, on-device inference or absence of transfer. We do not copy unlimited or automatically enable two free generations. Different dated Driftshot developer replies can describe distinct free sample generation versus paid vehicle training; retain capability/date context rather than flatten to 'the app is free/not free'.
 
-Driftshot 的一条 2025-07-22 开发者回应区分“已有训练模型的免费图像生成”与“用户车辆专属训练不免费”。旧材料另有成本/滥用相关描述时，应保留各自日期、能力范围与来源，不简化成整个 App 今天全部免费或完全不免费。
+Relative update dates stay raw strings plus retrieval date unless a precise timestamp is available. Same-name different-price IAP entries are not a price increase. Product display name is not necessarily a productId; undefined billing interval stays unknown. Cross-app credits are not comparable without operation cost. Review complaints are selected signals, not failure rates or October-new incidents. Developer privacy labels are self-reports, not independently verified behavior or evidence of illegality.
 
-相对日期（3d ago、4d ago）保留原始文字和抓取日期；没有精确时间戳时只记录近似日期和不确定性，不能宣称精确到某天某时。当前版本有某功能，不表示该功能于当前版本首次发布。无上期同地区/同产品可核验快照，不报告涨价、增长或“本月新增”。
+## Mandatory deltas
 
-价格的商品展示名不等于 productId；同名多价不自动配对。credits 不是跨应用通用单位，未确认每项操作消耗、失败规则和购买条件前，不计算跨应用单图成本。隐私标签是开发者自报，不推导违法或替 FORM 选择“不收集数据”。
+B01 No effective change: preflight only eliminates verified unchanged targets; exact identical normalized output fails/releases once; a subjective complaint creates a case. Succeeded-job compensation is an independent root-unique event, not rewriting history. F08/F35, S01/S03.
 
-## 2. 必须新增的产品要求
+B02 Trial truth and budget: disabled/zero by default. A stable user claim, one program-level entitlement, approved cost cap and global budget must commit atomically. Failure returns the same promotional lot. No refill after reinstall/campaign change, no unlimited claim. F27/F36, S03.
 
-### B01：无有效变化要有明确处理
+B03 Real state/recovery: task-level polling, no fake countdown; server runs after leaving; foreground/query reuses submission. Started work is not free cancellation. F09/F10/F15, S03/S05.
 
-分四种情形：
-1. 生成前，依据已验证的基础图属性判定请求确实没有变化：不创建上游请求、不预留次数，提示选择变化。历史请求目标相同不是实际图片相同的证据。
-2. 输出与基础图经相同方向、色彩与像素归一化后完全一致：技术图片有效，但任务未完成有效修改；以 `OUTPUT_UNCHANGED` 结束并按原 reservation 返还一次。不能只比较 PNG 文件字节，也不能用高相似度阈值自动判断失败。
-3. 人工或经过验证的质量检查证实车型变了、目标未执行、非目标关键结构变了：拒绝交付或进入明确的质量补救流程。未验证的自动评分不能自称“准确保真”。
-4. 用户只是认为变化不满意或看不出来：创建反馈工单，保留原任务和作品；不自动无限退款，不让客户端传 `qualityPassed` 控制账本。
+B04 Explicit cache: locally saved previews are not local inference. Owner-isolated LRU, purge on account switch/deletion, no guarantee that uncached originals work offline. F26/F37, S04/S05.
 
-已结算任务的补救使用独立补偿事件，不把 succeeded 任务重新改为 failed。每个 root task 至多一笔本政策自动补偿，唯一键 `quality_compensation:<rootTaskId>:<policyVersion>`，并防止换政策版本重复补偿：另有 root task 级唯一受益约束。补偿不是金融退款；Apple 退款另走平台渠道。补偿审批、次数、理由、actor、原任务关联全部留档。一次确定的技术失败只返原预留，不另加补偿。
+B05 Preview without billing: long-press case preview has a button and accessible alternative; no image upload, plan, reserve or generation and no sample-as-user-result substitution. F13/F37, S05.
 
-### B02：免费体验与实际权益同源
+B06 Reference image scope: retain the idea in backlog, not first-launch UI. Before enabling second-photo uploads, validate roles, rights, consent, multi-image support, tests, cost and deletion. Never promise exact branded wheels, size or fitment because competitors do. S01/S04.
 
-设置 `trialEnabled=false`、`trialUnits=0` 为默认值。启用需要真实模型单次最大成本、总预算、支持范围、反滥用及负责人授权全部就绪。首次试用默认仅稳定账号可领取；不根据 Cookie 重建、重装或更换 campaign ID 再次赠送。
+B07 Money help: one-off packs only initially; distinguish balance sync, generation report, account deletion and Apple refund help. A subscription cancellation complaint does not require building subscriptions. F23-F25, S04.
 
-后端、购买页、首页、商店与官网的免费描述必须从同一已批准权益规格衍生。试用失败恢复的是原试用次数，不是另发一份首次试用。达到预算上限时停止新领取并更新入口说明；已发出的合法权益继续按公开承诺处理，不能静默作废。
+B08 Data inventory: map FORM's actual uploads/precheck/generation/logging/payments/support/cache; do not copy competitor privacy answers. Unknown data recipient/retention blocks release. F07/F26/F31, S04.
 
-首版仍是一次性次数包，不因竞品取消订阅投诉而临时增加订阅。页面明确区分同步余额、请求平台退款、反馈生成问题和删除账户。删 App、删账户、取消生成都不是退款操作；将来增加订阅须另建项目范围与独立管理入口。
+B09 Research conflict resolved:30 registered slots =18 development+12 holdout; old216 development outputs retained, add36 final-configuration holdout outputs only after separate approval.8-12 demo usability participants and12-16 real-result participants are different rounds. No invented photo, user or spend data. F29, S06.
 
-### B03：任务继续执行与本地可看是两回事
+B10 Distribution and review: US-first recommendation remains; AU/GB/NZ independently gated. Implement in one codex branch with atomic task commits and a Draft PR. Monthly research automation stays read-only. MARKET/GITHUB documents control these boundaries.
 
-生成在服务端运行；离开页面、App进后台或被杀死不创建新任务、不自动退款。重新启动按稳定身份和 submissionId 找回。按实际状态显示排队、处理中、中断核对、成功或失败；不显示虚假模型步骤、假倒计时。
+## What this briefing does not authorize
 
-历史缓存只承诺已经缓存的缩略图/展示图；原图与母版默认不无限缓存。账号退出、切换、项目删除和账户删除时按 owner 清理。共享设备不能显示前一账号的缓存；离线时无法确认权限应保守拒绝敏感内容，而不是回退到最后一个账号。缓存配额和淘汰规则明确，下载与保存用户相册区分开，删除服务器作品不谎称已从用户相册删除。
+No 400-template race, video, trained car models, community, brand/SKU fitment, background paid retries, unlimited subscription or copying competitor assets. Preserve the underlying positioning: recognizable own car, complete attractive direction, understandable targeted changes, trustworthy saved work and billing.
 
-### B04：预览是无生成交互
+## Official sources
 
-风格卡可长按大图预览，同时提供可点击的“查看示例”按钮供 VoiceOver/键盘及无法长按的人。展示案例来源标签，不把预览覆盖用户正式主图。该操作不上传、不预留、不生成，也不触发后台批量预生成。媒体只限授权素材；不抓竞品图片直接使用。
+https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299
+https://apps.apple.com/us/app/driftshot-ai-car-photography/id6743636833
+https://apps.apple.com/us/app/ai-car-tuning-paint-wrapr/id6747343828
+https://apps.apple.com/us/app/car-ai-ai-car-modifications/id6751798844
+https://apps.apple.com/us/app/car-ai-modify-tune-design/id6762599357
+https://apps.apple.com/us/app/car-editor-ai-design-mods/id6742412025
+https://apps.apple.com/us/app/modyfy-ai-car-designer/id6762754163
+https://apps.apple.com/us/app/ridemint-ai-car-photo-editor/id6760583156
+https://developer.apple.com/app-store/review/guidelines/
+https://developer.apple.com/app-store/app-privacy-details/
 
-### B05：参考图片暂不变成首发承诺
-
-需求池记录参考图配色与轮毂参考。当前首发不接受任意品牌、尺寸或 SKU 的精确复刻承诺，不加入未经验证的上传第二张图入口。启用参考图前，必须完成授权提示、处理同意、模型多图能力核查、主车/参考对象区分、提示词与评测、计费和删除覆盖。不要在模型不支持多图时悄悄只发送第一张却显示成功。
-
-### B06：隐私按 FORM 的数据流填写
-
-新增数据流清单：本地导入、服务端存储、第三方预检、第三方生成、技术日志、分析事件、支付验证、客服访问、设备缓存和删除。每条记录字段、目的、处理方、地域、保留期、是否关联用户、公开告知、访问权限及删除方式。第三方预检同样需要适当告知/许可和预算，不因为叫“预检”就绕过。
-
-首发无广告/营销跟踪 SDK，不申请 GPS、联系人或持续全相册权限来识别国家或免费资格。不能宣传“No data collected”“On-device AI”“Never uploads photos”，因为现有架构不支持这些承诺。数据表里的未知项阻止发布，不阻止离线替身开发。
-
-## 3. 统一评测与用户研究数量
-
-建立30张授权照片的素材登记，不代表已经获得30张照片；不放到公开GitHub。编号、授权凭据引用、车型大类、角度、可见特征、限制和分组都要记录。
-
-其中18张是开发集，按18×3类任务×3配置=162次对照；连续编辑在开发集中选择6辆，6×3轮×3配置=54次，总计216次是旧计划。另12张为锁定留出集，不用来改提示词；选定最终配置后按12×3任务=36次验证，预算单独批准。合计252次是两阶段全做的计划，不是授权或已完成。预算不足可以由负责人改计划并保留记录，不能用生成图凑照片数或隐藏失败。
-
-澳大利亚和英国扩区各自另需至少20张当地相关授权照片的内部检查，不能拿美区开发集平均分自动放行。样本可按授权复用研究用途，但需披露与既有样本的重合，不能将重合样本算独立证据。
-
-第一轮8—12名用户只评估demo的理解、入口、确认和反馈；30秒是观察点，不是考核倒计时，也不推断真实模型满意度。第二轮12—16名车主在有真实结果后评估保真、修改与保留意愿；若复用同批参与者，报告学习效应。都属于定性研究，不估计市场付费率。
-
-评分拆分：车辆身份、目标执行、非目标区域、图像瑕疵、主观保留意愿。原图不可见特征记N/A而不是猜测。记录首张、失败、耗时、完整费用、重试和被取消任务。只有模型实际生成结果参加质量对照；纯demo和mock不能混入分母。泛用AI基线由同任务对照，未实际操作不得排名。
-
-## 4. 国家与商业决定不被本简报推翻
-
-先美国，后独立核查澳大利亚和英国。新西兰后续可选；加拿大、欧盟、日语/韩语市场暂缓。按用户Apple商店设置和商品可售性处理，设备语言/IP不能代替storefront，也不是法律适用结论。
-
-美国优先是集中学习与运营变量的产品判断，不是已证明收入最高或获客最便宜。初始公开版本不投大规模广告；公开商店不是100人限量内测，需要限量邀请时使用TestFlight。
-
-## 5. 新工作映射与不做事项
-
-F10/F15补输出无变化、任务恢复与迟到结果；F16/F17补对比、收藏与缓存语义；F23—F25保留购买/退款分账；F27补试用预算；F28补反馈与必要事件；F29采用30张登记及留出集；新增F35负责质量判定/补偿集成，F36负责受控试用，F37负责无生成预览与缓存隔离。F32/F33必须覆盖它们，不能作为未测的“后续小功能”绕过。
-
-不跟进：400模板竞赛、视频、专属训练、社区排行榜、无限生成、配件商城、真实适配、随意更换技术栈。局部反馈、表面效果和通用轮毂仅在冻结能力与评测边界内推进。
-
-## 官方来源 / 核验2026-10-11
-
-- https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299
-- https://apps.apple.com/us/app/driftshot-ai-car-photography/id6743636833
-- https://apps.apple.com/us/app/ai-car-tuning-paint-wrapr/id6747343828
-- https://apps.apple.com/us/app/car-ai-ai-car-modifications/id6751798844
-- https://apps.apple.com/us/app/car-ai-modify-tune-design/id6762599357
-- https://apps.apple.com/us/app/car-editor-ai-design-mods/id6742412025
-- https://apps.apple.com/us/app/modyfy-ai-car-designer/id6762754163
-- https://apps.apple.com/us/app/ridemint-ai-car-photo-editor/id6760583156
-- https://developer.apple.com/app-store/review/guidelines/
-- https://developer.apple.com/help/app-store-connect/manage-your-apps-availability/manage-availability-for-your-app-on-the-app-store/
-
-链接只支持各自的公开信息；本文件的功能、样本数和流程为项目设计决定，不是外部事实或法律意见。
+Implementation policies, sample sizes and commercial defaults above are project decisions, not facts proven by these links.

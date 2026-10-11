@@ -1,28 +1,26 @@
-# [Fxx] Task title
+# FORM V2 implementation (Draft)
 
-## Scope
-- Task/spec version:
-- Base branch / base SHA:
-- Code commit SHA under test:
-- Changed paths and intended behavior:
-- Explicitly unchanged:
+Base branch/SHA:
+Current head:
+Spec version:2.2
+Code commits covered by evidence:
+
+## Task progress
+
+Completed CODE_READY tasks:
+Blocked code tasks:
+External verification pending:
 
 ## Actual verification
-| Command / device | Exit code | Result | Evidence path + SHA256 |
-|---|---|---|---|
-| Fill with actual run | | NOT_RUN until run | |
 
-## Safety and limits
-- No production secrets, data, paid model calls, deployment, or App Store mutation.
-- No deletion/weakened tests, mock-as-production, or automatic merge.
-- Authentication / money / deletion / migration impact:
-- Independent reviewer status: NOT_INDEPENDENT until actually reviewed.
-- Real model / iPhone / StoreKit status:
-- Known failures / blocked external inputs:
+| Kind | Command/device | Exit code/status | Evidence + SHA256 | Code SHA |
+|---|---|---|---|---|
+| Fill only after run | | NOT_RUN | | |
 
-## Review request
-- Expected result and reproducible steps:
-- P0/P1 concerns:
-- Follow-up dependencies (not implemented in this PR):
+## Scope and boundaries
 
-All checkboxes, PASS labels and statements require real evidence. A draft PR does not grant release authority.
+No direct main write, force-push, merge, deployment, paid API, actual store purchase or country change. List any separately authorized exception and evidence. No real user photos/secrets in public tree. Legacy data/tests preserved. Pure unit results are not live-model/IAP/iPhone verification. Independent review status:NOT_INDEPENDENT until a real reviewer acts.
+
+## Request for review
+
+Main behavioral changes, exact reproduction, risks (P0/P1), failed/unrun checks, supportable claims, remaining release gates. Keep the PR draft while any required verification is incomplete. Do not list fictional checkmarks.

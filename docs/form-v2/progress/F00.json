@@ -1,0 +1,19 @@
+{
+  "taskId": "F00",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "73f4554bd36c833cec53faf9018ff394923805c4",
+  "verification": [
+    {"kind":"manifest","command":"python3 docs/form-handoff/tools/guard.py verify-manifest --repo . --manifest docs/form-handoff/MANIFEST.json","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
+    {"kind":"install","command":"npm ci","exitCode":0,"status":"PASS_WITH_AUDIT_NOTICE","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
+    {"kind":"unit","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
+    {"kind":"e2e","command":"npm run test:e2e","exitCode":0,"status":"PASS_6_TESTS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"}
+  ],
+  "changedFiles": ["docs/form-v2/baseline/F00.md"],
+  "knownIssues": ["npm ci reported one high severity audit finding; dependency remediation is outside F00 scope."],
+  "externalPending": ["SQLite V2 migration/rollback, provider quality, iPhone, StoreKit, identity, deletion retention, independent review, and release approval are NOT_RUN."],
+  "independentReviewer": null,
+  "authorization": {"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
+  "nextEligibleTask": "F01"
+}

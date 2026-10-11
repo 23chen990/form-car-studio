@@ -1,0 +1,20 @@
+{
+  "taskId":"F02",
+  "specVersion":"2.2",
+  "codeReady":true,
+  "codeCommit":"4ab3b536e4ffdefd620af38f3c2b74b4ab63ffa3",
+  "verification":[
+    {"kind":"unit-red","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":1,"status":"EXPECTED_RED_MISSING_MODULE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"},
+    {"kind":"unit","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_4_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"},
+    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"},
+    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"},
+    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-run2-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"ef540df7bbe19b01dce72437d108861260c72c0054c5cd5891af94e00fe3d1d9"}
+  ],
+  "changedFiles":["server/v2/schema.ts","server/v2/db.ts","tests/v2/schema.test.ts"],
+  "knownIssues":[],
+  "externalPending":["Independent migration/rollback, production backup restore, multi-worker concurrency and all live integrations remain NOT_RUN."],
+  "independentReviewer":null,
+  "authorization":{"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
+  "nextEligibleTask":"F03"
+}

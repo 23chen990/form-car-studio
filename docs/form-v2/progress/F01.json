@@ -1,0 +1,20 @@
+{
+  "taskId": "F01",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "dac50ea0d8c3d5fb46153cbbea5f07b53392e000",
+  "verification": [
+    {"kind":"manifest","command":"python3 docs/form-handoff/tools/guard.py verify-manifest --repo . --manifest docs/form-handoff/MANIFEST.json","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"},
+    {"kind":"installer-dry-run","command":"node docs/form-handoff/prebuilt/tools/install-reference.mjs","exitCode":0,"status":"PASS_NO_WRITES","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"},
+    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"},
+    {"kind":"reference-repeat","command":"node docs/form-handoff/prebuilt/tools/check.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"},
+    {"kind":"unit","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F01.md","sha256":"4dbb6473bd05c2a258be10e1bfff5f945ebd02634e4d8b56ad9f48f25aba771e"}
+  ],
+  "changedFiles": ["shared/v2/edit-plan.ts","shared/v2/task-policy.ts","shared/v2/credit-reservations.ts","shared/v2/launch-policy.ts","shared/v2/provider-prompt.ts","shared/v2/form-quality-policy.ts","tests/v2/contracts.test.mjs","tests/v2/credit.test.mjs","tests/v2/task-launch.test.mjs","tests/v2/quality.test.mjs","tools/check-v2.mjs"],
+  "knownIssues": [],
+  "externalPending": ["Reference tests are synthetic pure logic only; database, provider, iPhone, StoreKit, identity, deletion and independent review remain NOT_RUN."],
+  "independentReviewer": null,
+  "authorization": {"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
+  "nextEligibleTask": "F02"
+}

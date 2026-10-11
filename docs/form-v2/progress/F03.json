@@ -4,13 +4,13 @@
   "codeReady": true,
   "codeCommit": "4980b5bc85dcf696f323dc33360f88a1dc17e9c1",
   "verification": [
-    {"kind":"migration","command":"node --import tsx --test tests/v2/migration.test.ts","exitCode":0,"status":"PASS_6_SYNTHETIC_TESTS","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"schema-regression","command":"node --import tsx --test tests/v2/schema.test.ts tests/v2/migration.test.ts","exitCode":0,"status":"PASS_15_TESTS","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F03 --repo . --checkpoint /tmp/form-F03-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F03.md"},
-    {"kind":"cli","command":"node --import tsx tools/migrate-form.mjs --help","exitCode":0,"status":"PASS_DRY_RUN_DEFAULT_USAGE","evidencePath":"docs/form-v2/progress/F03.md"}
+    {"kind":"migration","command":"node --import tsx --test tests/v2/migration.test.ts","exitCode":0,"status":"PASS_6_SYNTHETIC_TESTS","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"schema-regression","command":"node --import tsx --test tests/v2/schema.test.ts tests/v2/migration.test.ts","exitCode":0,"status":"PASS_15_TESTS","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F03 --repo . --checkpoint /tmp/form-F03-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"},
+    {"kind":"cli","command":"node --import tsx tools/migrate-form.mjs --help","exitCode":0,"status":"PASS_DRY_RUN_DEFAULT_USAGE","evidencePath":"docs/form-v2/progress/F03.md","sha256":"f6554d91dc690c81d45e2ef4d0da8056dddc77578fdcd6fc4ea7d11c1aa35da6"}
   ],
   "changedFiles":["server/v2/migrate.ts","tests/v2/migration.test.ts","tools/migrate-form.mjs"],
   "knownIssues":["Production migration and stopped-database restore are not run; independent migration/rollback review is required.","No approved legal retention duration or operator production approval is present."],

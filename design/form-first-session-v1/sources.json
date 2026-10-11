@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "checkedOn": "2026-10-12",
+  "primaryStorefront": "US",
+  "method": "Public primary-source review, not installed native-app/paid/REA study",
+  "sources": [
+    {
+      "id": "S01",
+      "title": "Mody",
+      "appId": "6523376299",
+      "url": "https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299",
+      "evidenceKind": "App Store listing and selected visible reviews",
+      "limitations": "Claimed style builder / part editing; review signals are not incidence statistics."
+    },
+    {
+      "id": "S02",
+      "title": "Driftshot",
+      "appId": "6743636833",
+      "url": "https://apps.apple.com/us/app/driftshot-ai-car-photography/id6743636833",
+      "evidenceKind": "App Store listing and selected visible reviews",
+      "limitations": "Positive and negative user accounts; no independent install or paid test."
+    },
+    {
+      "id": "S03",
+      "title": "Car Editor",
+      "appId": "6742412025",
+      "url": "https://apps.apple.com/us/app/car-editor-ai-design-mods/id6742412025",
+      "evidenceKind": "App Store listing / version history / selected reviews",
+      "limitations": "Public web prices and iOS offers are not interchangeable."
+    },
+    {
+      "id": "S04",
+      "title": "RideMint",
+      "appId": "6760583156",
+      "url": "https://apps.apple.com/us/app/ridemint-ai-car-photo-editor/id6760583156",
+      "evidenceKind": "App Store listing",
+      "limitations": "Two-free and unlimited claims are developer marketing, not verified economics."
+    },
+    {
+      "id": "S05",
+      "title": "Wrapr",
+      "appId": "6747343828",
+      "url": "https://apps.apple.com/us/app/ai-car-tuning-paint-wrapr/id6747343828",
+      "evidenceKind": "App Store listing",
+      "limitations": "Speed and vehicle coverage claims are not tested here."
+    },
+    {
+      "id": "S06",
+      "title": "Car AI: Modify, Tune & Design",
+      "appId": "6762599357",
+      "url": "https://apps.apple.com/us/app/car-ai-modify-tune-design/id6762599357",
+      "evidenceKind": "App Store listing",
+      "limitations": "Separate app from Car AI ID 6751798844."
+    },
+    {
+      "id": "S07",
+      "title": "Car Editor website",
+      "appId": null,
+      "url": "https://www.car-editor.com/",
+      "evidenceKind": "Developer marketing site",
+      "limitations": "Web catalog only; /editor/ returned a shell and was not exercised."
+    },
+    {
+      "id": "S08",
+      "title": "Car AI website",
+      "appId": null,
+      "url": "https://carmodify.app/",
+      "evidenceKind": "Developer marketing site",
+      "limitations": "Public before/after and offer presentation; not native app hands-on."
+    },
+    {
+      "id": "S09",
+      "title": "Apple HIG Onboarding",
+      "appId": null,
+      "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/onboarding.json",
+      "evidenceKind": "Official Apple documentation",
+      "limitations": "Interactive, brief, contextual onboarding guidance; not a measured FORM uplift."
+    },
+    {
+      "id": "S10",
+      "title": "Apple HIG Progress indicators",
+      "appId": null,
+      "url": "https://developer.apple.com/tutorials/data/design/human-interface-guidelines/progress-indicators.json",
+      "evidenceKind": "Official Apple documentation",
+      "limitations": "Accurate progress and useful status; does not establish FORM latency."
+    },
+    {
+      "id": "S11",
+      "title": "Apple HIG Privacy",
+      "appId": null,
+      "url": "https://developer.apple.com/design/human-interface-guidelines/privacy/",
+      "evidenceKind": "Official Apple documentation",
+      "limitations": "Just-in-time permissions; actual processor/retention still needs review."
+    },
+    {
+      "id": "S12",
+      "title": "Apple HIG Sign in with Apple",
+      "appId": null,
+      "url": "https://developer.apple.com/design/human-interface-guidelines/sign-in-with-apple/",
+      "evidenceKind": "Official Apple documentation",
+      "limitations": "Delay login until meaningful value; native button and approved branding."
+    },
+    {
+      "id": "S13",
+      "title": "Apple UI Design Dos and Don'ts",
+      "appId": null,
+      "url": "https://developer.apple.com/design/tips/",
+      "evidenceKind": "Official Apple documentation",
+      "limitations": "Touch targets, ratio, clarity; browser testing does not certify a device."
+    },
+    {
+      "id": "S14",
+      "title": "Apple App Review Guidelines",
+      "appId": null,
+      "url": "https://developer.apple.com/app-store/review/guidelines/",
+      "evidenceKind": "Official Apple policy",
+      "limitations": "Relevant 3.1.1, 5.1.2 and truthful materials; recheck before release."
+    }
+  ]
+}

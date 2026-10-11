@@ -1,0 +1,87 @@
+{
+  "kind": "actual_reference_UI_captures",
+  "note": "Not competitor, production or real model images. Only compact overview committed.",
+  "screens": [
+    {
+      "file": "01-home.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "b817502efc927d12d146f857ae881c699d90b3528bc872f91235f5c1744fc048",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "02-photo.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "fc2c0483e33d013fbf1b521006849f265eecd48271a61e1d2156b051ae6f5b0f",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "03-review.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "e14653d1a95d0a4309cea3b0596321fea01b53a4bebf4cc81e5a667cd4d3ec9f",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "04-wait.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "3be7782f9eaa554738582198bbc56d967a68476056eb902a0a4e6433302e35df",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "05-result.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "19a2dd3c64c08155ee53d9755a223e33e30ac6ba4f22af2e94f735ec29148120",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "06-refine.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "382aa6bf91c8f50faed8c2272ceabf5ec6c9b26c907e7d8062856eb94eb27e9e",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "07-purchase.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "904b0055e3b8a7896a2eca76d1bca831c78c21be24e016fb2acc92bf784b37ab",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "08-failure.png",
+      "dimensions": [
+        390,
+        844
+      ],
+      "sha256": "d0df673d536937a7f56e63ea14f0f86fd8464f228ebfac86f08dad376075ba5f",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    },
+    {
+      "file": "desktop.png",
+      "dimensions": [
+        1440,
+        1110
+      ],
+      "sha256": "8d948c0a2be3c3bc86f4913d1bb79f94b45e1a862ac4fa2ccb696818de9ce147",
+      "availability": "downloadable archive; regenerate via browser_test.py"
+    }
+  ]
+}

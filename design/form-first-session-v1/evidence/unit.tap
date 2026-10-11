@@ -1,0 +1,388 @@
+TAP version 13
+# Subtest: creation gate sourceSelected=false
+ok 1 - creation gate sourceSelected=false
+  ---
+  duration_ms: 0.937493
+  type: 'test'
+  ...
+# Subtest: creation gate online=false
+ok 2 - creation gate online=false
+  ---
+  duration_ms: 0.137257
+  type: 'test'
+  ...
+# Subtest: creation gate capabilityReady=false
+ok 3 - creation gate capabilityReady=false
+  ---
+  duration_ms: 0.064497
+  type: 'test'
+  ...
+# Subtest: creation gate localFileValid=false
+ok 4 - creation gate localFileValid=false
+  ---
+  duration_ms: 0.11254
+  type: 'test'
+  ...
+# Subtest: creation gate signedIn=false
+ok 5 - creation gate signedIn=false
+  ---
+  duration_ms: 0.122144
+  type: 'test'
+  ...
+# Subtest: creation gate consentCurrent=false
+ok 6 - creation gate consentCurrent=false
+  ---
+  duration_ms: 0.062254
+  type: 'test'
+  ...
+# Subtest: creation gate ownedAssetReady=false
+ok 7 - creation gate ownedAssetReady=false
+  ---
+  duration_ms: 0.120311
+  type: 'test'
+  ...
+# Subtest: creation gate quoteCurrent=false
+ok 8 - creation gate quoteCurrent=false
+  ---
+  duration_ms: 0.090626
+  type: 'test'
+  ...
+# Subtest: creation gate quoteCost=2
+ok 9 - creation gate quoteCost=2
+  ---
+  duration_ms: 0.223987
+  type: 'test'
+  ...
+# Subtest: creation gate availableCredits=null
+ok 10 - creation gate availableCredits=null
+  ---
+  duration_ms: 0.3382
+  type: 'test'
+  ...
+# Subtest: creation gate availableCredits=0
+ok 11 - creation gate availableCredits=0
+  ---
+  duration_ms: 0.117727
+  type: 'test'
+  ...
+# Subtest: ready is confirmation, not automatic dispatch
+ok 12 - ready is confirmation, not automatic dispatch
+  ---
+  duration_ms: 0.07953
+  type: 'test'
+  ...
+# Subtest: active request resumes before any further new-creation requirement
+ok 13 - active request resumes before any further new-creation requirement
+  ---
+  duration_ms: 0.067291
+  type: 'test'
+  ...
+# Subtest: trial requires approved offer AND eligibility
+ok 14 - trial requires approved offer AND eligibility
+  ---
+  duration_ms: 0.074692
+  type: 'test'
+  ...
+# Subtest: unknown catalogue cannot produce a fake checkout
+ok 15 - unknown catalogue cannot produce a fake checkout
+  ---
+  duration_ms: 0.060381
+  type: 'test'
+  ...
+# Subtest: purchase credited never auto generates
+ok 16 - purchase credited never auto generates
+  ---
+  duration_ms: 0.075224
+  type: 'test'
+  ...
+# Subtest: purchase already_credited never auto generates
+ok 17 - purchase already_credited never auto generates
+  ---
+  duration_ms: 0.085979
+  type: 'test'
+  ...
+# Subtest: purchase pending never auto generates
+ok 18 - purchase pending never auto generates
+  ---
+  duration_ms: 0.040521
+  type: 'test'
+  ...
+# Subtest: purchase verification_unknown never auto generates
+ok 19 - purchase verification_unknown never auto generates
+  ---
+  duration_ms: 0.034022
+  type: 'test'
+  ...
+# Subtest: purchase cancelled never auto generates
+ok 20 - purchase cancelled never auto generates
+  ---
+  duration_ms: 0.033961
+  type: 'test'
+  ...
+# Subtest: purchase failed never auto generates
+ok 21 - purchase failed never auto generates
+  ---
+  duration_ms: 0.032459
+  type: 'test'
+  ...
+# Subtest: credited purchase revalidates quote
+ok 22 - credited purchase revalidates quote
+  ---
+  duration_ms: 0.531301
+  type: 'test'
+  ...
+# Subtest: processing is not freely cancellable
+ok 23 - processing is not freely cancellable
+  ---
+  duration_ms: 0.115675
+  type: 'test'
+  ...
+# Subtest: uncertain is not freely cancellable
+ok 24 - uncertain is not freely cancellable
+  ---
+  duration_ms: 0.044387
+  type: 'test'
+  ...
+# Subtest: succeeded is not freely cancellable
+ok 25 - succeeded is not freely cancellable
+  ---
+  duration_ms: 0.033401
+  type: 'test'
+  ...
+# Subtest: failed is not freely cancellable
+ok 26 - failed is not freely cancellable
+  ---
+  duration_ms: 0.034612
+  type: 'test'
+  ...
+# Subtest: cancelled is not freely cancellable
+ok 27 - cancelled is not freely cancellable
+  ---
+  duration_ms: 0.037076
+  type: 'test'
+  ...
+# Subtest: queued allows cancellation subject to server race
+ok 28 - queued allows cancellation subject to server race
+  ---
+  duration_ms: 0.056395
+  type: 'test'
+  ...
+# Subtest: refund wording only follows confirmed release
+ok 29 - refund wording only follows confirmed release
+  ---
+  duration_ms: 0.109255
+  type: 'test'
+  ...
+# Subtest: malformed input fails closed
+ok 30 - malformed input fails closed
+  ---
+  duration_ms: 0.116977
+  type: 'test'
+  ...
+# Subtest: production-like default has no free credit, account or consent
+ok 31 - production-like default has no free credit, account or consent
+  ---
+  duration_ms: 1.469895
+  type: 'test'
+  ...
+# Subtest: browse and select do not submit or bill
+ok 32 - browse and select do not submit or bill
+  ---
+  duration_ms: 0.928099
+  type: 'test'
+  ...
+# Subtest: local photo never yields synthetic output
+ok 33 - local photo never yields synthetic output
+  ---
+  duration_ms: 0.198419
+  type: 'test'
+  ...
+# Subtest: first meaningful auth gate preserves intent
+ok 34 - first meaningful auth gate preserves intent
+  ---
+  duration_ms: 0.248475
+  type: 'test'
+  ...
+# Subtest: closing authentication preserves local selection
+ok 35 - closing authentication preserves local selection
+  ---
+  duration_ms: 0.143526
+  type: 'test'
+  ...
+# Subtest: no consent prevents submit
+ok 36 - no consent prevents submit
+  ---
+  duration_ms: 0.149656
+  type: 'test'
+  ...
+# Subtest: offline prevents new job
+ok 37 - offline prevents new job
+  ---
+  duration_ms: 0.173121
+  type: 'test'
+  ...
+# Subtest: zero balance offers packs instead of hidden spending
+ok 38 - zero balance offers packs instead of hidden spending
+  ---
+  duration_ms: 0.116215
+  type: 'test'
+  ...
+# Subtest: trial is not default and cannot be claimed twice
+ok 39 - trial is not default and cannot be claimed twice
+  ---
+  duration_ms: 0.286973
+  type: 'test'
+  ...
+# Subtest: unapproved default trial claim ignored
+ok 40 - unapproved default trial claim ignored
+  ---
+  duration_ms: 0.336778
+  type: 'test'
+  ...
+# Subtest: purchase needs signed-in account and connectivity
+ok 41 - purchase needs signed-in account and connectivity
+  ---
+  duration_ms: 0.267483
+  type: 'test'
+  ...
+# Subtest: pending and verifying do not credit
+ok 42 - pending and verifying do not credit
+  ---
+  duration_ms: 1.98344
+  type: 'test'
+  ...
+# Subtest: double buy ignored, credit acknowledged once, no auto generation
+ok 43 - double buy ignored, credit acknowledged once, no auto generation
+  ---
+  duration_ms: 0.211469
+  type: 'test'
+  ...
+# Subtest: cancel purchase preserves choices with zero credit mutation
+ok 44 - cancel purchase preserves choices with zero credit mutation
+  ---
+  duration_ms: 0.115124
+  type: 'test'
+  ...
+# Subtest: invalid or malicious pack quantity is ignored
+ok 45 - invalid or malicious pack quantity is ignored
+  ---
+  duration_ms: 0.174593
+  type: 'test'
+  ...
+# Subtest: double submit creates exactly one job and reservation
+ok 46 - double submit creates exactly one job and reservation
+  ---
+  duration_ms: 0.23213
+  type: 'test'
+  ...
+# Subtest: submission freezes recipe and base despite later browsing
+ok 47 - submission freezes recipe and base despite later browsing
+  ---
+  duration_ms: 0.129405
+  type: 'test'
+  ...
+# Subtest: leaving task screen does not cancel or resubmit
+ok 48 - leaving task screen does not cancel or resubmit
+  ---
+  duration_ms: 0.100872
+  type: 'test'
+  ...
+# Subtest: queued cancellation releases once
+ok 49 - queued cancellation releases once
+  ---
+  duration_ms: 0.11945
+  type: 'test'
+  ...
+# Subtest: processing cannot be freely cancelled
+ok 50 - processing cannot be freely cancelled
+  ---
+  duration_ms: 0.240813
+  type: 'test'
+  ...
+# Subtest: late success after fail does not resurrect output
+ok 51 - late success after fail does not resurrect output
+  ---
+  duration_ms: 0.120782
+  type: 'test'
+  ...
+# Subtest: duplicate completion adds one version
+ok 52 - duplicate completion adds one version
+  ---
+  duration_ms: 0.122825
+  type: 'test'
+  ...
+# Subtest: unknown request remains same job and does not retry
+ok 53 - unknown request remains same job and does not retry
+  ---
+  duration_ms: 0.100952
+  type: 'test'
+  ...
+# Subtest: retry requires another review and explicit new confirmation
+ok 54 - retry requires another review and explicit new confirmation
+  ---
+  duration_ms: 0.100812
+  type: 'test'
+  ...
+# Subtest: no-effective-change cannot spend
+ok 55 - no-effective-change cannot spend
+  ---
+  duration_ms: 0.093421
+  type: 'test'
+  ...
+# Subtest: refinement copies exact selected older version
+ok 56 - refinement copies exact selected older version
+  ---
+  duration_ms: 0.227242
+  type: 'test'
+  ...
+# Subtest: selecting color does not repaint base/history or submit
+ok 57 - selecting color does not repaint base/history or submit
+  ---
+  duration_ms: 0.800938
+  type: 'test'
+  ...
+# Subtest: favorite and feedback have no credit or generation effect
+ok 58 - favorite and feedback have no credit or generation effect
+  ---
+  duration_ms: 0.17216
+  type: 'test'
+  ...
+# Subtest: refresh serialization preserves same accepted job
+ok 59 - refresh serialization preserves same accepted job
+  ---
+  duration_ms: 0.312911
+  type: 'test'
+  ...
+# Subtest: local photograph is not persisted or claimed restored
+ok 60 - local photograph is not persisted or claimed restored
+  ---
+  duration_ms: 0.1661
+  type: 'test'
+  ...
+# Subtest: bad persistence resets safely
+ok 61 - bad persistence resets safely
+  ---
+  duration_ms: 0.196917
+  type: 'test'
+  ...
+# Subtest: logout clears simulated history and balances
+ok 62 - logout clears simulated history and balances
+  ---
+  duration_ms: 0.124748
+  type: 'test'
+  ...
+# Subtest: reducer never mutates input and rejects unknown event
+ok 63 - reducer never mutates input and rejects unknown event
+  ---
+  duration_ms: 0.142595
+  type: 'test'
+  ...
+1..63
+# tests 63
+# suites 0
+# pass 63
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 85.056092

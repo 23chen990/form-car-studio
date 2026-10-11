@@ -1,0 +1,15 @@
+import test from 'node:test';import assert from 'node:assert/strict';
+import {creationAction,purchaseReturn,taskPresentation} from '../prototype/flow-policy.mjs';
+const ready={sourceSelected:true,online:true,capabilityReady:true,localFileValid:true,signedIn:true,consentCurrent:true,ownedAssetReady:true,quoteCurrent:true,quoteCost:1,availableCredits:1,trialApproved:false,trialEligibility:'unknown',catalogReady:true};
+const cases=[['sourceSelected',false,'choose_photo'],['online',false,'reconnect'],['capabilityReady',false,'unavailable'],['localFileValid',false,'replace_photo'],['signedIn',false,'sign_in'],['consentCurrent',false,'consent'],['ownedAssetReady',false,'prepare_photo'],['quoteCurrent',false,'refresh_quote'],['quoteCost',2,'unavailable'],['availableCredits',null,'sync_balance'],['availableCredits',0,'purchase']];
+for(const [key,value,result] of cases)test(`creation gate ${key}=${value}`,()=>{const r=creationAction({...ready,[key]:value});assert.equal(r.kind,result);assert.equal(r.autoSubmit,false);});
+test('ready is confirmation, not automatic dispatch',()=>{assert.equal(creationAction(ready).kind,'confirm');assert.equal(creationAction(ready).autoSubmit,false)});
+test('active request resumes before any further new-creation requirement',()=>assert.equal(creationAction({...ready,online:false,availableCredits:0,activeTaskId:'t'}).kind,'resume'));
+test('trial requires approved offer AND eligibility',()=>{assert.equal(creationAction({...ready,availableCredits:0,trialEligibility:'eligible'}).kind,'purchase');assert.equal(creationAction({...ready,availableCredits:0,trialApproved:true,trialEligibility:'eligible'}).kind,'claim_trial')});
+test('unknown catalogue cannot produce a fake checkout',()=>assert.equal(creationAction({...ready,availableCredits:0,catalogReady:false}).kind,'products_unavailable'));
+for(const status of ['credited','already_credited','pending','verification_unknown','cancelled','failed'])test(`purchase ${status} never auto generates`,()=>assert.equal(purchaseReturn(status).autoSubmit,false));
+test('credited purchase revalidates quote',()=>assert.deepEqual(purchaseReturn('credited'),{destination:'review',refreshQuote:true,refreshBalance:true,autoSubmit:false}));
+for(const status of ['processing','uncertain','succeeded','failed','cancelled'])test(`${status} is not freely cancellable`,()=>assert.equal(taskPresentation({status}).canCancel,false));
+test('queued allows cancellation subject to server race',()=>assert.equal(taskPresentation({status:'queued'}).canCancel,true));
+test('refund wording only follows confirmed release',()=>{assert.ok(!taskPresentation({status:'failed'}).detail.includes('returned'));assert.ok(taskPresentation({status:'failed',creditReleaseConfirmed:true}).detail.includes('returned'))});
+test('malformed input fails closed',()=>{for(const s of [null,undefined,0])assert.equal(creationAction(s).kind,'unavailable')});

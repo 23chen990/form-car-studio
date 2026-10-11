@@ -1,0 +1,143 @@
+{
+  "kind": "FORM_FIRST_SESSION_DESIGN",
+  "version": "1.0",
+  "date": "2026-10-12",
+  "scope": "Committed expanded reference sources, docs and compact overview. Excludes generated per-screen screenshots and standalone HTML; not release approval.",
+  "files": [
+    {
+      "path": "00_START_HERE.md",
+      "bytes": 5299,
+      "sha256": "17a8a56a0fcc8d06360fea7051df914fe95c51364eef64edda90215cec832a76"
+    },
+    {
+      "path": "01_RESEARCH.md",
+      "bytes": 7410,
+      "sha256": "802ba786cb4fbeaced0803c5eea03ced24e8a30d888dabddc2b54889e45bc8aa"
+    },
+    {
+      "path": "02_EXPERIENCE_SPEC.md",
+      "bytes": 13483,
+      "sha256": "0467cfb3a56d22b17b013f8f2d8fabe9f498b3e6fd1e6c67028aa456f671491c"
+    },
+    {
+      "path": "03_STATE_CONTRACT.md",
+      "bytes": 6303,
+      "sha256": "b2eeb5583c441c25ccf06aaf9e2460c61fec83fa909bdf6d66377af667e0b885"
+    },
+    {
+      "path": "04_IMPLEMENTATION.md",
+      "bytes": 5172,
+      "sha256": "8cada2d733c5a479d954e594e4b753fcf7c3f3f136e2a108b5096e191d847e46"
+    },
+    {
+      "path": "05_QA_AND_STUDY.md",
+      "bytes": 7703,
+      "sha256": "be820b9ca8e6537bcd7036f252b9ce31b8b97071d96517b44283a4f6f1abeb2f"
+    },
+    {
+      "path": "AGENTS.md",
+      "bytes": 988,
+      "sha256": "c091bbcc81a5213a402a0688e290f09e1db9a33c87d915508e61572d22e45901"
+    },
+    {
+      "path": "ASSETS.md",
+      "bytes": 1153,
+      "sha256": "459be853fd88c54937659f2ba639c6888c1d415ad8dbf2059fcfe700a1c7b7f0"
+    },
+    {
+      "path": "README.md",
+      "bytes": 1688,
+      "sha256": "44814083e2a40019ded52f42584236b499c2d0bfd85a6a6efc51d75052c999fe"
+    },
+    {
+      "path": "contracts.d.ts",
+      "bytes": 2909,
+      "sha256": "f6871197acaaf2c6e32307ff69fcbace442dc67247da59bb213077f312e008d4"
+    },
+    {
+      "path": "copy.en.json",
+      "bytes": 5418,
+      "sha256": "7f1c84b31520acc8ba7c6320afc5a904814c66832b99850313179a2ab077e26d"
+    },
+    {
+      "path": "evidence/SCREENSHOTS.json",
+      "bytes": 2506,
+      "sha256": "8dd2a36101c30c9cf117d65ddd44a09fdebfe9cb43dccc7e5d1ad7c52c7c569a"
+    },
+    {
+      "path": "evidence/VALIDATION.md",
+      "bytes": 3740,
+      "sha256": "130b6a32006f7bdcc6d1c1a6efb569df118d5ba654261ff3f4a2f27135027a20"
+    },
+    {
+      "path": "evidence/browser-results.json",
+      "bytes": 3577,
+      "sha256": "36603646326c2c85cbc0d56e1f9ff2a8b823707f901f1a075f006aabf5bb50da"
+    },
+    {
+      "path": "evidence/overview.webp",
+      "bytes": 7022,
+      "sha256": "77e5c9aa852f61572e4b4a17033265716540a3efff9e7437640869cd6be4de36"
+    },
+    {
+      "path": "evidence/unit.tap",
+      "bytes": 9926,
+      "sha256": "d6783d33251ca48f16ef312855da21e854b12e2877acd6023b3b4a7911311a1f"
+    },
+    {
+      "path": "prototype/app.mjs",
+      "bytes": 28991,
+      "sha256": "0f945cb2d59b933da7160c121f7d6d8ac307766df4bea207e7e5192a856f5022"
+    },
+    {
+      "path": "prototype/flow-policy.mjs",
+      "bytes": 3096,
+      "sha256": "e2d62cb66adddc3d2abb77b70ff8d10c547d544ac61c95a9cf15ea972b1ab73e"
+    },
+    {
+      "path": "prototype/index.html",
+      "bytes": 564,
+      "sha256": "29284a7d199254d84497a916445469700c9f25df57ddf52db2809d420850515e"
+    },
+    {
+      "path": "prototype/model.mjs",
+      "bytes": 9859,
+      "sha256": "242d935ca2ac00fd9e24357df230cda5526b97fd3838502914658620b47a9124"
+    },
+    {
+      "path": "prototype/style.css",
+      "bytes": 14862,
+      "sha256": "56affece34b5987f0142f822b92bb259e5efbb5d86a24c2ee2af40b3d9d481ac"
+    },
+    {
+      "path": "sources.json",
+      "bytes": 4689,
+      "sha256": "c1600226494c6dbfaae8ad13f72b7140ba0b2420630098d699a9af60e2c22a95"
+    },
+    {
+      "path": "tests/browser_test.py",
+      "bytes": 12619,
+      "sha256": "3a629b7c21e8c3305b6096480e2ca75c4972c2acae548d7d5a6121a726b87191"
+    },
+    {
+      "path": "tests/flow-policy.test.mjs",
+      "bytes": 2904,
+      "sha256": "3e410008a25f10b8e99ff4025b6cc5bacc181eb5c3fed04483b236aa7fccda1d"
+    },
+    {
+      "path": "tests/model.test.mjs",
+      "bytes": 7892,
+      "sha256": "6f0dceb0514182ea59e85f43b1e99d16877d76c49a27fcf8768db562339023b4"
+    },
+    {
+      "path": "tools/build_standalone.py",
+      "bytes": 1280,
+      "sha256": "1e14a9a7d65b4311ff3a30274c39c21f47a51cebdc007b797a089a2f7b84f1f0"
+    },
+    {
+      "path": "tools/verify_package.py",
+      "bytes": 1749,
+      "sha256": "03cbe7df75f3a18d5c865c881bf58ae85a110c6ffbc06176562bd48729fb78ee"
+    }
+  ]
+}

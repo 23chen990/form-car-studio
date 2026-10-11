@@ -1,21 +1,92 @@
 {
-  "taskId":"F02",
-  "specVersion":"2.2",
-  "codeReady":false,
-  "codeCommit":"0b029c51db96f8bdfc3972e3db76d80e029250c2",
-  "verification":[
-    {"kind":"schema","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_9_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"audit","command":"npm audit --json","exitCode":1,"status":"HIGH_SHARP_ADVISORY_RECORDED_NO_FIX","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"},
-    {"kind":"github-ci","command":"GitHub Actions run on final repair head","exitCode":0,"status":"PASS_RUN_38157769273","evidencePath":"docs/form-v2/progress/F02.md","sha256":"d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"}
+  "taskId": "F02",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "3908ad822b4e2548652183374bae56b1f7bbf201",
+  "verification": [
+    {
+      "kind": "schema",
+      "command": "node --import tsx --test tests/v2/schema.test.ts",
+      "exitCode": 0,
+      "status": "PASS_9_TESTS",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "reference",
+      "command": "node tools/check-v2.mjs",
+      "exitCode": 0,
+      "status": "PASS_151_TESTS",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "legacy",
+      "command": "npm test",
+      "exitCode": 0,
+      "status": "PASS_30_TESTS",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "status": "PASS",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "scope",
+      "command": "python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json",
+      "exitCode": 0,
+      "status": "PASS_SCOPE",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "audit",
+      "command": "npm audit --json",
+      "exitCode": 1,
+      "status": "HIGH_SHARP_ADVISORY_RECORDED_NO_FIX",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    },
+    {
+      "kind": "github-ci",
+      "command": "GitHub Actions run on final repair head",
+      "exitCode": 0,
+      "status": "PASS_RUN_38158482328",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada",
+      "testedHead": "3908ad822b4e2548652183374bae56b1f7bbf201",
+      "evidenceUrl": "https://github.com/23chen990/form-car-studio/actions/runs/38158482328",
+      "note": "GitHub Actions live run on exact reviewed code head, independently checked; pre-existing F02.md log documents the earlier source-head run."
+    }
   ],
-  "changedFiles":["server/v2/schema.ts","server/v2/db.ts","tests/v2/schema.test.ts"],
-  "knownIssues":["Direct sharp dependency has one high advisory affecting image decoding; separate scoped upgrade review required."],
-  "externalPending":["Independent migration/rollback review, full backup restore, multi-worker atomicity, legal retention policy, identity, Apple purchase/refund, deletion and security review."],
-  "independentReviewer":null,
-  "authorization":{"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
-  "nextEligibleTask":null
+  "changedFiles": [
+    "server/v2/schema.ts",
+    "server/v2/db.ts",
+    "tests/v2/schema.test.ts"
+  ],
+  "knownIssues": [
+    "Direct sharp dependency has one high advisory affecting image decoding; separate scoped upgrade review required."
+  ],
+  "externalPending": [
+    "Independent migration/rollback review, full backup restore, multi-worker atomicity, legal retention policy, identity, Apple purchase/refund, deletion and security review."
+  ],
+  "independentReviewer": null,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F03",
+  "reviewScope": {
+    "status": "CODE_READY_OFFLINE_ONLY",
+    "reviewedSourceHead": "3908ad822b4e2548652183374bae56b1f7bbf201",
+    "reviewCommentUrl": "https://github.com/23chen990/form-car-studio/pull/3#issuecomment-6111657353",
+    "independentGithubApproval": false,
+    "disposition": "F02 task-card schema acceptance fulfilled. F03 disposable fixtures allowed; production migration, payments, deletion and release NOT approved."
+  }
 }

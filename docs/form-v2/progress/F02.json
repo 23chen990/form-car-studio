@@ -4,17 +4,17 @@
   "codeReady":false,
   "codeCommit":"5b0dcc38b44d099e1337219b597073fb76fcfe3f",
   "verification":[
-    {"kind":"schema","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_7_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"audit","command":"npm audit --json","exitCode":1,"status":"HIGH_SHARP_ADVISORY_RECORDED_NO_FIX","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"},
-    {"kind":"github-ci","command":"GitHub Actions run on repaired PR head","exitCode":null,"status":"NOT_RUN","evidencePath":"docs/form-v2/progress/F02.md","sha256":"83ca33974e0c83c663e011b45eccc69f052d3f638c0ead039ca4b437fd269ea3"}
+    {"kind":"schema","command":"node --import tsx --test tests/v2/schema.test.ts","exitCode":0,"status":"PASS_7_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"reference","command":"node tools/check-v2.mjs","exitCode":0,"status":"PASS_151_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"legacy","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"scope","command":"python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json","exitCode":0,"status":"PASS_SCOPE","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"audit","command":"npm audit --json","exitCode":1,"status":"HIGH_SHARP_ADVISORY_RECORDED_NO_FIX","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"},
+    {"kind":"github-ci","command":"GitHub Actions run on repaired PR head","exitCode":0,"status":"PASS_RUN_38155361205","evidencePath":"docs/form-v2/progress/F02.md","sha256":"e2570831da2fae8a1d86e05ca96de89bbac2aa591923779d425b6bf8238bb54c"}
   ],
   "changedFiles":["server/v2/schema.ts","server/v2/db.ts","tests/v2/schema.test.ts"],
   "knownIssues":["Direct sharp dependency has one high advisory affecting image decoding; separate scoped upgrade review required."],
-  "externalPending":["GitHub CI for repaired head, independent migration/rollback review, real backup restore, multi-worker atomicity, legal retention policy, identity, Apple purchase/refund, deletion and security review."],
+  "externalPending":["Independent migration/rollback review, real backup restore, multi-worker atomicity, legal retention policy, identity, Apple purchase/refund, deletion and security review."],
   "independentReviewer":null,
   "authorization":{"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
   "nextEligibleTask":null

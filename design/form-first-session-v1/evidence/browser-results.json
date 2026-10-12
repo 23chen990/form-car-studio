@@ -1,0 +1,145 @@
+{
+  "kind": "in_memory_chromium_reference_ui",
+  "environment": {
+    "chromium": "/usr/bin/chromium",
+    "viewportBase": "390x844"
+  },
+  "passed": 30,
+  "failed": 0,
+  "cases": [
+    {
+      "case": "B01 complete paid-first illustrative journey; purchase never auto-submits",
+      "status": "PASS"
+    },
+    {
+      "case": "B02 trial hypothesis ends at optional second-edit purchase",
+      "status": "PASS"
+    },
+    {
+      "case": "B03 cancelled login keeps source and intent",
+      "status": "PASS"
+    },
+    {
+      "case": "B04 swatches do not repaint base or call generation",
+      "status": "PASS"
+    },
+    {
+      "case": "B05 no-change edit blocks spending",
+      "status": "PASS"
+    },
+    {
+      "case": "B06 failure returns once and late success is ignored",
+      "status": "PASS"
+    },
+    {
+      "case": "B07 processing no longer offers free cancellation",
+      "status": "PASS"
+    },
+    {
+      "case": "B08 browse and resume returns to same active request",
+      "status": "PASS"
+    },
+    {
+      "case": "B09 uncertain request is not resubmitted",
+      "status": "PASS"
+    },
+    {
+      "case": "B10 quality report does not grant credit or regenerate",
+      "status": "PASS"
+    },
+    {
+      "case": "B11 offline keeps choices and disables new requests",
+      "status": "PASS"
+    },
+    {
+      "case": "B12 local photo preview cannot be passed off as generated",
+      "status": "PASS"
+    },
+    {
+      "case": "B13 corrupt file explains error without uploading",
+      "status": "PASS"
+    },
+    {
+      "case": "B14 original single-detail entry avoids full style preset",
+      "status": "PASS"
+    },
+    {
+      "case": "B15 visible before/after control uses existing example only",
+      "status": "PASS"
+    },
+    {
+      "case": "B16 Escape dismisses sheet and restores invoking control",
+      "status": "PASS"
+    },
+    {
+      "case": "B17 keyboard swatch selection keeps focus",
+      "status": "PASS"
+    },
+    {
+      "case": "B18 pending purchase cannot open a second pack purchase",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 320x568, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 360x740, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 375x667, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 390x844, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 430x932, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 844x390, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B19 layout 1440x1100, CTA contained",
+      "status": "PASS"
+    },
+    {
+      "case": "B20 visible app button targets at least 44 CSS px in reference",
+      "status": "PASS"
+    },
+    {
+      "case": "B21 Reduce Motion removes spinner animation",
+      "status": "PASS"
+    },
+    {
+      "case": "B22 200% text-size reflow stress, not native Dynamic Type certification",
+      "status": "PASS"
+    },
+    {
+      "case": "B23 no JavaScript runtime errors",
+      "status": "PASS"
+    },
+    {
+      "case": "B24 no outbound network calls during scenarios",
+      "status": "PASS"
+    }
+  ],
+  "jsErrors": [],
+  "networkRequests": [
+    "blob:null/41829549-e88b-44fe-b771-0481c3b7443e",
+    "blob:null/04e31468-5c4f-4176-ad17-a56cb3ecb94a"
+  ],
+  "notRun": [
+    "WebKit",
+    "real iPhone",
+    "native Dynamic Type/VoiceOver",
+    "StoreKit",
+    "real AI",
+    "actual browser reload/session-storage integration",
+    "real user study"
+  ]
+}

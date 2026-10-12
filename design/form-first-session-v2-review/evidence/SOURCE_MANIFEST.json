@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "reviewDate": "2026-10-12",
-  "evidenceScope": "User-supplied files and inline screenshot; no native competitor operation by the reviewing assistant",
+  "evidenceScope": "Two user-supplied competitor recordings plus a separate user-supplied Mody GARAGE screenshot, static report, failed REA log and public US App Store listings; no native competitor installation/paid generation by reviewing assistant",
   "sources": [
     {
       "id": "STATIC01",
@@ -46,6 +46,45 @@
       "rawIncludedInRepository": false,
       "originAndVersionVerified": false,
       "note": "Visually inspected in conversation. No separately established mounted original path/hash. Not inserted into the recording sequence."
+    },
+    {
+      "id": "VIDEO02",
+      "name": "161a93dd9c16d2af03a776cfb2db63db.mp4",
+      "bytes": 4966358,
+      "sha256": "c6636858740bcc33e073964f7ee3c9e1b56f83a466978a6351004e815aeaceb6",
+      "durationSeconds": 126.166667,
+      "width": 448,
+      "height": 960,
+      "nominalFps": "30/1",
+      "averageFps": "19542/757",
+      "frames": 3257,
+      "hasAudioTrack": true,
+      "audioReviewed": false,
+      "rawIncludedInRepository": false,
+      "privacy": "Contains account information/system photo picker content. Source and frames private; public text only.",
+      "note": "Modyfy recording; observed paywall before photo selection, Step 1-4 UI, examples, extensive options, effects browsing. No successful charge or result. Loading issues may be affected by device performance."
+    },
+    {
+      "id": "STORE_MODY_US",
+      "kind": "public_developer_and_review_page",
+      "url": "https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299",
+      "appId": "6523376299",
+      "developer": "Scate",
+      "readDate": "2026-10-12",
+      "snapshotCommitted": false,
+      "claimsNotVerified": true,
+      "rawImagesIncluded": false
+    },
+    {
+      "id": "STORE_MODYFY_US",
+      "kind": "public_developer_and_review_page",
+      "url": "https://apps.apple.com/us/app/modyfy-ai-car-designer/id6762754163",
+      "appId": "6762754163",
+      "developer": "Papcorns AŞ",
+      "readDate": "2026-10-12",
+      "snapshotCommitted": false,
+      "claimsNotVerified": true,
+      "rawImagesIncluded": false
     }
   ],
   "publication": {
@@ -55,7 +94,9 @@
     "accountIdentifiers": false,
     "notificationContents": false,
     "paymentPayloads": false,
-    "textObservationsAndHashesOnly": true
+    "textObservationsAndHashesOnly": true,
+    "privateGalleryContent": false,
+    "competitorPaywallScreenshots": false
   },
   "approval": {
     "researchArchiveAuthorized": true,
@@ -65,6 +106,16 @@
     "freeTrialEnabled": false,
     "modelBudgetAuthorized": 0,
     "purchaseAuthorized": false,
-    "deploymentAuthorized": false
+    "deploymentAuthorized": false,
+    "subscriptionPolicyChanged": false,
+    "productionChangesAuthorized": false
+  },
+  "filesIndex": {
+    "mody": "02_RECORDING_TIMELINE_ZH.md",
+    "modyfy": "06_MODYFY_VIDEO_TIMELINE_ZH.md",
+    "screenshot": "03_GARAGE_SCREENSHOT_ZH.md",
+    "competitorMatrix": "09_MODY_MODYFY_FORM_MATRIX_ZH.md",
+    "evidenceTrace": "15_EVIDENCE_TO_DECISION_TRACE_ZH.md",
+    "modyfyDetail": "evidence/MODYFY_SOURCE_MANIFEST.json"
   }
 }

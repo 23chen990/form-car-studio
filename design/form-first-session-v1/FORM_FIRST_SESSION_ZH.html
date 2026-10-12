@@ -1,0 +1,365 @@
+<!doctype html>
+<html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'sha256-UGNCJqyhUyzcS6HjARzaaSWwM0XoUSO/Mf0ceJOuZ9g='; style-src 'unsafe-inline'; img-src 'self' data: blob:; connect-src 'none'; font-src 'none'; base-uri 'none'; form-action 'none'"><title>FORM｜中文快速验收原型（交互模拟，无真实生成与付款）</title><style>:root{--paper:#f7f8f3;--ink:#17241e;--muted:#5b685f;--line:#dce1d5;--accent:#d4ed72;--accent-dark:#3e511b;--white:#fff;--radius:20px;color-scheme:light;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:var(--ink);background:#e6e9df;line-height:1.5;font-size:16px}*{box-sizing:border-box}body{margin:0}button,input{font:inherit}button,a{-webkit-tap-highlight-color:transparent}button{cursor:pointer;color:inherit}button:disabled{cursor:not-allowed;opacity:.65}button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid #547515;outline-offset:3px}h1,h2,h3,p,figure{margin:0}h1:focus{outline:none}h1{font-size:32px;line-height:1.1;letter-spacing:-1.25px;font-weight:650}h2{font-size:19px;line-height:1.2;letter-spacing:-.45px}h3{font-size:13px;letter-spacing:1px}p{overflow-wrap:break-word}button svg{flex:none}button{border:0;background:none}svg{display:block}.workspace{max-width:1230px;margin:0 auto;min-height:100vh;display:grid;grid-template-columns:minmax(330px,1fr) 440px;gap:80px;padding:50px 70px;align-items:start}.brand{color:var(--ink);text-decoration:none;font-weight:800;font-size:27px;letter-spacing:-1px;display:inline-flex;align-items:center;gap:12px;margin-bottom:52px}.brand-line{height:8px;width:38px;background:#637748;display:block}.eyebrow{font-size:11px;font-weight:650;letter-spacing:1.7px;line-height:1.4;color:var(--muted)}.brief>h2{font-size:48px;line-height:1.12;letter-spacing:-2px;font-weight:550;margin:18px 0}.brief em{font-family:Georgia,serif;font-weight:400;color:#57693e}.brief-copy{max-width:385px;font-size:16px;color:var(--muted);margin-bottom:30px}.principle{display:flex;gap:18px;margin:19px 0;font-size:14px}.principle>b{color:#748667;font-size:13px;padding-top:2px}.principle p{color:var(--muted)}.principle strong{color:var(--ink)}.phone-column{width:100%;position:sticky;top:20px}.prototype-label{display:flex;align-items:center;justify-content:center;gap:8px;font-size:10px;font-weight:650;letter-spacing:1px;margin:0 0 16px;color:#42543a}.status-dot{width:6px;height:6px;border-radius:50%;background:#5f783e}.device{width:390px;height:844px;max-width:100%;margin:auto;border-radius:36px;overflow:hidden;position:relative;background:var(--paper);border:7px solid #253229;box-shadow:0 34px 70px #31492c20,0 0 0 1px #899781;display:flex;flex-direction:column}.app-header{height:68px;min-height:68px;display:flex;align-items:center;justify-content:space-between;padding:12px 17px 8px;border-bottom:1px solid #e6e9df;gap:9px}.wordmark{font-size:24px;font-weight:800;letter-spacing:-1.2px}.small-brand{font-size:18px;font-weight:750;letter-spacing:-.8px;margin-right:auto}.header-right{display:flex;align-items:center;gap:3px}.iconbtn{width:44px;height:44px;display:grid;place-items:center;border-radius:50%;flex:none}.iconbtn:hover{background:#e9eddf}.balance{min-height:44px;font-size:12px;padding:0 7px;color:#425b2e}.content{overflow-y:auto;overscroll-behavior:contain;flex:1;padding:23px 21px 30px;scrollbar-width:thin;scrollbar-color:#cdd5c4 transparent}.title{margin-bottom:22px}.title .eyebrow{margin-bottom:11px}.sub{font-size:14px;line-height:1.55;color:var(--muted);margin-top:12px}.featured{border:1px solid var(--line);border-radius:var(--radius);background:var(--white);overflow:hidden}.feature-top{padding:13px 14px 4px;display:flex;justify-content:space-between;align-items:center;font-size:10px;color:var(--muted);letter-spacing:1px}.pill{background:#edf1e5;color:#4d6036;border-radius:30px;padding:5px 8px;font-size:9px;font-weight:650}.car-art{width:100%;height:auto;aspect-ratio:680/420;display:block}.art{position:relative;border-radius:17px;overflow:hidden;border:1px solid #e1e6d9;flex:none}.art figcaption{font-size:10px;padding:7px 9px;background:#ecf0e5;color:#465839;text-align:center;letter-spacing:.05px}.featured .art{border:0;border-radius:0}.featured .art figcaption{background:#f8faf5}.feature-bottom{display:flex;justify-content:space-between;align-items:center;padding:15px 14px 9px;gap:6px}.feature-bottom p{font-size:12px;color:var(--muted);margin-top:4px}.feature-bottom .iconbtn{border:1px solid var(--line)}.segmented{display:flex;background:#edf0e7;border-radius:30px;padding:3px;margin:6px 14px 15px;gap:4px}.segmented button{min-height:44px;border-radius:24px;font-size:12px;flex:1}.segmented button[aria-pressed=true]{background:white;box-shadow:0 2px 6px #35462912;font-weight:600}.direction-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin:16px 0 8px}.direction{font-size:10px;min-height:57px;padding:8px 3px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:5px;border:1px solid var(--line);border-radius:12px;background:#f5f7ef}.direction.selected{border-color:#71863f;background:#eaf0d9}.dot{width:16px;height:6px;border-radius:9px;background:var(--swatch)}.cta-zone{margin-top:20px;display:flex;flex-direction:column;gap:9px}.btn{min-height:52px;width:100%;padding:12px 15px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:9px;font-weight:650;font-size:14px;line-height:1.4;transition:background .12s ease}.btn.primary{background:var(--accent);color:#243117}.btn.primary:hover:not(:disabled){background:#c6e359}.btn.secondary{background:#fff;border:1px solid var(--line)}.btn.quiet{font-size:13px;font-weight:550;background:transparent;min-height:44px;padding:9px}.fine{color:var(--muted);font-size:11px;line-height:1.55;text-align:center;margin:5px 0}.under-phone{text-align:center;font-size:9px;color:#65745b;letter-spacing:1.2px;margin-top:20px}.bottom-nav{display:flex;min-height:68px;padding:8px 30px 12px;border-top:1px solid var(--line);background:var(--paper);flex:none;gap:40px}.bottom-nav button{display:flex;align-items:center;justify-content:center;gap:7px;min-height:44px;font-size:12px;flex:1;border-radius:12px;color:var(--muted)}.bottom-nav button[aria-current=page]{background:#e8efdc;color:#354b23;font-weight:600}.message{position:absolute;left:13px;right:13px;bottom:80px;background:#233125;color:#fff;font-size:12px;padding:12px;border-radius:12px;box-shadow:0 5px 20px #0002;pointer-events:none}.message:empty{display:none}.tip-row{display:flex;gap:8px;margin:13px 0;color:#526746;font-size:10px;justify-content:center;flex-wrap:wrap}.tip-row span{display:flex;gap:3px;align-items:center}.tip-row svg{width:14px;height:14px}.local-photo{width:100%;height:220px;object-fit:contain;background:#e7eadf}.summary{display:flex;align-items:center;gap:12px;padding:13px 0;border-bottom:1px solid var(--line);margin:8px 0}.summary .mini-art{width:73px;flex:none;overflow:hidden;border-radius:9px}.summary strong{display:block;font-size:14px}.summary span:not(.mini-art){font-size:12px;display:block;color:var(--muted)}.summary small{font-size:10px;color:var(--muted)}.fact-list{font-size:12px;margin:15px 0}.fact-list>div{display:flex;justify-content:space-between;gap:10px;margin:9px 0}.fact-list span{color:var(--muted)}.fact-list strong{font-size:11px;text-align:right;font-weight:550}.notice{background:#eef2e6;border:1px solid #dfe7d1;padding:13px;font-size:12px;color:#425338;border-radius:13px;margin:15px 0}.notice small{display:block;font-size:11px;color:var(--muted);margin-top:5px}.editor{margin-top:22px}.editor fieldset{border:0;margin:0 0 19px;padding:0}.editor legend{font-size:14px;font-weight:650;margin-bottom:11px}.swatches{display:flex;gap:8px}.swatch{display:flex;align-items:center;flex-direction:column;gap:6px;font-size:11px;min-width:57px;min-height:74px;padding:5px;border:1px solid transparent;border-radius:12px}.swatch>span{height:32px;width:32px;border-radius:50%;background:var(--swatch);box-shadow:inset 0 0 0 1px #0002;display:grid;place-items:center}.swatch[aria-pressed=true]{border-color:#8d9d6e;background:#edf2e3}.swatch svg{color:#fff;filter:drop-shadow(0 1px 2px #000);height:17px;width:17px}.job-state{display:flex;align-items:center;gap:14px;margin:25px 0;padding:18px 5px;border-bottom:1px solid var(--line);border-top:1px solid var(--line);font-size:13px}.job-state span:not(.spinner){display:block;font-size:12px;color:var(--muted);margin-top:5px}.spinner{width:23px;height:23px;flex:none;border:2px solid #dbe3d1;border-top-color:#607f3d;border-radius:50%;animation:spin 1.2s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}.task-banner{min-height:44px;background:#e8efd9;border-bottom:1px solid #d4dfc2;font-size:12px;display:flex;align-items:center;justify-content:center;gap:8px;padding:8px 12px}.offline{background:#f4e3c9;color:#62421a;font-size:12px;text-align:center;padding:8px}.result-image{background:white;border:1px solid var(--line);border-radius:18px;overflow:hidden}.result-image .art{border:0;border-radius:0}.result-meta{display:flex;align-items:center;justify-content:space-between;margin-top:18px}.result-meta p{color:var(--muted);font-size:12px;margin-top:5px}.is-favorite{background:#e6edcf;color:#45601e}.save-note{display:flex;align-items:center;gap:5px;color:#57743a;font-size:11px;margin-top:12px}.save-note svg{width:14px}.text-link{min-height:44px;font-size:12px;color:var(--muted);text-decoration:underline;text-underline-offset:3px}.garage-grid{display:grid;gap:15px}.garage-card{border:1px solid var(--line);border-radius:17px;overflow:hidden;padding:0;background:#fff;text-align:left;width:100%}.garage-card>span{display:flex;justify-content:space-between;padding:13px 14px 4px;align-items:center;font-size:14px}.garage-card>small{display:block;color:var(--muted);font-size:10px;padding:0 14px 13px}.empty{border:1px dashed #bcc6ac;border-radius:20px;padding:30px 18px;text-align:center;color:var(--muted)}.empty>svg{margin:0 auto 17px;width:30px;height:30px}.empty p{font-size:13px;margin:13px 0 20px}.empty h2{color:var(--ink)}dialog{color:var(--ink);width:min(390px,calc(100vw - 24px));max-height:85dvh;border:1px solid var(--line);border-radius:25px;background:var(--paper);padding:25px;box-shadow:0 20px 80px #172a2c50}dialog::backdrop{background:#15231d8c;backdrop-filter:blur(3px)}.dialog-content{padding-top:37px}.dialog-content h1{font-size:29px}.dialog-content>p{font-size:14px;margin:12px 0;color:var(--muted)}.dialog-close{position:absolute;top:12px;right:12px}.mock-boundary{font-size:10px;line-height:1.6;letter-spacing:.2px;background:#e8ecdf;border-radius:10px;padding:12px;margin:18px 0;color:#536446;text-align:center}.check-row{display:flex;align-items:flex-start;gap:10px;font-size:13px;min-height:44px;padding:15px 0;margin:10px 0}.check-row input{width:20px;height:20px;flex:none;accent-color:#627d3a}.pack-list{display:grid;gap:12px;margin-top:18px}.pack{border:1px solid #c4cfb3;border-radius:15px;padding:17px 12px;display:flex;align-items:center;gap:10px;text-align:left;background:white;min-height:94px}.pack:first-child{background:#eff4e3}.pack>span:first-child{flex:1}.pack strong{font-size:20px;display:block}.pack small{font-size:11px;color:var(--muted);display:block}.pack-price{font-size:11px;color:#546649;text-align:right}.choice-list{display:grid;gap:10px;margin:20px 0}.lab{margin-top:36px;border-top:1px solid #cbd3c1;padding-top:20px;max-width:390px}.lab h3{font-size:10px;color:#55654b;margin-bottom:12px}.lab-grid{display:grid;grid-template-columns:1fr 1fr;gap:7px}.lab-grid button{border:1px solid #c1cbb5;border-radius:8px;font-size:11px;text-align:left;min-height:35px;padding:7px 9px;background:#edf0e6}.toggle{display:flex;gap:7px;align-items:center;font-size:12px;margin:12px 0;min-height:32px}.toggle input{accent-color:#637d45}.lab-actions{display:flex;flex-wrap:wrap;gap:3px}.lab-actions .btn{font-size:10px;min-height:33px;padding:5px;width:auto}.debug{font-family:ui-monospace,monospace;font-size:10px;color:#57694a;margin:12px 0}.lab .fine{text-align:left;font-size:10px}.brief .fine{max-width:380px}.prototype-label .status-dot{display:inline-block}.brand:focus-visible{outline-offset:8px}@media(min-width:1280px){.workspace{gap:110px}.brief{padding-top:10px}.device{height:844px}}@media(max-width:900px){.workspace{padding:24px;grid-template-columns:minmax(230px,1fr) 390px;gap:30px}.brief>h2{font-size:36px}.phone-column{position:static}.device{width:390px;height:810px}}@media(max-width:680px){body{background:var(--paper)}.workspace{display:flex;flex-direction:column-reverse;padding:0;gap:0;min-height:100dvh}.phone-column{width:100%}.prototype-label{height:29px;margin:0;font-size:8px;letter-spacing:.6px;background:#e9eedd;padding-top:env(safe-area-inset-top)}.device{height:calc(100dvh - 29px);width:100%;max-width:520px;border:0;border-radius:0;box-shadow:none;margin:auto}.under-phone{display:none}.brief{padding:30px 24px;width:100%;background:#e6e9df}.brief>.brand,.brief>.eyebrow,.brief>h2,.brief>.brief-copy,.principle{display:none}.lab{margin:0;max-width:100%;border:0;padding:0}.lab-grid{grid-template-columns:repeat(3,1fr)}.app-header{min-height:62px;height:62px;padding-top:6px}.content{padding:20px 20px 25px}.bottom-nav{padding-bottom:max(10px,env(safe-area-inset-bottom));min-height:65px}dialog{width:100%;max-width:520px;max-height:90dvh;margin:0 auto;inset:auto 0 0;border-radius:24px 24px 0 0;padding:24px;padding-bottom:max(25px,env(safe-area-inset-bottom))}.message{bottom:76px}.lab-actions .btn{min-height:44px}.lab-grid button{min-height:44px}}@media(max-width:360px){.content{padding-left:16px;padding-right:16px}.direction{font-size:11px}h1{font-size:30px}.feature-bottom p{font-size:11px}.swatches{gap:3px}.swatch{min-width:53px}.balance{font-size:11px}.prototype-label{font-size:7px}.bottom-nav{gap:20px}.summary{gap:8px}.summary .mini-art{width:60px}}@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important;scroll-behavior:auto!important}}
+
+/* Keep the meaningful next action visible without covering the image. */
+.primary-dock{flex:none;margin:0;padding:11px 20px 9px;border-top:1px solid var(--line);background:var(--paper);gap:4px;max-height:45%;overflow-y:auto}
+.primary-dock .fine{font-size:11px;line-height:1.45;margin:2px 0}
+.primary-dock .btn.quiet{min-height:44px;padding:7px}
+.content[data-screen=discover] .title{margin-bottom:15px}
+.content[data-screen=discover] .feature-bottom{padding:10px 12px 3px}
+.content[data-screen=discover] .segmented{margin-bottom:10px}
+.content[data-screen=discover] .direction-row{margin-bottom:0}
+@media(max-height:580px){.device{height:auto;min-height:600px}.phone-column{position:static}.content{overflow:visible}.primary-dock{max-height:none;overflow:visible}}
+@media(prefers-reduced-motion:reduce){.spinner{border-color:#607f3d;border-style:dotted}}
+
+.result-links{display:flex;align-items:center;gap:4px}.result-links .btn{flex:1;width:auto}.result-links .text-link{flex:1}
+.featured>.segmented{margin-top:8px;margin-bottom:0}
+@media(min-width:681px){.primary-dock{padding-left:20px;padding-right:20px}}
+
+@media(max-width:680px){.prototype-label{font-size:9px}}
+
+
+html{font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei","Noto Sans CJK SC",sans-serif}
+body{font-family:inherit}
+.reviewer-alert{border:1px solid #c6b795;background:#f5ecd8;border-radius:12px;padding:15px 16px;margin:18px 0 20px;color:#554326;font-size:13px;line-height:1.6}
+.reviewer-alert strong{display:block;font-size:14px;margin-bottom:5px;color:#4f3a1d}
+.brief>h2{font-size:42px;letter-spacing:-1px}
+.content h1{font-size:29px;letter-spacing:-.65px;line-height:1.24}
+.feature-bottom h2{font-size:17px;letter-spacing:0}
+.title .sub{font-size:13.5px}
+.direction-row{gap:5px}
+.direction{font-size:11px;line-height:1.45;padding:8px 3px}
+.btn{font-size:14px;letter-spacing:0}
+.fine{font-size:11.5px;line-height:1.55}
+/* On small phones expose the test-case picker without scrolling past the entire simulated device. */
+.mobile-lab{display:none}
+@media(max-width:680px){
+  .mobile-lab{display:block;position:relative;background:#e7eddf;padding:6px 10px 5px;font-size:12px;z-index:8}
+  .mobile-lab summary{display:block;border:1px solid #c4d19f;background:#f3f7e8;border-radius:10px;min-height:32px;padding:5px 12px;text-align:center;font-weight:600;list-style:none;cursor:pointer}
+  .mobile-lab summary:after{content:' ▾'}
+  .mobile-lab[open] summary:after{content:' ▴'}
+  .mobile-lab-grid{display:grid;grid-template-columns:repeat(2, minmax(0,1fr));gap:7px;padding:9px 0 5px}
+  .mobile-lab-grid button{font-size:12px;border:1px solid #becaa5;border-radius:9px;background:#fff;min-height:44px;padding:6px 8px}
+  .mobile-lab p{font-size:11px;color:#586c47;margin:4px 0 7px;text-align:center}
+  .device{height:calc(100dvh - 67px)}
+}
+@media(max-width:900px) and (min-width:681px){.brief>h2{font-size:34px}}
+@media(max-width:680px){.content h1{font-size:26px}.brief{padding:24px 18px}.reviewer-alert{margin:4px 0 18px}.brief>h2{font-size:32px}}
+@media(max-width:355px){.content h1{font-size:24px}.direction{font-size:10px}.primary-dock{padding:8px 14px}}
+@media(max-width:680px) and (max-height:580px){.device{height:calc(100dvh - 72px)!important;min-height:0!important;overflow:hidden!important}.content{flex:1 1 0!important;min-height:0!important;overflow-y:auto!important}.primary-dock{max-height:42%!important;overflow-y:auto!important}.bottom-nav{flex:none}}
+</style></head><body><div id="root"></div><script>(function(){"use strict";
+/** UX reference model ONLY. Not an authorizer, wallet, provider, or production adapter. */
+const STYLES = Object.freeze({
+  sport: {name:'Street Sport', line:'Deep blue. Warm bronze wheels.', body:'blue', wheel:'bronze'},
+  clean: {name:'Quiet Detail', line:'Original paint. A darker wheel finish.', body:'silver', wheel:'graphite'},
+  color: {name:'Color Story', line:'Forest green. Bright silver wheels.', body:'green', wheel:'silver'}
+});
+const COLORS = Object.freeze({silver:'#b9c1bd',blue:'#3c687d',green:'#3e6659',red:'#8f3e40',bronze:'#b99769',graphite:'#404844'});
+const ACTIVE = ['queued','processing','uncertain'];
+function initial(policy='paid') {
+  return {v:1, policy:policy==='trial'?'trial':'paid',route:'discover',sheet:null,source:null,
+    draft:{style:'sport',operation:'explore',base:'original',body:'blue',wheel:'bronze'},
+    signedIn:false,consent:false,balance:0,trialUsed:false,online:true,history:[],selected:null,
+    job:null,purchase:null,appliedPurchases:[],serial:0,submissions:0,message:null,problem:null};
+}
+function active(s){return !!s.job && ACTIVE.includes(s.job.phase);}
+function baseRecipe(s){return s.history.find(x=>x.id===s.draft.base)?.recipe || {body:'silver',wheel:'silver'};}
+function needsChange(s){const b=baseRecipe(s);return b.body!==s.draft.body || b.wheel!==s.draft.wheel;}
+function primary(s){
+  if(s.source?.kind==='local')return {label:'Your photo stays on this device',disabled:true,reason:'This study cannot edit your photo. Use the illustrated example to test the flow.'};
+  if(!s.source)return {label:'Choose a photo',disabled:true,reason:'Choose a photo or use the illustrated example.'};
+  if(active(s))return {label:'View your current request',disabled:false,action:'task'};
+  if(!s.online)return {label:'Reconnect to continue',disabled:true,reason:'Your selection is still here. No request has been sent.'};
+  if(!needsChange(s))return {label:'Select a change',disabled:true,reason:'Choose a different color. The base image has not changed.'};
+  if(!s.signedIn)return {label:'Continue to your account',disabled:false,action:'auth'};
+  if(!s.consent)return {label:'Review photo use',disabled:false,action:'consent'};
+  if(s.balance<1){
+    if(s.policy==='trial'&&!s.trialUsed)return {label:'Check trial availability',disabled:false,action:'trial'};
+    return {label:'See credit packs',disabled:false,action:'purchase'};
+  }
+  return {label:'Create 1 example - 1 demo credit',disabled:false,action:'submit'};
+}
+function clone(s){return structuredClone(s);}
+function reduce(before,e){
+  if(!e||typeof e.type!=='string')return before;
+  const s=clone(before); s.message=null;
+  const notify=t=>{s.message=t;return s;};
+  switch(e.type){
+    case 'NAV':
+      if(!['discover','garage','review','task','result','edit','photo'].includes(e.route))return before;
+      if(e.route==='task'&&!s.job)return before;
+      if(['result','edit'].includes(e.route)&&!s.history.some(x=>x.id===s.selected))return before;
+      s.route=e.route;s.sheet=null;return s;
+    case 'STYLE':
+      if(!STYLES[e.id])return before;
+      s.draft={style:e.id,operation:'explore',base:'original',body:STYLES[e.id].body,wheel:STYLES[e.id].wheel};return s;
+    case 'START':
+      if(e.detail){s.draft={style:null,operation:'detail',base:'original',body:'silver',wheel:'silver'};}
+      s.route='photo';return s;
+    case 'SOURCE':
+      if(!['sample','local'].includes(e.kind))return before;
+      s.source={kind:e.kind};s.consent=false;s.draft.base='original';s.route=e.kind==='sample'&&s.draft.operation==='detail'?'edit':'review';return s;
+    case 'REMOVE_SOURCE':s.source=null;s.consent=false;s.route='photo';return s;
+    case 'NEXT':{
+      const p=primary(s);if(p.disabled)return notify(p.reason||'Not available.');
+      if(p.action==='task'){s.route='task';return s;}
+      if(p.action==='submit')return reduce(s,{type:'SUBMIT',now:e.now});
+      s.sheet=p.action;return s;
+    }
+    case 'CLOSE':s.sheet=null;return s;
+    case 'SHEET':
+      if(!['help','purchase','problem','export','reset'].includes(e.id))return before;
+      s.sheet=e.id;return s;
+    case 'AUTH_OK':
+      if(s.sheet!=='auth')return before;
+      s.signedIn=true;s.sheet=null;return notify('Demo account ready. Your photo and choices are unchanged.');
+    case 'CONSENT_OK':
+      if(s.sheet!=='consent'||s.source?.kind!=='sample')return before;
+      s.consent=true;s.sheet=null;return notify('Example flow only. No photo is transmitted.');
+    case 'TRIAL_OK':
+      if(s.policy!=='trial'||s.trialUsed||!s.signedIn||!s.consent||!s.online||s.sheet!=='trial')return before;
+      s.trialUsed=true;s.balance+=1;s.sheet=null;return notify('1 demo trial credit added. This is not an active offer.');
+    case 'BUY':
+      if(!s.signedIn||!s.online||s.sheet!=='purchase'||![5,15].includes(e.units)||['pending','verifying'].includes(s.purchase?.phase))return before;
+      s.serial++;s.purchase={id:'purchase-'+s.serial,units:e.units,phase:'pending'};return s;
+    case 'PURCHASE_VERIFY':
+      if(s.purchase?.phase!=='pending')return before;
+      s.purchase.phase='verifying';return s;
+    case 'PURCHASE_OK':
+      if(!s.purchase||s.purchase.phase!=='verifying'||s.appliedPurchases.includes(s.purchase.id))return before;
+      s.appliedPurchases.push(s.purchase.id);s.balance+=s.purchase.units;s.purchase.phase='complete';s.sheet=null;s.route='review';
+      return notify('Demo credits added. Review your changes before creating.');
+    case 'PURCHASE_CANCEL':
+      if(s.purchase?.phase!=='pending')return before;
+      s.purchase=null;return notify('Purchase cancelled. Nothing was charged; your choices remain.');
+    case 'COLOR':
+      if(!['body','wheel'].includes(e.field)||!COLORS[e.value])return before;
+      if(e.field==='body'&&!['blue','green','red','silver'].includes(e.value))return before;
+      if(e.field==='wheel'&&!['bronze','graphite','silver'].includes(e.value))return before;
+      s.draft[e.field]=e.value;return s;
+    case 'RESET_DRAFT':{
+      const b=baseRecipe(s);s.draft.body=b.body;s.draft.wheel=b.wheel;return s;
+    }
+    case 'SELECT_VERSION':
+      if(!s.history.some(x=>x.id===e.id))return before;
+      s.selected=e.id;s.route='result';return s;
+    case 'REFINE':{
+      const v=s.history.find(x=>x.id===s.selected);if(!v)return before;
+      s.draft={base:v.id,operation:'detail',style:null,...v.recipe};s.route='edit';s.source={kind:'sample'};return s;
+    }
+    case 'FAVORITE':{
+      const v=s.history.find(x=>x.id===s.selected);if(!v)return before;
+      v.favorite=!v.favorite;return notify(v.favorite?'Added to demo favorites.':'Removed from demo favorites.');
+    }
+    case 'SUBMIT':{
+      if(primary(s).action!=='submit'||primary(s).disabled||!Number.isFinite(e.now))return before;
+      s.serial++;s.submissions++;s.balance-=1;
+      s.job={id:'job-'+s.serial,phase:'queued',createdAt:e.now,recipe:{body:s.draft.body,wheel:s.draft.wheel},base:s.draft.base,style:s.draft.style,cost:1,released:false,resultId:null};
+      s.route='task';return s;
+    }
+    case 'PROCESS':
+      if(s.job?.phase!=='queued')return before;
+      s.job.phase='processing';return s;
+    case 'UNCERTAIN':
+      if(s.job?.phase!=='processing')return before;
+      s.job.phase='uncertain';return s;
+    case 'COMPLETE':
+      if(!s.job||!['processing','uncertain'].includes(s.job.phase))return before;
+      s.job.phase='succeeded';s.job.resultId='look-'+s.job.id;
+      s.history.push({id:s.job.resultId,jobId:s.job.id,base:s.job.base,recipe:{...s.job.recipe},style:s.job.style,favorite:false});
+      s.selected=s.job.resultId;if(s.route==='task')s.route='result';return s;
+    case 'FAIL':
+    case 'CANCEL':{
+      if(!active(s))return before;
+      if(e.type==='CANCEL'&&s.job.phase!=='queued')return notify('Processing has started. Leave this screen and return later.');
+      s.job.phase=e.type==='CANCEL'?'cancelled':'failed';s.job.reason=e.reason==='unchanged'?'unchanged':'technical';
+      if(!s.job.released){s.balance+=s.job.cost;s.job.released=true;}return s;
+    }
+    case 'RETRY_REVIEW':
+      if(!s.job||!['failed','cancelled'].includes(s.job.phase))return before;
+      s.draft={...s.draft,base:s.job.base,style:s.job.style,...s.job.recipe};s.route='review';return s;
+    case 'NETWORK':s.online=e.online===true;return s;
+    case 'REPORT':
+      if(s.sheet!=='problem'||!['identity','not_applied','artifacts','preference'].includes(e.category))return before;
+      s.problem={version:s.selected,category:e.category};s.sheet=null;return notify('Feedback recorded in this study. No automatic credit or payment refund.');
+    case 'LOGOUT':return {...initial(s.policy),message:'Demo account and local study history cleared.'};
+    default:return before;
+  }
+}
+/** No tokens, photos, file names or personal metadata are persisted by this study. */
+function serialize(s){const x=clone(s);x.sheet=null;if(x.source?.kind==='local'){x.source=null;x.route='photo';x.consent=false;x.message='Please reselect your photo. It was never uploaded or saved.';}return JSON.stringify(x);}
+function restore(raw){
+  try{const x=JSON.parse(raw);if(x.v!==1||!Number.isSafeInteger(x.balance)||x.balance<0||x.balance>10000||!Array.isArray(x.history)||x.history.length>100||!Array.isArray(x.appliedPurchases)||!['paid','trial'].includes(x.policy))return initial();
+    const route=['discover','photo','review','edit','task','result','garage'].includes(x.route)?x.route:'discover';
+    for(const v of x.history){if(typeof v.id!=='string'||typeof v.jobId!=='string'||!COLORS[v.recipe?.body]||!COLORS[v.recipe?.wheel])return initial();}
+    if(x.job&&!['queued','processing','uncertain','succeeded','failed','cancelled'].includes(x.job.phase))return initial();
+    return {...initial(x.policy),...x,route,sheet:null};
+  }catch{return initial();}
+}
+
+
+const __zhMap = {"YOUR PERSONAL CAR STUDIO":"你的专属汽车造型工作室","Same car.":"还是那辆车，","A new feeling.":"换一种心动。","Find a look you love. Make it yours.":"找到心动的改装风格，试在自己的车上。","SELECTED EXAMPLE":"当前展示案例","Original":"原车","New look":"改装效果","Street Sport":"街头运动","Quiet Detail":"简约质感","Color Story":"玩转车色","Deep blue. Warm bronze wheels.":"深蓝车漆，搭配暖金色轮毂。","Original paint. A darker wheel finish.":"保留原车颜色，换成深色轮毂。","Forest green. Bright silver wheels.":"森林绿车漆，搭配亮银轮毂。","Start with one change.":"先试着修改一个细节。","Try this look on my car":"用我的车试这个效果","Change one detail":"只改一个细节","Explore examples free. Creating on your car uses credits.":"看案例免费；为自己的车生成新效果需要消耗次数。","In this study: no AI, uploads, or charges.":"当前只是交互演示：不调用 AI、不上传、不收费。","YOUR PHOTO":"我的车辆照片","Start with your car.":"先选一张你的车。","A side or three-quarter photo works best. Keep the whole car in frame.":"侧面或斜前方拍摄更容易看清；尽量拍到完整车身。","Framing example - all wheels and bumpers visible":"拍摄示意：完整保留车轮、前后保险杠","Whole car":"车身完整","Clear light":"光线清晰","One car":"单辆车","Choose a photo":"选择车辆照片","Use the illustrated example":"使用示意车体验流程","Selection stays local. We ask before any transfer.":"选择照片只在本机预览；真正传输前会征求同意。","Real photo editing is not connected in this prototype.":"这个原型尚未接入真实照片编辑。","JPEG / PNG / WebP, up to 10 MiB. Native HEIC import is a separate integration.":"支持 JPEG、PNG、WebP，最大 10MB；HEIC 需要正式 App 的原生适配。","YOUR CREATION":"确认这次创作","A quick look before":"提交前先确认，","you create.":"避免改错、扣错。","Your original stays unchanged.":"原图会保留，不会被覆盖。","On this device only. Not uploaded.":"仅在本机预览，尚未上传。","Illustrated example - not an AI result":"原创示意图，不是真实 AI 生成结果","Illustrated example - saved only in this study":"示意结果，仅保存在当前演示中","Illustrated request preview - not a generated output":"请求效果示意，不代表真实生成结果","Selected base - preview has NOT changed":"当前使用的基础图：仅修改了选项，图片尚未改变","Starting from":"基于","Original photo":"原始照片","Selected saved version":"选定的历史版本","Each request":"每次创建","1 image / 1 credit":"1 张图片 / 1 次额度","Save & compare":"保存和对比","No extra generation":"无需再次生成","We aim to keep the car and scene recognizable. Exact results still need model validation.":"目标是尽量保留原车身份与背景；真实效果仍需后续模型测试。","Your photo is visible only here. This prototype cannot produce a result from it.":"你的照片只在本机展示。当前原型不能用它生成任何真实结果。","Switch to illustrated example":"切换到示意车体验","Choose a different photo":"重新选择照片","Requested changes, not applied yet":"以下仅是修改意向，还没有生成图片","Your photo stays on this device":"真实照片仅本地预览","This study cannot edit your photo. Use the illustrated example to test the flow.":"本原型不能处理你的真实照片；请选择示意车体验按钮流程。","Choose a photo or use the illustrated example.":"请选照片，或先用示意车体验流程。","View your current request":"查看正在进行的任务","Reconnect to continue":"联网后继续","Your selection is still here. No request has been sent.":"选择已保留；当前没有提交新任务。","Select a change":"先选择一项修改","Choose a different color. The base image has not changed.":"请选择与基础图不同的颜色；尚未更新图片。","Continue to your account":"登录后继续","Review photo use":"查看照片处理说明","Check trial availability":"检查试用资格（仅测试）","See credit packs":"查看生成次数包","Create 1 example - 1 demo credit":"生成 1 张示意效果 · 使用 1 次模拟额度","Sign in only when you are ready to create.":"准备正式创建时再登录，不会提前强制注册。","Review data use before any real upload.":"真实上传前需要确认处理方式和授权。","Prices and availability must come from App Store.":"正式售价与商品状态须以 App Store 为准。","KEEP WHAT YOU LOVE":"保留喜欢的部分","Change one detail.":"只微调一个细节。","Keep the rest of this look. You choose what changes.":"保留其余效果，你决定改哪里。","Body paint":"车漆颜色","Wheel color":"轮毂颜色","Silver":"银色","Blue":"蓝色","Green":"绿色","Red":"红色","Bronze":"古铜色","Graphite":"深灰色","Your choices are selected. Create to update the image.":"当前只是选好了修改项；确认生成后图片才会变化。","Review changes":"确认修改清单","Keep the selected base as it is":"保留当前基础图，不做修改","ONE REQUEST / ONE RESULT":"一次请求 · 一张结果","Waiting to start.":"正在排队。","Your request is in the queue.":"请求已进入队列，可随时返回查看。","Your look is taking shape.":"正在生成你的造型。","You can browse or leave. Return to this same request.":"可以继续浏览或离开，之后可找回同一个任务。","Checking your request.":"正在核对任务状态。","We lost the connection, not your choices. We will not submit a duplicate.":"连接曾中断，但选择还在；不会擅自重新提交扣次。","Your example is ready.":"示意效果已完成。","Open it whenever you are ready.":"想看时随时打开即可。","This one did not complete.":"本次未能完成。","No changed image was produced.":"没有产生符合修改条件的新图片。","The request did not produce a usable file.":"本次没有得到可用的图片文件。","Request cancelled.":"任务已取消。","Processing had not started.":"当时尚未开始处理。","Queued":"排队中","Processing":"生成中","Uncertain":"状态核对中","Succeeded":"已完成","Failed":"失败","Cancelled":"已取消","1 demo credit returned.":"已返还 1 次模拟额度。","1 example stored in this browser session.":"示意结果已保存在当前浏览器会话。","1 demo credit reserved. No additional charge.":"已预留 1 次模拟额度，没有额外扣次。","Open result":"查看结果","Review and try again":"核对后再试一次","Keep browsing":"先去看看其他案例","Cancel before processing":"未开始时取消任务","This is a simulated task. Timing is not a speed promise.":"这是模拟任务；演示耗时不代表实际生成速度。","No reminder permission is required.":"无需开启通知权限。","YOUR SAVED EXAMPLE":"已保存的示意作品","Still yours.":"作品已经留下，","A different point of view.":"接下来由你决定。","Your detail edit":"你的局部修改","Add to favorites":"加入收藏","Remove from favorites":"取消收藏","In your demo garage. No extra charge to view.":"已在示意车库中，随时查看不再扣次。","Save or share":"保存或分享","Refine this look":"继续微调这张","Another direction":"换一个方向试试","Something not right?":"效果不符合预期？","YOUR GARAGE":"我的车库","The looks you keep.":"喜欢的方案，都留在这里。","Your favorite can be an older version, not just the newest.":"喜欢的可能是旧版本，不一定是最新一张。","Detail edit":"细节修改","A place for your ideas.":"给好点子留个位置。","Your completed looks will appear here.":"已完成的造型会出现在这里。","Find a first look":"去找第一个喜欢的风格","Prototype history is kept in this browser session only.":"原型历史仅保存在当前浏览器会话中。","No cloud storage or cross-device restore is connected.":"尚未接入云端同步或跨设备恢复。","KEEP YOUR WORK":"保存自己的方案","Your own little garage.":"先为你建一个车库。","Sign in when you are ready to create, so purchases and looks can be linked to one account.":"真正开始创作时再登录，便于把作品和购买记录放在同一账号下。","AUTHENTICATION PLACEHOLDER":"登录流程模拟","No Apple connection is made. Use the official native button in production.":"当前未接入 Apple 登录；正式 App 必须使用官方原生登录方式。","Simulate account sign-in":"模拟登录成功","Not now - keep my selection":"暂不登录，保留选择","BEFORE A REAL UPLOAD":"真实上传前","Know where your photo goes.":"清楚照片会被怎样使用。","Production must name the actual AI processor, explain storage and deletion, and collect permission before transfer.":"正式版必须告知实际 AI 处理方、存储与删除规则，并在上传前获得同意。","No processor is configured here. This demonstration uses only the illustrated car and sends nothing.":"当前没有连接任何 AI 服务；只是演示示意车的操作，不发送照片。","I understand this is an example-only interaction study.":"我理解这只是一个不会上传照片的操作演示。","Continue with example":"继续体验示意流程","RESEARCH VARIANT ONLY":"研究方案（尚未批准）","Try one example first.":"先体验一次示意创作。","An approved trial could show value before purchase. It is NOT active in FORM.":"如后续批准试用，可以先展示真实价值；目前 FORM 并没有开放此权益。","Mock eligibility only. One demo unit per study; resets do not describe production behavior.":"这里只是假设试用资格。模拟额度只用于界面测试，不等于正式资格规则。","Simulate trial eligibility":"模拟获得试用额度","PURCHASE STATUS":"付款状态","Awaiting confirmation.":"等待付款确认。","Checking your purchase.":"正在核对这笔购买。","Please do not buy again. Your photo and selected changes are still here.":"请勿重复购买；你的照片和修改清单都还在。","SIMULATED PURCHASE / NO APPLE TRANSACTION":"仅模拟购买 · 不会发生 Apple 真实交易","Simulate confirmation":"模拟 Apple 返回确认","Simulate server acknowledgment":"模拟服务器确认到账","Simulate cancellation":"模拟取消购买","Leave this sheet":"先离开这个页面","FOR YOUR NEXT IDEA":"为了下一个想法","A few looks. No subscription.":"买生成次数，不用订阅。","Choose a pack when you are ready. Existing results stay available.":"需要继续创作时再买。已经得到的作品可以一直查看。","A few directions to explore":"适合尝试几个造型方向","More room to compare":"可以探索更多方案","Price from":"正式价格来自","App Store":"App Store","1 credit per completed request. Saving and comparing do not use credits. Real prices and product availability are not connected.":"每次有效创建消耗 1 次；查看和比较不扣次。当前没有连接真实价格或商品。","Selecting a pack SIMULATES checkout. No real money or products.":"点选次数包仅模拟结账，不涉及真实金钱。","Not now - keep my changes":"暂不购买，保留修改清单","KEEP THE ORIGINAL":"保留原图与历史","What went wrong?":"哪里不符合预期？","A technical problem is not the same as wanting another color.":"技术问题和单纯想换个颜色不同，请选择原因。","It no longer looks like my car":"这已经不像我的车了","The change was not applied":"没有按要求完成修改","The image has visible errors":"图片有明显错误或破损","I would prefer another look":"我只是想要另一种效果","Feedback does not automatically refund money or start another generation.":"提交反馈不会自动退款，也不会发起新的生成。","YOUR IMAGE, YOUR CHOICE":"作品由你决定","Keep this idea.":"先把这个想法留下。","Saving does not create a new image or use another credit.":"保存作品不会重新生成，也不消耗次数。","Download illustrated SVG":"下载示意图 SVG","Preview before / after":"切换到原车对比","This prototype exports only its own illustration. Native Photos, Share Sheet, PNG/JPEG exports and actual outcome callbacks require integration. No social posting occurs.":"当前只能导出原创示意图；保存到系统相册和真正的分享功能尚未接入，不会自动发布社交平台。","ABOUT THIS STUDY":"关于这份原型","Clear choices.":"清楚每一步，","No hidden steps.":"没有暗扣费。","This is an interactive design prototype, not the finished FORM app. All cars are original vector illustrations. Your selected file is only a local preview and is never transmitted.":"这是 FORM 的交互设计原型，不是正式 App。汽车都是原创矢量示意；你选择的照片只在本机预览，不会上传。","It demonstrates account, permission, credit and task states. Prices, actual AI results, server storage, Apple sign-in and payment are not connected.":"账号、授权、额度和任务只是模拟；还没有真实定价、AI 生成、服务器存储、Apple 登录或付款。","Back to the study":"返回原型","Clear demo account & history":"清除模拟账号与历史","RESTART STUDY":"重新开始","Clear this demo?":"清空模拟数据？","This removes only simulated history in this browser tab.":"只会清空当前标签页的模拟历史。","Clear demo":"清除模拟数据","FIRST-SESSION DESIGN / 01":"前三分钟体验 / 01","From curiosity":"从想看看，","to a look worth":"到想留下，","keeping.":"自己的爱车方案。","A complete mobile journey: discover, choose a photo, understand the cost, create, compare and refine.":"查看效果、选照片、了解费用、创建、对比和微调的完整手机体验。","Show the change.":"先让变化说话。","One clear example beats a long introduction.":"一张有说服力的对比图，胜过长篇说明。","Keep the intent.":"用户的选择不能丢。","Sign-in and checkout never erase a choice.":"登录或购买后仍能接续之前的操作。","Make the next step optional.":"下一步由用户决定。","A result is yours to keep, not a locked sales teaser.":"用户已经得到的作品，不该因为不购买而被锁住。","REVIEW SCENARIOS":"快速验收场景","New user / paid":"新用户 / 需购买","Trial hypothesis":"一次试用（假设）","Existing credits":"已有模拟额度","Long wait":"长时间等待","Interrupted":"任务中断核对","Failed request":"生成失败","Payment pending":"付款待确认","Advance simulated tasks":"自动推进模拟任务","Simulated connection available":"模拟网络正常","Start processing":"手动开始处理","Complete task":"手动完成任务","Return no change":"模拟生成未改变","No network calls. No real purchases.":"不会访问网络，也不发生真实购买。","Controls here are not part of the shipped app.":"左侧按钮仅用于验收，不会出现在正式 App。","INTERACTIVE STUDY · NO AI OR PAYMENTS":"中文版交互验收 · 无真实 AI 或付款","FORM / MOBILE EXPERIENCE PROTOTYPE / V1.0":"FORM / 中文体验验收原型 / V1.0","Discover":"发现","Garage":"车库","Offline simulation - new requests are paused":"模拟断网中：暂不能提交新请求","Your request is still here":"你有正在进行的任务","Your example is ready":"示意结果已就绪","Back":"返回","About this prototype":"关于当前原型","Close dialog":"关闭弹窗","Compare example":"比较示意图","Compare result":"比较结果图","Choose a direction":"选择造型方向","Your selected photo, local preview only":"你刚选择的照片，仅供本机预览","Show styled example":"切换到造型示例","Show original example":"切换到原车示例","Dialog":"弹窗","Not available.":"暂时不可用。","Demo account ready. Your photo and choices are unchanged.":"模拟登录成功，照片和选择已保留。","Example flow only. No photo is transmitted.":"仅演示示意流程，不会传输照片。","1 demo trial credit added. This is not an active offer.":"已模拟增加 1 次试用额度，正式版尚未开放。","Demo credits added. Review your changes before creating.":"模拟额度已到账，请重新确认修改清单。","Purchase cancelled. Nothing was charged; your choices remain.":"已取消模拟购买，没有扣款，原选择已保留。","Added to demo favorites.":"已加入模拟收藏。","Removed from demo favorites.":"已取消模拟收藏。","Processing has started. Leave this screen and return later.":"任务已开始，可以离开页面，稍后查看。","Feedback recorded in this study. No automatic credit or payment refund.":"已记录模拟反馈，不会自动返还次数或退款。","Demo account and local study history cleared.":"模拟账号及本地历史已清空。","Please reselect your photo. It was never uploaded or saved.":"请重新选照片，之前的照片从未被上传或保存。","Choose a JPEG, PNG or WebP under 10 MiB. HEIC needs the native import adapter.":"请选择不超过 10MB 的 JPEG、PNG 或 WebP；HEIC 需正式版的原生适配。","This file could not be previewed safely. Choose another photo.":"图片无法安全预览，请重新选择。","Example SVG download requested. This does not confirm a Photos save.":"已请求下载 SVG 示意图，不代表已保存到相册。"};
+const __colorZh={silver:'银色',blue:'蓝色',green:'绿色',red:'红色',bronze:'古铜色',graphite:'深灰色'};
+function __zhDynamic(t) {
+  if(Object.prototype.hasOwnProperty.call(__zhMap,t))return __zhMap[t];
+  let m;
+  if(m=t.match(/^(Silver|Blue|Green|Red|Bronze|Graphite) paint \/ (silver|blue|green|red|bronze|graphite) wheels$/))return `${__colorZh[m[1].toLowerCase()]}车漆 · ${__colorZh[m[2]]}轮毂`;
+  if(m=t.match(/^(\d+) demo credits available\. Nothing submitted yet\.$/))return `剩余 ${m[1]} 次模拟额度，尚未提交任务。`;
+  if(m=t.match(/^(\d+) demo credits$/))return `${m[1]} 次模拟额度`;
+  if(m=t.match(/^(\d+) demo credits \/ (purchase-\d+)$/))return `${m[1]} 次模拟额度 · 模拟交易 ${m[2]}`;
+  if(m=t.match(/^(\d+) submitted \/ (\d+) outputs \/ (\d+) demo credits$/))return `提交 ${m[1]} 次 · 完成 ${m[2]} 张 · 剩余 ${m[3]} 次模拟额度`;
+  if(m=t.match(/^(\d+) credits$/))return `${m[1]} 次额度`;
+  if(m=t.match(/^Illustrated example \/ (look-job-\d+)$/))return `示意作品 · ${m[1]}`;
+  if(m=t.match(/^Original illustrated hatchback; (\w+) body and (\w+) wheels\. Not an AI result\.$/))return `原创车辆示意：${__colorZh[m[1]]??m[1]}车漆，${__colorZh[m[2]]??m[2]}轮毂。非 AI 生图。`;
+  return t;
+}
+function localizeUI(container) {
+  const walker=document.createTreeWalker(container,NodeFilter.SHOW_TEXT);
+  const nodes=[];while(walker.nextNode())nodes.push(walker.currentNode);
+  for(const node of nodes){
+    const parent=node.parentElement;
+    if(!parent || ['STYLE','SCRIPT','NOSCRIPT'].includes(parent.tagName))continue;
+    const text=node.nodeValue;
+    const left=text.match(/^\s*/)[0],right=text.match(/\s*$/)[0],middle=text.trim();
+    if(!middle)continue;
+    const translated=__zhDynamic(middle);
+    if(middle!==translated)node.nodeValue=left+translated+right;
+  }
+  for(const el of container.querySelectorAll('[aria-label],[title],[alt],[placeholder]')){
+    for(const name of ['aria-label','title','alt','placeholder']){
+      if(!el.hasAttribute(name))continue;
+      const before=el.getAttribute(name),after=__zhDynamic(before);
+      if(before!==after)el.setAttribute(name,after);
+    }
+  }
+}
+
+const KEY='form-first-session-study-1';
+let state;try{state=restore(sessionStorage.getItem(KEY));}catch{state=initial();}
+let localURL=null,compare=false,auto=true,uid=0,priorFocus=null;
+const root=document.getElementById('root');
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const icon=(n)=>{const paths={arrow:'M5 12h14M13 6l6 6-6 6',back:'M19 12H5m6-6-6 6 6 6',close:'m6 6 12 12M18 6 6 18',plus:'M12 5v14M5 12h14',check:'m5 12 4 4L19 6',photo:'M3 4h18v16H3zM3 16l5-5 5 5 3-3 5 5M14 8h.01',garage:'m3 10 9-6 9 6v11H3zM7 21v-7h10v7',spark:'m12 3 2.5 6.5L21 12l-6.5 2.5L12 21l-2.5-6.5L3 12l6.5-2.5z',bookmark:'M6 3h12v18l-6-4-6 4z',upload:'M12 16V3m-5 5 5-5 5 5M4 15v6h16v-6',help:'M9 8a3 3 0 0 1 6 0c0 2-3 2-3 5M12 17h.01',shield:'m12 3 8 3v6c0 5-8 9-8 9S4 17 4 12V6z',edit:'m4 20 1-5L16 4l4 4L9 19zM13 7l4 4',clock:'M12 8v5l3 2M12 3a9 9 0 1 0 0 18 9 9 0 0 0 0-18',alert:'m12 3 10 18H2zM12 9v5M12 17h.01'};return `<svg aria-hidden="true" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="${paths[n]||paths.arrow}"/></svg>`;};
+function car(recipe={body:'silver',wheel:'silver'}){
+  const id='car'+(++uid),paint=COLORS[recipe.body]||COLORS.silver,wheel=COLORS[recipe.wheel]||COLORS.silver;
+  const spokes=(cx,cy,rx,ry)=>Array.from({length:10},(_,i)=>{const a=i*Math.PI/5;return `<path d="M${cx} ${cy} L${cx+rx*Math.cos(a)} ${cy+ry*Math.sin(a)}" stroke="${wheel}" stroke-width="4"/>`;}).join('');
+  return `<svg class="car-art" role="img" aria-label="Original illustrated hatchback; ${esc(recipe.body)} body and ${esc(recipe.wheel)} wheels. Not an AI result." viewBox="0 0 680 420"><defs><linearGradient id="${id}bg" x2="0.7" y2="1"><stop stop-color="#eff1e9"/><stop offset="1" stop-color="#dce2d4"/></linearGradient><linearGradient id="${id}paint" x1="0" y1="0" x2="0.3" y2="1"><stop stop-color="#c5d4d3"/><stop offset=".32" stop-color="${paint}"/><stop offset="1" stop-color="#202e2f"/></linearGradient><linearGradient id="${id}hood" x2=".8" y2="1"><stop stop-color="${paint}"/><stop offset=".5" stop-color="#d5ded6"/><stop offset="1" stop-color="${paint}"/></linearGradient><linearGradient id="${id}glass" x2=".4" y2="1"><stop stop-color="#627d83"/><stop offset=".3" stop-color="#c0d6d5"/><stop offset="1" stop-color="#273b40"/></linearGradient><filter id="${id}shadow"><feGaussianBlur stdDeviation="10"/></filter></defs><rect width="680" height="420" fill="url(#${id}bg)"/><path d="M0 285 680 238v182H0Z" fill="#e6e9e0"/><path d="m0 350 680-44M470 0l-40 278M670 0l-13 263" stroke="#c9d2c2" opacity=".35"/><ellipse cx="345" cy="326" rx="245" ry="32" fill="#33473c" opacity=".22" filter="url(#${id}shadow)"/><path d="M106 241q21-42 81-63l77-68q76-23 176 9l79 65 58 21q20 12 19 34l-3 52q-17 24-73 30l-346 8-76-37Z" fill="url(#${id}paint)" stroke="#344647" stroke-width="2"/><path d="m112 238 138-45 234-6 93 25-123 53-306 23Z" fill="url(#${id}hood)" opacity=".85"/><path d="m187 178 83-60q51-16 143 5l63 59-226 11Z" fill="#223438"/><path d="m270 125 12 60 177-4-54-51q-76-17-135-5Z" fill="url(#${id}glass)"/><path d="m201 176 58-46 12 54-23 2Z" fill="url(#${id}glass)"/><path d="m418 135 50 48 30 9-56-49Z" fill="#334d51"/><path d="m268 127 5 58M397 127l14 55" stroke="#d4ddd6" stroke-width="3"/><path d="m484 195-7 77-15 23M305 202l-3 90M323 295l170-20" fill="none" stroke="#293d3c" opacity=".7"/><path d="m123 249 73-11 45 3-18 14-91 10Z" fill="#ecf6e8"/><path d="m243 242 38-10 86 4-43 15-72 4Z" fill="#ecf6e8" opacity=".9"/><path d="m114 270 35 12 181-16 37-23-3 55-182 20-68-16Z" fill="#172729"/><path d="m134 291 39 6 164-19" fill="none" stroke="#71847b" stroke-width="3"/><path d="m414 198 30-9 18 11-32 7Z" fill="#283c3c"/><path d="m538 218 31-8 6 14-31 8Z" fill="#eff7de"/><ellipse cx="430" cy="296" rx="40" ry="51" fill="#172023"/><ellipse cx="430" cy="296" rx="29" ry="38" fill="#334044" stroke="#596463" stroke-width="2"/>${spokes(430,296,26,34)}<ellipse cx="430" cy="296" rx="7" ry="9" fill="#8c9990"/><ellipse cx="551" cy="270" rx="26" ry="39" fill="#152125"/><ellipse cx="551" cy="270" rx="18" ry="29" fill="#354146"/>${spokes(551,270,16,26)}<ellipse cx="551" cy="270" rx="5" ry="7" fill="#929c90"/><path d="M383 289q6-55 45-51 43 0 46 48M523 263q4-39 29-37 29 2 27 40" fill="none" stroke="${paint}" stroke-width="9"/><path d="m335 299 44-6m97-10 45-12" stroke="#a4b8ae" stroke-width="4"/><rect x="198" y="285" width="63" height="18" rx="3" fill="#d2d9cb" transform="rotate(-5 198 285)"/><text x="209" y="297" font-family="system-ui,sans-serif" font-size="9" letter-spacing="2" fill="#314139">样车</text></svg>`;
+}
+const btn=(label,act,kind='primary',extra='')=>`<button class="btn ${kind}" data-action="${act}" ${extra}>${label}</button>`;
+const title=(eyebrow,h,sub='')=>`<div class="title"><p class="eyebrow">${eyebrow}</p><h1 tabindex="-1">${h}</h1>${sub?`<p class="sub">${sub}</p>`:''}</div>`;
+const artwork=(recipe,tag='Illustrated example - not an AI result')=>`<figure class="art">${car(recipe)}<figcaption>${tag}</figcaption></figure>`;
+const sourceArt=()=>state.source?.kind==='local'&&localURL?`<figure class="art"><img class="local-photo" src="${localURL}" alt="Your selected photo, local preview only"><figcaption>On this device only. Not uploaded.</figcaption></figure>`:artwork({body:'silver',wheel:'silver'});
+const styleName=()=>state.draft.style?STYLES[state.draft.style].name:'One detail';
+const recipeLine=r=>`${r.body[0].toUpperCase()+r.body.slice(1)} paint / ${r.wheel} wheels`;
+const smallSummary=()=>`<div class="summary"><span class="mini-art">${car(state.draft)}</span><div><strong>${esc(styleName())}</strong><span>${esc(recipeLine(state.draft))}</span><small>Requested changes, not applied yet</small></div></div>`;
+function screen(){
+  const s=state;
+  if(s.route==='discover')return `${title('YOUR PERSONAL CAR STUDIO','Same car.<br>A new feeling.','Find a look you love. Make it yours.')}
+    <div class="featured"><div class="feature-top"><span class="pill">${esc(styleName())}</span><span>SELECTED EXAMPLE</span></div><div class="segmented" role="group" aria-label="Compare example"><button data-action="original" aria-pressed="${compare}">Original</button><button data-action="styled" aria-pressed="${!compare}">New look</button></div>${artwork(compare?{body:'silver',wheel:'silver'}:STYLES[s.draft.style]||STYLES.sport)}<div class="feature-bottom"><div><h2>${esc(styleName())}</h2><p>${esc(STYLES[s.draft.style]?.line||'Start with one change.')}</p></div><button class="iconbtn" data-action="compare" aria-label="${compare?'Show styled example':'Show original example'}">${icon('edit')}</button></div></div>
+    <div class="direction-row" role="group" aria-label="Choose a direction">${Object.entries(STYLES).map(([id,x])=>`<button data-action="style" data-id="${id}" class="direction ${s.draft.style===id?'selected':''}" aria-pressed="${s.draft.style===id}"><span class="dot" style="--swatch:${COLORS[x.body]}"></span>${esc(x.name)}</button>`).join('')}</div>
+    <div class="cta-zone">${btn('Try this look on my car '+icon('arrow'),'start')}${btn('Change one detail','direct','quiet')}<p class="fine">Explore examples free. Creating on your car uses credits.<br>In this study: no AI, uploads, or charges.</p></div>`;
+  if(s.route==='photo')return `${title('YOUR PHOTO','Start with your car.','A side or three-quarter photo works best. Keep the whole car in frame.')}
+    ${artwork({body:'silver',wheel:'silver'},'Framing example - all wheels and bumpers visible')}
+    <div class="tip-row"><span>${icon('check')} Whole car</span><span>${icon('check')} Clear light</span><span>${icon('check')} One car</span></div>
+    <div class="cta-zone">${btn(icon('photo')+' Choose a photo','pick')}${btn('Use the illustrated example','sample','secondary')}<p class="fine">Selection stays local. We ask before any transfer.<br>Real photo editing is not connected in this prototype.</p><p class="fine">JPEG / PNG / WebP, up to 10 MiB. Native HEIC import is a separate integration.</p></div>`;
+  if(s.route==='review'){
+    const p=primary(s);return `${title('YOUR CREATION','A quick look before<br>you create.','Your original stays unchanged.')}${sourceArt()}${smallSummary()}
+      <div class="fact-list"><div><span>Starting from</span><strong>${s.draft.base==='original'?'Original photo':'Selected saved version'}</strong></div><div><span>Each request</span><strong>1 image / 1 credit</strong></div><div><span>Save &amp; compare</span><strong>No extra generation</strong></div></div>
+      <p class="fine">We aim to keep the car and scene recognizable. Exact results still need model validation.</p>
+      ${s.source?.kind==='local'?`<div class="notice">Your photo is visible only here. This prototype cannot produce a result from it.</div>${btn('Switch to illustrated example','sample','secondary')}`:''}
+      <div class="cta-zone">${btn(esc(p.label)+(p.disabled?'':icon('arrow')),'next','primary',p.disabled?'disabled':'')}<p class="fine">${esc(p.reason||(!s.signedIn?'Sign in only when you are ready to create.':!s.consent?'Review data use before any real upload.':s.balance?`${s.balance} demo credits available. Nothing submitted yet.`:'Prices and availability must come from App Store.'))}</p>${btn('Choose a different photo','remove-source','quiet')}</div>`;
+  }
+  if(s.route==='edit'){
+    const base=baseRecipe(s);return `${title('KEEP WHAT YOU LOVE','Change one detail.','Keep the rest of this look. You choose what changes.')}${artwork(base,'Selected base - preview has NOT changed')}
+    <div class="editor"><fieldset><legend>Body paint</legend><div class="swatches">${['silver','blue','green','red'].map(v=>swatch('body',v)).join('')}</div></fieldset><fieldset><legend>Wheel color</legend><div class="swatches">${['silver','bronze','graphite'].map(v=>swatch('wheel',v)).join('')}</div></fieldset></div>
+    <p class="notice">${esc(recipeLine(s.draft))}<br><small>Your choices are selected. Create to update the image.</small></p>
+    <div class="cta-zone">${btn('Review changes '+icon('arrow'),'review')}${btn('Keep the selected base as it is','reset-draft','quiet')}</div>`;
+  }
+  if(s.route==='task'){
+    const j=s.job,phase=j.phase,labels={queued:['Waiting to start.','Your request is in the queue.'],processing:['Your look is taking shape.','You can browse or leave. Return to this same request.'],uncertain:['Checking your request.','We lost the connection, not your choices. We will not submit a duplicate.'],succeeded:['Your example is ready.','Open it whenever you are ready.'],failed:['This one did not complete.',j.reason==='unchanged'?'No changed image was produced.':'The request did not produce a usable file.'],cancelled:['Request cancelled.','Processing had not started.']};
+    return `${title('ONE REQUEST / ONE RESULT',labels[phase][0],labels[phase][1])}${artwork(j.recipe,'Illustrated request preview - not a generated output')}
+      <div class="job-state" role="status">${active(s)?'<span class="spinner" aria-hidden="true"></span>':icon(phase==='succeeded'?'check':'alert')}<div><strong>${esc(phase[0].toUpperCase()+phase.slice(1))}</strong><span>${j.released?'1 demo credit returned.':phase==='succeeded'?'1 example stored in this browser session.':'1 demo credit reserved. No additional charge.'}</span></div></div>
+      <div class="cta-zone">${phase==='succeeded'?btn('Open result','open-result'):['failed','cancelled'].includes(phase)?btn('Review and try again','retry'):btn('Keep browsing '+icon('arrow'),'home','secondary')}${phase==='queued'?btn('Cancel before processing','cancel','quiet'):''}<p class="fine">This is a simulated task. Timing is not a speed promise.<br>No reminder permission is required.</p></div>`;
+  }
+  if(s.route==='result'){
+    const v=s.history.find(x=>x.id===s.selected);if(!v)return title('NOT FOUND','This image is unavailable.');
+    return `${title('YOUR SAVED EXAMPLE','Still yours.<br>A different point of view.')}<div class="result-image">${artwork(compare?{body:'silver',wheel:'silver'}:v.recipe,'Illustrated example - saved only in this study')}<div class="segmented" role="group" aria-label="Compare result"><button data-action="original" aria-pressed="${compare}">Original</button><button data-action="styled" aria-pressed="${!compare}">New look</button></div></div>
+      <div class="result-meta"><div><h2>${v.style?esc(STYLES[v.style].name):'Your detail edit'}</h2><p>${esc(recipeLine(v.recipe))}</p></div><button class="iconbtn ${v.favorite?'is-favorite':''}" aria-label="${v.favorite?'Remove from favorites':'Add to favorites'}" aria-pressed="${v.favorite}" data-action="favorite">${icon('bookmark')}</button></div>
+      <p class="save-note">${icon('check')} In your demo garage. No extra charge to view.</p>
+      <div class="cta-zone">${btn(icon('upload')+' Save or share','export')}${btn('Refine this look '+icon('edit'),'refine','secondary')}<div class="result-links">${btn('Another direction','home','quiet')}<button class="text-link" data-action="problem">Something not right?</button></div></div>`;
+  }
+  return `${title('YOUR GARAGE','The looks you keep.','Your favorite can be an older version, not just the newest.')}
+    ${s.history.length?`<div class="garage-grid">${[...s.history].reverse().map(v=>`<button class="garage-card" data-action="version" data-id="${esc(v.id)}">${car(v.recipe)}<span><strong>${v.style?esc(STYLES[v.style].name):'Detail edit'}</strong>${v.favorite?icon('bookmark'):icon('arrow')}</span><small>Illustrated example / ${esc(v.id)}</small></button>`).join('')}</div>`:`<div class="empty">${icon('garage')}<h2>A place for your ideas.</h2><p>Your completed looks will appear here.</p>${btn('Find a first look','home')}</div>`}<p class="fine">Prototype history is kept in this browser session only.<br>No cloud storage or cross-device restore is connected.</p>`;
+}
+function swatch(field,value){return `<button class="swatch" data-action="color" data-field="${field}" data-value="${value}" aria-pressed="${state.draft[field]===value}"><span style="--swatch:${COLORS[value]}">${state.draft[field]===value?icon('check'):''}</span>${value[0].toUpperCase()+value.slice(1)}</button>`;}
+function dialogContent(){
+ switch(state.sheet){
+  case 'auth':return `${title('KEEP YOUR WORK','Your own little garage.','Sign in when you are ready to create, so purchases and looks can be linked to one account.')}<div class="mock-boundary">AUTHENTICATION PLACEHOLDER<br>No Apple connection is made. Use the official native button in production.</div>${btn('Simulate account sign-in','auth-ok')}${btn('Not now - keep my selection','close','quiet')}`;
+  case 'consent':return `${title('BEFORE A REAL UPLOAD','Know where your photo goes.')}<p>Production must name the actual AI processor, explain storage and deletion, and collect permission before transfer.</p><div class="notice">No processor is configured here. This demonstration uses only the illustrated car and sends nothing.</div><label class="check-row"><input id="demo-consent" type="checkbox"> I understand this is an example-only interaction study.</label>${btn('Continue with example','consent-ok','primary','disabled')}`;
+  case 'trial':return `${title('RESEARCH VARIANT ONLY','Try one example first.','An approved trial could show value before purchase. It is NOT active in FORM.')}
+    <div class="notice">Mock eligibility only. One demo unit per study; resets do not describe production behavior.</div>${btn('Simulate trial eligibility','trial-ok')}`;
+  case 'purchase':{
+    const p=state.purchase;
+    if(p&&['pending','verifying'].includes(p.phase))return `${title('PURCHASE STATUS',p.phase==='pending'?'Awaiting confirmation.':'Checking your purchase.','Please do not buy again. Your photo and selected changes are still here.')}<div class="job-state"><span class="spinner"></span><p>${p.units} demo credits / ${esc(p.id)}</p></div><div class="mock-boundary">SIMULATED PURCHASE / NO APPLE TRANSACTION</div>${p.phase==='pending'?btn('Simulate confirmation','purchase-verify'):btn('Simulate server acknowledgment','purchase-ok')}${p.phase==='pending'?btn('Simulate cancellation','purchase-cancel','quiet'):''}${btn('Leave this sheet','close','quiet')}`;
+    return `${title('FOR YOUR NEXT IDEA','A few looks. No subscription.','Choose a pack when you are ready. Existing results stay available.')}${smallSummary()}<div class="pack-list">${[5,15].map(n=>`<button class="pack" data-action="buy" data-units="${n}"><span><strong>${n} credits</strong><small>${n===5?'A few directions to explore':'More room to compare'}</small></span><span class="pack-price">Price from<br>App Store</span>${icon('arrow')}</button>`).join('')}</div><p class="fine">1 credit per completed request. Saving and comparing do not use credits. Real prices and product availability are not connected.</p><div class="mock-boundary">Selecting a pack SIMULATES checkout. No real money or products.</div>${btn('Not now - keep my changes','close','quiet')}`;
+  }
+  case 'problem':return `${title('KEEP THE ORIGINAL','What went wrong?','A technical problem is not the same as wanting another color.')}<div class="choice-list">${[['identity','It no longer looks like my car'],['not_applied','The change was not applied'],['artifacts','The image has visible errors'],['preference','I would prefer another look']].map(([id,label])=>btn(label,'report','secondary',`data-category="${id}"`)).join('')}</div><p class="fine">Feedback does not automatically refund money or start another generation.</p>`;
+  case 'export':return `${title('YOUR IMAGE, YOUR CHOICE','Keep this idea.','Saving does not create a new image or use another credit.')}<div class="choice-list">${btn('Download illustrated SVG','download','secondary')}${btn('Preview before / after','export-compare','secondary')}</div><p class="fine">This prototype exports only its own illustration. Native Photos, Share Sheet, PNG/JPEG exports and actual outcome callbacks require integration. No social posting occurs.</p>`;
+  case 'help':return `${title('ABOUT THIS STUDY','Clear choices.<br>No hidden steps.')}<p>This is an interactive design prototype, not the finished FORM app. All cars are original vector illustrations. Your selected file is only a local preview and is never transmitted.</p><p>It demonstrates account, permission, credit and task states. Prices, actual AI results, server storage, Apple sign-in and payment are not connected.</p>${btn('Back to the study','close','secondary')}${state.signedIn?btn('Clear demo account & history','logout','quiet'):''}`;
+  case 'reset':return `${title('RESTART STUDY','Clear this demo?','This removes only simulated history in this browser tab.')}${btn('Clear demo','logout')}`;
+  default:return '';
+ }
+}
+function render(){
+ const old=state.route; const priorScroll=document.querySelector('.content')?.scrollTop||0;
+ root.innerHTML=`<div class="workspace"><aside class="brief"><a class="brand" href="#">FORM<span class="brand-line"></span></a><p class="eyebrow">FIRST-SESSION DESIGN / 01</p><h2>From curiosity<br>to a look worth<br><em>keeping.</em></h2><p class="brief-copy">A complete mobile journey: discover, choose a photo, understand the cost, create, compare and refine.</p><div class="reviewer-alert"><strong>尚未达到“看到就想上传”的体验目标</strong><p>这份中文版本用于找出卡点，不代表产品已具备竞品级视觉吸引力。优先凭直觉评价首页效果图与上传动机。</p></div><div class="principle"><b>01</b><p><strong>Show the change.</strong><br>One clear example beats a long introduction.</p></div><div class="principle"><b>02</b><p><strong>Keep the intent.</strong><br>Sign-in and checkout never erase a choice.</p></div><div class="principle"><b>03</b><p><strong>Make the next step optional.</strong><br>A result is yours to keep, not a locked sales teaser.</p></div><div class="lab" aria-label="Prototype reviewer controls"><h3>REVIEW SCENARIOS</h3><div class="lab-grid">${[['paid','New user / paid'],['trial','Trial hypothesis'],['ready','Existing credits'],['slow','Long wait'],['uncertain','Interrupted'],['failed','Failed request'],['pending','Payment pending']].map(([id,x])=>`<button data-scenario="${id}">${x}</button>`).join('')}</div><label class="toggle"><input id="auto" type="checkbox" ${auto?'checked':''}> Advance simulated tasks</label><label class="toggle"><input id="online" type="checkbox" ${state.online?'checked':''}> Simulated connection available</label><div class="lab-actions">${btn('Start processing','process','quiet')}${btn('Complete task','complete','quiet')}${btn('Return no change','fail','quiet')}</div><p id="debug" class="debug">${state.submissions} submitted / ${state.history.length} outputs / ${state.balance} demo credits</p><p class="fine">No network calls. No real purchases.<br>Controls here are not part of the shipped app.</p></div></aside><div class="phone-column"><details class="mobile-lab"><summary>切换验收场景（点这里）</summary><div class="mobile-lab-grid"><button type="button" data-scenario="paid">新用户 / 需购买</button><button type="button" data-scenario="trial">一次试用（假设）</button><button type="button" data-scenario="ready">已有额度</button><button type="button" data-scenario="slow">等待很久</button><button type="button" data-scenario="uncertain">任务中断</button><button type="button" data-scenario="failed">生成失败</button><button type="button" data-scenario="pending">付款待确认</button></div><p>这是模拟器场景选择，不是正式 App 的功能。</p></details><p class="prototype-label"><span class="status-dot"></span> INTERACTIVE STUDY &middot; NO AI OR PAYMENTS</p><section class="device" aria-label="FORM mobile prototype"><header class="app-header">${state.route==='discover'?'<span class="wordmark">FORM</span>':`<button class="iconbtn" data-action="back" aria-label="Back">${icon('back')}</button><span class="small-brand">FORM</span>`}<div class="header-right">${state.signedIn?`<button class="balance" data-action="purchase">${state.balance} demo credits</button>`:''}<button class="iconbtn" data-action="help" aria-label="About this prototype">${icon('help')}</button></div></header>${!state.online?'<div class="offline" role="status">Offline simulation - new requests are paused</div>':''}${active(state)&&state.route!=='task'?`<button class="task-banner" data-action="task">${icon('clock')} Your request is still here ${icon('arrow')}</button>`:state.job?.phase==='succeeded'&&state.route!=='result'?`<button class="task-banner" data-action="open-result">${icon('check')} Your example is ready ${icon('arrow')}</button>`:''}<main class="content" id="screen" data-screen="${state.route}">${screen()}</main><nav class="bottom-nav" aria-label="Main navigation"><button data-action="home" aria-current="${state.route==='discover'?'page':'false'}">${icon('spark')} Discover</button><button data-action="garage" aria-current="${state.route==='garage'?'page':'false'}">${icon('garage')} Garage</button></nav><div class="message" role="status" aria-live="polite">${esc(state.message||'')}</div></section><p class="under-phone">FORM / MOBILE EXPERIENCE PROTOTYPE / V1.0</p></div></div><input id="photo-input" type="file" accept="image/jpeg,image/png,image/webp" hidden><dialog aria-label="${esc(state.sheet||'Dialog')}"><button class="iconbtn dialog-close" data-action="close" aria-label="Close dialog">${icon('close')}</button><div class="dialog-content">${dialogContent()}</div></dialog>`;
+ const d=document.querySelector('dialog');if(state.sheet)d.showModal();
+ const content=document.querySelector('.content');
+ const dock=content?.querySelector('.cta-zone'); if(dock){dock.classList.add('primary-dock');document.querySelector('.bottom-nav').before(dock);}
+ if(content)content.scrollTop=priorScroll;
+ localizeUI(root);
+ bind();try{sessionStorage.setItem(KEY,serialize(state));}catch{}
+}
+function send(e){const oldRoute=state.route,oldSheet=state.sheet,el=document.activeElement,focus=el?.getAttribute('data-action');const selection=['action','field','value','id'].filter(k=>el?.dataset?.[k]).map(k=>`[data-${k}="${el.dataset[k]}"]`).join('');state=reduce(state,{now:Date.now(),...e});render();if(state.route!==oldRoute){document.querySelector('.content').scrollTop=0;document.querySelector('h1')?.focus({preventScroll:true});}else if(oldSheet&&!state.sheet){document.querySelector(`[data-action="${priorFocus||focus||'next'}"]`)?.focus({preventScroll:true});}if(selection&&oldRoute===state.route&&oldSheet===state.sheet)document.querySelector(selection)?.focus({preventScroll:true});if(!oldSheet&&state.sheet)priorFocus=focus;}
+function bind(){
+ document.querySelectorAll('[data-action]').forEach(el=>el.addEventListener('click',()=>action(el)));
+ document.querySelectorAll('[data-scenario]').forEach(el=>el.addEventListener('click',()=>scenario(el.dataset.scenario)));
+ document.getElementById('auto').addEventListener('change',e=>{auto=e.target.checked;});
+ document.getElementById('online').addEventListener('change',e=>send({type:'NETWORK',online:e.target.checked}));
+ document.getElementById('demo-consent')?.addEventListener('change',e=>{document.querySelector('[data-action="consent-ok"]').disabled=!e.target.checked;});
+ document.querySelector('dialog').addEventListener('cancel',e=>{e.preventDefault();send({type:'CLOSE'});});
+ document.getElementById('photo-input').addEventListener('change',async e=>{
+  const file=e.target.files?.[0];if(!file)return;
+  if(!['image/jpeg','image/png','image/webp'].includes(file.type)||file.size>10*1024*1024){state.message='Choose a JPEG, PNG or WebP under 10 MiB. HEIC needs the native import adapter.';render();return;}
+  const url=URL.createObjectURL(file);try{const image=new Image();image.src=url;await image.decode();if(image.naturalWidth*image.naturalHeight>40000000)throw Error('dimensions');
+    if(localURL)URL.revokeObjectURL(localURL);localURL=url;send({type:'SOURCE',kind:'local'});
+  }catch{URL.revokeObjectURL(url);state.message='This file could not be previewed safely. Choose another photo.';render();}
+ });
+}
+function action(el){const a=el.dataset.action;
+ if(a==='compare'||a==='original'||a==='styled'){compare=a==='compare'?!compare:a==='original';render();document.querySelector(`[data-action="${a}"]`)?.focus({preventScroll:true});return;}
+ if(a==='pick'){document.getElementById('photo-input').click();return;}
+ if(a==='download'){const v=state.history.find(x=>x.id===state.selected);if(!v)return;const blob=new Blob([car(v.recipe).replace('class="car-art"','xmlns="http://www.w3.org/2000/svg"')],{type:'image/svg+xml'});const url=URL.createObjectURL(blob);const link=document.createElement('a');link.href=url;link.download='FORM-illustrated-example.svg';link.click();setTimeout(()=>URL.revokeObjectURL(url),1000);state.message='Example SVG download requested. This does not confirm a Photos save.';render();return;}
+ if(a==='export-compare'){compare=true;send({type:'CLOSE'});return;}
+ if(a==='back'){if(state.route==='review')send({type:'NAV',route:'photo'});else if(state.route==='edit')send({type:'NAV',route:state.history.length?'result':'review'});else send({type:'NAV',route:'discover'});return;}
+ const map={start:{type:'START'},direct:{type:'START',detail:true},sample:{type:'SOURCE',kind:'sample'},'remove-source':{type:'REMOVE_SOURCE'},next:{type:'NEXT'},close:{type:'CLOSE'},'auth-ok':{type:'AUTH_OK'},'consent-ok':{type:'CONSENT_OK'},'trial-ok':{type:'TRIAL_OK'},'purchase-verify':{type:'PURCHASE_VERIFY'},'purchase-ok':{type:'PURCHASE_OK'},'purchase-cancel':{type:'PURCHASE_CANCEL'},'reset-draft':{type:'RESET_DRAFT'},review:{type:'NAV',route:'review'},favorite:{type:'FAVORITE'},refine:{type:'REFINE'},home:{type:'NAV',route:'discover'},garage:{type:'NAV',route:'garage'},task:{type:'NAV',route:'task'},cancel:{type:'CANCEL'},retry:{type:'RETRY_REVIEW'},process:{type:'PROCESS'},complete:{type:'COMPLETE'},fail:{type:'FAIL',reason:'unchanged'},logout:{type:'LOGOUT'}};
+ if(['help','problem','export','purchase'].includes(a)){if(a==='purchase'&&!state.signedIn){state.sheet='auth';render();return;}send({type:'SHEET',id:a});return;}
+ if(a==='open-result'){send({type:'SELECT_VERSION',id:state.job?.resultId});return;}
+ if(a==='style'){send({type:'STYLE',id:el.dataset.id});compare=false;return;}
+ if(a==='color'){send({type:'COLOR',field:el.dataset.field,value:el.dataset.value});return;}
+ if(a==='version'){send({type:'SELECT_VERSION',id:el.dataset.id});compare=false;return;}
+ if(a==='buy'){send({type:'BUY',units:Number(el.dataset.units)});return;}
+ if(a==='report'){send({type:'REPORT',category:el.dataset.category});return;}
+ if(map[a])send(map[a]);
+}
+function scenario(id){state=initial(id==='trial'?'trial':'paid');compare=false;auto=!['slow','uncertain','failed'].includes(id);if(localURL){URL.revokeObjectURL(localURL);localURL=null;}
+ if(!['paid','trial'].includes(id)){state.source={kind:'sample'};state.route='review';state.signedIn=true;state.consent=true;state.balance=id==='pending'?0:2;}
+ if(['slow','uncertain','failed'].includes(id)){state=reduce(state,{type:'SUBMIT',now:Date.now()});state=reduce(state,{type:'PROCESS'});if(id==='uncertain')state=reduce(state,{type:'UNCERTAIN'});if(id==='failed')state=reduce(state,{type:'FAIL'});}
+ if(id==='pending'){state.sheet='purchase';state=reduce(state,{type:'BUY',units:5});}
+ render();document.querySelector('.content').scrollTop=0;
+}
+setInterval(()=>{if(!auto||document.hidden||!state.online||!active(state)||state.job.phase==='uncertain')return;const age=Date.now()-state.job.createdAt;if(state.job.phase==='queued'&&age>1400)send({type:'PROCESS'});else if(state.job.phase==='processing'&&age>6500)send({type:'COMPLETE'});},400);
+window.addEventListener('pagehide',()=>{try{sessionStorage.setItem(KEY,serialize(state));}catch{}});
+render();
+
+})();</script></body></html>

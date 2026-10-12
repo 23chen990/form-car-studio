@@ -1,0 +1,28 @@
+name: FORM design v2 sample asset review
+on:
+  push:
+    branches: [design/form-first-session-v2-20261012]
+    paths: [.github/workflows/form-design-v2-asset-review.yml]
+permissions:
+  contents: read
+jobs:
+  existing-project-assets:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: 467e20758414216f215fb4106d098dedc0b18c3a
+          persist-credentials: false
+          sparse-checkout: public/images
+      - name: Record unmodified project sample hashes
+        run: |
+          mkdir -p asset-review
+          cp public/images/*.jpg asset-review/
+          sha256sum asset-review/*.jpg > asset-review/SHA256SUMS.txt
+          printf '%s\n' 'Existing project color studies only. Not AI results. Commercial photo rights not verified. No owner uploads, keys, model calls or payments.' > asset-review/NOTICE.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: form-v2-existing-project-color-studies
+          path: asset-review
+          retention-days: 1

@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-12",
+  "evidenceScope": "User-supplied files and inline screenshot; no native competitor operation by the reviewing assistant",
+  "sources": [
+    {
+      "id": "STATIC01",
+      "name": "mody-static-report.txt",
+      "bytes": 22401,
+      "sha256": "c43ad42763e88bd3db0172fdf8fffdbe293a5fb57432627a2b3ef658570770f6",
+      "kind": "user_supplied_static_inventory",
+      "rawIncludedInRepository": false,
+      "reportedBundleVersion": "3.1.440",
+      "boundToRecordingVersion": false
+    },
+    {
+      "id": "REA01",
+      "name": "mody-analysis.txt",
+      "bytes": 3443,
+      "sha256": "9c7a765f09dd838e9cbc053ffac14436af1564782966d5b14124d6f2a7c13a4f",
+      "kind": "failed_analysis_log",
+      "rawIncludedInRepository": false,
+      "analysisSucceeded": false
+    },
+    {
+      "id": "VIDEO01",
+      "name": "333d7a052d733b3bacfb90b4618a64fe.mp4",
+      "bytes": 5503869,
+      "sha256": "19b34a09ac75442232b183ba6ed0c519eb23f77f9217032e0712f264e8de749c",
+      "durationSeconds": 104.6,
+      "width": 592,
+      "height": 1280,
+      "nominalFps": "30/1",
+      "hasAudioTrack": true,
+      "audioReviewed": false,
+      "rawIncludedInRepository": false,
+      "privacy": "Contains payment-account details and notification banners. No raw video or frames committed.",
+      "limitation": "User reports device lag and incomplete image loading; cause not diagnosed. Recording/app version not independently identified."
+    },
+    {
+      "id": "SCREEN01",
+      "name": "User supplemental inline GARAGE screenshot",
+      "kind": "single_static_screen",
+      "sha256": null,
+      "videoTimestamp": null,
+      "rawIncludedInRepository": false,
+      "originAndVersionVerified": false,
+      "note": "Visually inspected in conversation. No separately established mounted original path/hash. Not inserted into the recording sequence."
+    }
+  ],
+  "publication": {
+    "rawVideo": false,
+    "rawFrames": false,
+    "competitorImageAssets": false,
+    "accountIdentifiers": false,
+    "notificationContents": false,
+    "paymentPayloads": false,
+    "textObservationsAndHashesOnly": true
+  },
+  "approval": {
+    "researchArchiveAuthorized": true,
+    "designApproved": false,
+    "humanAppealTested": false,
+    "realGenerationEnabled": false,
+    "freeTrialEnabled": false,
+    "modelBudgetAuthorized": 0,
+    "purchaseAuthorized": false,
+    "deploymentAuthorized": false
+  }
+}

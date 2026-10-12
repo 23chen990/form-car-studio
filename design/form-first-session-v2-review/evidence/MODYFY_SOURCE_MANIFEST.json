@@ -1,0 +1,70 @@
+{
+  "schemaVersion": 1,
+  "reviewDate": "2026-10-12",
+  "sourceId": "VIDEO02",
+  "userProvidedFile": "161a93dd9c16d2af03a776cfb2db63db.mp4",
+  "fileBytes": 4966358,
+  "sha256": "c6636858740bcc33e073964f7ee3c9e1b56f83a466978a6351004e815aeaceb6",
+  "video": {
+    "durationSeconds": 126.166667,
+    "width": 448,
+    "height": 960,
+    "codec": "hevc",
+    "nominalFrameRate": "30/1",
+    "averageFrameRate": "19542/757",
+    "frames": 3257,
+    "hasAudio": true,
+    "audioAnalyzed": false
+  },
+  "reviewedFrames": "Local keyframe images and four contact sheets for visual study; neither originals nor derived pictures published",
+  "observationBoundaries": {
+    "nativeUserOperationByAssistant": false,
+    "actualResultObserved": false,
+    "successfulPurchaseObserved": false,
+    "costAuthorization": false,
+    "modelPromptInspection": false,
+    "deviceLagReportedByUser": true,
+    "assetLoadingCauseUnknown": true,
+    "sensitiveContentPresent": true
+  },
+  "outsideSources": [
+    {
+      "id": "STORE_MODYFY_US",
+      "url": "https://apps.apple.com/us/app/modyfy-ai-car-designer/id6762754163",
+      "evidence": "developer submitted description, listing, user reviews, not proof of capability"
+    },
+    {
+      "id": "STORE_MODY_US",
+      "url": "https://apps.apple.com/us/app/mody-ai-car-modifications/id6523376299",
+      "evidence": "developer submitted description, listing, user reviews"
+    }
+  ],
+  "publicRepoPolicy": {
+    "rawVideo": false,
+    "rawFrames": false,
+    "competitorImages": false,
+    "accountIdentifiers": false,
+    "privateGalleryContent": false,
+    "observationalTextOnly": true
+  },
+  "claimsNotVerified": [
+    "any payment settled",
+    "model generated output",
+    "same-car fidelity",
+    "inference cost",
+    "ads/install/sales revenue",
+    "entitlement semantics",
+    "actual time-to-result",
+    "failure rate",
+    "precision masking"
+  ],
+  "approval": {
+    "researchArchive": true,
+    "designApproved": false,
+    "productionChanges": false,
+    "freeGenerations": false,
+    "subscriptions": false,
+    "paidModelCalls": false,
+    "merge": false
+  }
+}

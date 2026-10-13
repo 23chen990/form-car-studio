@@ -1,79 +1,79 @@
 {
-  "taskId": "F02",
-  "specVersion": "2.2",
-  "codeReady": true,
-  "codeCommit": "3908ad822b4e2548652183374bae56b1f7bbf201",
-  "verification": [
-    {
-      "kind": "schema",
-      "command": "node --import tsx --test tests/v2/schema.test.ts",
-      "exitCode": 0,
-      "status": "PASS_9_TESTS",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "reference",
-      "command": "node tools/check-v2.mjs",
-      "exitCode": 0,
-      "status": "PASS_151_TESTS",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "legacy",
-      "command": "npm test",
-      "exitCode": 0,
-      "status": "PASS_30_TESTS",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "build",
-      "command": "npm run build",
-      "exitCode": 0,
-      "status": "PASS",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "scope",
-      "command": "python3 docs/form-handoff/tools/guard.py check F02 --repo . --checkpoint /tmp/form-F02-repair-checkpoint.json",
-      "exitCode": 0,
-      "status": "PASS_SCOPE",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "audit",
-      "command": "npm audit --json",
-      "exitCode": 1,
-      "status": "HIGH_SHARP_ADVISORY_RECORDED_NO_FIX",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
-    },
-    {
-      "kind": "github-ci",
-      "command": "GitHub Actions run on final repair head",
-      "exitCode": 0,
-      "status": "PASS_RUN_38158482328",
-      "evidencePath": "docs/form-v2/progress/F02.md",
-      "sha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada",
-      "testedHead": "3908ad822b4e2548652183374bae56b1f7bbf201",
-      "evidenceUrl": "https://github.com/23chen990/form-car-studio/actions/runs/38158482328",
-      "note": "GitHub Actions live run on exact reviewed code head, independently checked; pre-existing F02.md log documents the earlier source-head run."
-    }
-  ],
   "changedFiles": [
     "server/v2/schema.ts",
     "server/v2/db.ts",
     "tests/v2/schema.test.ts"
   ],
   "knownIssues": [
-    "Direct sharp dependency has one high advisory affecting image decoding; separate scoped upgrade review required."
+    "Only temporary synthetic SQLite was opened. The prior F03 migration defects must be repaired before depending on its balances or asset mapping.",
+    "Current owner metadata may be transferred only by the planned authenticated F22 transaction while immutable economic/origin fields remain fixed; independent review of this distinction is pending.",
+    "Tests and original build ran on the exact source tree committed above. No real signed Apple transaction, live model or production DB verification is claimed."
   ],
   "externalPending": [
-    "Independent migration/rollback review, full backup restore, multi-worker atomicity, legal retention policy, identity, Apple purchase/refund, deletion and security review."
+    "Independent schema upgrade / backup restore review",
+    "Wallet, worker and supplier-budget transaction review",
+    "Identity, purchase/refund, deletion and final integration review",
+    "Production migration approval and real privacy/retention facts"
+  ],
+  "taskId": "F02",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "3e83ebf45196398491fec01ec191ddaed62b906a",
+  "verification": [
+    {
+      "kind": "schema",
+      "command": "node --import tsx --test tests/v2/schema.test.ts",
+      "exitCode": 0,
+      "status": "PASS_18_SYNTHETIC_SQLITE_TESTS",
+      "rawLogSha256": "04638e7551b744218f54923168bb83212dae2850251c7357e5c950c9588577d2",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    },
+    {
+      "kind": "v2-regression",
+      "command": "node tools/check-v2.mjs",
+      "exitCode": 0,
+      "status": "PASS_151_REFERENCE_PLUS_69_SERVICE_TESTS",
+      "rawLogSha256": "c9286db125ac8931853bd46d4f478eb99acd5b311e25319a666886ebcba5a345",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    },
+    {
+      "kind": "legacy",
+      "command": "npm test",
+      "exitCode": 0,
+      "status": "PASS_30_TESTS",
+      "rawLogSha256": "5f46fa1b97bc1718e85130b181886cd05d9218d5ccf430ae4a7dba5a01b64908",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    },
+    {
+      "kind": "typecheck",
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "exitCode": 0,
+      "status": "PASS",
+      "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    },
+    {
+      "kind": "build",
+      "command": "npm run build",
+      "exitCode": 0,
+      "status": "PASS",
+      "rawLogSha256": "790ae88b962170838e9636dc3babd01cd48c207d14ba224271495c06d0e9fa24",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    },
+    {
+      "kind": "red-regression",
+      "command": "node --import tsx --test tests/v2/schema.test.ts (before revoked-total fix)",
+      "exitCode": 1,
+      "status": "EXPECTED_RED_REVOKED_AND_RESERVED_DOUBLE_COUNT",
+      "rawLogSha256": "5234419e043c0ad021cebf6162ab7f44bcede53dfb290eb6a6e387947b02fbfc",
+      "evidencePath": "docs/form-v2/progress/F02.md",
+      "sha256": "61cfe5d9b4db1ae26f8551349479c2a79c4586c421efe87bd80077701440c17c"
+    }
   ],
   "independentReviewer": null,
   "authorization": {
@@ -82,11 +82,18 @@
     "merged": false
   },
   "nextEligibleTask": "F03",
-  "reviewScope": {
-    "status": "CODE_READY_OFFLINE_ONLY",
-    "reviewedSourceHead": "3908ad822b4e2548652183374bae56b1f7bbf201",
-    "reviewCommentUrl": "https://github.com/23chen990/form-car-studio/pull/3#issuecomment-6111657353",
-    "independentGithubApproval": false,
-    "disposition": "F02 task-card schema acceptance fulfilled. F03 disposable fixtures allowed; production migration, payments, deletion and release NOT approved."
-  }
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "history": [
+    {
+      "reportAtCommit": "3e83ebf45196398491fec01ec191ddaed62b906a",
+      "codeCommit": "3908ad822b4e2548652183374bae56b1f7bbf201",
+      "codeReady": true,
+      "reportGitPath": "docs/form-v2/progress/F02.json",
+      "reportSha256": "00cf6e34908ceacdc48b755745eec6ba7b7f1d8bd3b60144b66d9769b31473d6",
+      "evidenceGitPath": "docs/form-v2/progress/F02.md",
+      "evidenceSha256": "d02668c0fff622416a00d5408af1bbaf6bc996c955fda0f3ce19f78196c37ada"
+    }
+  ]
 }

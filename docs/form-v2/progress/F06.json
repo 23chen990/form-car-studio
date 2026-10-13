@@ -1,0 +1,23 @@
+{
+  "taskId": "F06",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "8b917783a6939b02e05905f5c7b4bc460675113f",
+  "verification": [
+    {"kind": "images", "command": "node --import tsx --test tests/v2/images.test.ts", "exitCode": 0, "status": "PASS_31_SYNTHETIC_TESTS", "rawLogPath": "/tmp/form-F06-committed-unit.log", "rawLogSha256": "84617d8874aae4d26d0a521b5ae78f172d2638b850026ab054a8be30dcf587fa", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS_151_REFERENCE_PLUS_102_SERVICE_TESTS", "rawLogPath": "/tmp/form-F06-committed-v2.log", "rawLogSha256": "b0049272cc8d8d95ca06b7ffe3acc4010a8e7f8eab288b83ee3eaeaff7e10a77", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "PASS_30_TESTS", "rawLogPath": "/tmp/form-F06-committed-legacy.log", "rawLogSha256": "04bf92cf1f8adb66b6ab9cb23de1996bcdd1cf70b353918e8780f9b0b3a51e75", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS_TYPESCRIPT_AND_VITE", "rawLogPath": "/tmp/form-F06-committed-build.log", "rawLogSha256": "0940601491d544bdc948f9e14f0b5fc9f056cb05ec0e35e1acc7770f876b9d1a", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"},
+    {"kind": "scope", "command": "python3 docs/form-handoff/tools/guard.py check F06 --repo . --checkpoint /tmp/form-20261013-F06-checkpoint.json", "exitCode": 0, "status": "PASS_SOURCE_SCOPE_432_LINES", "rawLogPath": "/tmp/form-F06-guard.log", "rawLogSha256": "96d888f487d14e87b4d0b6fe00fcb2395707df745b58995a3c2888374d17e8b5", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"},
+    {"kind": "red-regression", "command": "node --import tsx --test tests/v2/images.test.ts (before delivered-code fixes)", "exitCode": 1, "status": "EXPECTED_6_REGRESSION_FAILURES", "rawLogPath": "/tmp/form-F06-red-after-adapter.log", "rawLogSha256": "363baf0c194f4f2604ce13e2c1928cb011741880ddc511bf5ccefe820ea6f8d6", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "a5eea8771acbf887b16b07a0f700acb2ee9d2398712efa4a4d4b0b0858322ad6"}
+  ],
+  "changedFiles": ["server/v2/images.ts", "server/v2/assets.ts", "tests/v2/images.test.ts"],
+  "knownIssues": ["Formal production repository and routes remain unmounted until F07/F32; real photos/HEIC/device paths are unverified.", "Legacy locator owner transfer must be handled and reviewed in F22. Returned transient normalized metadata is distinct from persisted migration evidence.", "Inherited Sharp high-severity advisory remains a release blocker; no package version change was made outside this task allowlist."],
+  "externalPending": ["Independent privacy/assets/deletion review", "Real image quality, processor/policy/retention facts and native device evidence"],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F04"
+}

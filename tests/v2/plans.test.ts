@@ -6,12 +6,15 @@ import express from 'express';
 import sharp from 'sharp';
 import {openV2Database} from '../../server/v2/db.js';
 import {createConsentService,type ConsentCatalog} from '../../server/v2/consents.js';
-import {createProjectService} from '../../server/v2/projects.js';
-import {assetInsertMetadata} from '../../server/v2/assets.js';
+import {createProjectService,readAuthorizedLegacyBytes} from '../../server/v2/projects.js';
+import {assetInsertMetadata,type AssetRow} from '../../server/v2/assets.js';
 import {normalizeInput} from '../../server/v2/images.js';
 import {createPlanService,isPlanExpired,providerEditRequest,type PlanConfiguration} from '../../server/v2/plans.js';
 import {createPlansRouter} from '../../server/v2/routes-plans.js';
-import {resolveEdits,semanticDigest} from '../../shared/v2/edit-plan.js';
+import {createTaskService} from '../../server/v2/tasks.js';
+import {createWorkerService} from '../../server/v2/worker.js';
+import {WalletRepository} from '../../server/v2/wallet-repo.js';
+import {resolveEdits,semanticDigest,type Field} from '../../shared/v2/edit-plan.js';
 import {buildEditPrompt} from '../../shared/v2/provider-prompt.js';
 import {profileCapabilities} from '../../server/v2/provider-profile.js';
 
@@ -20,7 +23,7 @@ const now='2026-10-13T03:00:00.000Z';
 const catalog:ConsentCatalog={providers:['provider-test'],policies:[{id:'policy-test',version:'consent-v7',providerId:'provider-test',purposes:{photoRights:'photo-rights',uploadStorage:'private-storage',sharing:'model-precheck'}}]};
 const image=(color:string)=>sharp({create:{width:64,height:40,channels:4,background:color}}).png().toBuffer();
 
-function profile(id='profile-test',originalReference=true){return {id,version:'profile-v1',protocol:'openai-images-edits' as const,endpoint:'https://api.openai.com/v1/images/edits',model:'synthetic-model',templateVersion:'template-v1',fields:['bodyColor','wheelColor'] as const,originalReference,approvedForLive:true,officialEvidence:'https://developers.openai.com/synthetic-evidence',qualityEvidence:'synthetic-quality-review',maxCostMicrosUSD:25000,timeoutMs:1000,maxInputBytes:1_000_000,maxOutputBytes:2_000_000,maxResponseBytes:3_000_000,output:{format:'png' as const,size:'1024x1024' as const,quality:'low' as const}};}
+function profile(id='profile-test',originalReference=true,fields:readonly Field[]=['bodyColor','wheelColor']){return {id,version:'profile-v1',protocol:'openai-images-edits' as const,endpoint:'https://api.openai.com/v1/images/edits',model:'synthetic-model',templateVersion:'template-v1',fields,originalReference,approvedForLive:true,officialEvidence:'https://developers.openai.com/synthetic-evidence',qualityEvidence:'synthetic-quality-review',maxCostMicrosUSD:25000,timeoutMs:1000,maxInputBytes:1_000_000,maxOutputBytes:2_000_000,maxResponseBytes:3_000_000,output:{format:'png' as const,size:'1024x1024' as const,quality:'low' as const}};}
 function config(profiles=[{profile:profile(),providerId:'provider-test'}]):PlanConfiguration{return {liveEnabled:true,liveCandidates:profiles.map(x=>x.profile.id),profiles,policyVersion:'processing-v1',requiredGenerationPurpose:'model-precheck',budget:{maxSupplierCostMicrosUSD:30000},sourcePolicy:{version:'source-v1',allowedKinds:['user_upload']}};}
 type Fixture={db:DatabaseSync;ownerId:string;projectId:string;originalId:string;consentId:string;version1:string;version3:string;version1Master:string;version3Master:string;close:()=>void};
 
@@ -39,6 +42,20 @@ async function fixture():Promise<Fixture>{
  const version1='version-v1',version3='version-v3';const version1Master=await addMaster(version1,'#2458a0','2026-10-12T00:00:00.000Z');const version3Master=await addMaster(version3,'#a63325','2026-10-13T00:00:00.000Z');
  db.prepare('UPDATE projects SET cover_version_id=? WHERE id=?').run(version3,project.projectId);
  return {db,ownerId,projectId:project.projectId,originalId:project.originalAssetId,consentId:consent,version1,version3,version1Master,version3Master,close:()=>db.close()};
+}
+async function addCompletedLegacyTransfer(f:Fixture){
+ const cookie='f08-completed-upgrade-cookie',sourceOwner=`legacy-owner-${sha(`form:v2:legacy-owner\0${cookie}`).slice(0,24)}`,oldProject='f08-legacy-project',projectId=`legacy-project-${sha(`${sourceOwner}:${oldProject}`).slice(0,24)}`,imageId='f08-legacy-image',assetId='f08-legacy-asset',raw=await image('#3c6a91'),normalized=await normalizeInput(raw);
+ f.db.exec('CREATE TABLE IF NOT EXISTS images (id TEXT PRIMARY KEY,owner TEXT NOT NULL,project_id TEXT NOT NULL,data BLOB NOT NULL)');
+ f.db.prepare('INSERT INTO users(id,created_at) VALUES (?,?)').run(sourceOwner,now);
+ f.db.prepare('INSERT INTO identities(id,user_id,provider,subject,created_at) VALUES (?,?,?,?,?)').run('identity-f08-legacy',sourceOwner,'legacy_cookie',sha(cookie),now);
+ f.db.prepare('INSERT INTO owner_upgrades(source_owner_id,target_owner_id,request_digest,created_at,completed_at,status) VALUES (?,?,?,?,?,?)').run(sourceOwner,f.ownerId,'f08-upgrade-request',now,now,'completed');
+ f.db.prepare('INSERT INTO images(id,owner,project_id,data) VALUES (?,?,?,?)').run(imageId,cookie,oldProject,raw);
+ f.db.prepare('INSERT INTO projects(id,owner_id,name,created_at,deleted_at,original_asset_id) VALUES (?,?,?, ?,NULL,NULL)').run(projectId,f.ownerId,'Completed legacy transfer',now);
+ f.db.prepare(`INSERT INTO assets(id,owner_id,project_id,kind,mime,bytes,width,height,digest,storage_key,created_at,private_bytes)
+   VALUES (?,?,?,'original','application/octet-stream',?,NULL,NULL,?,?,?,NULL)`).run(assetId,f.ownerId,projectId,raw.length,sha(raw),`legacy://${sourceOwner}/${imageId}`,now);
+ f.db.prepare('UPDATE projects SET original_asset_id=? WHERE id=? AND owner_id=?').run(assetId,projectId,f.ownerId);
+ f.db.prepare("INSERT INTO audit_events(id,owner_id,event_type,details_json,created_at) VALUES (?,?, 'project.source.created',?,?)").run('audit-f08-legacy',f.ownerId,JSON.stringify({eventVersion:1,projectId,sourceKind:'user_upload',sourceSha256:normalized.sourceSha256,storedOriginalSha256:normalized.sha256,normalizerVersion:normalized.normalizerVersion,consentId:f.consentId}),now);
+ return {projectId,assetId,raw};
 }
 const request=(source:unknown,edits:Record<string,unknown>={bodyColor:{action:'set',value:'blue'}})=>({schemaVersion:2,source,operation:'detail',edits});
 function service(f:Fixture,overrides:Partial<Parameters<typeof createPlanService>[0]>={}){return createPlanService({db:f.db,consentCatalog:catalog,config:config(),clock:()=>new Date(now),...overrides});}
@@ -142,6 +159,52 @@ test('provider edit adapter expands only the frozen current preset and never rea
    assert.throws(()=>providerEditRequest(mismatched),code('PLAN_ROW_INVALID'));
    const badDigest=structuredClone(explore);badDigest.planDigest='f'.repeat(64);
    assert.throws(()=>providerEditRequest(badDigest),code('PLAN_ROW_INVALID'));
+ }finally{f.close();}
+});
+
+test('F10 version-two history stays unverified and does not require disabled historical fields or references on the next quote',async()=>{
+ const f=await fixture();try{
+   f.db.prepare('UPDATE versions SET recipe_json=? WHERE id=?').run(JSON.stringify({source:'legacy',verification:'unverified',styleId:null,target:{bodyColor:'keep'}}),f.version1);
+   const broadProfile=profile('profile-test',true,['bodyColor','wheelColor','bodyFinish']),broad=config([{profile:broadProfile,providerId:'provider-test'}]);
+   f.db.prepare('INSERT INTO identities(id,user_id,provider,subject,created_at) VALUES (?,?,?,?,?)').run('identity-f08-f10',f.ownerId,'apple','synthetic-f08-f10',now);
+   const wallet=new WalletRepository(f.db);wallet.transaction(tx=>wallet.grantInTransaction(tx,{ownerId:f.ownerId,kind:'promo',sourceKind:'promo',sourceEventKey:'f08:f10:fixture',units:2,scope:'live'}));
+   const first=await createPlanService({db:f.db,consentCatalog:catalog,config:broad,clock:()=>new Date(now)}).quote(f.ownerId,f.projectId,f.consentId,request({kind:'version',versionId:f.version1},{bodyColor:{action:'restore_original'},bodyFinish:{action:'set',value:'matte'}}));
+   const accepted=await createTaskService({db:f.db,consentCatalog:catalog,config:broad,storageQuotaBytes:300_000_000,clock:()=>new Date(now)}).submit(f.ownerId,{planId:first.planId,submissionId:`f08-f10-${randomUUID()}`,consentRecordId:f.consentId});
+   const worker=createWorkerService({db:f.db,consentCatalog:catalog,config:broad,storageQuotaBytes:300_000_000,concurrency:1,liveDispatchEnabled:true,clock:()=>new Date(now),serverProvider:async()=>({ok:true,image:await sharp({create:{width:1024,height:1024,channels:4,background:'#cc3344'}}).png().toBuffer(),mimeType:'image/png',profileId:'profile-test',profileVersion:'profile-v1',model:'synthetic-model',templateVersion:'template-v1',promptSha256:'a'.repeat(64),providerRequestId:'synthetic-f08-f10',usage:null,actualCostMicrosUSD:null,maxExposureMicrosUSD:25_000,attempted:true,quality:'UNASSESSED'})});
+   const completed=await worker.runTask(accepted.task.id);assert.equal(completed.status,'succeeded');assert.ok(completed.resultVersionId);
+   const persisted=(f.db.prepare('SELECT recipe_json FROM versions WHERE id=?').get(completed.resultVersionId) as {recipe_json:string}).recipe_json;
+   const f10=JSON.parse(persisted) as Record<string,unknown>;assert.deepEqual(Object.keys(f10).sort(),['desiredRecipe','observedRecipe','qualityAssessment','requestEdits','schemaVersion']);assert.equal(f10.schemaVersion,2);assert.deepEqual(f10.qualityAssessment,{status:'unassessed'});
+   const narrowProfile=profile('profile-narrow',false,['bodyColor','wheelColor']),narrow=config([{profile:narrowProfile,providerId:'provider-test'}]);
+   const nextService=createPlanService({db:f.db,consentCatalog:catalog,config:narrow,clock:()=>new Date(now)});
+   const next=await nextService.quote(f.ownerId,f.projectId,f.consentId,request({kind:'version',versionId:completed.resultVersionId},{wheelColor:{action:'set',value:'silver'}}));
+   assert.deepEqual(next.semantic.desiredRecipe.changes,[{field:'bodyColor',action:'restore_original'},{field:'wheelColor',action:'set',value:'silver'},{field:'bodyFinish',action:'set',value:'matte'}]);
+   assert.equal(next.semantic.desiredRecipe.inherited.verification,'unverified');assert.deepEqual(next.semantic.desiredRecipe.inherited.requested,[{field:'bodyColor',action:'restore_original'},{field:'bodyFinish',action:'set',value:'matte'}]);
+   assert.deepEqual(next.semantic.desiredRecipe.inherited.preserve,['wheelColor','wheelDesign']);
+   assert.deepEqual(next.semantic.observedRecipe,{status:'unknown',fields:{}});assert.equal(next.semantic.originalReference,undefined);
+   assert.deepEqual(resolveEdits(providerEditRequest(next),profileCapabilities(narrowProfile),{}).changes,[{field:'wheelColor',action:'set',value:'silver'}]);
+   const before=(f.db.prepare('SELECT count(*) n FROM plans').get() as {n:number}).n;
+   await assert.rejects(()=>nextService.quote(f.ownerId,f.projectId,f.consentId,request({kind:'version',versionId:completed.resultVersionId},{bodyFinish:{action:'set',value:'gloss'}})),code('FIELD_NOT_ENABLED'));
+   await assert.rejects(()=>nextService.quote(f.ownerId,f.projectId,f.consentId,request({kind:'version',versionId:completed.resultVersionId},{bodyColor:{action:'restore_original'}})),code('ORIGINAL_REFERENCE_UNSUPPORTED'));
+   assert.equal((f.db.prepare('SELECT count(*) n FROM plans').get() as {n:number}).n,before);
+ }finally{f.close();}
+});
+
+test('a malformed F10 recipe is treated as unknown intent and never as observed facts',async()=>{
+ const f=await fixture();try{
+   f.db.prepare('UPDATE versions SET recipe_json=? WHERE id=?').run(JSON.stringify({schemaVersion:2,requestEdits:request({kind:'version',versionId:f.version1}),desiredRecipe:{changes:[{field:'bodyColor',action:'set',value:'blue'}],preserve:[],inherited:{styleId:null,verification:'unverified',requested:[],preserve:[]}},observedRecipe:{status:'verified',fields:{bodyColor:'blue'}},qualityAssessment:{status:'unassessed'},extra:'not F10'}),f.version1);
+   const quoted=await service(f).quote(f.ownerId,f.projectId,f.consentId,request({kind:'version',versionId:f.version1},{wheelColor:{action:'set',value:'silver'}}));
+   assert.equal(quoted.semantic.desiredRecipe.inherited.verification,'unknown');assert.deepEqual(quoted.semantic.desiredRecipe.inherited.requested,[]);
+   assert.deepEqual(quoted.semantic.desiredRecipe.changes,[{field:'wheelColor',action:'set',value:'silver'}]);assert.deepEqual(quoted.semantic.observedRecipe,{status:'unknown',fields:{}});
+ }finally{f.close();}
+});
+
+test('F08 reads a completed direct owner upgrade through F07 and rejects hybrid legacy storage',async()=>{
+ const f=await fixture();try{
+   const legacy=await addCompletedLegacyTransfer(f),storedRow=f.db.prepare('SELECT id,owner_id,project_id,kind,mime,bytes,width,height,digest,storage_key,created_at FROM assets WHERE id=?').get(legacy.assetId);assert.ok(storedRow);const row=storedRow as unknown as AssetRow;
+   const bytes=readAuthorizedLegacyBytes(f.db,row);assert.ok(Buffer.isBuffer(bytes));assert.equal(bytes instanceof Promise,false);assert.deepEqual(bytes,legacy.raw);
+   const quoted=await service(f).quote(f.ownerId,legacy.projectId,f.consentId,request({kind:'original'}));assert.equal(quoted.semantic.source.assetId,legacy.assetId);assert.equal(quoted.semantic.source.persistedSha256,sha(legacy.raw));
+   f.db.prepare('UPDATE assets SET private_bytes=? WHERE id=?').run(legacy.raw,legacy.assetId);assert.equal(readAuthorizedLegacyBytes(f.db,row),null);
+   await assert.rejects(()=>service(f).quote(f.ownerId,legacy.projectId,f.consentId,request({kind:'original'})),code('SOURCE_NOT_FOUND'));
  }finally{f.close();}
 });
 

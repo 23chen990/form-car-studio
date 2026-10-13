@@ -2,7 +2,7 @@ import {createHash,randomUUID} from 'node:crypto';
 import type {DatabaseSync} from 'node:sqlite';
 import {AssetError,readGenerationBase,type AssetRow} from './assets.js';
 import {ConsentError,createConsentService,EMPTY_CONSENT_CATALOG,type ConsentCatalog} from './consents.js';
-import {createSqlAssetReader,type DemoSample,type SourceKind} from './projects.js';
+import {createSqlAssetReader,readAuthorizedLegacyBytes,type DemoSample,type SourceKind} from './projects.js';
 import {ProfileError,profileCapabilities,snapshotProfile,type ProviderProfile} from './provider-profile.js';
 import {canonicalJson,ContractError,FIELDS,COLORS,WHEEL_COLORS,FINISHES,WHEEL_DESIGNS,STYLES,parseEditRequest,resolveEdits,semanticDigest,type EditRequest,type Field,type ResolvedEdit,type SourceRef} from '../../shared/v2/edit-plan.js';
 import {expandPreset,PRESET_VERSION} from './presets.js';
@@ -155,10 +155,38 @@ function selectedRecipeJson(db:DatabaseSync,scope:ProjectScope,source:SourceRef)
 
 type InheritedIntent=PlanSemantic['desiredRecipe']['inherited'];
 const legacyChoices:Record<Field,readonly string[]>={bodyColor:COLORS,wheelColor:WHEEL_COLORS,bodyFinish:FINISHES,wheelDesign:WHEEL_DESIGNS};
+function validInheritedIntent(value:unknown):value is InheritedIntent{
+  if(!isPlain(value))return false;
+  try{exactKeys(value,['styleId','verification','requested','preserve']);}catch{return false;}
+  if(!(value.styleId===null||STYLES.includes(value.styleId as typeof STYLES[number]))||!['none','unknown','unverified'].includes(String(value.verification))||!Array.isArray(value.requested)||value.requested.some((x:unknown)=>!validChange(x))||!Array.isArray(value.preserve)||value.preserve.some((x:unknown)=>!FIELDS.includes(x as Field))||new Set(value.preserve).size!==value.preserve.length)return false;
+  if(new Set((value.requested as ResolvedEdit[]).map(x=>x.field)).size!==value.requested.length||(value.requested as ResolvedEdit[]).some(x=>(value.preserve as Field[]).includes(x.field)))return false;
+  if(value.verification==='none'&&(value.styleId!==null||value.requested.length||value.preserve.length)||value.verification==='unknown'&&(value.styleId!==null||value.requested.length||value.preserve.length))return false;
+  return true;
+}
+function validDesiredRecipe(value:unknown):value is PlanSemantic['desiredRecipe']{
+  if(!isPlain(value))return false;
+  try{exactKeys(value,['changes','preserve','inherited']);}catch{return false;}
+  return Array.isArray(value.changes)&&value.changes.every(validChange)&&new Set(value.changes.map((x:ResolvedEdit)=>x.field)).size===value.changes.length&&Array.isArray(value.preserve)&&value.preserve.every((x:unknown)=>FIELDS.includes(x as Field))&&new Set(value.preserve).size===value.preserve.length&&validInheritedIntent(value.inherited);
+}
+const historicalCapabilities:PlanSemantic['capabilities']={enabled:true,fields:FIELDS,originalReference:true};
+function versionTwoIntent(raw:Record<string,unknown>):InheritedIntent|null{
+  try{
+    exactKeys(raw,['schemaVersion','requestEdits','desiredRecipe','observedRecipe','qualityAssessment']);
+    if(raw.schemaVersion!==2||!isPlain(raw.observedRecipe)||!isPlain(raw.qualityAssessment))return null;
+    exactKeys(raw.observedRecipe,['status','fields']);exactKeys(raw.qualityAssessment,['status']);
+    if(raw.observedRecipe.status!=='unknown'||!isPlain(raw.observedRecipe.fields)||Reflect.ownKeys(raw.observedRecipe.fields).length!==0||raw.qualityAssessment.status!=='unassessed')return null;
+    const request=parseEditRequest(raw.requestEdits),desired=raw.desiredRecipe;
+    if(canonicalJson(request)!==canonicalJson(raw.requestEdits)||!validDesiredRecipe(desired))return null;
+    const recomputed=combineRecipe(desired.inherited,resolveCurrentRecipe(request,historicalCapabilities).changes,request);
+    if(canonicalJson(recomputed)!==canonicalJson(desired))return null;
+    return {styleId:desired.inherited.styleId??(request.operation==='explore'?request.styleId??null:null),verification:'unverified',requested:desired.changes.map(edit=>({...edit})),preserve:[...desired.preserve]};
+  }catch{return null;}
+}
 function inheritedIntent(recipeJson:string|null):InheritedIntent{
   if(recipeJson===null)return {styleId:null,verification:'none',requested:[],preserve:[]};
   let raw:unknown;try{raw=JSON.parse(recipeJson);}catch{return {styleId:null,verification:'unknown',requested:[],preserve:[]};}
   if(!isPlain(raw))return {styleId:null,verification:'unknown',requested:[],preserve:[]};
+  if(raw.schemaVersion===2){const intent=versionTwoIntent(raw);return intent??{styleId:null,verification:'unknown',requested:[],preserve:[]};}
   if(raw.source!=='legacy'||raw.verification!=='unverified')return {styleId:null,verification:'unknown',requested:[],preserve:[]};
   const styleId=typeof raw.styleId==='string'&&STYLES.includes(raw.styleId as typeof STYLES[number])?raw.styleId:null;
   const verification='unverified' as const;
@@ -248,17 +276,8 @@ function rowAsset(db:DatabaseSync,expected:AssetRow){
     FROM assets WHERE id=? AND owner_id=? AND project_id=?`).get(expected.id,expected.owner_id,expected.project_id) as (AssetRow&{private_bytes:Uint8Array|null})|undefined;
   if(!row||row.kind!==expected.kind||row.mime!==expected.mime||row.bytes!==expected.bytes||row.width!==expected.width||row.height!==expected.height||row.digest!==expected.digest||row.storage_key!==expected.storage_key||row.created_at!==expected.created_at)throw new PlanError('SOURCE_CHANGED',409);
   let bytes:Buffer|null=null;
-  if(row.private_bytes)bytes=Buffer.from(row.private_bytes);
-  else {
-    const legacy=/^legacy:\/\/legacy-owner-[a-f0-9]{24}\/([A-Za-z0-9_-]{1,128})$/.exec(row.storage_key);
-    if(legacy){
-      const stored=db.prepare('SELECT id,owner,project_id,data FROM images WHERE id=?').get(legacy[1]) as {id:string;owner:string;project_id:string;data:Uint8Array}|undefined;
-      if(stored&&row.storage_key===`legacy://${row.owner_id}/${stored.id}`&&legacy[0].startsWith(`legacy://${row.owner_id}/`)&&`legacy-owner-${hash(`form:v2:legacy-owner\0${stored.owner}`).slice(0,24)}`===row.owner_id&&`legacy-project-${hash(`${row.owner_id}:${stored.project_id}`).slice(0,24)}`===row.project_id){
-        const identity=db.prepare("SELECT 1 FROM identities WHERE user_id=? AND provider='legacy_cookie' AND subject=?").get(row.owner_id,hash(stored.owner));
-        if(identity)bytes=Buffer.from(stored.data);
-      }
-    }
-  }
+  if(row.storage_key.startsWith('legacy://'))bytes=readAuthorizedLegacyBytes(db,row);
+  else if(row.private_bytes)bytes=Buffer.from(row.private_bytes);
   if(!bytes||bytes.length!==row.bytes||hash(bytes)!==row.digest)throw new PlanError('SOURCE_CHANGED',409);
 }
 function transaction<T>(db:DatabaseSync,work:()=>T):T{db.exec('BEGIN IMMEDIATE');try{const result=work();db.exec('COMMIT');return result;}catch(error){try{db.exec('ROLLBACK');}catch{}throw error;}}
@@ -300,24 +319,18 @@ function validateSemantic(value:unknown):value is PlanSemantic{
   if(!isPlain(value.observedRecipe))return false;
   try{exactKeys(value.observedRecipe,['status','fields']);}catch{return false;}
   if(value.observedRecipe.status!=='unknown'||!isPlain(value.observedRecipe.fields)||Reflect.ownKeys(value.observedRecipe.fields).length!==0)return false;
-  if(!isPlain(value.desiredRecipe))return false;
-  try{exactKeys(value.desiredRecipe,['changes','preserve','inherited']);}catch{return false;}
-  const desired=value.desiredRecipe;
-  if(!Array.isArray(desired.changes)||desired.changes.some(x=>!validChange(x))||new Set(desired.changes.map((x:ResolvedEdit)=>x.field)).size!==desired.changes.length||!Array.isArray(desired.preserve)||desired.preserve.some((x:unknown)=>!FIELDS.includes(x as Field))||new Set(desired.preserve).size!==desired.preserve.length||!isPlain(desired.inherited))return false;
-  try{exactKeys(desired.inherited,['styleId','verification','requested','preserve']);}catch{return false;}
-  const inherited=desired.inherited;
-  if(!(inherited.styleId===null||STYLES.includes(inherited.styleId as typeof STYLES[number]))||!['none','unknown','unverified'].includes(String(inherited.verification))||!Array.isArray(inherited.requested)||inherited.requested.some((x:unknown)=>!validChange(x)||((x as ResolvedEdit).action!=='set'))||!Array.isArray(inherited.preserve)||inherited.preserve.some((x:unknown)=>!FIELDS.includes(x as Field))||new Set(inherited.preserve).size!==inherited.preserve.length)return false;
-  if(new Set((inherited.requested as ResolvedEdit[]).map(x=>x.field)).size!==inherited.requested.length||(inherited.requested as ResolvedEdit[]).some(x=>(inherited.preserve as Field[]).includes(x.field)))return false;
-  if(inherited.verification==='none'&&(inherited.styleId!==null||inherited.requested.length||inherited.preserve.length)||inherited.verification==='unknown'&&(inherited.styleId!==null||inherited.requested.length||inherited.preserve.length))return false;
+  if(!validDesiredRecipe(value.desiredRecipe))return false;
+  const desired=value.desiredRecipe,inherited=desired.inherited;
   const requestParsed:EditRequest|undefined=(()=>{try{const r=parseEditRequest(value.requestEdits);return canonicalJson(r)===canonicalJson(value.requestEdits)?r:undefined;}catch{return undefined;}})();
   if(!requestParsed||requestParsed.source.kind!==sourceKind||requestParsed.source.kind==='version'&&requestParsed.source.versionId!==sourceVersionId)return false;
   if(requestParsed.operation==='explore'?value.presetVersion!==PRESET_VERSION:value.presetVersion!==null)return false;
   let expectedRecipe:PlanSemantic['desiredRecipe'];
   const validatedCapabilities=value.capabilities as PlanSemantic['capabilities'];
-  if((inherited.requested as ResolvedEdit[]).some(item=>!validatedCapabilities.fields.includes(item.field)))return false;
-  try{const current=resolveCurrentRecipe(requestParsed,validatedCapabilities);expectedRecipe=combineRecipe(inherited as InheritedIntent,current.changes,requestParsed);}catch{return false;}
+  let current:ReturnType<typeof resolveCurrentRecipe>;
+  try{current=resolveCurrentRecipe(requestParsed,validatedCapabilities);expectedRecipe=combineRecipe(inherited,current.changes,requestParsed);}catch{return false;}
   if(canonicalJson(expectedRecipe)!==canonicalJson(desired))return false;
-  if((desired.changes as ResolvedEdit[]).some(x=>x.action==='restore_original')&&(sourceKind!=='version'||!value.originalReference))return false;
+  const currentRestore=sourceKind==='version'&&current.changes.some(x=>x.action==='restore_original');
+  if(currentRestore!==(value.originalReference!==undefined))return false;
   if(value.executionMode==='licensed_demo'){
     return value.walletScope==='demo'&&value.projectSource.kind==='licensed_demo'&&value.supplier===null&&value.supplierExposureMicrosUSD===0&&value.generationPurpose===null&&value.sourcePolicyVersion===null&&token(value.demoPolicyVersion)&&value.policyVersion===value.demoPolicyVersion&&value.consent.providerId===null&&value.capabilities.fields.every(f=>f==='bodyColor'||f==='wheelColor');
   }
@@ -446,8 +459,7 @@ export function createPlanService(options:PlanOptions){
       }else{
         ensureSourceAllowed(initialConfig,sourceEvidence.kind);const candidate=selectedCandidate(initialConfig);executionMode='live';const profileCaps=profileCapabilities(candidate.profile);capabilities={enabled:true,fields:[...profileCaps.fields],originalReference:profileCaps.originalReference};currentConsent=activeConsent(db,catalog,consentId,ownerId,candidate.providerId,initialConfig.requiredGenerationPurpose);supplier=supplierSnapshot(candidate,initialConfig);
       }
-      if(inherited.requested.some(item=>!capabilities.fields.includes(item.field)))throw new PlanError('FIELD_NOT_ENABLED',422);
-      const current=resolveCurrentRecipe(parsed,capabilities),recipe=combineRecipe(inherited,current.changes,parsed),restore=parsed.source.kind==='version'&&recipe.changes.some(edit=>edit.action==='restore_original');
+      const current=resolveCurrentRecipe(parsed,capabilities),recipe=combineRecipe(inherited,current.changes,parsed),restore=parsed.source.kind==='version'&&current.changes.some(edit=>edit.action==='restore_original');
       if(restore&&initialScope.originalAssetId===null)throw new PlanError('ORIGINAL_REFERENCE_UNSUPPORTED',422);
       if(restore&&!capabilities.originalReference)throw new PlanError('ORIGINAL_REFERENCE_UNSUPPORTED',422);
       if(restore&&(!originalRead||originalRead.persistedRow.kind!=='original'))throw invalidSource();

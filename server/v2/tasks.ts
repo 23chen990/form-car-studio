@@ -40,9 +40,14 @@ export interface StorageHeadroom { usedBytes: number; reserveBytes: number; rema
 export interface TrustedFundingContext { tx: WalletTransaction; ownerId: string; taskId: string; plan: PlanSnapshot }
 export interface TrustedFundingDecision { sourceEventKey: string }
 export type TrustedFundingHook = (context: TrustedFundingContext) => TrustedFundingDecision | undefined;
+export interface BeforeAcceptContext {
+  tx: WalletTransaction; ownerId: string; projectId: string; taskId: string; plan: PlanSnapshot;
+  maximumExposureMicrosUSD: number; currentLiabilityMicrosUSD: bigint;
+}
+export type BeforeAcceptHook = (context: BeforeAcceptContext) => boolean | undefined;
 export interface TaskServiceOptions {
   db: DatabaseSync; consentCatalog?: ConsentCatalog | null; config?: PlanConfiguration; getConfig?: () => PlanConfiguration;
-  storageQuotaBytes?: number | null; clock?: () => Date; id?: () => string; trustedFunding?: TrustedFundingHook;
+  storageQuotaBytes?: number | null; clock?: () => Date; id?: () => string; trustedFunding?: TrustedFundingHook; beforeAccept?: BeforeAcceptHook;
 }
 type TaskRow = {
   id: string; owner_id: string; project_id: string; plan_id: string | null; confirmed_plan_id: string | null;
@@ -188,12 +193,21 @@ export function createTaskService(options: TaskServiceOptions) {
         if (!tx.get('SELECT 1 FROM identities WHERE user_id=? AND provider=\'apple\' LIMIT 1', ownerId)) throw new TaskError('LIVE_IDENTITY_REQUIRED', 403);
       } else if (scope !== 'demo' || semantic.executionMode !== 'licensed_demo' || semantic.projectSource.kind !== 'licensed_demo' || semantic.supplier !== null || semantic.supplierExposureMicrosUSD !== 0) throw new TaskError('DEMO_SOURCE_REQUIRED', 403);
       checkTaskStorageHeadroom(db, ownerId, storageQuota);
+      let currentLiabilityMicrosUSD = 0n, maximumExposureMicrosUSD = 0;
       if (scope === 'live') {
         const supplier = semantic.supplier!;
-        if (supplierLiability(tx) + BigInt(supplier.maxSupplierCostMicrosUSD) > BigInt(supplier.approvedBudgetMicrosUSD)) throw new TaskError('SUPPLIER_BUDGET_EXCEEDED', 503);
+        maximumExposureMicrosUSD = supplier.maxSupplierCostMicrosUSD;
+        currentLiabilityMicrosUSD = supplierLiability(tx);
+        if (currentLiabilityMicrosUSD + BigInt(maximumExposureMicrosUSD) > BigInt(supplier.approvedBudgetMicrosUSD)) throw new TaskError('SUPPLIER_BUDGET_EXCEEDED', 503);
       }
       const taskId = makeId(); if (!safeId(taskId)) throw new TaskError('TASK_ID_INVALID', 500);
       const snapshot = validateTaskSnapshot({ schemaVersion: 1, scope, plan, submissionId: request.submissionId, consentRecordId: request.consentRecordId, submissionFingerprint: fingerprint(request.planId, request.submissionId, request.consentRecordId), storageReserveBytes: STORAGE_RESERVE_BYTES });
+      if (options.beforeAccept) {
+        const decision: unknown = options.beforeAccept(Object.freeze({ tx, ownerId, projectId: semantic.projectId, taskId, plan, maximumExposureMicrosUSD, currentLiabilityMicrosUSD }));
+        if (thenable(decision)) { void Promise.resolve(decision).catch(() => {}); throw new TaskError('TASK_ADMISSION_ASYNC_FORBIDDEN', 500); }
+        if (decision === false) throw new TaskError('TASK_ADMISSION_REJECTED', 409);
+        if (decision !== undefined && decision !== true) throw new TaskError('TASK_ADMISSION_INVALID', 500);
+      }
       tx.run(`INSERT INTO tasks(id,owner_id,project_id,plan_id,confirmed_plan_id,submission_id,status,user_cost_units,created_at,updated_at,request_snapshot_json)
         VALUES (?,?,?,?,?,?,'queued',?,?,?,?)`, taskId, ownerId, semantic.projectId, plan.planId, plan.planId, request.submissionId, semantic.userCostUnits, createdAt, createdAt, canonicalJson(snapshot));
       let fundedLotId: string | undefined;

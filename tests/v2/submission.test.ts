@@ -14,7 +14,7 @@ import { createConsentService, type ConsentCatalog } from '../../server/v2/conse
 import { createProjectService } from '../../server/v2/projects.js';
 import { createPlanService, type PlanConfiguration, type PlanSnapshot } from '../../server/v2/plans.js';
 import { WalletRepository } from '../../server/v2/wallet-repo.js';
-import { createTaskService, readTaskSnapshot, type TaskRequest, type TrustedFundingHook } from '../../server/v2/tasks.js';
+import { createTaskService, readTaskSnapshot, TaskError, type BeforeAcceptHook, type TaskRequest, type TrustedFundingHook } from '../../server/v2/tasks.js';
 import { createTasksRouter } from '../../server/v2/routes-tasks.js';
 
 const now = '2026-10-13T03:00:00.000Z';
@@ -30,6 +30,9 @@ if (false) {
   // @ts-expect-error Trusted funding must remain synchronous.
   const asyncHook: TrustedFundingHook = async () => ({ sourceEventKey: 'async' });
   void asyncHook;
+  // @ts-expect-error Admission decisions must remain synchronous.
+  const asyncAdmission: BeforeAcceptHook = async () => true;
+  void asyncAdmission;
 }
 async function fixture(options: { credits?: boolean; apple?: boolean } = {}): Promise<Fixture> {
   const dir = mkdtempSync(join(tmpdir(), 'form-submit-')), dbPath = join(dir, 'form.sqlite');
@@ -57,14 +60,14 @@ async function fixture(options: { credits?: boolean; apple?: boolean } = {}): Pr
 const livePlan = (f: Fixture, owner: Owner, cfg = config()) => createPlanService({ db: f.db, consentCatalog: catalog, config: cfg, clock: () => new Date(now) }).quote(owner.id, owner.projectId, owner.consentId, { schemaVersion: 2, source: { kind: 'original' }, operation: 'detail', edits: { bodyColor: { action: 'set', value: 'blue' } } });
 const demoConfig = (registry: Fixture['registry']): PlanConfiguration => ({ demoEnabled: true, demoPolicy: { version: 'demo-v1', registry, fields: ['bodyColor', 'wheelColor'] } });
 const demoPlan = (f: Fixture, owner: Owner) => createPlanService({ db: f.db, consentCatalog: catalog, config: demoConfig(f.registry), clock: () => new Date(now) }).quote(owner.id, owner.demoProjectId, owner.demoConsentId, { schemaVersion: 2, source: { kind: 'original' }, operation: 'detail', edits: { bodyColor: { action: 'set', value: 'blue' } } });
-function service(f: Fixture, overrides: { config?: PlanConfiguration; getConfig?: () => PlanConfiguration; storageQuotaBytes?: number | null; clock?: () => Date; trustedFunding?: FundingHook } = {}) {
-  return createTaskService({ db: f.db, consentCatalog: catalog, config: overrides.config ?? config(), getConfig: overrides.getConfig, storageQuotaBytes: overrides.storageQuotaBytes === undefined ? 300_000_000 : overrides.storageQuotaBytes, clock: overrides.clock ?? (() => new Date(now)), ...(overrides.trustedFunding ? { trustedFunding: overrides.trustedFunding } : {}) });
+function service(f: Fixture, overrides: { config?: PlanConfiguration; getConfig?: () => PlanConfiguration; storageQuotaBytes?: number | null; clock?: () => Date; trustedFunding?: FundingHook; beforeAccept?: BeforeAcceptHook } = {}) {
+  return createTaskService({ db: f.db, consentCatalog: catalog, config: overrides.config ?? config(), getConfig: overrides.getConfig, storageQuotaBytes: overrides.storageQuotaBytes === undefined ? 300_000_000 : overrides.storageQuotaBytes, clock: overrides.clock ?? (() => new Date(now)), ...(overrides.trustedFunding ? { trustedFunding: overrides.trustedFunding } : {}), ...(overrides.beforeAccept ? { beforeAccept: overrides.beforeAccept } : {}) });
 }
 const request = (plan: PlanSnapshot, owner: Owner, submissionId = `submission-${randomUUID()}`): TaskRequest => ({ planId: plan.planId, submissionId, consentRecordId: owner.consentId });
 const count = (db: DatabaseSync, table: string) => (db.prepare(`SELECT count(*) AS n FROM ${table}`).get() as { n: number }).n;
 function code(expected: string) { return (error: unknown) => error instanceof Error && (error as { code?: string }).code === expected; }
 type WorkerResult = { ok: true; taskId: string; replayed: boolean } | { ok: false; code: string };
-async function raceTaskWorkers(f: Fixture, work: { owner: Owner; input: TaskRequest }[], cfg = config()): Promise<WorkerResult[]> {
+async function raceTaskWorkers(f: Fixture, work: { owner: Owner; input: TaskRequest }[], cfg = config(), admissionGate = false): Promise<WorkerResult[]> {
   const source = `
     import { parentPort, workerData } from 'node:worker_threads';
     import { DatabaseSync } from 'node:sqlite';
@@ -72,14 +75,19 @@ async function raceTaskWorkers(f: Fixture, work: { owner: Owner; input: TaskRequ
     (async () => {
       const { createTaskService } = await import(workerData.tasksModule);
       db = new DatabaseSync(workerData.dbPath); db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;');
-      const service = createTaskService({ db, consentCatalog: workerData.catalog, config: workerData.config, storageQuotaBytes: 300000000, clock: () => new Date(workerData.now) });
+      const beforeAccept = workerData.admissionGate ? ({ tx }) => {
+        const row = tx.get('SELECT accepted FROM test_admission_gate WHERE id=1');
+        if (!row || row.accepted >= 1) return false;
+        tx.run('UPDATE test_admission_gate SET accepted=accepted+1 WHERE id=1'); return true;
+      } : undefined;
+      const service = createTaskService({ db, consentCatalog: workerData.catalog, config: workerData.config, storageQuotaBytes: 300000000, clock: () => new Date(workerData.now), ...(beforeAccept ? { beforeAccept } : {}) });
       parentPort.postMessage('ready'); await new Promise(resolve => parentPort.once('message', value => value === 'go' && resolve()));
       try { const result = await service.submit(workerData.owner.id, workerData.input); parentPort.postMessage({ ok: true, taskId: result.task.id, replayed: result.replayed }); }
       catch (error) { parentPort.postMessage({ ok: false, code: error.code || 'REQUEST_FAILED' }); }
     })().catch(error => parentPort.postMessage({ ok: false, code: error.code || 'WORKER_FAILED' })).finally(() => { db?.close(); parentPort.close(); });
   `;
   const workers = work.map(item => new Worker(source, { eval: true, execArgv: ['--import', 'tsx/esm'], workerData: {
-    dbPath: f.dbPath, tasksModule: new URL('../../server/v2/tasks.ts', import.meta.url).href, catalog, config: cfg, now, ...item,
+    dbPath: f.dbPath, tasksModule: new URL('../../server/v2/tasks.ts', import.meta.url).href, catalog, config: cfg, now, admissionGate, ...item,
   } }));
   return new Promise((resolve, reject) => {
     let ready = 0, exited = 0; const results: WorkerResult[] = [];
@@ -140,6 +148,55 @@ test('submission rejects missing storage quota, insufficient credits, and failed
     await assert.rejects(() => service(f).submit(owner.id, input));
     assert.equal(count(f.db, 'tasks'), 0); assert.equal(count(f.db, 'reservations'), 0); assert.equal(count(f.db, 'reservation_allocations'), 0); assert.equal(count(f.db, 'ledger_events'), 0); assert.equal(count(f.db, 'supplier_exposures'), 0);
     assert.equal((f.db.prepare('SELECT confirmed_at FROM plans WHERE id=?').get(plan.planId) as { confirmed_at: string | null }).confirmed_at, null);
+  } finally { f.close(); }
+});
+
+test('server admission gate runs after validation, before funding, and never runs on replay', async () => {
+  const f = await fixture({ credits: false }); try {
+    const owner = f.owners['owner-a']!, plan = await livePlan(f, owner), input = request(plan, owner, 'admission-gate-replay'), auditBefore = count(f.db, 'audit_events'); let deniedCalls = 0, allowedCalls = 0, fundingCalls = 0;
+    const trustedFunding: FundingHook = ({ tx, ownerId, plan: frozen }) => {
+      fundingCalls++; tx.run('INSERT INTO trial_claims(id,user_id,trial_program_id,units,created_at) VALUES (?,?,?,?,?)', `admission-${ownerId}`, ownerId, 'synthetic-admission', frozen.semantic.userCostUnits, now);
+      return { sourceEventKey: `trial:admission:${ownerId}` };
+    };
+    const denied: BeforeAcceptHook = context => {
+      deniedCalls++; assert.deepEqual(Object.keys(context).sort(), ['currentLiabilityMicrosUSD','maximumExposureMicrosUSD','ownerId','plan','projectId','taskId','tx']);
+      assert.equal(context.ownerId, owner.id); assert.equal(context.projectId, owner.projectId); assert.ok(context.taskId); assert.equal(context.plan.planId, plan.planId);
+      assert.equal(context.maximumExposureMicrosUSD, 25_000); assert.equal(context.currentLiabilityMicrosUSD, 0n);
+      context.tx.run('INSERT INTO audit_events(id,owner_id,event_type,details_json,created_at) VALUES (?,?,?,?,?)', 'denied-admission-audit', owner.id, 'test.admission.denied', '{}', now);
+      return false;
+    };
+    await assert.rejects(() => service(f, { trustedFunding, beforeAccept: denied }).submit(owner.id, input), code('TASK_ADMISSION_REJECTED'));
+    assert.equal(deniedCalls, 1); assert.equal(fundingCalls, 0); assert.equal(count(f.db, 'tasks'), 0); assert.equal(count(f.db, 'trial_claims'), 0); assert.equal(count(f.db, 'credit_lots'), 0);
+    assert.equal(count(f.db, 'reservations'), 0); assert.equal(count(f.db, 'supplier_exposures'), 0); assert.equal(count(f.db, 'audit_events'), auditBefore);
+    assert.equal((f.db.prepare('SELECT confirmed_at FROM plans WHERE id=?').get(plan.planId) as {confirmed_at:string|null}).confirmed_at, null);
+
+    const beforeAccept: BeforeAcceptHook = context => { allowedCalls++; assert.equal(context.currentLiabilityMicrosUSD, 0n); return true; };
+    const accepted = await service(f, { trustedFunding, beforeAccept }).submit(owner.id, input);
+    assert.equal(accepted.task.status, 'queued'); assert.equal(allowedCalls, 1); assert.equal(fundingCalls, 1);
+    const replay = await service(f, { trustedFunding, beforeAccept, clock: () => new Date(Date.parse(plan.expiresAt) + 1) }).submit(owner.id, input);
+    assert.equal(replay.task.id, accepted.task.id); assert.equal(replay.replayed, true); assert.equal(allowedCalls, 1); assert.equal(fundingCalls, 1);
+    assert.equal(count(f.db, 'tasks'), 1); assert.equal(count(f.db, 'reservations'), 1); assert.equal(count(f.db, 'trial_claims'), 1);
+  } finally { f.close(); }
+});
+
+test('admission gate preserves TaskError status and consumes async late transaction use after rollback', async () => {
+  const f = await fixture({ credits: false }); try {
+    const owner = f.owners['owner-a']!, plan = await livePlan(f, owner), input = request(plan, owner, 'admission-async'), auditBefore = count(f.db, 'audit_events');
+    const typed: BeforeAcceptHook = ({ tx }) => { tx.run('INSERT INTO audit_events(id,owner_id,event_type,details_json,created_at) VALUES (?,?,?,?,?)', 'typed-admission-audit', owner.id, 'test.admission.typed', '{}', now); throw new TaskError('SYNTHETIC_REVIEW_REQUIRED', 429); };
+    await assert.rejects(() => service(f, { beforeAccept: typed }).submit(owner.id, input), (error: unknown) => error instanceof TaskError && error.code === 'SYNTHETIC_REVIEW_REQUIRED' && error.status === 429);
+    assert.equal(count(f.db, 'tasks'), 0); assert.equal(count(f.db, 'audit_events'), auditBefore);
+
+    let started!: () => void, release!: () => void;
+    const entered = new Promise<void>(resolve => { started = resolve; }), barrier = new Promise<void>(resolve => { release = resolve; });
+    const asyncGate = (async ({ tx }: Parameters<BeforeAcceptHook>[0]) => {
+      tx.run('INSERT INTO audit_events(id,owner_id,event_type,details_json,created_at) VALUES (?,?,?,?,?)', 'async-admission-audit', owner.id, 'test.admission.async', '{}', now);
+      started(); await barrier;
+      tx.run('INSERT INTO audit_events(id,owner_id,event_type,details_json,created_at) VALUES (?,?,?,?,?)', 'late-admission-audit', owner.id, 'test.admission.late', '{}', now);
+      return true;
+    }) as unknown as BeforeAcceptHook;
+    const pending = service(f, { beforeAccept: asyncGate }).submit(owner.id, input); await entered;
+    await assert.rejects(() => pending, code('TASK_ADMISSION_ASYNC_FORBIDDEN')); release(); await new Promise(resolve => setTimeout(resolve, 15));
+    assert.equal(count(f.db, 'audit_events'), auditBefore); assert.equal(count(f.db, 'tasks'), 0); assert.equal(count(f.db, 'reservations'), 0); assert.equal(count(f.db, 'supplier_exposures'), 0);
   } finally { f.close(); }
 });
 
@@ -267,6 +324,19 @@ test('SQLite worker barrier prevents different owners from oversubscribing globa
   } finally { f.close(); }
 });
 
+test('SQLite worker barrier enforces a server admission ceiling across different owners', async () => {
+  const f = await fixture(); try {
+    const a = f.owners['owner-a']!, b = f.owners['owner-b']!, cfg = config(100_000), pa = await livePlan(f, a, cfg), pb = await livePlan(f, b, cfg);
+    f.db.exec('CREATE TABLE test_admission_gate(id INTEGER PRIMARY KEY,accepted INTEGER NOT NULL); INSERT INTO test_admission_gate VALUES (1,0)');
+    const results = await raceTaskWorkers(f, [{ owner: a, input: request(pa, a, 'admission-race-a') }, { owner: b, input: request(pb, b, 'admission-race-b') }], cfg, true);
+    assert.equal(results.filter(x => x.ok).length, 1, JSON.stringify(results)); assert.equal(results.filter(x => !x.ok && x.code === 'TASK_ADMISSION_REJECTED').length, 1, JSON.stringify(results));
+    assert.equal((f.db.prepare('SELECT accepted FROM test_admission_gate WHERE id=1').get() as {accepted:number}).accepted, 1);
+    assert.equal(count(f.db, 'tasks'), 1); assert.equal(count(f.db, 'reservations'), 1); assert.equal(count(f.db, 'reservation_allocations'), 1); assert.equal(count(f.db, 'supplier_exposures'), 1);
+    assert.equal((f.db.prepare("SELECT count(*) n FROM ledger_events WHERE event_type='reserve'").get() as {n:number}).n, 1);
+    assert.equal((f.db.prepare('SELECT count(*) n FROM plans WHERE confirmed_at IS NOT NULL').get() as {n:number}).n, 1);
+  } finally { f.close(); }
+});
+
 test('live submission fails closed on a breached or unknown prior supplier liability', async () => {
   const f = await fixture(); try {
     const a = f.owners['owner-a']!, b = f.owners['owner-b']!, cfg = config(100_000), pa = await livePlan(f, a, cfg), pb = await livePlan(f, b, cfg);
@@ -301,7 +371,7 @@ test('settled supplier expense is counted once and does not add its old maximum 
     f.db.prepare("INSERT INTO supplier_attempts(id,owner_id,task_id,provider_profile_id,status,started_at,ended_at,reconciled_cost_usd_micros) VALUES (?,?,?,'profile-test','failed',?,?,10_000)").run('attempt-final',a.id,accepted.task.id,now,now);
     f.db.prepare("UPDATE supplier_exposures SET status='settled' WHERE task_id=?").run(accepted.task.id);
     const wallet=new WalletRepository(f.db);const released=wallet.transaction(tx=>wallet.finalizeTaskInTransaction(tx,{ownerId:a.id,taskId:accepted.task.id,outcome:'failed'}));assert.equal(released.returnedUnits,1);
-    const next=await service(f,{config:cfg}).submit(b.id,request(pb,b));assert.equal(next.task.status,'queued');assert.equal(count(f.db,'supplier_exposures'),2);
+    let seenLiability=-1n;const next=await service(f,{config:cfg,beforeAccept:context=>{seenLiability=context.currentLiabilityMicrosUSD;assert.equal(context.maximumExposureMicrosUSD,25_000);return undefined;}}).submit(b.id,request(pb,b));assert.equal(next.task.status,'queued');assert.equal(seenLiability,10_000n);assert.equal(count(f.db,'supplier_exposures'),2);
   }finally{f.close();}
 });
 
@@ -324,6 +394,19 @@ test('licensed demo reserves only its virtual wallet units and creates no suppli
     assert.equal(readTaskSnapshot((f.db.prepare('SELECT request_snapshot_json FROM tasks WHERE id=?').get(accepted.task.id) as { request_snapshot_json: string }).request_snapshot_json).scope, 'demo');
     assert.equal(count(f.db, 'supplier_exposures'), 0); assert.equal((f.db.prepare("SELECT available_units FROM credit_lots WHERE source_event_key='seed:owner-a:demo'").get() as { available_units: number }).available_units, 2);
     assert.equal((f.db.prepare("SELECT available_units FROM credit_lots WHERE source_event_key='seed:owner-a:live'").get() as { available_units: number }).available_units, 3);
+  } finally { f.close(); }
+});
+
+test('zero-cost demo admission stays available when an unrelated live liability is unknown', async () => {
+  const f = await fixture(); try {
+    const owner=f.owners['owner-a']!,live=await livePlan(f,owner),accepted=await service(f).submit(owner.id,request(live,owner,'unknown-live-before-demo'));
+    service(f).cancel(owner.id,accepted.task.id);
+    f.db.prepare("INSERT INTO supplier_attempts(id,owner_id,task_id,provider_profile_id,status,started_at) VALUES (?,?,?,'profile-test','uncertain',?)").run('unknown-live-attempt',owner.id,accepted.task.id,now);
+    f.db.prepare('DELETE FROM supplier_exposures WHERE owner_id=? AND task_id=?').run(owner.id,accepted.task.id);
+    const plan=await demoPlan(f,owner),demoOwner={...owner,consentId:owner.demoConsentId};
+    const result=await service(f,{config:demoConfig(f.registry),beforeAccept:context=>{assert.equal(context.maximumExposureMicrosUSD,0);assert.equal(context.currentLiabilityMicrosUSD,0n);return true;}}).submit(owner.id,request(plan,demoOwner,'demo-with-unknown-live-liability'));
+    assert.equal(result.task.status,'queued');assert.equal(readTaskSnapshot((f.db.prepare('SELECT request_snapshot_json FROM tasks WHERE id=?').get(result.task.id) as {request_snapshot_json:string}).request_snapshot_json).scope,'demo');
+    assert.equal(count(f.db,'supplier_attempts'),1);assert.equal(count(f.db,'supplier_exposures'),0);
   } finally { f.close(); }
 });
 
@@ -374,18 +457,20 @@ test('project tombstone during stored-plan reads prevents task acceptance', asyn
 test('task routes enforce actor scope, exact request fields, and private no-store responses', async () => {
   const f = await fixture(); let server: ReturnType<ReturnType<typeof express>['listen']> | undefined;
   try {
-    const owner = f.owners['owner-a']!, plan = await livePlan(f, owner), app = express();
-    app.use('/api/v2', createTasksRouter({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, clock: () => new Date(now), actorResolver: req => req.header('X-Test-Owner') }));
+    const owner = f.owners['owner-a']!, plan = await livePlan(f, owner), app = express(); let admissionCalls = 0, fundingCalls = 0;
+    app.use('/api/v2', createTasksRouter({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, clock: () => new Date(now), actorResolver: req => req.header('X-Test-Owner'), beforeAccept: () => { admissionCalls++; return undefined; }, trustedFunding: () => { fundingCalls++; return undefined; } }));
     server = app.listen(0, '127.0.0.1'); await once(server, 'listening');
     const address = server.address(); assert.ok(address && typeof address !== 'string'); const base = `http://127.0.0.1:${address.port}/api/v2`;
     const body = request(plan, owner, 'route-submit');
     const posted = await fetch(`${base}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json', 'X-Test-Owner': owner.id }, body: JSON.stringify(body) });
     const postedText = await posted.text(); assert.equal(posted.status, 202, postedText); assert.equal(posted.headers.get('cache-control'), 'private, no-store');
+    assert.equal(admissionCalls, 1); assert.equal(fundingCalls, 1);
     const dto = JSON.parse(postedText) as Record<string, unknown>; assert.equal(Object.hasOwn(dto, 'request_snapshot_json'), false);
     const hidden = await fetch(`${base}/submissions/route-submit`, { headers: { 'X-Test-Owner': 'owner-b' } }); assert.equal(hidden.status, 404);
     const extra = await fetch(`${base}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json', 'X-Test-Owner': owner.id }, body: JSON.stringify({ ...body, ownerId: 'owner-b' }) }); assert.equal(extra.status, 400);
-    for (const injected of [{ trustedFunding: { sourceEventKey: 'client-trial' } }, { money: { units: 1 } }]) {
+    for (const injected of [{ beforeAccept: true }, { trustedFunding: { sourceEventKey: 'client-trial' } }, { money: { units: 1 } }]) {
       const rejected = await fetch(`${base}/tasks`, { method: 'POST', headers: { 'content-type': 'application/json', 'X-Test-Owner': owner.id }, body: JSON.stringify({ ...body, ...injected }) }); assert.equal(rejected.status, 400);
     }
+    assert.equal(admissionCalls, 1); assert.equal(fundingCalls, 1);
   } finally { if (server) { server.close(); await once(server, 'close'); } f.close(); }
 });

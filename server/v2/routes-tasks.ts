@@ -3,13 +3,14 @@ import { randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
 import type { ConsentCatalog } from './consents.js';
 import { PlanError, type PlanConfiguration } from './plans.js';
-import { TaskError, createTaskService } from './tasks.js';
+import { TaskError, createTaskService, type BeforeAcceptHook, type TrustedFundingHook } from './tasks.js';
 import { WalletError } from './wallet-repo.js';
 
 export type TaskActorResolver = (request: Request) => string | null | undefined | Promise<string | null | undefined>;
 export interface TasksRouterOptions {
   db: DatabaseSync; actorResolver: TaskActorResolver; consentCatalog?: ConsentCatalog | null;
   config?: PlanConfiguration; getConfig?: () => PlanConfiguration; storageQuotaBytes?: number | null; clock?: () => Date;
+  trustedFunding?: TrustedFundingHook; beforeAccept?: BeforeAcceptHook;
 }
 class RouteError extends Error { constructor(readonly code: string, readonly status: number) { super(code); } }
 const asyncRoute = (fn: (req: Request, res: Response, next: NextFunction) => unknown): RequestHandler => (req, res, next) => { Promise.resolve(fn(req, res, next)).catch(next); };
@@ -31,6 +32,7 @@ function errorResult(error: unknown) {
     LIVE_IDENTITY_REQUIRED: 'Sign in with Apple to use live generation.', STORAGE_QUOTA_UNAVAILABLE: 'Project storage is unavailable.', STORAGE_QUOTA_EXCEEDED: 'There is not enough storage for this task.',
     SUPPLIER_COST_UNAVAILABLE: 'Generation is unavailable because its cost cannot be verified.', SUPPLIER_BUDGET_EXCEEDED: 'Generation is temporarily unavailable.',
     SUPPLIER_LIABILITY_UNKNOWN: 'Generation is temporarily unavailable.', SUPPLIER_COST_CAP_BREACHED: 'Generation is temporarily unavailable.', TASK_NOT_CANCELLABLE: 'This task can no longer be cancelled.',
+    TASK_ADMISSION_REJECTED: 'This task is not currently available.', TASK_ADMISSION_ASYNC_FORBIDDEN: 'Task admission is temporarily unavailable.', TASK_ADMISSION_INVALID: 'Task admission is temporarily unavailable.',
     SOURCE_CHANGED: 'The selected source changed. Request a new quote.', PLAN_CONFIGURATION_CHANGED: 'Editing settings changed. Request a new quote.',
   };
   return { status, code, message: messages[code] ?? 'The request could not be completed.', retryable: status >= 500, requestId: randomUUID() };

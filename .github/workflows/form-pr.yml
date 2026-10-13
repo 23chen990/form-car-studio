@@ -12,14 +12,18 @@ jobs:
     timeout-minutes: 15
     steps:
       - name: Check out source
-        uses: actions/checkout@v4.2.2
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0, Node24
+        with:
+          persist-credentials: false
       - name: Set up Node 24
-        uses: actions/setup-node@v4.4.0
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 # v5.0.0, Node24
         with:
           node-version: 24.x
           cache: npm
       - name: Install locked dependencies
         run: npm ci
+      - name: Check read-only CI policy
+        run: node tools/check-ci.mjs
       - name: Run legacy tests
         run: npm test
       - name: Run V2 reference and application tests
@@ -28,5 +32,7 @@ jobs:
         run: npm run build
       - name: Install Chromium
         run: npx playwright install --with-deps chromium
-      - name: Run browser checks
-        run: npm run test:e2e
+      - name: Run legacy application browser checks
+        run: npm run test:e2e -- 'tests/e2e/(?!v2-).*\.spec\.ts'
+      - name: Run V2 component browser checks
+        run: npx --no-install playwright test --config=playwright.v2.config.ts

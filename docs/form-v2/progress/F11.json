@@ -1,0 +1,24 @@
+{
+  "taskId": "F11",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "5b8e485a23685834fbaf530f6faccac145645dbb",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/client-submission.test.ts", "exitCode": 0, "status": "19/19 PASS, 0 skipped; committed source", "rawLogPath": "/tmp/form-F11-committed-focus.log", "rawLogSha256": "ed2d3255a8596cac676d50a4b9e5b23484d6647ffcf5c35ec6ea45aa2bd06ffc", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 213 service = 364 PASS, 0 skipped", "rawLogPath": "/tmp/form-F11-accepted-v2.log", "rawLogSha256": "1aeb7b757fc47d0a8cd942ba3b1451497321b96a0e242561ec876dbd4b864eab", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "30/30 PASS; committed source", "rawLogPath": "/tmp/form-F11-committed-legacy.log", "rawLogSha256": "3b565cd669d09926779de3c4a0a1f97dc66b427810d12e8ece0efd158a436992", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "TypeScript and Vite PASS; notices unchanged", "rawLogPath": "/tmp/form-F11-accepted-build.log", "rawLogSha256": "287b0fb6f5d5ef1267a01d888142cd1b43a780cc0e70dc702e5eca561940512c", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "browser", "command": "node /tmp/form-F11-browser-smoke.mjs", "exitCode": 0, "status": "Installed Chromium 153 + Vite real browser module import PASS: secure UUID, refresh identity, owned lookup, 40 terminal acknowledgments, pending retention, logout; synthetic fetch only, external calls 0", "rawLogPath": "/tmp/form-F11-accepted-browser.log", "rawLogSha256": "b919469b04f7bcfc8383cacd39afc596b3705fd8ae43f989f45ab3c1442da5b5", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/client-submission.test.ts (before state checks)", "exitCode": 1, "status": "Actual RED: claimed success without version could clear pending identity; fixed without weakening assertions", "rawLogPath": "/tmp/form-F11-state-red.log", "rawLogSha256": "03cdd226364d297d5303a9d46821a4e1a17eae2d6237931d6f45ff4a4ffd3217", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/client-submission.test.ts (before consent/multipart methods)", "exitCode": 1, "status": "Actual RED: 16 PASS / 2 missing-method failures; shared API extended", "rawLogPath": "/tmp/form-F11-client-red.log", "rawLogSha256": "23855c95d62b94b0ff1998ba66c5c542d18beedfd7711f2a213457d00d496765", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "d6ea06bfde5f1fae19e6fcafa4f7c1223268e4c9ba33f8528c2227189f2c3876"}
+  ],
+  "changedFiles": ["src/lib/api-v2.ts", "src/lib/submission-store.ts", "tests/v2/client-submission.test.ts"],
+  "knownIssues": ["Client modules remain unimported by production main/App until reviewed F32 integration.", "Browser smoke uses synthetic DTOs/fetch and proves module runtime, not mounted V2 server or real iPhone behavior.", "Owned workspace bootstrap/project/version/favorite/draft backend routes need an explicit reviewed task scope; they are not implemented here."],
+  "externalPending": ["Native approved HTTPS-host transport/Keychain integration is deferred to F18/F21; no session tokens in localStorage.", "Real Apple/iPhone/provider and independent privacy/integration audits remain NOT_RUN / NOT_INDEPENDENT."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F06 reader repair, then F07/F08 consistency repairs"
+}

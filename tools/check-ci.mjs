@@ -4,6 +4,7 @@ const workflow = readFileSync(".github/workflows/form-pr.yml", "utf8");
 for (const forbidden of ["pull_request_target", "secrets.", "npm publish", "cap:run", "macos-", "ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION"]) {
   if (workflow.includes(forbidden)) throw new Error(`forbidden CI capability: ${forbidden}`);
 }
+if (/\bsecrets\s*(?:\.|\[)/i.test(workflow)) throw new Error("secret expressions are forbidden");
 if (!/^on:\s*\n\s+pull_request:/m.test(workflow)) throw new Error("workflow must trigger only on pull_request");
 const eventBlock = workflow.match(/^on:\s*\n((?:[ \t]+.*\n|\n)*)/m)?.[1].trim();
 if (eventBlock !== "pull_request:") throw new Error("unexpected workflow trigger");
@@ -14,6 +15,7 @@ for (const action of ["actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
   if (!workflow.includes(`uses: ${action}`)) throw new Error("verified Node24 Action pin required");
 }
 const runs = [...workflow.matchAll(/^\s+run:\s*(.+)$/gm)].map(match => match[1].trim());
+if (runs.some(command => /\b(?:deploy|publish|upload|push)\b/i.test(command))) throw new Error("deployment, publication and upload commands are forbidden");
 const legacyBrowser = String.raw`npm run test:e2e -- 'tests/e2e/(?!v2-).*\.spec\.ts'`;
 for (const required of ["npm ci", "node tools/check-ci.mjs", "npm test", "node tools/check-v2.mjs", "npm run build", "npx playwright install --with-deps chromium", legacyBrowser, "npx --no-install playwright test --config=playwright.v2.config.ts"]) {
   if (!runs.includes(required)) throw new Error(`missing CI step: ${required}`);

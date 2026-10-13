@@ -14,7 +14,7 @@ import { createConsentService, type ConsentCatalog } from '../../server/v2/conse
 import { createProjectService } from '../../server/v2/projects.js';
 import { createPlanService, type PlanConfiguration, type PlanSnapshot } from '../../server/v2/plans.js';
 import { WalletRepository } from '../../server/v2/wallet-repo.js';
-import { createTaskService, readTaskSnapshot, TaskError, type BeforeAcceptHook, type TaskRequest, type TrustedFundingHook } from '../../server/v2/tasks.js';
+import { createTaskService, readTaskSnapshot, supplierLiability, TaskError, type BeforeAcceptHook, type TaskRequest, type TrustedFundingHook } from '../../server/v2/tasks.js';
 import { createTasksRouter } from '../../server/v2/routes-tasks.js';
 
 const now = '2026-10-13T03:00:00.000Z';
@@ -372,6 +372,49 @@ test('settled supplier expense is counted once and does not add its old maximum 
     f.db.prepare("UPDATE supplier_exposures SET status='settled' WHERE task_id=?").run(accepted.task.id);
     const wallet=new WalletRepository(f.db);const released=wallet.transaction(tx=>wallet.finalizeTaskInTransaction(tx,{ownerId:a.id,taskId:accepted.task.id,outcome:'failed'}));assert.equal(released.returnedUnits,1);
     let seenLiability=-1n;const next=await service(f,{config:cfg,beforeAccept:context=>{seenLiability=context.currentLiabilityMicrosUSD;assert.equal(context.maximumExposureMicrosUSD,25_000);return undefined;}}).submit(b.id,request(pb,b));assert.equal(next.task.status,'queued');assert.equal(seenLiability,10_000n);assert.equal(count(f.db,'supplier_exposures'),2);
+  }finally{f.close();}
+});
+
+test('owner-scoped supplier liability partitions settled and open exposure without changing the global total',async()=>{
+  const f=await fixture();try{const a=f.owners['owner-a']!,b=f.owners['owner-b']!,cfg=config(100_000),pa=await livePlan(f,a,cfg),pb=await livePlan(f,b,cfg);
+    const settled=await service(f,{config:cfg}).submit(a.id,request(pa,a,'liability-account-a')),open=await service(f,{config:cfg}).submit(b.id,request(pb,b,'liability-account-b'));
+    f.db.prepare("UPDATE tasks SET status='processing' WHERE id=?").run(settled.task.id);
+    f.db.prepare("INSERT INTO supplier_attempts(id,owner_id,task_id,provider_profile_id,status,started_at,ended_at,reconciled_cost_usd_micros) VALUES (?,?,?,'profile-test','failed',?,?,10_000)").run('account-attempt-a',a.id,settled.task.id,now,now);
+    f.db.prepare("UPDATE supplier_exposures SET status='settled' WHERE owner_id=? AND task_id=?").run(a.id,settled.task.id);
+    const wallet=new WalletRepository(f.db);wallet.transaction(tx=>{
+      const global=supplierLiability(tx),accountA=supplierLiability(tx,a.id),accountB=supplierLiability(tx,b.id);
+      assert.equal(accountA,10_000n);assert.equal(accountB,25_000n);assert.equal(accountA+accountB,global);assert.equal(global,35_000n);
+      assert.throws(()=>supplierLiability(tx,''),code('SUPPLIER_LIABILITY_UNKNOWN'));
+    });assert.equal(open.task.status,'queued');
+  }finally{f.close();}
+});
+
+test('owner-scoped supplier liability fails closed on cross-owner task references',async()=>{
+  const f=await fixture();try{const a=f.owners['owner-a']!,b=f.owners['owner-b']!,cfg=config(100_000),pa=await livePlan(f,a,cfg),pb=await livePlan(f,b,cfg);
+    const taskA=await service(f,{config:cfg}).submit(a.id,request(pa,a,'liability-cross-owner-a')),taskB=await service(f,{config:cfg}).submit(b.id,request(pb,b,'liability-cross-owner-b'));
+    f.db.exec('PRAGMA foreign_keys=OFF');
+    f.db.prepare('DELETE FROM supplier_exposures WHERE owner_id=? AND task_id=?').run(a.id,taskA.task.id);
+    f.db.prepare('UPDATE supplier_exposures SET task_id=? WHERE owner_id=? AND task_id=?').run(taskA.task.id,b.id,taskB.task.id);
+    f.db.exec('PRAGMA foreign_keys=ON');
+    const wallet=new WalletRepository(f.db);wallet.transaction(tx=>{
+      assert.throws(()=>supplierLiability(tx,a.id),code('SUPPLIER_LIABILITY_UNKNOWN'));
+      assert.throws(()=>supplierLiability(tx,b.id),code('SUPPLIER_LIABILITY_UNKNOWN'));
+    });
+  }finally{f.close();}
+});
+
+test('owner-scoped supplier liability isolates another account from a missing-cap unknown attempt',async()=>{
+  const f=await fixture();try{const a=f.owners['owner-a']!,b=f.owners['owner-b']!,cfg=config(100_000),pa=await livePlan(f,a,cfg),pb=await livePlan(f,b,cfg);
+    const taskA=await service(f,{config:cfg}).submit(a.id,request(pa,a,'liability-unknown-account-a')),taskB=await service(f,{config:cfg}).submit(b.id,request(pb,b,'liability-clean-account-b'));
+    f.db.prepare("UPDATE tasks SET status='processing' WHERE id=?").run(taskA.task.id);
+    f.db.prepare("INSERT INTO supplier_attempts(id,owner_id,task_id,provider_profile_id,status,started_at) VALUES (?,?,?,'profile-test','uncertain',?)").run('unknown-account-attempt-a',a.id,taskA.task.id,now);
+    f.db.prepare("UPDATE tasks SET status='uncertain' WHERE id=?").run(taskA.task.id);
+    f.db.prepare("DELETE FROM supplier_exposures WHERE owner_id=? AND task_id=?").run(a.id,taskA.task.id);
+    const wallet=new WalletRepository(f.db);wallet.transaction(tx=>{
+      assert.throws(()=>supplierLiability(tx,a.id),code('SUPPLIER_LIABILITY_UNKNOWN'));
+      assert.equal(supplierLiability(tx,b.id),25_000n);
+      assert.throws(()=>supplierLiability(tx),code('SUPPLIER_LIABILITY_UNKNOWN'));
+    });assert.equal(taskB.task.status,'queued');
   }finally{f.close();}
 });
 

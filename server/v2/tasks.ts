@@ -123,9 +123,20 @@ function sumCost(total: bigint, value: unknown): bigint {
   if (typeof value !== 'number' || !Number.isSafeInteger(value) || value < 0) throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN', 503);
   const next = total + BigInt(value); if (next > MAX_SAFE) throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN', 503); return next;
 }
-export function supplierLiability(tx: WalletTransaction): bigint {
+export function supplierLiability(tx: WalletTransaction, ownerId?: string): bigint {
+  if (ownerId !== undefined) {
+    if (!safeId(ownerId)) throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN', 503);
+    const broken = tx.get(`SELECT 1 AS broken FROM supplier_attempts AS a LEFT JOIN tasks AS t ON t.id=a.task_id
+      WHERE (a.owner_id=? OR t.owner_id=?) AND (t.id IS NULL OR t.owner_id<>a.owner_id)
+      UNION ALL
+      SELECT 1 AS broken FROM supplier_exposures AS e LEFT JOIN tasks AS t ON t.id=e.task_id
+      WHERE (e.owner_id=? OR t.owner_id=?) AND (t.id IS NULL OR t.owner_id<>e.owner_id) LIMIT 1`, ownerId, ownerId, ownerId, ownerId);
+    if (broken) throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN', 503);
+  }
   let actual = 0n, open = 0n;
-  const attempts = tx.all<{ reconciled_cost_usd_micros: number | null; max_cost_usd_micros: number | null; exposure_status: string | null; status:string; ended_at:string|null }>(`SELECT a.reconciled_cost_usd_micros,a.status,a.ended_at,e.max_cost_usd_micros,e.status AS exposure_status FROM supplier_attempts a LEFT JOIN supplier_exposures e ON e.owner_id=a.owner_id AND e.task_id=a.task_id`);
+  const parameters = ownerId === undefined ? [] : [ownerId];
+  const attemptSql = `SELECT a.reconciled_cost_usd_micros,a.status,a.ended_at,e.max_cost_usd_micros,e.status AS exposure_status FROM supplier_attempts a LEFT JOIN supplier_exposures e ON e.owner_id=a.owner_id AND e.task_id=a.task_id`;
+  const attempts = tx.all<{ reconciled_cost_usd_micros: number | null; max_cost_usd_micros: number | null; exposure_status: string | null; status:string; ended_at:string|null }>(`${attemptSql}${ownerId === undefined ? '' : ' WHERE a.owner_id=?'}`, ...parameters);
   for (const row of attempts) {
     const cost=row.reconciled_cost_usd_micros, maximum=row.max_cost_usd_micros;
     if(cost!==null)sumCost(0n,cost);
@@ -140,7 +151,8 @@ export function supplierLiability(tx: WalletTransaction): bigint {
     // A claimed attempt cannot be released as unattempted; known zero dispatch is settled at zero.
     throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN',503);
   }
-  const exposures = tx.all<{ max_cost_usd_micros: number; status: string }>(`SELECT e.max_cost_usd_micros,e.status FROM supplier_exposures e LEFT JOIN supplier_attempts a ON a.owner_id=e.owner_id AND a.task_id=e.task_id WHERE a.id IS NULL`);
+  const exposureSql = `SELECT e.max_cost_usd_micros,e.status FROM supplier_exposures e LEFT JOIN supplier_attempts a ON a.owner_id=e.owner_id AND a.task_id=e.task_id WHERE a.id IS NULL`;
+  const exposures = tx.all<{ max_cost_usd_micros: number; status: string }>(`${exposureSql}${ownerId === undefined ? '' : ' AND e.owner_id=?'}`, ...parameters);
   for (const row of exposures) {
     if (row.status === 'settled') throw new TaskError('SUPPLIER_LIABILITY_UNKNOWN', 503);
     if (['reserved', 'started', 'uncertain'].includes(row.status)) {

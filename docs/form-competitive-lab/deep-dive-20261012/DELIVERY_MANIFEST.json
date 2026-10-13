@@ -1,0 +1,189 @@
+{
+  "schemaVersion": 1,
+  "kind": "RESEARCH_ONLY_DOCUMENTATION",
+  "createdAtUtc": "2026-10-13T04:34:11.877795+00:00",
+  "branch": "codex/form-mody-modyfy-deep-dive-20261012",
+  "baseBranch": "research/form-mody-ux-review-20261012",
+  "baseCommit": "5b1b203364cbf117a49f1506af3b449b5fd5f303",
+  "formAuditedCommit": "467e20758414216f215fb4106d098dedc0b18c3a",
+  "pr4MethodCommit": "ae3d0e2b4e9e382855d9bc7495c5a4e81fe1c01d",
+  "requiredArtifactCount": 13,
+  "ledgerRecords": 228,
+  "emptyPhotoSlots": 30,
+  "proposedModelCalls": 252,
+  "liveModelCalls": 0,
+  "purchases": 0,
+  "personalUploads": 0,
+  "budgetAuthorizedUsd": 0,
+  "artifacts": [
+    {
+      "name": "00_README_ZH.md",
+      "localSha256": "46e5f1149362e422e975a6d83ab5c4e45de9d8cd7d09a621036ec1498143e374",
+      "publicSha256": "46e5f1149362e422e975a6d83ab5c4e45de9d8cd7d09a621036ec1498143e374",
+      "publicBytes": 5054,
+      "transformation": "None"
+    },
+    {
+      "name": "01_OWNER_SUMMARY_ZH.md",
+      "localSha256": "f1966c4b16bdd256e76601487a845fc9747c32ca1834d672e0d04cd42cc12c8b",
+      "publicSha256": "f1966c4b16bdd256e76601487a845fc9747c32ca1834d672e0d04cd42cc12c8b",
+      "publicBytes": 4465,
+      "transformation": "None"
+    },
+    {
+      "name": "02_MODY_AOT_TECHNICAL_ZH.md",
+      "localSha256": "0ad968d0e2d277b83c9abe1a7555c54b6f1b3095b0365536b9a71106873ccbf4",
+      "publicSha256": "0ad968d0e2d277b83c9abe1a7555c54b6f1b3095b0365536b9a71106873ccbf4",
+      "publicBytes": 14137,
+      "transformation": "None"
+    },
+    {
+      "name": "03_MODY_MODYFY_UX_ZH.md",
+      "localSha256": "cecf559a3a1b31428f87e12e067f0fdab0c22036e891dfabe3956de72e6d1e0a",
+      "publicSha256": "cecf559a3a1b31428f87e12e067f0fdab0c22036e891dfabe3956de72e6d1e0a",
+      "publicBytes": 12700,
+      "transformation": "None"
+    },
+    {
+      "name": "04_BUSINESS_FLOW_EVIDENCE_ZH.md",
+      "localSha256": "acc91f280c303e89f1f33e0b204e04ede57a5b829522828c335caa43c18d5fc8",
+      "publicSha256": "acc91f280c303e89f1f33e0b204e04ede57a5b829522828c335caa43c18d5fc8",
+      "publicBytes": 7289,
+      "transformation": "None"
+    },
+    {
+      "name": "05_FORM_GAP_AND_PRIORITY_ZH.md",
+      "localSha256": "05678d402556756146b09f13da8c3ea39e3c6ea5f1bf7c158841458577540708",
+      "publicSha256": "abea6492600376d46cf04c858325bbc9463a77e1ea8f52d7cdd0ef3f51dc09f7",
+      "publicBytes": 23440,
+      "transformation": "Report links made relative"
+    },
+    {
+      "name": "06_ORIGINAL_ARCHITECTURE_ZH.md",
+      "localSha256": "c2ddf07c8f01ac4ca246c357ebad21800b44b1074146dbba4677f5462f28312a",
+      "publicSha256": "22777d0bb77d4bc4887680e90ebc67c764b3298238e106f76626d2871620515b",
+      "publicBytes": 28722,
+      "transformation": "Report links made relative"
+    },
+    {
+      "name": "07_QUALITY_AND_RESEARCH_PLAN_ZH.md",
+      "localSha256": "fd0a99981b732d5d90173814df7bb121755c286314e9fb9791d802caf2db6345",
+      "publicSha256": "fd0a99981b732d5d90173814df7bb121755c286314e9fb9791d802caf2db6345",
+      "publicBytes": 10016,
+      "transformation": "None"
+    },
+    {
+      "name": "08_TOOL_FAILURES_AND_LIMITS_ZH.md",
+      "localSha256": "cc462b59e77586a6159199f894a6fb0f8c617056471b0fb07521a222632003db",
+      "publicSha256": "cc462b59e77586a6159199f894a6fb0f8c617056471b0fb07521a222632003db",
+      "publicBytes": 7040,
+      "transformation": "None"
+    },
+    {
+      "name": "09_EVIDENCE_LEDGER.jsonl",
+      "localSha256": "878373bc8eb58a631f6f9ff366d9d160a077ecc3b5f0a500fb0a331d4a207a51",
+      "publicSha256": "878373bc8eb58a631f6f9ff366d9d160a077ecc3b5f0a500fb0a331d4a207a51",
+      "publicBytes": 707425,
+      "transformation": "None"
+    },
+    {
+      "name": "10_NEXT_ACTIONS_ZH.md",
+      "localSha256": "c9665b3722ca9b97c889bc3a6ec2002d150055c327d0f55c273b08f1d3b3ee6f",
+      "publicSha256": "c9665b3722ca9b97c889bc3a6ec2002d150055c327d0f55c273b08f1d3b3ee6f",
+      "publicBytes": 6040,
+      "transformation": "None"
+    },
+    {
+      "name": "IMAGE_QUALITY_REVERSE_ENGINEERING_ZH.md",
+      "localSha256": "35a41033946fb3884f44e601c7193ca29812cc1d7b53ca4adfcfcd145eca0c6c",
+      "publicSha256": "35a41033946fb3884f44e601c7193ca29812cc1d7b53ca4adfcfcd145eca0c6c",
+      "publicBytes": 11405,
+      "transformation": "None"
+    },
+    {
+      "name": "MODY_VS_MODYFY_TECHNICAL_COMPARISON_ZH.md",
+      "localSha256": "0f0926edff1f03e268d72b5a6a30563a28ba4fe62670975efe03d13d18214aea",
+      "publicSha256": "0f0926edff1f03e268d72b5a6a30563a28ba4fe62670975efe03d13d18214aea",
+      "publicBytes": 12123,
+      "transformation": "None"
+    }
+  ],
+  "checks": {
+    "localDelivery": {
+      "status": "PASS",
+      "requiredFiles": 13,
+      "ledgerRecords": 228,
+      "pr4FieldsPreserved": true,
+      "emptyPhotoSlots": 30,
+      "checkedEvidenceCitations": 577,
+      "checkedLocalLinks": 29,
+      "originalExecutableHashesMatch": true,
+      "mainHeadAndInitialStatusMatch": true,
+      "implementationHeadMatch": true,
+      "secretAndPrivatePromptExactCandidates": 36,
+      "redactionHits": 0,
+      "modelRequests": 0,
+      "purchases": 0,
+      "personalUploads": 0,
+      "scope": "Artifact structure/citations/source hashes/redaction/original metadata; not quality or security approval"
+    },
+    "sourceManifestGuard": {
+      "exitCode": 0,
+      "status": "CONTENT_HASHES_MATCH_NOT_AUTHENTICATED",
+      "files": 43
+    },
+    "taskGraphGuard": {
+      "exitCode": 0,
+      "status": "TASK_GRAPH_VALID",
+      "tasks": 39
+    },
+    "toolTests": {
+      "unflutterUpstreamPass": 109,
+      "unflutterPatchedPass": 114,
+      "unflutterSkipped": 33,
+      "newCompatibilityFixtures": 5,
+      "hermesAssertionsPassed": 2,
+      "mobHuntMockTestsPassed": 2
+    },
+    "independentStatic": {
+      "evidenceId": "INDEPENDENT_STATIC_01",
+      "rawBL": 3,
+      "matchingBIN": 10,
+      "rangeCount": 29605,
+      "status": "PASS",
+      "reviewReportSha256": "3784e76838414d7ef461624ebf0b3d7b47467ddb1ef394b75df57a459a5d10a2"
+    },
+    "independentReport": {
+      "reviewId": "FINAL_REPORT_REVIEW_20261013",
+      "result": "COMPLETE_NO_OPEN_FINDINGS_WITH_ONE_RESOLVED_P2",
+      "openFindings": 0,
+      "resolvedP2": 1,
+      "reportSha256": "1cf65783350d8157c1273fe6ca837d194dcc74e64b0e961a100ba76bb5ebc887",
+      "jsonSha256": "6f4e65eaf268d66d3f9217fc41241d4e89b98459d1b5b7cecbebc6e773aad253",
+      "reviewedInputHashesMatch": true,
+      "selfAuthoredSubset": [
+        "05_FORM_GAP_AND_PRIORITY_ZH.md",
+        "06_ORIGINAL_ARCHITECTURE_ZH.md"
+      ],
+      "selfAuthoredSubsetScope": "Cross-document consistency only; NOT independent author review"
+    }
+  },
+  "privacy": {
+    "localRootMode": "0o700",
+    "privateDirectoryMode": "0o700",
+    "privateArtifactsPublished": false,
+    "rawEndpointsPublished": false,
+    "privatePromptsPublished": false,
+    "secretExactCandidatesChecked": 36,
+    "redactionHits": 0
+  },
+  "limits": [
+    "No verified production image model or effect",
+    "No original videos this review; secondary timeline only",
+    "Modyfy exact initialization failing dependency unknown",
+    "No model/StoreKit/iPhone/human/release approval",
+    "No product-code/dependency/schema/config/CI changes; implementation DAG remains separate"
+  ],
+  "publicationRecord": "Actual Draft PR URL and commit recorded locally at private/logs/git-publication.json after creation; final user response includes the URL.",
+  "reviewedAtUtc": "2026-10-13T04:29:40.653281+00:00"
+}

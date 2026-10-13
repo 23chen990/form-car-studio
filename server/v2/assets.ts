@@ -10,10 +10,11 @@ export interface AssetRow {
 }
 export type StorageLocator =
   | {kind:'private';assetId:string;ownerId:string;projectId:string;storageKey:string}
-  | {kind:'legacy';assetId:string;ownerId:string;projectId:string;storageKey:string;legacyImageId:string};
+  | {kind:'legacy';assetId:string;ownerId:string;sourceOwnerId?:string;projectId:string;storageKey:string;legacyImageId:string};
 export interface AssetReader {
   canReadProject(ownerId:string,projectId:string): Promise<boolean>;
   findOwned(id:string,ownerId:string,projectId:string): Promise<AssetRow|null>;
+  canReadLegacyOrigin?(locator:Extract<StorageLocator,{kind:'legacy'}>): Promise<boolean>;
   readBytes(locator:StorageLocator): Promise<Buffer>;
 }
 export class AssetError extends Error {constructor(readonly code:string){super(code);this.name='AssetError';}}
@@ -27,8 +28,7 @@ function authorize(row:AssetRow|null,assetId:string,ownerId:string,projectId:str
 function locatorFor(row:AssetRow): StorageLocator {
   const legacy=/^legacy:\/\/(legacy-owner-[a-f0-9]{24})\/([A-Za-z0-9_-]{1,128})$/.exec(row.storage_key);
   if(legacy){
-    if(legacy[1]!==row.owner_id)invalid();
-    return {kind:'legacy',assetId:row.id,ownerId:row.owner_id,projectId:row.project_id,storageKey:row.storage_key,legacyImageId:legacy[2]};
+    return {kind:'legacy',assetId:row.id,ownerId:row.owner_id,...(legacy[1]===row.owner_id?{}:{sourceOwnerId:legacy[1]}),projectId:row.project_id,storageKey:row.storage_key,legacyImageId:legacy[2]};
   }
   if(!id(row.storage_key))invalid();
   return {kind:'private',assetId:row.id,ownerId:row.owner_id,projectId:row.project_id,storageKey:row.storage_key};
@@ -53,6 +53,8 @@ async function currentRow(reader:AssetReader,assetId:string,ownerId:string,proje
   const found=await readerCall(()=>reader.findOwned(assetId,ownerId,projectId));
   authorize(found,assetId,ownerId,projectId);
   if(expected&&!unchanged(expected,found))throw new AssetError('ASSET_CHANGED_DURING_READ');
+  const locator=locatorFor(found);
+  if(locator.kind==='legacy'&&locator.sourceOwnerId!==undefined&&(!reader.canReadLegacyOrigin||!await readerCall(()=>reader.canReadLegacyOrigin!(locator))))invalid();
   return {...found};
 }
 export function assetInsertMetadata(input:{id:string;ownerId:string;projectId:string;kind:AssetRow['kind'];storageKey:string;createdAt:string},image:ImageAsset): AssetRow {

@@ -17,6 +17,15 @@ async function fixture(kind:AssetRow['kind']='master') {
   const reader:AssetReader={canReadProject:async()=>allowed,findOwned:async()=>current,readBytes:async(locator)=>{reads++;lastLocator=locator;return image.bytes;}};
   return {image,row,reader,get reads(){return reads;},get lastLocator(){return lastLocator;},block:()=>{allowed=false;},setRow:(r:AssetRow|null)=>{current=r;}};
 }
+async function legacyAliasFixture(options:{originCheck?:(locator:StorageLocator)=>boolean|Promise<boolean>;afterRead?:()=>void}={}) {
+  const raw=await sharp(await sample(7,3,'#397acb')).jpeg().toBuffer();
+  const sourceOwnerId=`legacy-owner-${'a'.repeat(24)}`;
+  const row:AssetRow={id:'asset-alias',owner_id:'owner-1',project_id:'project-1',kind:'original',mime:'application/octet-stream',bytes:raw.length,width:null,height:null,digest:sha(raw),storage_key:`legacy://${sourceOwnerId}/legacy-image-1`,created_at:'2026-10-13T00:00:00Z'};
+  let reads=0;let lastLocator:StorageLocator|null=null;
+  const reader:AssetReader={canReadProject:async()=>true,findOwned:async()=>row,readBytes:async(locator)=>{reads++;lastLocator=locator;options.afterRead?.();return raw;}};
+  if(options.originCheck)Object.assign(reader,{canReadLegacyOrigin:options.originCheck});
+  return {raw,row,sourceOwnerId,reader,get reads(){return reads;},get lastLocator(){return lastLocator;}};
+}
 function crc32(b:Buffer){let c=0xffffffff;for(const x of b){c^=x;for(let k=0;k<8;k++)c=c&1?(c>>>1)^0xedb88320:c>>>1;}return (c^0xffffffff)>>>0;}
 function chunk(type:string,data:Buffer){const result=Buffer.alloc(data.length+12);result.writeUInt32BE(data.length,0);result.write(type,4,'ascii');data.copy(result,8);result.writeUInt32BE(crc32(result.subarray(4,8+data.length)),8+data.length);return result;}
 const sha=(bytes:Uint8Array)=>createHash('sha256').update(bytes).digest('hex');
@@ -238,4 +247,41 @@ test('project deletion during legacy normalization is checked before returning b
     await assert.rejects(()=>readOwnedAsset(reader,f.assetId,f.ownerId,f.projectId),e=>e instanceof AssetError&&e.code==='ASSET_NOT_FOUND');
     assert.equal(checks,3);assert.equal(f.reads,1);
   }finally{f.cleanup();}
+});
+
+test('legacy owner transfer uses current owner plus a freshly checked source authority',async()=>{
+  let checks=0;
+  const f=await legacyAliasFixture({originCheck:async()=>{checks++;return true;}});
+  const result=await readOwnedAsset(f.reader,f.row.id,f.row.owner_id,f.row.project_id);
+  assert.equal(checks,3);assert.equal(f.reads,1);
+  assert.deepEqual(f.lastLocator,{kind:'legacy',assetId:f.row.id,ownerId:f.row.owner_id,sourceOwnerId:f.sourceOwnerId,projectId:f.row.project_id,storageKey:f.row.storage_key,legacyImageId:'legacy-image-1'});
+  assert.equal(result.persistedRow.owner_id,f.row.owner_id);assert.equal(result.provenance.rawSha256,sha(f.raw));
+  assert.equal(result.provenance.canonicalSha256,result.image.sha256);assert.deepEqual(result.bytes,result.image.bytes);
+});
+
+test('legacy owner transfer without an origin authority is denied before byte access',async()=>{
+  const f=await legacyAliasFixture();
+  await assert.rejects(()=>readOwnedAsset(f.reader,f.row.id,f.row.owner_id,f.row.project_id),e=>e instanceof AssetError&&e.code==='ASSET_INTEGRITY_INVALID');
+  assert.equal(f.reads,0);
+});
+
+test('legacy owner transfer with a denied origin authority is denied before byte access',async()=>{
+  let checks=0;
+  const f=await legacyAliasFixture({originCheck:async()=>{checks++;return false;}});
+  await assert.rejects(()=>readOwnedAsset(f.reader,f.row.id,f.row.owner_id,f.row.project_id),e=>e instanceof AssetError&&e.code==='ASSET_INTEGRITY_INVALID');
+  assert.equal(checks,1);assert.equal(f.reads,0);
+});
+
+test('legacy origin revocation during storage read blocks the returned asset',async()=>{
+  let allowed=true;let checks=0;
+  const f=await legacyAliasFixture({originCheck:async()=>{checks++;return allowed;},afterRead:()=>{allowed=false;}});
+  await assert.rejects(()=>readOwnedAsset(f.reader,f.row.id,f.row.owner_id,f.row.project_id),e=>e instanceof AssetError&&e.code==='ASSET_INTEGRITY_INVALID');
+  assert.equal(checks,2);assert.equal(f.reads,1);
+});
+
+test('legacy origin revocation during decode blocks the returned asset',async()=>{
+  let checks=0;
+  const f=await legacyAliasFixture({originCheck:async()=>++checks<3});
+  await assert.rejects(()=>readOwnedAsset(f.reader,f.row.id,f.row.owner_id,f.row.project_id),e=>e instanceof AssetError&&e.code==='ASSET_INTEGRITY_INVALID');
+  assert.equal(checks,3);assert.equal(f.reads,1);
 });

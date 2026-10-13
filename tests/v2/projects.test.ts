@@ -10,9 +10,10 @@ import express from 'express';
 import sharp from 'sharp';
 import {createProjectsRouter} from '../../server/v2/routes-projects.js';
 import {createConsentService,EMPTY_CONSENT_CATALOG, type ConsentCatalog} from '../../server/v2/consents.js';
-import {createProjectService,ProjectError} from '../../server/v2/projects.js';
+import {createProjectService,createSqlAssetReader,ProjectError,readAuthorizedLegacyBytes} from '../../server/v2/projects.js';
 import {IMAGE_LIMITS, normalizeInput, createDisplayAsset} from '../../server/v2/images.js';
 import {migrateLegacyDatabase} from '../../server/v2/migrate.js';
+import {readOwnedAsset,type AssetReader,type AssetRow,type StorageLocator} from '../../server/v2/assets.js';
 
 const sha=(b:Uint8Array|string)=>createHash('sha256').update(b).digest('hex');
 const blob=(b:Buffer)=>new Blob([Uint8Array.from(b)]);
@@ -37,6 +38,37 @@ async function issue(api:string,owner='a',acks={acknowledgePhotoRights:true,ackn
 }
 async function upload(api:string,consentId:string,owner='a',form?:FormData){const data=form??new FormData();if(!form){data.set('name','Synthetic private project');data.set('file',blob(await sample()),'synthetic.png');}
   return fetch(api+'/projects',{method:'POST',headers:{authorization:`Bearer ${owner}`,'X-Owner-Id':'owner-b','X-Form-Consent-Id':consentId},body:data});}
+
+async function transferredLegacyFixture(mapping:'completed'|'missing'|'deferred'|'wrong-target'|'chain'='completed'){
+  const dir=mkdtempSync(join(tmpdir(),'form-f07-upgrade-')),sourcePath=join(dir,'source.sqlite'),backupPath=join(dir,'backup.sqlite'),outputPath=join(dir,'v3.sqlite');let db:DatabaseSync|undefined;
+  try{
+    const cookie='synthetic-upgrade-cookie',oldProject='project-upgrade',imageId='image-upgrade',bytes=await sample(),legacy=new DatabaseSync(sourcePath);
+    legacy.exec('CREATE TABLE sessions (id TEXT PRIMARY KEY,state TEXT NOT NULL); CREATE TABLE images (id TEXT PRIMARY KEY,owner TEXT NOT NULL,project_id TEXT NOT NULL,data BLOB NOT NULL); CREATE TABLE reports (id TEXT PRIMARY KEY,owner TEXT NOT NULL,task_id TEXT NOT NULL,reason TEXT NOT NULL,created_at TEXT NOT NULL)');
+    legacy.prepare('INSERT INTO sessions VALUES (?,?)').run(cookie,JSON.stringify({credits:0,reservedCredits:0,projects:[{id:oldProject,originalUrl:`/api/images/${imageId}`,versions:[]}]}));legacy.prepare('INSERT INTO images VALUES (?,?,?,?)').run(imageId,cookie,oldProject,bytes);legacy.close();
+    migrateLegacyDatabase({inputPath:sourcePath,backupPath,outputPath,apply:true});db=new DatabaseSync(outputPath);db.exec('PRAGMA foreign_keys=ON');
+    const sourceOwner=`legacy-owner-${sha(`form:v2:legacy-owner\0${cookie}`).slice(0,24)}`,targetOwner='stable-upgrade-owner',projectId=`legacy-project-${sha(`${sourceOwner}:${oldProject}`).slice(0,24)}`,createdAt=new Date().toISOString();
+    db.prepare('INSERT INTO users(id,created_at) VALUES (?,?)').run(targetOwner,createdAt);db.prepare('INSERT INTO users(id,created_at) VALUES (?,?)').run('other-upgrade-owner',createdAt);db.prepare('INSERT INTO users(id,created_at) VALUES (?,?)').run('middle-upgrade-owner',createdAt);
+    const originalId=(db.prepare("SELECT id FROM assets WHERE owner_id=? AND project_id=? AND kind='original'").get(sourceOwner,projectId) as {id:string}).id;
+    const masterId=(db.prepare("SELECT id FROM assets WHERE owner_id=? AND project_id=? AND kind='master'").get(sourceOwner,projectId) as {id:string}).id;
+    db.exec('BEGIN IMMEDIATE; PRAGMA defer_foreign_keys=ON');
+    try{
+      db.prepare('UPDATE projects SET original_asset_id=NULL WHERE owner_id=? AND id=?').run(sourceOwner,projectId);
+      db.prepare('UPDATE projects SET owner_id=? WHERE owner_id=? AND id=?').run(targetOwner,sourceOwner,projectId);
+      db.prepare('UPDATE assets SET owner_id=? WHERE owner_id=? AND project_id=?').run(targetOwner,sourceOwner,projectId);
+      db.prepare('UPDATE projects SET original_asset_id=? WHERE owner_id=? AND id=?').run(originalId,targetOwner,projectId);
+      if(mapping==='completed'||mapping==='deferred'||mapping==='wrong-target'){
+        const mappedTo=mapping==='wrong-target'?'other-upgrade-owner':targetOwner,status=mapping==='deferred'?'deferred':'completed',completedAt=status==='completed'?createdAt:null;
+        db.prepare('INSERT INTO owner_upgrades(source_owner_id,target_owner_id,request_digest,created_at,completed_at,status) VALUES (?,?,?,?,?,?)').run(sourceOwner,mappedTo,'synthetic-upgrade-digest',createdAt,completedAt,status);
+      }else if(mapping==='chain'){
+        db.prepare('INSERT INTO owner_upgrades(source_owner_id,target_owner_id,request_digest,created_at,completed_at,status) VALUES (?,?,?,?,?,?)').run(sourceOwner,'middle-upgrade-owner','synthetic-first-hop',createdAt,createdAt,'completed');
+        db.prepare('INSERT INTO owner_upgrades(source_owner_id,target_owner_id,request_digest,created_at,completed_at,status) VALUES (?,?,?,?,?,?)').run('middle-upgrade-owner',targetOwner,'synthetic-second-hop',createdAt,createdAt,'completed');
+      }
+      db.exec('COMMIT');
+    }catch(error){try{db.exec('ROLLBACK');}catch{}throw error;}
+    assert.equal((db.prepare('PRAGMA foreign_keys').get() as {foreign_keys:number}).foreign_keys,1);assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);
+    return {db,bytes,cookie,imageId,sourceOwner,targetOwner,projectId,originalId,masterId,cleanup:()=>{db?.close();rmSync(dir,{recursive:true,force:true});}};
+  }catch(error){db?.close();rmSync(dir,{recursive:true,force:true});throw error;}
+}
 
 test('consent catalog is closed by default and unauthenticated X-Owner-Id cannot create consent or projects',async()=>{
   const f=await serve({catalog:EMPTY_CONSENT_CATALOG});try{
@@ -200,4 +232,82 @@ test('legacy SQL reader validates opaque identity and derived owner/project befo
     const url=`http://127.0.0.1:${a.port}/api/v2/assets/${assetId}`;const result=await fetch(url,{headers:{authorization:'Bearer legacy'}});assert.equal(result.status,200);assert.equal(result.headers.get('content-type'),'image/png');assert.doesNotMatch(await result.text(),/synthetic-legacy-cookie/);
     db.prepare('UPDATE identities SET user_id=? WHERE user_id=?').run('other-owner',ownerId);const denied=await fetch(url,{headers:{authorization:'Bearer legacy'}});assert.equal(denied.status,404);assert.doesNotMatch(await denied.text(),/synthetic-legacy-cookie/);
   }finally{if(server)await new Promise<void>(resolve=>server!.close(()=>resolve()));db?.close();rmSync(dir,{recursive:true,force:true});}
+});
+
+function storedAsset(db:DatabaseSync,id:string,owner:string,project:string){return db.prepare('SELECT id,owner_id,project_id,kind,mime,bytes,width,height,digest,storage_key,created_at FROM assets WHERE id=? AND owner_id=? AND project_id=?').get(id,owner,project) as unknown as AssetRow;}
+function authorizedLegacyBytes(db:DatabaseSync,row:AssetRow){assert.equal(typeof readAuthorizedLegacyBytes,'function');return readAuthorizedLegacyBytes(db,row);}
+
+test('completed direct upgrade reads migrated original and master while preserving locator and bytes',async()=>{
+  const f=await transferredLegacyFixture();try{
+    const reader=createSqlAssetReader(f.db);
+    for(const assetId of [f.originalId,f.masterId]){
+      const row=storedAsset(f.db,assetId,f.targetOwner,f.projectId);assert.equal(row.storage_key,`legacy://${f.sourceOwner}/${f.imageId}`);
+      const stored=authorizedLegacyBytes(f.db,row);assert.ok(Buffer.isBuffer(stored));assert.equal(stored instanceof Promise,false);assert.deepEqual(stored,f.bytes);
+      const result=await readOwnedAsset(reader,assetId,f.targetOwner,f.projectId);assert.equal(result.persistedRow.owner_id,f.targetOwner);assert.equal(result.provenance.rawSha256,sha(f.bytes));assert.deepEqual(result.bytes,result.image.bytes);
+    }
+    assert.equal((f.db.prepare('SELECT original_asset_id FROM projects WHERE owner_id=? AND id=?').get(f.targetOwner,f.projectId) as {original_asset_id:string}).original_asset_id,f.originalId);
+    assert.equal((f.db.prepare("SELECT user_id FROM identities WHERE provider='legacy_cookie' AND subject=?").get(sha(f.cookie)) as {user_id:string}).user_id,f.sourceOwner);
+    assert.equal((f.db.prepare('SELECT count(*) n FROM owner_upgrades WHERE source_owner_id=? AND target_owner_id=? AND status=\'completed\'').get(f.sourceOwner,f.targetOwner) as {n:number}).n,1);
+  }finally{f.cleanup();}
+});
+
+test('legacy access requires a direct completed upgrade rather than missing, deferred, wrong-target or chained mapping',async()=>{
+  for(const state of ['missing','deferred','wrong-target','chain'] as const){
+    const f=await transferredLegacyFixture(state);try{
+      const row=storedAsset(f.db,f.originalId,f.targetOwner,f.projectId);assert.equal(authorizedLegacyBytes(f.db,row),null);
+      await assert.rejects(()=>readOwnedAsset(createSqlAssetReader(f.db),f.originalId,f.targetOwner,f.projectId),/ASSET_NOT_FOUND|ASSET_INTEGRITY_INVALID/);
+    }finally{f.cleanup();}
+  }
+});
+
+test('legacy authorization rejects missing or mismatched source identity, project, cookie, and deleted owners',async()=>{
+  for(const mutation of ['identity-missing','identity-misbound','source-project','cookie','source-deleted','target-deleted','project-deleted','hybrid'] as const){
+    const f=await transferredLegacyFixture();try{
+      const now=new Date().toISOString();
+      if(mutation==='identity-missing')f.db.prepare("DELETE FROM identities WHERE provider='legacy_cookie' AND user_id=?").run(f.sourceOwner);
+      if(mutation==='identity-misbound')f.db.prepare("UPDATE identities SET user_id=? WHERE provider='legacy_cookie' AND user_id=?").run(f.targetOwner,f.sourceOwner);
+      if(mutation==='source-project')f.db.prepare('UPDATE images SET project_id=? WHERE id=?').run('tampered-old-project',f.imageId);
+      if(mutation==='cookie')f.db.prepare('UPDATE images SET owner=? WHERE id=?').run('different-synthetic-cookie',f.imageId);
+      if(mutation==='source-deleted')f.db.prepare('UPDATE users SET deleted_at=? WHERE id=?').run(now,f.sourceOwner);
+      if(mutation==='target-deleted')f.db.prepare('UPDATE users SET deleted_at=? WHERE id=?').run(now,f.targetOwner);
+      if(mutation==='project-deleted')f.db.prepare('UPDATE projects SET deleted_at=? WHERE id=?').run(now,f.projectId);
+      if(mutation==='hybrid')f.db.prepare('UPDATE assets SET private_bytes=? WHERE id=?').run(f.bytes,f.originalId);
+      const row=storedAsset(f.db,f.originalId,f.targetOwner,f.projectId);
+      assert.equal(authorizedLegacyBytes(f.db,row),null,mutation);
+      if(mutation==='hybrid')await assert.rejects(()=>createSqlAssetReader(f.db).readBytes({kind:'private',assetId:row.id,ownerId:f.targetOwner,projectId:f.projectId,storageKey:row.storage_key}));
+      await assert.rejects(()=>readOwnedAsset(createSqlAssetReader(f.db),f.originalId,f.targetOwner,f.projectId),/ASSET_NOT_FOUND|ASSET_INTEGRITY_INVALID/);
+    }finally{f.cleanup();}
+  }
+});
+
+test('legacy readBytes rejects forged source, image, key and actor locator fields',async()=>{
+  const f=await transferredLegacyFixture();try{
+    const row=storedAsset(f.db,f.originalId,f.targetOwner,f.projectId),reader=createSqlAssetReader(f.db);
+    const good:StorageLocator={kind:'legacy',assetId:row.id,ownerId:f.targetOwner,sourceOwnerId:f.sourceOwner,projectId:f.projectId,storageKey:row.storage_key,legacyImageId:f.imageId};
+    assert.deepEqual(await reader.readBytes(good),f.bytes);
+    const forged:StorageLocator[]=[
+      {...good,sourceOwnerId:`legacy-owner-${'f'.repeat(24)}`},
+      {...good,legacyImageId:'other-image'},
+      {...good,storageKey:`legacy://${f.sourceOwner}/other-image`},
+      {...good,ownerId:f.sourceOwner}
+    ];
+    for(const locator of forged)await assert.rejects(()=>reader.readBytes(locator));
+  }finally{f.cleanup();}
+});
+
+test('legacy upgrade revocation before storage and after awaited reads cannot return bytes',async()=>{
+  for(const stage of ['before-read','during-read','during-decode'] as const){
+    const f=await transferredLegacyFixture();try{
+      const base=createSqlAssetReader(f.db);let checks=0,reads=0,revoked=false;
+      const revoke=()=>{if(!revoked){f.db.prepare('DELETE FROM owner_upgrades WHERE source_owner_id=?').run(f.sourceOwner);revoked=true;}};
+      const reader:AssetReader={
+        canReadProject:base.canReadProject,
+        findOwned:base.findOwned,
+        canReadLegacyOrigin:async locator=>{const allowed=await base.canReadLegacyOrigin!(locator);checks++;if(stage==='before-read'&&checks===1||stage==='during-decode'&&checks===2)revoke();return allowed;},
+        readBytes:async locator=>{reads++;const bytes=await base.readBytes(locator);if(stage==='during-read'){await Promise.resolve();revoke();}return bytes;}
+      };
+      await assert.rejects(()=>readOwnedAsset(reader,f.originalId,f.targetOwner,f.projectId),/ASSET_READ_FAILED|ASSET_NOT_FOUND/);
+      assert.equal(reads,1,stage);assert.equal(revoked,true,stage);
+    }finally{f.cleanup();}
+  }
 });

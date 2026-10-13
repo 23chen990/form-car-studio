@@ -38,12 +38,36 @@ function privateAsset(db:DatabaseSync,id:string,owner:string,project:string){ret
   WHERE a.id=? AND a.owner_id=? AND a.project_id=? AND p.deleted_at IS NULL AND u.deleted_at IS NULL`).get(id,owner,project) as AssetRow|undefined;}
 function legacyOwner(cookie:string){return `legacy-owner-${hash(`form:v2:legacy-owner\0${cookie}`).slice(0,24)}`;}
 function legacyProject(owner:string,project:string){return `legacy-project-${hash(`${owner}:${project}`).slice(0,24)}`;}
-function validLegacyMapping(db:DatabaseSync,row:AssetRow){
-  const match=/^legacy:\/\/(legacy-owner-[a-f0-9]{24})\/([A-Za-z0-9_-]{1,128})$/.exec(row.storage_key);
-  if(!match||match[1]!==row.owner_id)return false;
-  const image=db.prepare('SELECT id,owner,project_id FROM images WHERE id=?').get(match[2]) as {id:string;owner:string;project_id:string}|undefined;
-  if(!image||image.id!==match[2]||legacyOwner(image.owner)!==row.owner_id||legacyProject(row.owner_id,image.project_id)!==row.project_id)return false;
-  return !!db.prepare("SELECT 1 FROM identities WHERE user_id=? AND provider='legacy_cookie' AND subject=?").get(row.owner_id,hash(image.owner));
+type StoredAssetRow=AssetRow&{private_bytes:Uint8Array|null};
+function sameAsset(a:AssetRow,b:AssetRow){return a.id===b.id&&a.owner_id===b.owner_id&&a.project_id===b.project_id&&a.kind===b.kind&&a.mime===b.mime&&a.bytes===b.bytes&&a.width===b.width&&a.height===b.height&&a.digest===b.digest&&a.storage_key===b.storage_key&&a.created_at===b.created_at;}
+function legacyLocator(row:AssetRow){return /^legacy:\/\/(legacy-owner-[a-f0-9]{24})\/([A-Za-z0-9_-]{1,128})$/.exec(row.storage_key);}
+function authorizedLegacySource(db:DatabaseSync,expected:AssetRow,includeBytes:boolean):{bytes?:Buffer}|null{
+  if(!safeId(expected.id)||!safeId(expected.owner_id)||!safeId(expected.project_id))return null;
+  const stored=db.prepare(`SELECT a.id,a.owner_id,a.project_id,a.kind,a.mime,a.bytes,a.width,a.height,a.digest,a.storage_key,a.created_at,a.private_bytes
+    FROM assets a JOIN projects p ON p.id=a.project_id AND p.owner_id=a.owner_id JOIN users u ON u.id=a.owner_id
+    WHERE a.id=? AND a.owner_id=? AND a.project_id=? AND p.deleted_at IS NULL AND u.deleted_at IS NULL`).get(expected.id,expected.owner_id,expected.project_id) as StoredAssetRow|undefined;
+  if(!stored||!sameAsset(expected,stored)||stored.private_bytes!==null||(stored.kind!=='original'&&stored.kind!=='master')||stored.mime!=='application/octet-stream'||stored.width!==null||stored.height!==null||!Number.isSafeInteger(stored.bytes)||stored.bytes<1||!stored.digest||!/^[a-f0-9]{64}$/.test(stored.digest))return null;
+  const match=legacyLocator(stored);if(!match)return null;
+  const sourceOwner=match[1],imageId=match[2];
+  const image=db.prepare(`SELECT id,owner,project_id${includeBytes?',data':''} FROM images WHERE id=?`).get(imageId) as {id:string;owner:string;project_id:string;data?:Uint8Array}|undefined;
+  if(!image||image.id!==imageId||legacyOwner(image.owner)!==sourceOwner||legacyProject(sourceOwner,image.project_id)!==stored.project_id)return null;
+  if(!db.prepare('SELECT 1 FROM users WHERE id=? AND deleted_at IS NULL').get(sourceOwner))return null;
+  const identity=db.prepare("SELECT user_id FROM identities WHERE provider='legacy_cookie' AND subject=?").get(hash(image.owner)) as {user_id:string}|undefined;
+  if(!identity||identity.user_id!==sourceOwner)return null;
+  if(sourceOwner!==stored.owner_id&&!db.prepare("SELECT 1 FROM owner_upgrades WHERE source_owner_id=? AND target_owner_id=? AND status='completed' AND completed_at IS NOT NULL").get(sourceOwner,stored.owner_id))return null;
+  if(!includeBytes)return {};
+  if(!(image.data instanceof Uint8Array)||image.data.byteLength!==stored.bytes)return null;
+  const bytes=Buffer.from(image.data);if(hash(bytes)!==stored.digest)return null;
+  return {bytes};
+}
+/** Reads untouched F03 bytes only after rebinding their stored locator, provenance, and current owner authorization. */
+export function readAuthorizedLegacyBytes(db:DatabaseSync,expected:AssetRow):Buffer|null{
+  return authorizedLegacySource(db,expected,true)?.bytes??null;
+}
+function validLegacyMapping(db:DatabaseSync,row:AssetRow){return authorizedLegacySource(db,row,false)!==null;}
+function locatorMatches(row:AssetRow,locator:StorageLocator):locator is Extract<StorageLocator,{kind:'legacy'}>{
+  if(locator.kind!=='legacy')return false;const match=legacyLocator(row);if(!match)return false;
+  return locator.assetId===row.id&&locator.ownerId===row.owner_id&&locator.projectId===row.project_id&&locator.storageKey===row.storage_key&&locator.legacyImageId===match[2]&&(match[1]===row.owner_id?locator.sourceOwnerId===undefined:locator.sourceOwnerId===match[1]);
 }
 
 /** SQL adapter for F06: every locator is rebound to the persisted asset and actor scope. */
@@ -51,23 +75,18 @@ export function createSqlAssetReader(db:DatabaseSync):AssetReader{
   return {
     canReadProject:async(owner,project)=>activeProject(db,owner,project),
     findOwned:async(id,owner,project)=>{const row=privateAsset(db,id,owner,project);return row&&row.storage_key.startsWith('legacy://')&&!validLegacyMapping(db,row)?null:row??null;},
+    canReadLegacyOrigin:async(locator)=>{if(locator.kind!=='legacy')return false;const row=privateAsset(db,locator.assetId,locator.ownerId,locator.projectId);return !!row&&locatorMatches(row,locator)&&validLegacyMapping(db,row);},
     readBytes:async(locator:StorageLocator)=>{
       if(locator.kind==='private'){
         const row=db.prepare(`SELECT a.private_bytes FROM assets a JOIN projects p ON p.id=a.project_id AND p.owner_id=a.owner_id JOIN users u ON u.id=a.owner_id
-          WHERE a.id=? AND a.owner_id=? AND a.project_id=? AND a.storage_key=? AND p.deleted_at IS NULL AND u.deleted_at IS NULL`)
+          WHERE a.id=? AND a.owner_id=? AND a.project_id=? AND a.storage_key=? AND a.storage_key NOT GLOB 'legacy://*' AND a.private_bytes IS NOT NULL AND p.deleted_at IS NULL AND u.deleted_at IS NULL`)
           .get(locator.assetId,locator.ownerId,locator.projectId,locator.storageKey) as {private_bytes:Uint8Array|null}|undefined;
         if(!row?.private_bytes)throw new Error('asset read denied');return Buffer.from(row.private_bytes);
       }
       if(locator.kind!=='legacy')throw new Error('asset read denied');
-      const stored=db.prepare(`SELECT 1 FROM assets a JOIN projects p ON p.id=a.project_id AND p.owner_id=a.owner_id JOIN users u ON u.id=a.owner_id
-        WHERE a.id=? AND a.owner_id=? AND a.project_id=? AND a.storage_key=? AND a.kind IN ('original','master') AND p.deleted_at IS NULL AND u.deleted_at IS NULL`)
-        .get(locator.assetId,locator.ownerId,locator.projectId,locator.storageKey);
-      if(!stored||locator.storageKey!==`legacy://${locator.ownerId}/${locator.legacyImageId}`)throw new Error('asset read denied');
-      const row=db.prepare('SELECT id,owner,project_id,data FROM images WHERE id=?').get(locator.legacyImageId) as {id:string;owner:string;project_id:string;data:Uint8Array}|undefined;
-      if(!row||row.id!==locator.legacyImageId||legacyOwner(row.owner)!==locator.ownerId||legacyProject(locator.ownerId,row.project_id)!==locator.projectId)throw new Error('asset read denied');
-      const identity=db.prepare("SELECT 1 FROM identities WHERE user_id=? AND provider='legacy_cookie' AND subject=?").get(locator.ownerId,hash(row.owner));
-      if(!identity)throw new Error('asset read denied');
-      return Buffer.from(row.data);
+      const row=privateAsset(db,locator.assetId,locator.ownerId,locator.projectId);
+      if(!row||!locatorMatches(row,locator))throw new Error('asset read denied');
+      const bytes=readAuthorizedLegacyBytes(db,row);if(!bytes)throw new Error('asset read denied');return bytes;
     }
   };
 }

@@ -152,6 +152,19 @@ test('restore_original requires the frozen capability and fails before inserting
  }finally{f.close();}
 });
 
+for(const reference of [false,true])test(`quotes reject an oversized ${reference?'restoration reference':'primary'} before persistence`,async()=>{
+ const f=await fixture();try{let limit=1;
+   if(reference){const small=await normalizeInput(await sharp({create:{width:1,height:1,channels:4,background:'#2468ab'}}).png().toBuffer());limit=small.bytes.length;
+     f.db.prepare('UPDATE assets SET bytes=?,width=?,height=?,digest=?,private_bytes=? WHERE id=?').run(limit,small.width,small.height,small.sha256,small.bytes,f.version1Master);
+     assert.ok((f.db.prepare('SELECT bytes FROM assets WHERE id=?').get(f.originalId) as {bytes:number}).bytes>limit);
+   }
+   const constrained={...profile(),maxInputBytes:limit};const create=service(f,{config:config([{profile:constrained,providerId:'provider-test'}])});
+   const edit=reference?request({kind:'version',versionId:f.version1},{bodyColor:{action:'restore_original'}}):request({kind:'original'});
+   await assert.rejects(()=>create.quote(f.ownerId,f.projectId,f.consentId,edit),code('INPUT_TOO_LARGE_FOR_PROVIDER'));
+   assert.equal((f.db.prepare('SELECT count(*) n FROM plans').get() as {n:number}).n,0);
+ }finally{f.close();}
+});
+
 test('snapshot digest changes for semantic edits but excludes project display name and current wallet state',async()=>{
  const f=await fixture();try{const create=service(f),base=await create.quote(f.ownerId,f.projectId,f.consentId,request({kind:'original'},{bodyColor:{action:'set',value:'blue'}}));
    f.db.prepare('UPDATE projects SET name=? WHERE id=?').run('A renamed display-only project',f.projectId);

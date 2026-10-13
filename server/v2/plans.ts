@@ -64,6 +64,10 @@ const safeId=(value:unknown):value is string=>typeof value==='string'&&/^[A-Za-z
 const token=(value:unknown):value is string=>typeof value==='string'&&/^[A-Za-z0-9][A-Za-z0-9._:-]{0,127}$/.test(value);
 const digest=(value:unknown):value is string=>typeof value==='string'&&/^[a-f0-9]{64}$/.test(value);
 const hash=(value:Uint8Array|string)=>createHash('sha256').update(value).digest('hex');
+function checkProviderInputSizes(supplier:PlanSemantic['supplier'],source:Buffer,reference:Buffer|null){
+  if(supplier&&(source.length>supplier.maxInputBytes||(reference&&reference.length>supplier.maxInputBytes)))
+    throw new PlanError('INPUT_TOO_LARGE_FOR_PROVIDER',422);
+}
 const unavailable=()=>new PlanError('PLAN_UNAVAILABLE',503);
 const invalidSource=()=>new PlanError('SOURCE_NOT_FOUND',404);
 function cloneConsentCatalog(raw:ConsentCatalog|null|undefined):ConsentCatalog{
@@ -418,6 +422,7 @@ export function createPlanService(options:PlanOptions){
     const original=scope.originalAssetId===sourceId?source:scope.originalAssetId?await readGenerationBase(reader,scope.originalAssetId,semantic.ownerId,semantic.projectId):null;
     if(canonicalJson(planSource(semantic.requestEdits,imageReference(source)))!==canonicalJson(semantic.source))throw new PlanError('SOURCE_CHANGED',409);
     if(semantic.originalReference&&(!original||canonicalJson(imageReference(original))!==canonicalJson(semantic.originalReference)))throw new PlanError('SOURCE_CHANGED',409);
+    checkProviderInputSizes(semantic.supplier,source.bytes,semantic.originalReference?original?.bytes??null:null);
     if(canonicalJson(projectSourceEvidence(db,scope,original,readConfig()))!==canonicalJson(semantic.projectSource))throw new PlanError('SOURCE_CHANGED',409);
     assertCurrent(snapshot);return Object.freeze({source,originalReference:semantic.originalReference?original:null});
   }
@@ -446,6 +451,7 @@ export function createPlanService(options:PlanOptions){
       if(restore&&initialScope.originalAssetId===null)throw new PlanError('ORIGINAL_REFERENCE_UNSUPPORTED',422);
       if(restore&&!capabilities.originalReference)throw new PlanError('ORIGINAL_REFERENCE_UNSUPPORTED',422);
       if(restore&&(!originalRead||originalRead.persistedRow.kind!=='original'))throw invalidSource();
+      checkProviderInputSizes(supplier,read.bytes,restore?originalRead?.bytes??null:null);
       const frozenConsent=consentSnapshot(currentConsent,executionMode),generationPurpose=executionMode==='live'?initialConfig.requiredGenerationPurpose:null;
       const semantic:PlanSemantic=deepFreeze({schemaVersion:1,ownerId,projectId,walletScope:executionMode==='live'?'live':'demo',executionMode,configurationDigest:initialConfig.fingerprint,generationPurpose,supplierExposureMicrosUSD:supplier?.maxSupplierCostMicrosUSD??0,source:planSource(parsed,sourceImage),...(restore&&originalRead?{originalReference:imageReference(originalRead)}:{}),projectSource:sourceEvidence,requestEdits:parsed,desiredRecipe:recipe,observedRecipe:{status:'unknown',fields:{}},presetVersion:current.presetVersion,capabilities,supplier,consent:frozenConsent,policyVersion:executionMode==='live'?initialConfig.policyVersion:initialConfig.demoPolicyVersion,sourcePolicyVersion:executionMode==='live'?initialConfig.sourcePolicy.version:null,demoPolicyVersion:executionMode==='licensed_demo'?initialConfig.demoPolicyVersion:null,userCostUnits:1,outputCount:1});
       const planDigest=await semanticDigest(semantic),currentConfig=readConfig();

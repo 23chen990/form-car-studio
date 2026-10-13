@@ -19,6 +19,7 @@ function errorResult(error:unknown){
     else if(e?.type==='entity.parse.failed'||e?.type==='request.size.invalid'){status=400;code='INVALID_REQUEST';}
   }
   const messages:Record<string,string>={AUTH_REQUIRED:'Sign in is required.',PROJECT_NOT_FOUND:'Project not found.',SOURCE_NOT_FOUND:'The selected source is unavailable.',SOURCE_CHANGED:'The selected source changed. Choose it again.',SOURCE_INTEGRITY_INVALID:'The selected photo could not be verified.',SOURCE_PROVENANCE_INVALID:'The selected source could not be verified.',DEMO_UNAVAILABLE:'This demo is unavailable.',SOURCE_NOT_ALLOWED:'This source is not available for editing.',PLAN_UNAVAILABLE:'Editing quotes are unavailable right now.',PLAN_CONFIGURATION_CHANGED:'Editing settings changed. Request a new quote.',CONSENT_INVALID:'Current sharing consent for this provider is required.',ORIGINAL_REFERENCE_UNSUPPORTED:'Restoring the original is not available for this provider.',NO_EFFECTIVE_CHANGE:'Choose a change before requesting a quote.',EXPLORE_OVERRIDES_UNSUPPORTED:'Preset edits cannot be changed in this request.',INVALID_REQUEST:'The request is invalid.',REQUEST_TOO_LARGE:'The request is too large.',REQUEST_FAILED:'The request could not be completed.'};
+  messages.INPUT_TOO_LARGE_FOR_PROVIDER='The selected photo is too large for this editing option.';
   return {status,code,message:messages[code]??'The request could not be completed.',retryable:code==='PLAN_UNAVAILABLE'||code==='PLAN_CONFIGURATION_CHANGED'||code==='REQUEST_FAILED',requestId:randomUUID()};
 }
 

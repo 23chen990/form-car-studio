@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "express": "^5.1.0",
+    "jose": "6.2.12",
     "lucide-react": "^0.468.0",
     "react": "^19.1.0",
     "react-compare-slider": "4.0.0",

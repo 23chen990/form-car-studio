@@ -333,3 +333,129 @@ test('project upload uses consent-bound browser multipart and validates the exac
   store.activateActor('owner-b'); finish(response({ ...dto, sourceKind: 'licensed_demo' }, 201));
   await assert.rejects(late, V2ActorChangedError);
 });
+
+test('lost trial-claim acknowledgment survives a fresh store and a 404 replays the same trial endpoint and ID', async () => {
+  const { createSubmissionStore, createV2Api, V2NetworkError } = await modules();
+  const storage = new MemoryStorage();
+  const firstStore = createSubmissionStore({ storage, createId: () => 'trial-submit-1' });
+  firstStore.activateActor('owner-a');
+  const firstCalls: string[] = [];
+  const first = createV2Api({ store: firstStore, fetcher: async (input, init) => {
+    firstCalls.push(`${String(input)} ${init?.method}`);
+    throw new TypeError('acknowledgment lost after claim acceptance');
+  } });
+  await assert.rejects(first.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: 'trial_claim' }), V2NetworkError);
+  assert.deepEqual(firstCalls, ['/api/v2/trial/claim POST']);
+  assert.equal(firstStore.list('owner-a')[0]?.operation, 'trial_claim');
+
+  const refreshedStore = createSubmissionStore({ storage, createId: () => 'must-not-be-used' });
+  refreshedStore.activateActor('owner-a');
+  const replayCalls: string[] = [];
+  const replay = createV2Api({ store: refreshedStore, fetcher: async (input, init) => {
+    const path = String(input);
+    replayCalls.push(`${path} ${init?.method}`);
+    if (path === '/api/v2/submissions/trial-submit-1') return response({ code: 'TASK_NOT_FOUND', message: 'Not found.', retryable: false, requestId: 'req-trial' }, 404);
+    assert.equal(path, '/api/v2/trial/claim');
+    assert.deepEqual(JSON.parse(String(init?.body)), { planId: 'plan-1', submissionId: 'trial-submit-1', consentRecordId: 'consent-1' });
+    return response(task, 200);
+  } });
+  assert.deepEqual(await replay.resumeSubmission('owner-a', 'trial-submit-1'), task);
+  assert.deepEqual(replayCalls, ['/api/v2/submissions/trial-submit-1 GET', '/api/v2/trial/claim POST']);
+  assert.equal(replayCalls.some(call => call.includes('/api/v2/tasks')), false);
+});
+
+test('legacy v1 pending records default to task and migrate intact on the next write', async () => {
+  const { createSubmissionStore, createV2Api } = await modules();
+  const storage = new MemoryStorage();
+  const key = 'form:v2:submissions:owner-a';
+  const oldRecord = { planId: 'plan-1', projectId: 'project-1', submissionId: 'legacy-submit', consentRecordId: 'consent-1', expiresAt: '2026-10-13T03:10:00.000Z', createdAt: '2026-10-13T03:00:00.000Z' };
+  storage.values.set(key, JSON.stringify({ schemaVersion: 1, submissions: [oldRecord] }));
+  const store = createSubmissionStore({ storage, createId: () => 'new-submit' });
+  store.activateActor('owner-a');
+  assert.equal(store.list('owner-a')[0]?.operation, 'task');
+  const paths: string[] = [];
+  const api = createV2Api({ store, fetcher: async input => {
+    paths.push(String(input));
+    return response({ code: 'TASK_NOT_FOUND', message: 'Not found.', retryable: false, requestId: 'req-legacy' }, 404);
+  } });
+  await assert.rejects(api.resumeSubmission('owner-a', 'legacy-submit'));
+  assert.deepEqual(paths, ['/api/v2/submissions/legacy-submit', '/api/v2/tasks']);
+
+  store.begin('owner-a', quoteIdentity('plan-2'), 'consent-2');
+  const saved = JSON.parse(storage.values.get(key)!);
+  assert.equal(saved.schemaVersion, 2);
+  assert.deepEqual(saved.submissions.map((item: { submissionId: string; operation: string }) => [item.submissionId, item.operation]), [['legacy-submit', 'task'], ['new-submit', 'task']]);
+});
+
+test('cross-operation reuse of a pending plan conflicts without replacing its identity', async () => {
+  const { createSubmissionStore, SubmissionStoreError } = await modules();
+  const store = createSubmissionStore({ storage: new MemoryStorage(), createId: () => 'task-submit' });
+  store.activateActor('owner-a');
+  const original = store.begin('owner-a', quoteIdentity(), 'consent-1');
+  assert.equal(original.submission.operation, 'task');
+  assert.throws(() => store.begin('owner-a', quoteIdentity(), 'consent-1', 'trial_claim'), (error: unknown) => error instanceof SubmissionStoreError && error.code === 'SUBMISSION_IDENTITY_CONFLICT');
+  assert.deepEqual(store.list('owner-a').map(record => [record.operation, record.submissionId]), [['task', 'task-submit']]);
+});
+
+test('invalid persisted schema and operation stay stored and fail closed', async () => {
+  const { createSubmissionStore, SubmissionStoreError } = await modules();
+  const storage = new MemoryStorage();
+  const key = 'form:v2:submissions:owner-a';
+  const base = { planId: 'plan-1', projectId: 'project-1', submissionId: 'submit-1', consentRecordId: 'consent-1', expiresAt: '2026-10-13T03:10:00.000Z', createdAt: '2026-10-13T03:00:00.000Z' };
+  for (const value of [
+    { schemaVersion: 9, submissions: [base] },
+    { schemaVersion: 2, submissions: [{ ...base, operation: 'unknown' }] },
+    { schemaVersion: 1, submissions: [{ ...base, unexpected: true }] },
+  ]) {
+    const raw = JSON.stringify(value);
+    storage.values.set(key, raw);
+    const store = createSubmissionStore({ storage }); store.activateActor('owner-a');
+    assert.throws(() => store.list('owner-a'), (error: unknown) => error instanceof SubmissionStoreError && error.code === 'SUBMISSION_STORE_INVALID');
+    assert.equal(storage.values.get(key), raw);
+  }
+});
+
+test('invalid submit operation is rejected before storage or network access', async () => {
+  const { createSubmissionStore, createV2Api, SubmissionStoreError } = await modules();
+  class CountingStorage extends MemoryStorage {
+    reads = 0; writes = 0;
+    getItem(key: string) { this.reads++; return super.getItem(key); }
+    setItem(key: string, value: string) { this.writes++; super.setItem(key, value); }
+  }
+  const storage = new CountingStorage();
+  const store = createSubmissionStore({ storage }); store.activateActor('owner-a');
+  const invalidStoreOperation = 'trial' as unknown as 'task' | 'trial_claim';
+  assert.throws(() => store.begin('owner-a', quoteIdentity(), 'consent-1', invalidStoreOperation), (error: unknown) => error instanceof SubmissionStoreError && error.code === 'INVALID_SUBMISSION_OPERATION');
+  let calls = 0;
+  const api = createV2Api({ store, fetcher: async () => { calls++; return response(task); } });
+  const invalid = { operation: 'trial' } as unknown as { operation: 'task' | 'trial_claim' };
+  await assert.rejects(api.submitConfirmedPlan('owner-a', quote(), 'consent-1', invalid), TypeError);
+  await assert.rejects(api.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: null } as never), TypeError);
+  await assert.rejects(api.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: 'trial_claim', [Symbol('extra')]: true } as never), TypeError);
+  assert.equal(storage.reads, 0); assert.equal(storage.writes, 0); assert.equal(calls, 0);
+});
+
+test('trial submit persistence failure and actor change never fall back to task POST', async () => {
+  const { createSubmissionStore, createV2Api, SubmissionStoreError, V2ActorChangedError } = await modules();
+  const storage = new MemoryStorage(); storage.failWrites = true;
+  const store = createSubmissionStore({ storage, createId: () => 'trial-submit' }); store.activateActor('owner-a');
+  let calls = 0;
+  const blocked = createV2Api({ store, fetcher: async () => { calls++; return response(task); } });
+  await assert.rejects(blocked.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: 'trial_claim' }), SubmissionStoreError);
+  assert.equal(calls, 0);
+
+  storage.failWrites = false;
+  store.activateActor('owner-b');
+  await assert.rejects(blocked.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: 'trial_claim' }), SubmissionStoreError);
+  assert.equal(calls, 0);
+  store.activateActor('owner-a');
+  let finish!: (value: Response) => void;
+  const waiting = new Promise<Response>(resolve => { finish = resolve; });
+  const paths: string[] = [];
+  const changing = createV2Api({ store, fetcher: async input => { paths.push(String(input)); return waiting; } });
+  const pending = changing.submitConfirmedPlan('owner-a', quote(), 'consent-1', { operation: 'trial_claim' });
+  store.activateActor('owner-b');
+  finish(response(task));
+  await assert.rejects(pending, V2ActorChangedError);
+  assert.deepEqual(paths, ['/api/v2/trial/claim']);
+});

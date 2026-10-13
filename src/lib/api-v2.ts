@@ -1,6 +1,6 @@
 import { canonicalJson, FIELDS, parseEditRequest, STYLES, type EditRequest, type Field, type ResolvedEdit } from '../../shared/v2/edit-plan.js';
 import type { SubmissionStore } from './submission-store';
-import type { ActorLease, SubmissionLease } from './submission-store';
+import type { ActorLease, SubmissionLease, SubmissionOperation } from './submission-store';
 
 const ROOT = '/api/v2';
 const BODY_LIMIT = 128 * 1024;
@@ -9,6 +9,7 @@ const POLICY_ID = /^[A-Za-z0-9._:-]{1,128}$/;
 const CODE = /^[A-Z0-9_]{1,80}$/;
 const DIGEST = /^[a-f0-9]{64}$/;
 const TASK_STATUSES = new Set(['queued', 'processing', 'uncertain', 'succeeded', 'failed', 'cancelled']);
+const SUBMISSION_OPERATIONS = new Set<SubmissionOperation>(['task', 'trial_claim']);
 type Fetcher = (input: RequestInfo | URL, init?: RequestInit) => Promise<Response>;
 
 export interface SafeTaskDTO {
@@ -204,7 +205,11 @@ export function createV2Api(options: { store: SubmissionStore; fetcher?: Fetcher
   function submitLease(lease: SubmissionLease): Promise<SafeTaskDTO> {
     assertCurrent(lease);
     const { planId, submissionId, consentRecordId } = lease.submission;
-    return request(`${ROOT}/tasks`, { method: 'POST', body: JSON.stringify({ planId, submissionId, consentRecordId }) }, validTask).then(task => {
+    const endpoint = lease.submission.operation === 'task' ? `${ROOT}/tasks`
+      : lease.submission.operation === 'trial_claim' ? `${ROOT}/trial/claim`
+      : null;
+    if (endpoint === null) throw new TypeError('Invalid persisted submission operation.');
+    return request(endpoint, { method: 'POST', body: JSON.stringify({ planId, submissionId, consentRecordId }) }, validTask).then(task => {
       assertCurrent(lease);
       if (task.planId !== lease.submission.planId || task.projectId !== lease.submission.projectId) throw new V2UncertainResponseError();
       return task;
@@ -238,9 +243,12 @@ export function createV2Api(options: { store: SubmissionStore; fetcher?: Fetcher
         method: 'POST', headers: { 'X-Form-Consent-Id': consentRecordId }, body: JSON.stringify(requestBody),
       }, (value): value is PlanQuoteDTO => validQuote(value) && value.semantic.ownerId === actorId && value.semantic.projectId === projectId && canonicalJson(value.semantic.requestEdits) === canonicalRequest));
     },
-    async submitConfirmedPlan(actorId: string, quote: PlanQuoteDTO, consentRecordId: string): Promise<SafeTaskDTO> {
+    async submitConfirmedPlan(actorId: string, quote: PlanQuoteDTO, consentRecordId: string, options: { operation?: SubmissionOperation } = {}): Promise<SafeTaskDTO> {
+      if (!plain(options) || Reflect.ownKeys(options).some(key => key !== 'operation')) throw new TypeError('Invalid submission options.');
+      const operation = options.operation === undefined ? 'task' : options.operation;
+      if (!SUBMISSION_OPERATIONS.has(operation)) throw new TypeError('Invalid submission operation.');
       if (!validQuote(quote) || quote.semantic.ownerId !== actorId) throw new TypeError('Quote is not valid for the active owner.');
-      const lease = store.begin(actorId, { planId: quote.planId, projectId: quote.semantic.projectId, expiresAt: quote.expiresAt }, consentRecordId);
+      const lease = store.begin(actorId, { planId: quote.planId, projectId: quote.semantic.projectId, expiresAt: quote.expiresAt }, consentRecordId, operation);
       return submitLease(lease);
     },
     async resumeSubmission(actorId: string, submissionId: string): Promise<SafeTaskDTO> {

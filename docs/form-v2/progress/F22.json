@@ -1,0 +1,24 @@
+{
+  "taskId": "F22",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "34f999c648777c48c6aa641b242634a844493539",
+  "verification": [
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/merge.test.ts (before review fixes)", "exitCode": 1, "status": "EXPECTED_RED: four actual authorization/liability boundary groups failed", "rawLogPath": "/tmp/form-F22-red-review-findings2.log", "rawLogSha256": "2e9cef681d7b31952201a061c5e2f47a11893a6b3b8963bc23702ae590447119", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/merge.test.ts (before partial-index fix)", "exitCode": 1, "status": "EXPECTED_RED: legitimate empty grant keys falsely caused MERGE_COLLISION", "rawLogPath": "/tmp/form-F22-empty-grant-key-red.log", "rawLogSha256": "f53c85625825e11cb68d9c08b604504289fd2bf0e55ea3e5edb713a80b2d3c4d", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/merge.test.ts", "exitCode": 0, "status": "PASS 12/12; actual F03-to-F07 reads, FK/rollback, two independent SQLite Worker races and real write-lock expiry", "rawLogPath": "/tmp/form-F22-committed-focus.log", "rawLogSha256": "13e1de068ce75e31d2d119c128cd614ac908acb6b15600921d931037449909dd", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "unit", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS 412/412 (151 reference + 261 service/client)", "rawLogPath": "/tmp/form-F22-committed-v2.log", "rawLogSha256": "45785ffbbdc26240176f2d02eb8a20c1f82684e45346232bc0033387a85b087c", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "regression", "command": "npm test", "exitCode": 0, "status": "PASS 30/30 unchanged original tests", "rawLogPath": "/tmp/form-F22-committed-legacy.log", "rawLogSha256": "b34dc4eae64730952bae99a761dda5078ba1923e10d118b5ae029e37a51e39ee", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "typecheck", "command": "npx --no-install tsc --noEmit", "exitCode": 0, "status": "PASS; same final source tree", "rawLogPath": "/tmp/form-F22-final-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F22-committed-build.log", "rawLogSha256": "5663d76d516b6615b0e22afb6eed0b17c115611c8754d55a61816e7f2c788e52", "evidencePath": "docs/form-v2/progress/F22.md", "sha256": "d731842e7c7adb3c9027fd84730b61546a51af39dd0390760dc9f088add21170"}
+  ],
+  "changedFiles": ["server/v2/merge.ts", "tests/v2/merge.test.ts"],
+  "knownIssues": ["Isolated legacy-cookie service only. F32 must obtain the HttpOnly guest cookie on the server, protect every old cookie endpoint and mount an authenticated explicit upgrade; no JS-cookie-reading contract is assumed.", "F36 must reuse the effective claim union; it cannot inspect only target rows or sum historical benefits. Purchase/unsupported guest wallet provenance fails closed.", "Early fixture failures (wallet transaction instance, null-prototype rows, duplicate synthetic token) were corrected without relaxing semantic assertions; raw focus-first/2/3/5 logs remain under /tmp/form-F22-*.log."],
+  "externalPending": ["Independent identity/privacy/merge review pending; reviewer=null. Real Apple/iPhone/cloud migration and production data are NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F09 account-liability follow-up, then F10 bounded batch and F27"
+}

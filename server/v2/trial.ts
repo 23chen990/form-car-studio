@@ -87,7 +87,14 @@ export function createTrialService(options: TrialServiceOptions) {
   const { db } = options, repo = new WalletRepository(db), clock = options.clock ?? (() => new Date());
   const budget = options.budget ?? createBudgetService({ db, clock });
   const currentPolicy = () => {
-    try { return openPolicy(options.getCampaign ? options.getCampaign() : options.campaign ?? DEFAULT_TRIAL_POLICY); }
+    try {
+      const value = options.getCampaign ? options.getCampaign() : options.campaign ?? DEFAULT_TRIAL_POLICY;
+      if (value && (typeof value === 'object' || typeof value === 'function') && typeof (value as { then?: unknown }).then === 'function') {
+        void Promise.resolve(value).catch(() => {});
+        return null;
+      }
+      return openPolicy(value);
+    }
     catch { return null; }
   };
 

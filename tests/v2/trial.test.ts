@@ -345,3 +345,16 @@ test('trial presentation defaults closed and shows balance-aware copy from trust
   assert.deepEqual(trialPresentation({ status: 'use_existing_balance' }), { label: 'Use existing balance', message: 'Use your existing credits for this generation.', disabled: true });
   assert.deepEqual(trialPresentation({ status: 'check_required' }), { label: 'Check trial availability', message: 'The server checks eligibility when you confirm this plan.', disabled: false });
 });
+
+test('asynchronous campaign configuration closes availability without an unhandled rejection or grant', async () => {
+  const f = await fixture(); try {
+    for (const source of ['campaign', 'getter']) {
+      const rejected = () => Promise.reject(new Error('synthetic rejected campaign callback'));
+      const service = createTrialService({ db: f.db, clock: () => new Date(now),
+        ...(source === 'campaign' ? { campaign: rejected() } : { getCampaign: rejected }) });
+      assert.deepEqual(service.availability(f.owners['owner-a']!.accessToken), { status: 'disabled' });
+      await new Promise(resolve => setImmediate(resolve));
+      assert.equal(count(f.db, 'tasks'), 0); assert.equal(count(f.db, 'trial_claims'), 0); assert.equal(count(f.db, 'credit_lots'), 0);
+    }
+  } finally { f.close(); }
+});

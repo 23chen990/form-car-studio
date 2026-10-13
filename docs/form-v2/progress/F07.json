@@ -1,0 +1,23 @@
+{
+  "taskId": "F07",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "d7ed749d6c294bc84516f6c1679739ad6391ecfc",
+  "verification": [
+    {"kind": "projects-http", "command": "node --import tsx --test tests/v2/projects.test.ts", "exitCode": 0, "status": "PASS_15_SYNTHETIC_HTTP_SQLITE_TESTS", "rawLogPath": "/tmp/form-F07-committed-unit.log", "rawLogSha256": "53d09d68d316e5782824d88afbf18c4ac6e19ea536b76c7ff6d450a3dbb95bd6", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS_151_REFERENCE_PLUS_133_SERVICE_TESTS", "rawLogPath": "/tmp/form-F07-v2.log", "rawLogSha256": "f53eff6406d0b51a9454ee1de0403d795d43b733307d386aff993655579c3568", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "PASS_30_TESTS", "rawLogPath": "/tmp/form-F07-committed-legacy.log", "rawLogSha256": "34958e358eadc0ddce4a04fe0cfbf12d5791db110f1c23e44f6f6d1732ba6159", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS_TYPESCRIPT_AND_VITE", "rawLogPath": "/tmp/form-F07-committed-build.log", "rawLogSha256": "e062d3c63c7796e223b64196817fc0458697092dcc9a4ff8de89b185959c0159", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/projects.test.ts (before revocation/temporary/private-header fixes)", "exitCode": 1, "status": "EXPECTED_REVOCATION_500_TEMPORARY_200_AND_MISSING_PRIVATE_HEADERS", "rawLogPath": "/tmp/form-F07-red-followup.log", "rawLogSha256": "19daf3f9b18cc39ef53cba9bfc4a289c1056d7327e376c478aee5d67a206178a", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/projects.test.ts (demo source binding regression)", "exitCode": 1, "status": "EXPECTED_FALSE_DEMO_SOURCE_ACCEPTANCE", "rawLogPath": "/tmp/form-F07-red.service.log", "rawLogSha256": "9575ec887ef2dc2ed4c93fc4dd45abdf9a52ce2182d3b8cb244ee6aa3b7f4d2a", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "bfcf1a56dc5a0219227df5a6516d50e925eea9b60e6832851c2e75423d92a222"}
+  ],
+  "changedFiles": ["server/v2/consents.ts", "server/v2/projects.ts", "server/v2/routes-projects.ts", "tests/v2/projects.test.ts"],
+  "knownIssues": ["Router is exported but unmounted; no real policy/provider/retention/hosting or photo license facts were filled. Real uploads and demo registry stay disabled.", "F03 imported source kind remains unknown; it cannot authorize a demo renderer. Optimistic server draft persistence has no assigned backend path in the current F14 card and needs reviewed scope clarification."],
+  "externalPending": ["Independent consent/photo/deletion privacy review", "Actual published policy/data map, asset/storage quota and licensed sample approval", "Real native photo/iCloud/HEIC and final integration evidence"],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F08"
+}

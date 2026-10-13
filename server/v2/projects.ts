@@ -124,4 +124,3 @@ export function createProjectService(options:ProjectOptions){
     return entry?{bytes:Buffer.from(entry.bytes),licenseRegistryId:entry.id}:null;}
   return Object.freeze({issueConsent,preflight,create,readAsset,readAssetById,canSendAsset,sample,storageQuotaBytes:cap});
 }
-

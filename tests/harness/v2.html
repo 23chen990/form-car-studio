@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>FORM V2 · Photo intake harness</title>
+    <style>
+      :root { color-scheme: light; background: #f7f7f2; color: #22271f; font-family: "Form Sans", "Avenir Next", Avenir, "Helvetica Neue", sans-serif; }
+      * { box-sizing: border-box; }
+      body { margin: 0; min-width: 0; }
+      button { font: inherit; }
+      .harness-notice { display: flex; flex-wrap: wrap; justify-content: center; gap: .35rem .8rem; padding: .55rem 1rem; background: #22271f; color: #f7f7f2; font-size: .72rem; line-height: 1.45; text-align: center; }
+      .harness-notice strong { color: #d2fa69; font: 600 .67rem/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .06em; }
+      .harness-account { width: min(1140px, calc(100% - 2.5rem)); margin: .7rem auto 0; display: flex; flex-wrap: wrap; align-items: center; justify-content: flex-end; gap: .6rem; color: #62695e; font-size: .75rem; }
+      .harness-account code { color: #22271f; }
+      .harness-account button { min-height: 2.5rem; padding: .45rem .7rem; border: 1px solid #dedfd5; background: #f7f7f2; color: #22271f; }
+      .harness-account button:focus-visible, .harness-log summary:focus-visible { outline: 3px solid #5d7f23; outline-offset: 3px; }
+      .harness-log { width: min(1140px, calc(100% - 2.5rem)); margin: 0 auto 1rem; color: #62695e; font-size: .75rem; }
+      .harness-log summary { width: fit-content; cursor: pointer; }
+      .harness-log pre { max-height: 12rem; overflow: auto; padding: .7rem; background: #efefe8; color: #22271f; white-space: pre-wrap; overflow-wrap: anywhere; }
+      @media (max-width: 380px) { .harness-account, .harness-log { width: calc(100% - 1.5rem); } .harness-account { justify-content: space-between; } }
+    </style>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/testing/v2-harness.tsx"></script>
+  </body>
+</html>

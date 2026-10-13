@@ -2,21 +2,22 @@
   "taskId": "F09",
   "specVersion": "2.2",
   "codeReady": true,
-  "codeCommit": "489610e5b5c12bd32e2b0513107b2c423a2e8482",
+  "codeCommit": "9b63196d694592753727fbb559022b5b1eaa2e78",
   "verification": [
-    {"kind": "unit", "command": "node --import tsx --test tests/v2/submission.test.ts", "exitCode": 0, "status": "28/28 PASS; committed source, 0 skipped; two independent SQLite Workers permit one global admission", "rawLogPath": "/tmp/form-F09-admission-committed.log", "rawLogSha256": "9dda95e11b2201ce984b0c07b08a278d1f4ecbd85408d27eb5a9382a516ec99e", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "fa91d15cc4909850483f67c94935ae296831f1b9947dc5163bf05cd32cd5fd7f"},
-    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 230 service = 381 PASS, 0 skipped", "rawLogPath": "/tmp/form-F09-admission-full-v2.log", "rawLogSha256": "8c0fb090e80b1f364772c3ba716d2eb0e7b025a4a86763f92aa27627822518ea", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "fa91d15cc4909850483f67c94935ae296831f1b9947dc5163bf05cd32cd5fd7f"},
-    {"kind": "typecheck", "command": "npx tsc --noEmit", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F09-admission-tsc-2.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "fa91d15cc4909850483f67c94935ae296831f1b9947dc5163bf05cd32cd5fd7f"},
-    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/submission.test.ts (before admission guard)", "exitCode": 1, "status": "Actual RED: rejected/async/concurrent/router admission paths ignored before repair", "rawLogPath": "/tmp/form-F09-admission-red.log", "rawLogSha256": "668a7bdc925119b50762dedb3eb69de37903a81534ea0e04a9e65258f28322ac", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "fa91d15cc4909850483f67c94935ae296831f1b9947dc5163bf05cd32cd5fd7f"}
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/submission.test.ts (before scoped filter)", "exitCode": 1, "status": "EXPECTED_RED: 28/31; three owner partition/corruption/unknown-cap cases failed", "rawLogPath": "/tmp/form-F09-owner-liability-red-3.log", "rawLogSha256": "31b105a2bbc5c832b0900e35ad5ea49f0e1e92c879b306d138744edec73508cf", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "0612d6372e7371145de0171238489227941c3e817c8db470dd969b7df7384e69"},
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/submission.test.ts", "exitCode": 0, "status": "PASS 31/31; existing real SQLite admission/submit races retained", "rawLogPath": "/tmp/form-F09-owner-liability-committed.log", "rawLogSha256": "c58bc22ff053ec54e57850b3aa267d81b640669f4ffaef73ddefe1bee68de233", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "0612d6372e7371145de0171238489227941c3e817c8db470dd969b7df7384e69"},
+    {"kind": "unit", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS 415/415 (151 reference + 264 service/client)", "rawLogPath": "/tmp/form-F09-owner-liability-v2.log", "rawLogSha256": "bcbd9c087f03d98ca3877b88b076fd6665ae0bf44e4ba8bf231fee61c08fd875", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "0612d6372e7371145de0171238489227941c3e817c8db470dd969b7df7384e69"},
+    {"kind": "regression", "command": "npm test", "exitCode": 0, "status": "PASS 30/30 unchanged legacy assertions", "rawLogPath": "/tmp/form-F09-owner-liability-legacy.log", "rawLogSha256": "ebce64bd359a9cc5bb97c0d1a0452d8577d81444fea71c3cf575934d8485ebc7", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "0612d6372e7371145de0171238489227941c3e817c8db470dd969b7df7384e69"},
+    {"kind": "typecheck", "command": "npx --no-install tsc --noEmit", "exitCode": 0, "status": "PASS same final source tree", "rawLogPath": "/tmp/form-F09-owner-liability-final-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F09.md", "sha256": "0612d6372e7371145de0171238489227941c3e817c8db470dd969b7df7384e69"}
   ],
-  "changedFiles": ["server/v2/tasks.ts", "server/v2/routes-tasks.ts", "tests/v2/submission.test.ts"],
-  "knownIssues": ["F27 must supply actual audited budget/rate/pause policy; defaults add no trial grant or live dispatch.", "V2 remains isolated; durable bounded queue pump/start lifecycle has no explicit frozen implementation owner.", "Linux CI on F08 evidence5afae725 failed old style-save E2E 1/6; local original6/6 passed. Untouched legacy async-save/initial-load race needs separately scoped repair; assertions were not weakened."],
-  "externalPending": ["Independent financial/idempotency review remains NOT_INDEPENDENT; live provider/StoreKit/production NOT_RUN."],
+  "changedFiles": ["server/v2/tasks.ts", "tests/v2/submission.test.ts"],
+  "knownIssues": ["New V2 routes remain inert pending F32; identity/ledger/worker reviews remain NOT_INDEPENDENT.", "The corrupt-reference regression disables FK only inside a disposable synthetic test fixture; runtime DB constraints are preserved.", "Correction to prior handoff: bounded queued batch scanning belongs to the existing F10/S03/D18 scope. Its implementation is the next task; no new queue table or product scope is needed.", "Owned bootstrap/project/version reads and optimistic draft/favorite metadata backend still lack an explicit implementation task; F32 only permits thin wiring."],
+  "externalPending": ["Independent ledger/idempotency/migration review and real supplier budget/profile/cost verification NOT_RUN. No paid calls or production changes."],
   "independentReviewer": null,
   "integrationVerified": false,
   "liveVerified": false,
   "releaseApproved": false,
   "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
-  "nextEligibleTask": "F11 same-endpoint trial replay repair, then F20",
-  "history": [{"reportAtCommit": "489610e5b5c12bd32e2b0513107b2c423a2e8482", "codeCommit": "de1cbc2ffdb1dcc4d374581377987cb5faf07771", "reportPath": "docs/form-v2/progress/F09.json", "sha256": "c7be07b8a4cf7e0e53faf606a6466066969e3dc7184f1b9ea8c8a8fa375796e9"}]
+  "nextEligibleTask": "F10 bounded batch follow-up, then F27",
+  "history": [{"reportAtCommit": "9b63196d694592753727fbb559022b5b1eaa2e78", "codeCommit": "489610e5b5c12bd32e2b0513107b2c423a2e8482", "reportPath": "docs/form-v2/progress/F09.json", "sha256": "ab0537b1092a4461a7afbcf93a932e547bd61dbaa87584211624e8e06df64232"}]
 }

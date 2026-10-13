@@ -1,0 +1,24 @@
+{
+  "taskId": "F08",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "cc8612e75242f67a4da76ea0e7c95ad1010d24e4",
+  "verification": [
+    {"kind": "plans", "command": "node --import tsx --test tests/v2/plans.test.ts", "exitCode": 0, "status": "PASS_19_SYNTHETIC_HTTP_SQLITE_TESTS", "rawLogPath": "/tmp/form-F08-committed-final-unit.log", "rawLogSha256": "71dd8c7c5a3ce881c19a4c6ed0cd41aba812d15a40c8efe4d9844ee310d671b7", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS_151_REFERENCE_PLUS_152_SERVICE_TESTS", "rawLogPath": "/tmp/form-F08-final-v2.log", "rawLogSha256": "2a21521414d0b49289e2f75059cca8abdb698fb70d55ea08b722f825745d716f", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "PASS_30_TESTS", "rawLogPath": "/tmp/form-F08-committed-final-legacy.log", "rawLogSha256": "2074e524654612c7c48410ce996519e7f3fd8bb179dc18c3a07fdf66e4440d87", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS_TYPESCRIPT_AND_VITE", "rawLogPath": "/tmp/form-F08-final-build.log", "rawLogSha256": "980f496923c11cfe7a95087f7001197699b9e01aab2f755cbe7f85217728b9f4", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/plans.test.ts (before persisted-row/unknown-observation fixes)", "exitCode": 1, "status": "EXPECTED_UNKNOWN_OBSERVATION_AND_UNPERSISTED_QUOTE_FAILURES", "rawLogPath": "/tmp/form-F08-root-boundary-red.log", "rawLogSha256": "9eb042c018b1a13fca8ccb66878dc49916897948843a2b5a8b2267e5009cfaa1", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/plans.test.ts (before provider-size fix)", "exitCode": 1, "status": "EXPECTED_TWO_OVERSIZED_PRIMARY_REFERENCE_FAILURES", "rawLogPath": "/tmp/form-F08-provider-input-both-red.log", "rawLogSha256": "4891c31664826d0a4a4e1c6588ca17b48b9b4bed1045c60c5c890bada51b663f", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"},
+    {"kind": "adapter-red", "command": "node --import tsx --test tests/v2/plans.test.ts (before providerEditRequest export)", "exitCode": 1, "status": "EXPECTED_MISSING_PROVIDER_ADAPTER_EXPORT", "rawLogPath": "/tmp/form-F08-provider-adapter-red.log", "rawLogSha256": "05265c21794eaf04979cd99d2a54960dffe26ccc9673063e67e6710c14b6068c", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "7bc24c3c313995f8d443f0898cbba0ec1d87b384f7cbd08a9f7495be29ba5d0d"}
+  ],
+  "changedFiles": ["server/v2/plans.ts", "server/v2/presets.ts", "server/v2/routes-plans.ts", "tests/v2/plans.test.ts"],
+  "knownIssues": ["Router remains unmounted. Synthetic processor/purpose/profile/license fixtures prove binding only; no real provider or licensed sample is approved.", "F09 must check expiry for new confirmations after submission replay lookup; accepted jobs may outlive quote expiry. Hash consistency is not authorization."],
+  "externalPending": ["Independent task/ledger/privacy integration review; same-model checks are NOT_INDEPENDENT.", "Actual processor generation purpose, consent policy, photo licenses, supplier profile/quality and authorized budget; real AI/iPhone remain NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F09"
+}

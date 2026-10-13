@@ -69,6 +69,16 @@ async function accepted(f: Fixture, scope: 'live' | 'demo' = 'live', liveConfig:
   const task = await createTaskService({ db: f.db, consentCatalog: catalog, config: isDemo ? demoConfig(f) : liveConfig, storageQuotaBytes: 300_000_000, clock: () => new Date(NOW) }).submit(owner.id, request);
   return { plan, task: task.task };
 }
+async function acceptedOtherOwner(f: Fixture, suffix: string) {
+  const ownerId = `owner-f10-${suffix}`;
+  f.db.prepare('INSERT INTO users(id,created_at) VALUES (?,?)').run(ownerId, NOW);
+  f.db.prepare('INSERT INTO identities(id,user_id,provider,subject,created_at) VALUES (?,?,?,?,?)').run(`identity-f10-${suffix}`, ownerId, 'apple', `synthetic-subject-f10-${suffix}`, NOW);
+  const consentId = createConsentService(f.db, catalog).issue(ownerId, { policyId: 'policy-test', acknowledgePhotoRights: true, acknowledgeUploadStorage: true, acknowledgeSharing: true }).consentRecordId;
+  const project = await createProjectService({ db: f.db, consentCatalog: catalog, storageQuotaBytes: 300_000_000 }).create(ownerId, consentId, await colorImage('#164d89'), 'Synthetic batch project', 'user_upload');
+  const wallet = new WalletRepository(f.db);
+  wallet.transaction(tx => { wallet.grantInTransaction(tx, { ownerId, kind: 'promo', sourceKind: 'promo', sourceEventKey: `seed:f10:${suffix}`, units: 3, scope: 'live' }); });
+  return accepted({ ...f, owner: { ...f.owner, id: ownerId, projectId: project.projectId, consentId } }, 'live');
+}
 const fixtureResult = async (color = '#cc3344') => ({ ok: true as const, image: await colorImage(color, 1024, 1024), mimeType: 'image/png' as const, profileId: 'profile-test', profileVersion: 'profile-v1', model: 'synthetic-model', templateVersion: 'template-v1', promptSha256: 'a'.repeat(64), providerRequestId: 'synthetic-request', usage: null, actualCostMicrosUSD: null, maxExposureMicrosUSD: 25_000, attempted: true as const, quality: 'UNASSESSED' as const });
 const failureResult = () => ({ ok: false as const, error: { code: 'PROVIDER_HTTP_ERROR', category: 'upstream' as const, retryable: false as const }, attempted: true, providerRequestId: null, usage: null, actualCostMicrosUSD: null, maxExposureMicrosUSD: 25_000 });
 
@@ -78,6 +88,139 @@ test('worker defaults closed and leaves a queued task unclaimed', async () => {
     assert.equal((await worker.runTask(job.task.id)).status, 'disabled');
     assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(job.task.id) as { status: string }).status, 'queued');
     assert.equal(count(f.db, 'supplier_attempts'), 0);
+  } finally { f.close(); }
+});
+
+test('runQueuedBatch is closed at zero concurrency and fairly advances past malformed queued heads', async () => {
+  const f = await fixture(); try {
+    const first = await accepted(f), second = await acceptedOtherOwner(f, 'batch-b');
+    const jobs = [first, second]; let dispatches = 0;
+    const closed = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, liveDispatchEnabled: true, serverProvider: async () => { dispatches++; return fixtureResult(); }, clock: () => new Date(NOW) });
+    assert.deepEqual(await closed.runQueuedBatch(), []);
+    assert.equal(dispatches, 0); assert.equal(count(f.db, 'supplier_attempts'), 0);
+
+    const ordered = f.db.prepare("SELECT id FROM tasks WHERE id IN (?,?) ORDER BY created_at,id").all(...jobs.map(job => job.task.id)) as { id: string }[];
+    const malformedId = ordered[0]!.id, healthyId = ordered[1]!.id;
+    f.db.prepare('UPDATE tasks SET request_snapshot_json=? WHERE id=?').run('{malformed', malformedId);
+    const worker = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, concurrency: 1, liveDispatchEnabled: true, serverProvider: async () => { dispatches++; return fixtureResult(); }, clock: () => new Date(NOW) });
+    const firstBatch = await worker.runQueuedBatch();
+    assert.equal(firstBatch.length, 1); assert.equal(firstBatch[0]?.status, 'rejected');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(malformedId) as { status: string }).status, 'queued');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(healthyId) as { status: string }).status, 'queued');
+    assert.equal(dispatches, 0);
+
+    const secondBatch = await worker.runQueuedBatch();
+    assert.equal(secondBatch.length, 1); assert.equal(secondBatch[0]?.status, 'fulfilled');
+    if (secondBatch[0]?.status === 'fulfilled') assert.equal(secondBatch[0].value.status, 'succeeded');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(healthyId) as { status: string }).status, 'succeeded');
+    assert.equal(dispatches, 1); assert.equal(count(f.db, 'supplier_attempts'), 1);
+    const wrappedBatch = await worker.runQueuedBatch();
+    assert.equal(wrappedBatch.length, 1); assert.equal(wrappedBatch[0]?.status, 'rejected');
+    assert.equal(dispatches, 1); assert.equal(count(f.db, 'supplier_attempts'), 1);
+  } finally { f.close(); }
+});
+
+test('runQueuedBatch settles each candidate independently when one snapshot is malformed', async () => {
+  const f = await fixture(); try {
+    const first = await accepted(f), second = await acceptedOtherOwner(f, 'batch-settled-b');
+    const ordered = f.db.prepare('SELECT id FROM tasks WHERE id IN (?,?) ORDER BY created_at,id').all(first.task.id, second.task.id) as { id: string }[];
+    f.db.prepare('UPDATE tasks SET request_snapshot_json=? WHERE id=?').run('{malformed', ordered[0]!.id);
+    let dispatches = 0;
+    const worker = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, concurrency: 2, liveDispatchEnabled: true, serverProvider: async () => { dispatches++; return fixtureResult(); }, clock: () => new Date(NOW) });
+    const settled = await worker.runQueuedBatch();
+    assert.equal(settled.length, 2); assert.deepEqual(settled.map(item => item.status), ['rejected', 'fulfilled']);
+    if (settled[1]?.status === 'fulfilled') assert.equal(settled[1].value.status, 'succeeded');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(ordered[0]!.id) as { status: string }).status, 'queued');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(ordered[1]!.id) as { status: string }).status, 'succeeded');
+    assert.equal(dispatches, 1); assert.equal(count(f.db, 'supplier_attempts'), 1);
+  } finally { f.close(); }
+});
+
+test('one batch runs at most the configured concurrency and leaves excess durable work for the next batch', async () => {
+  const f = await fixture(); try {
+    await accepted(f); await acceptedOtherOwner(f, 'batch-limit-b'); await acceptedOtherOwner(f, 'batch-limit-c');
+    let calls = 0;
+    const worker = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, concurrency: 2, liveDispatchEnabled: true, clock: () => new Date(NOW), serverProvider: async () => { calls++; return fixtureResult(); } });
+    const first = await worker.runQueuedBatch();
+    assert.equal(first.length, 2); assert.ok(first.every(item => item.status === 'fulfilled' && item.value.status === 'succeeded'));
+    assert.equal(calls, 2); assert.equal(count(f.db, 'supplier_attempts'), 2);
+    assert.equal((f.db.prepare("SELECT count(*) n FROM tasks WHERE status='queued'").get() as { n: number }).n, 1);
+    const next = await worker.runQueuedBatch();
+    assert.equal(next.length, 1); assert.ok(next.every(item => item.status === 'fulfilled' && item.value.status === 'succeeded'));
+    assert.equal(calls, 3); assert.equal(count(f.db, 'supplier_attempts'), 3);
+    assert.equal((f.db.prepare("SELECT count(*) n FROM tasks WHERE status='queued'").get() as { n: number }).n, 0);
+  } finally { f.close(); }
+});
+
+test('batch claim is serialized across two independent SQLite workers', async () => {
+  const f = await fixture(); try {
+    const first = await accepted(f), second = await acceptedOtherOwner(f, 'batch-race-b');
+    const ordered = f.db.prepare('SELECT id FROM tasks WHERE id IN (?,?) ORDER BY created_at,id').all(first.task.id, second.task.id) as { id: string }[];
+    const source = `
+      import { parentPort, workerData } from 'node:worker_threads';
+      import { DatabaseSync } from 'node:sqlite';
+      const { createWorkerService } = await import(workerData.workerModule);
+      const db = new DatabaseSync(workerData.dbPath);
+      db.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000;');
+      const worker = createWorkerService({
+        db, consentCatalog: workerData.catalog, config: workerData.config, storageQuotaBytes: 300000000,
+        concurrency: 1, liveDispatchEnabled: true,
+        serverProvider: async () => {
+          parentPort.postMessage('dispatch');
+          await new Promise(resolve => parentPort.once('message', value => value === 'release' && resolve()));
+          return { ok:false, error:{code:'PROVIDER_HTTP_ERROR',category:'upstream',retryable:false}, attempted:true,
+            providerRequestId:null, usage:null, actualCostMicrosUSD:null, maxExposureMicrosUSD:25000 };
+        }
+      });
+      parentPort.postMessage('ready');
+      await new Promise(resolve => parentPort.once('message', value => value === 'go' && resolve()));
+      const results = await worker.runQueuedBatch();
+      parentPort.postMessage({ kind:'done', results:results.map(item => item.status === 'fulfilled' ? item.value.status : 'rejected') });
+      db.close();`;
+    const workers = [0, 1].map(() => new Worker(source, { eval: true, execArgv: ['--import', 'tsx/esm'], workerData: { dbPath: f.dbPath, workerModule: new URL('../../server/v2/worker.ts', import.meta.url).href, catalog, config: config() } }));
+    const messages: any[] = []; let ready = 0, done = 0, dispatches = 0;
+    await new Promise<void>((resolve, reject) => {
+      const timeout = setTimeout(() => { for (const worker of workers) void worker.terminate(); reject(new Error('SQLite batch barrier timed out')); }, 10_000);
+      for (const worker of workers) {
+        worker.on('message', (message: any) => {
+          messages.push(message);
+          if (message === 'ready' && ++ready === workers.length) workers.forEach(item => item.postMessage('go'));
+          if (message === 'dispatch') { dispatches++; if (dispatches > 1) workers.forEach(item => item.postMessage('release')); }
+          if (message?.kind === 'done') {
+            done++;
+            if (message.results.includes('not_claimed')) workers.forEach(item => item.postMessage('release'));
+            if (done === workers.length) { clearTimeout(timeout); resolve(); }
+          }
+          if (message?.kind === 'error') { clearTimeout(timeout); reject(new Error(message.error)); }
+        });
+        worker.on('error', error => { clearTimeout(timeout); reject(error); });
+      }
+    });
+    assert.equal(dispatches, 1); assert.equal(count(f.db, 'supplier_attempts'), 1);
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(ordered[0]!.id) as { status: string }).status, 'failed');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(ordered[1]!.id) as { status: string }).status, 'queued');
+    assert.equal(messages.filter(message => message?.kind === 'done').length, 2);
+    assert.ok(messages.filter(message => message?.kind === 'done').some(message => message.results.includes('not_claimed')));
+  } finally { f.close(); }
+});
+
+test('batch claim keeps cancellation and in-flight uncertainty on the existing CAS path', async () => {
+  const f = await fixture(); try {
+    const job = await accepted(f); let started!: () => void, finish!: (value: ReturnType<typeof failureResult>) => void, calls = 0;
+    const providerStarted = new Promise<void>(resolve => { started = resolve; });
+    const providerResult = new Promise<ReturnType<typeof failureResult>>(resolve => { finish = resolve; });
+    const worker = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, concurrency: 1, liveDispatchEnabled: true, clock: () => new Date(NOW), serverProvider: async () => { calls++; started(); return providerResult; } });
+    const batch = worker.runQueuedBatch(); await providerStarted;
+    assert.throws(() => createTaskService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, clock: () => new Date(NOW) }).cancel(f.owner.id, job.task.id), code('TASK_NOT_CANCELLABLE'));
+    finish(failureResult());
+    const settled = await batch; assert.equal(settled.length, 1); assert.equal(settled[0]?.status, 'fulfilled');
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(job.task.id) as { status: string }).status, 'failed');
+    assert.equal(count(f.db, 'supplier_attempts'), 1); assert.equal(calls, 1);
+    const cancelled = await accepted(f);
+    createTaskService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, clock: () => new Date(NOW) }).cancel(f.owner.id, cancelled.task.id);
+    assert.deepEqual(await worker.runQueuedBatch(), []);
+    assert.equal((f.db.prepare('SELECT status FROM tasks WHERE id=?').get(cancelled.task.id) as { status: string }).status, 'cancelled');
+    assert.equal(count(f.db, 'supplier_attempts'), 1); assert.equal(calls, 1);
   } finally { f.close(); }
 });
 
@@ -503,6 +646,11 @@ test('real worker termination before and after provider send recovers without re
 
       let resends = 0;
       const restarted = createWorkerService({ db: f.db, consentCatalog: catalog, config: config(), storageQuotaBytes: 300_000_000, concurrency: 1, liveDispatchEnabled: true, clock: () => new Date(NOW), serverProvider: async () => { resends++; return fixtureResult(); } });
+      assert.deepEqual(await restarted.runQueuedBatch(), []);
+      assert.equal(resends, 0); assert.equal(count(f.db, 'supplier_attempts'), 1);
+      assert.equal(count(f.db, 'versions'), 0);
+      assert.equal((f.db.prepare('SELECT status FROM supplier_exposures WHERE task_id=?').get(job.task.id) as { status: string }).status, 'uncertain');
+      assert.equal(new WalletRepository(f.db).transaction(tx => supplierLiability(tx)), 25_000n);
       assert.equal((await restarted.runTask(job.task.id)).status, 'not_claimed');
       assert.equal(resends, 0); assert.equal(count(f.db, 'supplier_attempts'), 1); assert.equal(count(f.db, 'versions'), 0);
     } finally {

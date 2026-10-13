@@ -135,6 +135,7 @@ export function createWorkerService(options: WorkerOptions) {
   const concurrency = Number.isSafeInteger(configuredConcurrency) && configuredConcurrency > 0 && configuredConcurrency <= MAX_WORKER_CONCURRENCY ? configuredConcurrency : 0;
   const demoResults = (options.licensedDemoResults ?? []).filter(item => item && id(item.registryId) && typeof item.licenseEvidence === 'string' && item.licenseEvidence.trim().length > 0 && digest(item.sourcePixelSha256) && digest(item.editRequestSha256) && (Buffer.isBuffer(item.bytes) || item.bytes instanceof Uint8Array)).map(item => Object.freeze({ ...item, bytes: Buffer.from(item.bytes) }));
   const active = new Set<string>();
+  let batchCursor: { createdAt: string; taskId: string } | null = null;
 
   function claim(tx: WalletTransaction, taskId: string): Claimed | null {
     const row = tx.get<WorkerTaskRow>(TASK_QUERY, taskId); if (!row || row.status !== 'queued') return null;
@@ -318,5 +319,26 @@ export function createWorkerService(options: WorkerOptions) {
     } finally { active.delete(taskId); }
   }
 
-  return Object.freeze({ runTask });
+  function scanQueuedBatch(): { id: string; created_at: string }[] {
+    const ordered = db.prepare("SELECT id,created_at FROM tasks WHERE status='queued' ORDER BY created_at,id LIMIT ?");
+    const afterCursor = db.prepare("SELECT id,created_at FROM tasks WHERE status='queued' AND (created_at>? OR (created_at=? AND id>?)) ORDER BY created_at,id LIMIT ?");
+    let candidates = batchCursor
+      ? afterCursor.all(batchCursor.createdAt, batchCursor.createdAt, batchCursor.taskId, concurrency) as { id: string; created_at: string }[]
+      : ordered.all(concurrency) as { id: string; created_at: string }[];
+    if (candidates.length === 0 && batchCursor) {
+      batchCursor = null;
+      candidates = ordered.all(concurrency) as { id: string; created_at: string }[];
+    }
+    const last = candidates.at(-1);
+    if (last) batchCursor = { createdAt: last.created_at, taskId: last.id };
+    return candidates;
+  }
+
+  async function runQueuedBatch(): Promise<PromiseSettledResult<WorkerRunResult>[]> {
+    if (!concurrency) return [];
+    const candidates = scanQueuedBatch();
+    return Promise.allSettled(candidates.map(candidate => runTask(candidate.id)));
+  }
+
+  return Object.freeze({ runTask, runQueuedBatch });
 }

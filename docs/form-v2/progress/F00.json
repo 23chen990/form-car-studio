@@ -2,18 +2,21 @@
   "taskId": "F00",
   "specVersion": "2.2",
   "codeReady": true,
-  "codeCommit": "73f4554bd36c833cec53faf9018ff394923805c4",
+  "codeCommit": "669bab88b557b87ba4361ec60866a7de468232bd",
   "verification": [
-    {"kind":"manifest","command":"python3 docs/form-handoff/tools/guard.py verify-manifest --repo . --manifest docs/form-handoff/MANIFEST.json","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
-    {"kind":"install","command":"npm ci","exitCode":0,"status":"PASS_WITH_AUDIT_NOTICE","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
-    {"kind":"unit","command":"npm test","exitCode":0,"status":"PASS_30_TESTS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
-    {"kind":"build","command":"npm run build","exitCode":0,"status":"PASS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"},
-    {"kind":"e2e","command":"npm run test:e2e","exitCode":0,"status":"PASS_6_TESTS","evidencePath":"docs/form-v2/baseline/F00.md","sha256":"0bdfe656052d5e8403916305641c278192bd655a6597f073487ab4d15fa2c1db"}
+    {"kind": "recovery-audit", "command": "python3 /tmp/form-final-audit.py 18", "exitCode": 0, "status": "all report hashes/ancestor SHAs valid;18 ready, no eligible unstarted task; original app/tests byte-identical to main", "rawLogPath": "/tmp/form-F00-committed-recovery-audit.log", "rawLogSha256": "dae6b8727bf0c370dbd1436464ca99bb30810604025a22f9530d221e9ce896e9", "evidencePath": "docs/form-v2/baseline/FINAL_CHECKS_20261014.md", "sha256": "938b199eff604c52a3e3f49a5d7b0cc169d0c9d41d43adaa5bf7dba8d783f750"},
+    {"kind": "guard-unit", "command": "python3 docs/form-handoff/tools/test_guard.py", "exitCode": 0, "status": "42/42 passed", "rawLogPath": "/tmp/form-F00-committed-guard-tests.log", "rawLogSha256": "80659a3b56fc24f0beaad9a8cc89f4e38064e378aa1337b35410ed191b0b2c5f", "evidencePath": "docs/form-v2/baseline/FINAL_CHECKS_20261014.md", "sha256": "938b199eff604c52a3e3f49a5d7b0cc169d0c9d41d43adaa5bf7dba8d783f750"},
+    {"kind": "manifest", "command": "python3 docs/form-handoff/tools/guard.py verify-manifest --repo . --manifest docs/form-handoff/MANIFEST.json", "exitCode": 0, "status": "43 content hashes match; not authenticity/release approval", "rawLogPath": "/tmp/form-F00-committed-manifest.log", "rawLogSha256": "323bf43aa407389e1f21b00e69095f4a862a2b634a0a24a1d5d65379db01d37c", "evidencePath": "docs/form-v2/baseline/FINAL_CHECKS_20261014.md", "sha256": "938b199eff604c52a3e3f49a5d7b0cc169d0c9d41d43adaa5bf7dba8d783f750"},
+    {"kind": "task-dag", "command": "python3 docs/form-handoff/tools/guard.py validate", "exitCode": 0, "status": "39-task frozen graph valid", "rawLogPath": "/tmp/form-F00-committed-dag.log", "rawLogSha256": "b7885ff3d62353a5117a975faef87b58de1b0eb533e98cf3d2dc72d8b9e1747f", "evidencePath": "docs/form-v2/baseline/FINAL_CHECKS_20261014.md", "sha256": "938b199eff604c52a3e3f49a5d7b0cc169d0c9d41d43adaa5bf7dba8d783f750"}
   ],
-  "changedFiles": ["docs/form-v2/baseline/F00.md"],
-  "knownIssues": ["npm ci reported one high severity audit finding; dependency remediation is outside F00 scope."],
-  "externalPending": ["SQLite V2 migration/rollback, provider quality, iPhone, StoreKit, identity, deletion retention, independent review, and release approval are NOT_RUN."],
+  "changedFiles": ["docs/form-v2/baseline/CONTINUATION_20261014.md", "docs/form-v2/baseline/FINAL_CHECKS_20261014.md", "docs/form-v2/progress/F00.json"],
+  "knownIssues": ["Original dirty checkout remains at3168cac with the same observed modified/untracked paths; no user data/native files were copied or reset. Main is unchanged at3df0b392 and unprotected; Draft PR#3 is unmerged.", "Application verification is recorded against actual F15/F38 source SHAs in their reports, including final F38 Linux run38442750079; this documentation-only source was checked with recovery/manifest/DAG/guard tests.", "F12 full1098/900 and F23 full951/900 candidates/logs are preserved outside the branch. Missing frozen S02 scope assignment, later native file cap and inherited Sharp high advisory require reviewed maintenance/amendment, not cap bypass."],
+  "externalPending": ["Independent migration/task-wallet-worker/identity/purchase-deletion/F32 review and owner branch protection remain pending; real model, Apple/StoreKit/iPhone, quality/policy/retention/paid budget verification stays NOT_RUN.", "No current unstarted card has all prerequisites. Resume F12 only after reviewed scope/cap approval, reusing candidate against the newer shared harness, then F13; F23 unlocks its own purchase/refund/deletion chain only after a reviewed amendment."],
   "independentReviewer": null,
-  "authorization": {"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
-  "nextEligibleTask": "F01"
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F12 after reviewed cap/split; no currently eligible unstarted task",
+  "history": [{"reportAtCommit": "669bab88b557b87ba4361ec60866a7de468232bd", "codeCommit": "73f4554bd36c833cec53faf9018ff394923805c4", "reportPath": "docs/form-v2/progress/F00.json", "sha256": "533ab6e38ca21da16d2c3753f76251b82a9b97ce9cf19b9301f73deb2b600414"}]
 }

@@ -1,0 +1,22 @@
+{
+  "taskId": "F10",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "ffc62245b9bf32a1939043847eae765aab432869",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/worker.test.ts", "exitCode": 0, "status": "18/18 PASS, 0 skipped; committed source; real SQLite Worker barriers and termination", "rawLogPath": "/tmp/form-F10-committed-focus.log", "rawLogSha256": "33c436f46a1ca658dade906f210382a446a0b3a9cc98171969a0b2f22476d1e6", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "c1e3aa2ad964ad0ee46cded33e440b2e14b67ea69a041bfce5947545d5061e76"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 194 service = 345 PASS, 0 skipped; identical final source bytes before commit", "rawLogPath": "/tmp/form-F10-acceptance-v2.log", "rawLogSha256": "1f3081998e3c684a8a3a41c8c9dd70c687872242d630d73c7d13dc1663cd79d0", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "c1e3aa2ad964ad0ee46cded33e440b2e14b67ea69a041bfce5947545d5061e76"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "30/30 PASS", "rawLogPath": "/tmp/form-F10-acceptance-legacy.log", "rawLogSha256": "e6421af661ec11b4ccc49db14fd58b20ae454640de9beda794f13386842cec39", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "c1e3aa2ad964ad0ee46cded33e440b2e14b67ea69a041bfce5947545d5061e76"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "TypeScript and Vite PASS; notices unchanged", "rawLogPath": "/tmp/form-F10-acceptance-build.log", "rawLogSha256": "8e9076e804e8481570a0c15d41484eb9771d0403eb8497df8098047a6ed89911", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "c1e3aa2ad964ad0ee46cded33e440b2e14b67ea69a041bfce5947545d5061e76"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/worker.test.ts (before final boundary fixes)", "exitCode": 1, "status": "Actual RED for absent durable output provenance, exceeded frozen byte cap and quality hook after revocation; fixed without weakened assertions", "rawLogPath": "/tmp/form-F10-final-boundaries-red.log", "rawLogSha256": "1275d388d887216a7b539a4cf1a5ce0461ac2b7d7af7354a27b357f274605f7b", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "c1e3aa2ad964ad0ee46cded33e440b2e14b67ea69a041bfce5947545d5061e76"}
+  ],
+  "changedFiles": ["server/v2/worker.ts", "server/v2/recovery.ts", "tests/v2/worker.test.ts"],
+  "knownIssues": ["Services remain inert and unmounted until reviewed F32 wiring; configured live dispatch and concurrency default off.", "F08 currently reads legacy intent only; its own follow-up must parse this versioned V2 recipe before integrated result-refine behavior can be claimed.", "F05 offers no safe upstream reconciliation/query API: unknown work is never resent and supplier costs remain unresolved after user release."],
+  "externalPending": ["Independent money/worker/idempotency and privacy audit remains NOT_INDEPENDENT.", "Real provider/model quality, live cost reconciliation, licensed demo result assets and iPhone lifecycle verification NOT_RUN.", "Quality hook permits local policy/review-record checks only; any external image processing needs separately approved processor/purpose/consent wiring."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F11"
+}

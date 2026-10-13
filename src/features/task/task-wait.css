@@ -1,0 +1,59 @@
+.v2-task {
+  margin-top: 1.4rem;
+  padding: clamp(1.2rem, 5vw, 2rem);
+  border: 1px solid #dedfd5;
+  background: #fff;
+}
+.v2-task__eyebrow {
+  margin-bottom: .9rem;
+  color: #62695e;
+  font: 600 .68rem/1.5 "SFMono-Regular", Consolas, monospace;
+  letter-spacing: .08em;
+}
+.v2-task h2 {
+  margin-bottom: .65rem;
+  font-size: clamp(1.75rem, 6vw, 2.8rem);
+  line-height: 1.05;
+  letter-spacing: -.05em;
+  font-weight: 500;
+}
+.v2-task__detail {
+  color: #62695e;
+  line-height: 1.65;
+}
+.v2-task__message {
+  margin-top: .8rem;
+  color: #57422e;
+  line-height: 1.55;
+}
+.v2-task__actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: .55rem;
+  margin-top: 1.35rem;
+}
+.v2-task__actions button {
+  min-width: 0;
+  max-width: 100%;
+  min-height: 2.75rem;
+  padding: .55rem .45rem;
+  font-size: .82rem;
+  white-space: normal;
+  overflow-wrap: break-word;
+}
+.v2-task__actions button:focus-visible {
+  outline: 3px solid #5d7f23;
+  outline-offset: 2px;
+}
+.v2-task__primary {
+  background: #22271f;
+  color: #f7f7f2;
+}
+.v2-task__secondary {
+  border: 1px solid #cfd2c5;
+}
+.v2-task__text {
+  text-decoration: underline;
+  text-underline-offset: .2em;
+}

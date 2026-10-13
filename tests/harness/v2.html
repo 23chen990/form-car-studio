@@ -19,6 +19,15 @@
       .harness-log { width: min(1140px, calc(100% - 2.5rem)); margin: 0 auto 1rem; color: #62695e; font-size: .75rem; }
       .harness-log summary { width: fit-content; cursor: pointer; }
       .harness-log pre { max-height: 12rem; overflow: auto; padding: .7rem; background: #efefe8; color: #22271f; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .v2-harness { width: min(760px, calc(100% - 2rem)); margin: 2rem auto; }
+      .v2-harness > h1 { margin: 1rem 0 .6rem; font-size: clamp(1.8rem, 6vw, 3rem); letter-spacing: -.045em; overflow-wrap: anywhere; }
+      .v2-harness__notice { color: #62695e; font: 600 .68rem/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .08em; }
+      .v2-harness__photo { margin: .4rem 0 1.25rem; color: #62695e; font-size: .85rem; }
+      .v2-harness__controls { display: flex; flex-wrap: wrap; gap: .45rem; margin: 1rem 0; }
+      .v2-harness__controls button, .v2-harness__browse button { min-height: 2.65rem; padding: .45rem .7rem; border: 1px solid #dedfd5; background: #fff; font-size: .78rem; }
+      .v2-harness__controls button:focus-visible, .v2-harness__browse button:focus-visible, .v2-task button:focus-visible { outline: 3px solid #5d7f23; outline-offset: 2px; }
+      .v2-harness__browse { margin-top: 1.4rem; padding: clamp(1.2rem, 5vw, 2rem); border: 1px solid #dedfd5; background: #fff; }
+      .v2-harness__browse h2 { margin-bottom: 1rem; font-size: clamp(1.75rem, 6vw, 2.8rem); line-height: 1.05; letter-spacing: -.05em; font-weight: 500; }
       @media (max-width: 380px) { .harness-account, .harness-log { width: calc(100% - 1.5rem); } .harness-account { justify-content: space-between; } }
     </style>
   </head>

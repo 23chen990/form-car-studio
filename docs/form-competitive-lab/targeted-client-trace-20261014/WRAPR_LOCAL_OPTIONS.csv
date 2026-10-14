@@ -1,0 +1,105 @@
+app_build,modificationType,parameter_key,option_value,order,source_pc,hasm_line,source_ref
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Finish Type,Matte,0,#9767 @0x001b925e,383547,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Finish Type,Glossy,1,#9767 @0x001b925e,383547,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Finish Type,Metallic,2,#9767 @0x001b925e,383547,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Finish Type,Pearl,3,#9767 @0x001b925e,383547,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Finish Type,Chrome,4,#9767 @0x001b925e,383547,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Pattern,Solid,0,#9767 @0x001b926b,383549,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Pattern,Racing Stripes,1,#9767 @0x001b926b,383549,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Pattern,Flames,2,#9767 @0x001b926b,383549,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Pattern,Carbon Fiber,3,#9767 @0x001b926b,383549,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Pattern,Custom Graphics,4,#9767 @0x001b926b,383549,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Intensity,Subtle,0,#9767 @0x001b9278,383551,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Intensity,Moderate,1,#9767 @0x001b9278,383551,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Intensity,Bold,2,#9767 @0x001b9278,383551,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Intensity,Extreme,3,#9767 @0x001b9278,383551,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Sci-Fi,0,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Fantasy,1,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Horror,2,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Nature,3,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Urban,4,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Apocalyptic,5,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Cyberpunk,6,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Theme,Retro,7,#9767 @0x001b92ae,383559,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Time of Day,Day,0,#9767 @0x001b92bb,383561,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Time of Day,Night,1,#9767 @0x001b92bb,383561,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Time of Day,Sunset,2,#9767 @0x001b92bb,383561,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Time of Day,Dawn,3,#9767 @0x001b92bb,383561,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Time of Day,Blue Hour,4,#9767 @0x001b92bb,383561,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Weather,Clear,0,#9767 @0x001b92c8,383563,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Weather,Cloudy,1,#9767 @0x001b92c8,383563,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Weather,Rainy,2,#9767 @0x001b92c8,383563,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Weather,Stormy,3,#9767 @0x001b92c8,383563,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Weather,Foggy,4,#9767 @0x001b92c8,383563,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Intensity,Subtle,0,#9767 @0x001b92d5,383565,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Intensity,Moderate,1,#9767 @0x001b92d5,383565,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Intensity,Dramatic,2,#9767 @0x001b92d5,383565,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Change Background,Intensity,Extreme,3,#9767 @0x001b92d5,383565,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Body Kit,Sport,0,#9767 @0x001b930b,383573,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Body Kit,Aggressive,1,#9767 @0x001b930b,383573,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Body Kit,Wide Body,2,#9767 @0x001b930b,383573,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Body Kit,Street,3,#9767 @0x001b930b,383573,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Body Kit,Track,4,#9767 @0x001b930b,383573,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Spoiler,Subtle Lip,0,#9767 @0x001b9318,383575,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Spoiler,Wing Spoiler,1,#9767 @0x001b9318,383575,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Spoiler,Duck Tail,2,#9767 @0x001b9318,383575,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Spoiler,Large Wing,3,#9767 @0x001b9318,383575,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Spoiler,No Spoiler,4,#9767 @0x001b9318,383575,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Wheels,Stock,0,#9767 @0x001b9325,383577,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Wheels,Aftermarket Alloy,1,#9767 @0x001b9325,383577,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Wheels,Deep Dish,2,#9767 @0x001b9325,383577,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Wheels,Carbon Fiber,3,#9767 @0x001b9325,383577,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Wheels,Chrome,4,#9767 @0x001b9325,383577,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Stance,Stock Height,0,#9767 @0x001b9332,383579,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Stance,Lowered,1,#9767 @0x001b9332,383579,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Stance,Slammed,2,#9767 @0x001b9332,383579,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Stance,Raised,3,#9767 @0x001b9332,383579,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Add Modifications,Stance,Air Suspension,4,#9767 @0x001b9332,383579,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Scratch Removal,Light Scratches,0,#9767 @0x001b9368,383587,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Scratch Removal,Deep Scratches,1,#9767 @0x001b9368,383587,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Scratch Removal,All Scratches,2,#9767 @0x001b9368,383587,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Scratch Removal,None,3,#9767 @0x001b9368,383587,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Dent Repair,Small Dents,0,#9767 @0x001b9375,383589,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Dent Repair,Large Dents,1,#9767 @0x001b9375,383589,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Dent Repair,All Dents,2,#9767 @0x001b9375,383589,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Dent Repair,None,3,#9767 @0x001b9375,383589,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Element Removal,License Plates,0,#9767 @0x001b9382,383591,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Element Removal,Stickers,1,#9767 @0x001b9382,383591,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Element Removal,Dirt/Grime,2,#9767 @0x001b9382,383591,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Element Removal,Background Objects,3,#9767 @0x001b9382,383591,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Enhancement,Brightness,0,#9767 @0x001b938f,383593,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Enhancement,Contrast,1,#9767 @0x001b938f,383593,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Enhancement,Saturation,2,#9767 @0x001b938f,383593,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Clean & Detail,Enhancement,Sharpness,3,#9767 @0x001b938f,383593,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Headlights,LED,0,#9767 @0x001b93c5,383601,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Headlights,HID,1,#9767 @0x001b93c5,383601,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Headlights,Halo,2,#9767 @0x001b93c5,383601,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Headlights,Angel Eyes,3,#9767 @0x001b93c5,383601,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Headlights,Stock,4,#9767 @0x001b93c5,383601,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Grille,Honeycomb,0,#9767 @0x001b93d2,383603,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Grille,Mesh,1,#9767 @0x001b93d2,383603,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Grille,Chrome,2,#9767 @0x001b93d2,383603,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Grille,Blacked Out,3,#9767 @0x001b93d2,383603,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Grille,Stock,4,#9767 @0x001b93d2,383603,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Wheels,Sporty,0,#9767 @0x001b93df,383605,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Wheels,Luxury,1,#9767 @0x001b93df,383605,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Wheels,Off-Road,2,#9767 @0x001b93df,383605,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Wheels,Vintage,3,#9767 @0x001b93df,383605,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Wheels,Modern,4,#9767 @0x001b93df,383605,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Bumper,Aggressive,0,#9767 @0x001b93ec,383607,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Bumper,Sporty,1,#9767 @0x001b93ec,383607,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Bumper,Clean,2,#9767 @0x001b93ec,383607,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Bumper,Off-Road,3,#9767 @0x001b93ec,383607,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Swap Components,Bumper,Stock,4,#9767 @0x001b93ec,383607,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Red,0,#9700 @0x001b72c9,380888,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Blue,1,#9700 @0x001b72db,380890,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Black,2,#9700 @0x001b72ed,380892,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,White,3,#9700 @0x001b72ff,380894,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Green,4,#9700 @0x001b7311,380896,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Yellow,5,#9700 @0x001b7323,380898,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Purple,6,#9700 @0x001b7335,380900,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Orange,7,#9700 @0x001b7347,380902,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Pink,8,#9700 @0x001b7359,380904,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Teal,9,#9700 @0x001b736b,380906,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Indigo,10,#9700 @0x001b737d,380908,WRAPR_HASM
+Wrapr 1.0.1 build6 / Hermes96,Custom Paint & Wraps,Color,Gray,11,#9700 @0x001b738f,380910,WRAPR_HASM

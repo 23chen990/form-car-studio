@@ -1,0 +1,3669 @@
+{
+  "schema": "FORM_LOCAL_CLIENT_TRACE_V1",
+  "research_only": true,
+  "baseline_commit": "07ed7aefa5be96ca363edaa5883a4e51671ba2d2",
+  "tools_code_commit": "93e724826f05d79d68d7a6db5a03de884a828af9",
+  "classes": {
+    "CLIENT_CODE_LINKED": "Manual same-version static control/data-flow association; not app execution.",
+    "UNKNOWN": "The bounded available client evidence does not resolve this claim.",
+    "PARTIAL_UI_CALLBACK_LINK": "UI label/build and downstream event/request code exist; exact callback identity remains unresolved."
+  },
+  "facts": [
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPTIONS_CATALOG_AND_RULES",
+      "claim": "Same-build fallback catalog feeds same-build selectors; three scalar selections enter fixed itemIds positions.",
+      "code_locations": [
+        {
+          "function_id": 0,
+          "function_offset": "0x006a80ec",
+          "function_header_hasm_line": 1,
+          "relative_pcs": [
+            "0xa1d7",
+            "0xa1dc",
+            "0xa1e2",
+            "0xa1ea"
+          ],
+          "hasm_lines": [
+            6770,
+            6771,
+            6772,
+            6773
+          ],
+          "meaning": "Registers #16816 as module1329, deps[1,42,1321]"
+        },
+        {
+          "function_id": 0,
+          "function_offset": "0x006a80ec",
+          "function_header_hasm_line": 1,
+          "relative_pcs": [
+            "0xc123",
+            "0xc128",
+            "0xc12e",
+            "0xc136"
+          ],
+          "hasm_lines": [
+            8055,
+            8056,
+            8057,
+            8058
+          ],
+          "meaning": "Registers #20311/useHome module1586; deps16=1328 home reducer,17=1616 cache,19=1329 generation reducer"
+        },
+        {
+          "function_id": 0,
+          "function_offset": "0x006a80ec",
+          "function_header_hasm_line": 1,
+          "relative_pcs": [
+            "0xc4cf",
+            "0xc4d4",
+            "0xc4da",
+            "0xc4de"
+          ],
+          "hasm_lines": [
+            8205,
+            8206,
+            8207,
+            8208
+          ],
+          "meaning": "Registers #20804 as literal-cache module1616, no dependencies"
+        },
+        {
+          "function_id": 20804,
+          "function_offset": "0x008ece41",
+          "function_header_hasm_line": 808044,
+          "relative_pcs": [
+            "0x10b5",
+            "0x124b",
+            "0x1257",
+            "0x130d",
+            "0x1315",
+            "0x1537",
+            "0x153f",
+            "0x1544"
+          ],
+          "hasm_lines": [
+            808695,
+            808753,
+            808756,
+            808782,
+            808784,
+            808862,
+            808864,
+            808865
+          ],
+          "meaning": "Constructs groups styles/extra/colors and exports IOS_HOME_DATA_CACHE.generateItems"
+        },
+        {
+          "function_id": 20334,
+          "function_offset": "0x008dc215",
+          "function_header_hasm_line": 786817,
+          "relative_pcs": [
+            "0x136",
+            "0xb9",
+            "0xbf",
+            "0xc4",
+            "0xc9",
+            "0xce",
+            "0x246",
+            "0x258",
+            "0x25e",
+            "0x263"
+          ],
+          "hasm_lines": [
+            786901,
+            786869,
+            786870,
+            786871,
+            786872,
+            786873,
+            786973,
+            786977,
+            786978,
+            786979
+          ],
+          "meaning": "Successful callable response.data.data -> setHomeData; catch -> IOS_HOME_DATA_CACHE -> same action"
+        },
+        {
+          "function_id": 16815,
+          "function_offset": "0x00888586",
+          "function_header_hasm_line": 662637,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0x10"
+          ],
+          "hasm_lines": [
+            662642,
+            662644,
+            662645
+          ],
+          "meaning": "setHomeData reducer directly assigns state.value.homeData=action.payload; no catalog transform"
+        },
+        {
+          "function_id": 16816,
+          "function_offset": "0x008885a0",
+          "function_header_hasm_line": 662652,
+          "relative_pcs": [
+            "0x103"
+          ],
+          "hasm_lines": [
+            662708
+          ],
+          "meaning": "Initial state selectedStyleId/selectedExtraId/selectedColorId are each empty string; generatePageStep1"
+        },
+        {
+          "function_id": 26349,
+          "function_offset": "0x00993f6b",
+          "function_header_hasm_line": 1026326,
+          "relative_pcs": [
+            "0x6c",
+            "0x72",
+            "0xbe",
+            "0xee",
+            "0xf9",
+            "0x10e",
+            "0x190",
+            "0x194"
+          ],
+          "hasm_lines": [
+            1026355,
+            1026356,
+            1026373,
+            1026383,
+            1026385,
+            1026390,
+            1026418,
+            1026419
+          ],
+          "meaning": "Style step captures scalar selectedStyleId, memo dataset, selection callback and FlatList render function"
+        },
+        {
+          "function_id": 26351,
+          "function_offset": "0x00994150",
+          "function_header_hasm_line": 1026453,
+          "relative_pcs": [
+            "0x3",
+            "0x9",
+            "0xe"
+          ],
+          "hasm_lines": [
+            1026458,
+            1026459,
+            1026460
+          ],
+          "meaning": "Selector reads state.home.value.homeData"
+        },
+        {
+          "function_id": 26352,
+          "function_offset": "0x00994166",
+          "function_header_hasm_line": 1026466,
+          "relative_pcs": [
+            "0x11",
+            "0x24",
+            "0x2a",
+            "0x32",
+            "0x37",
+            "0x45"
+          ],
+          "hasm_lines": [
+            1026475,
+            1026480,
+            1026481,
+            1026483,
+            1026484,
+            1026488
+          ],
+          "meaning": "Style items=homeData.generateItems.find(#26353).items, missing homeData/group produces empty array"
+        },
+        {
+          "function_id": 26353,
+          "function_offset": "0x009941ba",
+          "function_header_hasm_line": 1026496,
+          "relative_pcs": [
+            "0x3",
+            "0x8",
+            "0xc"
+          ],
+          "hasm_lines": [
+            1026501,
+            1026502,
+            1026503
+          ],
+          "meaning": "Predicate type===styles"
+        },
+        {
+          "function_id": 26356,
+          "function_offset": "0x0099426e",
+          "function_header_hasm_line": 1026562,
+          "relative_pcs": [
+            "0x5",
+            "0xb",
+            "0x12",
+            "0x16",
+            "0x3b",
+            "0x40",
+            "0x44",
+            "0x48",
+            "0x4d",
+            "0x52"
+          ],
+          "hasm_lines": [
+            1026568,
+            1026569,
+            1026571,
+            1026572,
+            1026581,
+            1026582,
+            1026583,
+            1026584,
+            1026585,
+            1026586
+          ],
+          "meaning": "Renders item.title, compares scalar selectedStyleId===item.id, assigns onPress#26357"
+        },
+        {
+          "function_id": 26357,
+          "function_offset": "0x009942ec",
+          "function_header_hasm_line": 1026600,
+          "relative_pcs": [
+            "0xe",
+            "0x13",
+            "0x1a"
+          ],
+          "hasm_lines": [
+            1026608,
+            1026609,
+            1026611
+          ],
+          "meaning": "Passes captured item.id/item.title to #26355 callback"
+        },
+        {
+          "function_id": 26355,
+          "function_offset": "0x009941fe",
+          "function_header_hasm_line": 1026528,
+          "relative_pcs": [
+            "0x53",
+            "0x59",
+            "0x5c",
+            "0x61",
+            "0x66",
+            "0x6a"
+          ],
+          "hasm_lines": [
+            1026551,
+            1026552,
+            1026553,
+            1026554,
+            1026555,
+            1026556
+          ],
+          "meaning": "Calls _setSelectedStyleId(id), dispatches, then advances step; no toggle/append/cross-family clear"
+        },
+        {
+          "function_id": 16830,
+          "function_offset": "0x00888ac6",
+          "function_header_hasm_line": 663041,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0x10"
+          ],
+          "hasm_lines": [
+            663046,
+            663048,
+            663049
+          ],
+          "meaning": "Reducer value.selectedStyleId=payload, overwrites one scalar"
+        },
+        {
+          "function_id": 26385,
+          "function_offset": "0x009953fe",
+          "function_header_hasm_line": 1028077,
+          "relative_pcs": [
+            "0x6c",
+            "0x72",
+            "0xbe",
+            "0xee",
+            "0xf9",
+            "0x10e"
+          ],
+          "hasm_lines": [
+            1028106,
+            1028107,
+            1028124,
+            1028134,
+            1028136,
+            1028141
+          ],
+          "meaning": "Extra step uses same single-scalar UI structure"
+        },
+        {
+          "function_id": 26388,
+          "function_offset": "0x009955e3",
+          "function_header_hasm_line": 1028217,
+          "relative_pcs": [
+            "0x11",
+            "0x24",
+            "0x2a",
+            "0x32",
+            "0x37",
+            "0x45"
+          ],
+          "hasm_lines": [
+            1028226,
+            1028231,
+            1028232,
+            1028234,
+            1028235,
+            1028239
+          ],
+          "meaning": "Extra items=homeData.generateItems.find(#26389).items"
+        },
+        {
+          "function_id": 26389,
+          "function_offset": "0x00995637",
+          "function_header_hasm_line": 1028247,
+          "relative_pcs": [
+            "0x3",
+            "0x8",
+            "0xc"
+          ],
+          "hasm_lines": [
+            1028252,
+            1028253,
+            1028254
+          ],
+          "meaning": "Predicate type===extra"
+        },
+        {
+          "function_id": 26392,
+          "function_offset": "0x009956eb",
+          "function_header_hasm_line": 1028313,
+          "relative_pcs": [
+            "0x16",
+            "0x3b",
+            "0x40",
+            "0x44",
+            "0x48",
+            "0x4d",
+            "0x52"
+          ],
+          "hasm_lines": [
+            1028323,
+            1028332,
+            1028333,
+            1028334,
+            1028335,
+            1028336,
+            1028337
+          ],
+          "meaning": "Renders item.title, checks scalar selectedExtraId===item.id, assigns onPress#26393"
+        },
+        {
+          "function_id": 26393,
+          "function_offset": "0x009942ec",
+          "function_header_hasm_line": 1028351,
+          "relative_pcs": [
+            "0xe",
+            "0x13",
+            "0x1a"
+          ],
+          "hasm_lines": [
+            1028359,
+            1028360,
+            1028362
+          ],
+          "meaning": "Passes captured item.id/item.title to #26391 callback"
+        },
+        {
+          "function_id": 26391,
+          "function_offset": "0x0099567b",
+          "function_header_hasm_line": 1028279,
+          "relative_pcs": [
+            "0x53",
+            "0x59",
+            "0x5c",
+            "0x61",
+            "0x66",
+            "0x6a"
+          ],
+          "hasm_lines": [
+            1028302,
+            1028303,
+            1028304,
+            1028305,
+            1028306,
+            1028307
+          ],
+          "meaning": "Calls _setSelectedExtraId(id), dispatches, advances step; no toggle/append/cross-family clear"
+        },
+        {
+          "function_id": 16831,
+          "function_offset": "0x00888ae0",
+          "function_header_hasm_line": 663056,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0x10"
+          ],
+          "hasm_lines": [
+            663061,
+            663063,
+            663064
+          ],
+          "meaning": "Reducer value.selectedExtraId=payload, overwrites one scalar"
+        },
+        {
+          "function_id": 20314,
+          "function_offset": "0x008dbb5d",
+          "function_header_hasm_line": 786207,
+          "relative_pcs": [
+            "0x7c",
+            "0x82",
+            "0x86",
+            "0x8c",
+            "0x90",
+            "0x96"
+          ],
+          "hasm_lines": [
+            786239,
+            786240,
+            786241,
+            786242,
+            786243,
+            786244
+          ],
+          "meaning": "useHomeHook reads generation state then stores selectedStyleId/ExtraId/ColorId in hook env4/5/6"
+        },
+        {
+          "function_id": 20352,
+          "function_offset": "0x008dd107",
+          "function_header_hasm_line": 787953,
+          "relative_pcs": [
+            "0xe2",
+            "0xeb",
+            "0xf4"
+          ],
+          "hasm_lines": [
+            788015,
+            788017,
+            788019
+          ],
+          "meaning": "Generator body reads the same hook env4/5/6 into style/extra/color breadcrumb structure; established MFY02 async closure chain"
+        },
+        {
+          "function_id": 20355,
+          "function_offset": "0x008dd511",
+          "function_header_hasm_line": 788225,
+          "relative_pcs": [
+            "0x85",
+            "0x88",
+            "0x8c",
+            "0x90",
+            "0x94",
+            "0x98",
+            "0x9c",
+            "0xa0",
+            "0xa4",
+            "0xb2"
+          ],
+          "hasm_lines": [
+            788264,
+            788265,
+            788266,
+            788267,
+            788268,
+            788269,
+            788270,
+            788271,
+            788272,
+            788275
+          ],
+          "meaning": "Request creates exactly3 array entries: selectedStyleId,selectedExtraId,selectedColorId; no filtering/flattening at payload builder"
+        },
+        {
+          "function_id": 26397,
+          "function_offset": "0x0099581a",
+          "function_header_hasm_line": 1028460,
+          "relative_pcs": [
+            "0x190",
+            "0x19e",
+            "0x1ac",
+            "0x1ba"
+          ],
+          "hasm_lines": [
+            1028558,
+            1028560,
+            1028562,
+            1028564
+          ],
+          "meaning": "Color tabs stored in module env14 in order Matte/Metallic/Premium with keys ColorsMatte/ColorsMetallic/ColorsPremium"
+        },
+        {
+          "function_id": 26400,
+          "function_offset": "0x00995ca5",
+          "function_header_hasm_line": 1028801,
+          "relative_pcs": [
+            "0xf2",
+            "0xf6",
+            "0xf8",
+            "0xfc",
+            "0x101",
+            "0x1e3",
+            "0x1ee",
+            "0x21b",
+            "0x220"
+          ],
+          "hasm_lines": [
+            1028858,
+            1028859,
+            1028860,
+            1028861,
+            1028862,
+            1028913,
+            1028915,
+            1028925,
+            1028926
+          ],
+          "meaning": "Initial Color tab=first tab.key=ColorsMatte; filtered items captured env15; effect#26411 invoked"
+        },
+        {
+          "function_id": 26405,
+          "function_offset": "0x009960ad",
+          "function_header_hasm_line": 1029082,
+          "relative_pcs": [
+            "0x3",
+            "0x8",
+            "0xc"
+          ],
+          "hasm_lines": [
+            1029087,
+            1029088,
+            1029089
+          ],
+          "meaning": "Color group predicate type===colors"
+        },
+        {
+          "function_id": 26408,
+          "function_offset": "0x00996130",
+          "function_header_hasm_line": 1029144,
+          "relative_pcs": [
+            "0x3",
+            "0x7",
+            "0xe",
+            "0x13"
+          ],
+          "hasm_lines": [
+            1029149,
+            1029150,
+            1029152,
+            1029153
+          ],
+          "meaning": "Filters color group items through #26409"
+        },
+        {
+          "function_id": 26409,
+          "function_offset": "0x0099614a",
+          "function_header_hasm_line": 1029159,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0xf"
+          ],
+          "hasm_lines": [
+            1029164,
+            1029166,
+            1029167
+          ],
+          "meaning": "Filter compares item.subType===currentColorTabKey"
+        },
+        {
+          "function_id": 26411,
+          "function_offset": "0x00996191",
+          "function_header_hasm_line": 1029192,
+          "relative_pcs": [
+            "0x3",
+            "0x7",
+            "0xe",
+            "0x1a",
+            "0x23",
+            "0x2b",
+            "0x30",
+            "0x35",
+            "0x37",
+            "0x39"
+          ],
+          "hasm_lines": [
+            1029197,
+            1029198,
+            1029200,
+            1029203,
+            1029205,
+            1029207,
+            1029208,
+            1029209,
+            1029210,
+            1029211
+          ],
+          "meaning": "Effect checks length, reads first.id but overwrites that register with.some; calls#26412; discards result immediately; no setter/dispatch"
+        },
+        {
+          "function_id": 26412,
+          "function_offset": "0x009961ce",
+          "function_header_hasm_line": 1029217,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0xf"
+          ],
+          "hasm_lines": [
+            1029222,
+            1029224,
+            1029225
+          ],
+          "meaning": "some predicate item.id===selectedColorId; no mutation"
+        },
+        {
+          "function_id": 26420,
+          "function_offset": "0x00996376",
+          "function_header_hasm_line": 1029405,
+          "relative_pcs": [
+            "0xe",
+            "0x15"
+          ],
+          "hasm_lines": [
+            1029413,
+            1029415
+          ],
+          "meaning": "Color card onPress passes captured item.id to handler#26413"
+        },
+        {
+          "function_id": 26413,
+          "function_offset": "0x009961e3",
+          "function_header_hasm_line": 1029231,
+          "relative_pcs": [
+            "0x20",
+            "0x26",
+            "0x29",
+            "0x2e"
+          ],
+          "hasm_lines": [
+            1029244,
+            1029245,
+            1029246,
+            1029247
+          ],
+          "meaning": "Color callback dispatches _setSelectedColorId(id), no style/extra clear"
+        },
+        {
+          "function_id": 16832,
+          "function_offset": "0x00888afa",
+          "function_header_hasm_line": 663071,
+          "relative_pcs": [
+            "0x3",
+            "0xb",
+            "0x10"
+          ],
+          "hasm_lines": [
+            663076,
+            663078,
+            663079
+          ],
+          "meaning": "Reducer value.selectedColorId=payload, one scalar across all Color tabs"
+        }
+      ],
+      "data_flow": [
+        {
+          "id": "MFY_OPT_CATALOG_SOURCE",
+          "from": "#20804/module1616 IOS_HOME_DATA_CACHE.generateItems",
+          "through": "#20334 catch +0x136 -> load IOS_HOME_DATA_CACHE +0x258 -> setHomeData; #16815 state.home.value.homeData=payload",
+          "to": "Style/Extra selectors #26351/#26387 -> GenerateStepTwo/Three memo list",
+          "class": "CLIENT_CODE_LINKED",
+          "limitation": "Success path assigns response.data.data instead of fallback; live locale/current catalog unknown."
+        },
+        {
+          "id": "MFY_OPT_STYLE_UI_REQUEST",
+          "from": "generateItems.find(type===styles).items item.title/id",
+          "through": "#26356 render title + scalar ID equality -> #26357 event(id,title) -> #26355 _setSelectedStyleId -> #16830 overwrite -> #20314 hook env4 -> existing generator closure path #20352/#20355",
+          "to": "itemIds[0]",
+          "class": "CLIENT_CODE_LINKED",
+          "limitation": "Static conditional chain; no app execution."
+        },
+        {
+          "id": "MFY_OPT_EXTRA_UI_REQUEST",
+          "from": "generateItems.find(type===extra).items item.title/id",
+          "through": "#26392 render title + scalar ID equality -> #26393 event(id,title) -> #26391 _setSelectedExtraId -> #16831 overwrite -> #20314 hook env5 -> #20355",
+          "to": "itemIds[1]",
+          "class": "CLIENT_CODE_LINKED",
+          "limitation": "One Extra scalar in this path; unrelated CarMod/UI/server compatibility is outside this claim."
+        },
+        {
+          "id": "MFY_OPT_COLOR_UI_REQUEST",
+          "from": "generateItems.find(type===colors).items filtered by subType===tabKey",
+          "through": "#26408/#26409 -> #26419 renderer -> #26420 event(id) -> #26413 setter -> #16832 overwrite -> #20314 hook env6 -> #20355",
+          "to": "itemIds[2]",
+          "class": "CLIENT_CODE_LINKED",
+          "limitation": "Built-in Color records have subType (16 ColorsMatte,10 ColorsMetallic,12 ColorsPremium) and pass the matching tab filter. Live remote schema/current directory and execution are unknown."
+        }
+      ],
+      "rules": {
+        "code_initial_selected_style_id": "",
+        "code_initial_selected_extra_id": "",
+        "code_initial_selected_color_id": "",
+        "initial_color_tab": "ColorsMatte",
+        "style_and_extra_mount_effect": "Logging only, no first-item setter in #26354/#26390",
+        "color_mount_effect": "#26411 checks.some but discards return and never invokes setter; first-ID read is not an automatic default",
+        "within_family_selection": "Each Style/Extra/Color setter directly replaces one scalar; no array append/toggle branch in inspected selection handler/reducers. One Extra at a time, not arbitrary multi-select.",
+        "cross_family_selection": "Style callback changes only Style; Extra changes only Extra; Color changes only Color. No local compatibility/clearing branch within inspected callbacks.",
+        "request_order": [
+          "selectedStyleId",
+          "selectedExtraId",
+          "selectedColorId"
+        ],
+        "payload_empty_ids": "#20355 retains all three slots without filtering empty strings; whether UI/preconditions allow reaching request with empties is not a runtime observation.",
+        "server_rules": "UNKNOWN; array position does not establish effective Prompt priority or server combination validation."
+      },
+      "catalog_schema_verified": {
+        "style_and_extra_keys": [
+          "id",
+          "title",
+          "mediaUrl"
+        ],
+        "color_keys": [
+          "id",
+          "title",
+          "mediaUrl",
+          "subType"
+        ],
+        "color_subtype_counts": {
+          "ColorsMatte": 16,
+          "ColorsMetallic": 10,
+          "ColorsPremium": 12
+        },
+        "key_order_checked_in_all78_entries": true
+      },
+      "limits": [
+        "Static text derived from existing authorized export; not source recovery of backend and not Hermes execution.",
+        "UI recording from unknown version is not used to prove these mappings; same-build title strings and renderer/event code provide the conditional chain.",
+        "No complete private Prompt, media URL, internal host, credentials, configuration values or original code are included in these deliverable files.",
+        "No FORM code/spec/frontend/payment/database writes, app modifications, platform bypass, network probes or paid model calls.",
+        "Current locale-specific successful response directory and possible live ID/title replacements",
+        "Any backend rejection/compatibility/default resolution for blank or combined IDs",
+        "Effective backend Prompt, model, workflow, parameters and post-processing",
+        "Observed runtime selection and successful image-generation output",
+        "Persisted/recovered selection state on a real launch; code initial defaults do not prove persisted runtime defaults"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_JAPANESE",
+      "claim": "Japanese -> Styles_Japanese",
+      "code_location": "#20804 @0x008ece41 +0x1141 (hasm line 808715)",
+      "data_flow": "#26356 renderer -> #26357 onPress(item.id,item.title) -> #26355 -> _setSelectedStyleId/#16830 -> #20314 env4/5/6 -> #20355 itemIds[0]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_STANCE",
+      "claim": "Stance -> Styles_Stance",
+      "code_location": "#20804 @0x008ece41 +0x1205 (hasm line 808743)",
+      "data_flow": "#26356 renderer -> #26357 onPress(item.id,item.title) -> #26355 -> _setSelectedStyleId/#16830 -> #20314 env4/5/6 -> #20355 itemIds[0]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_FUTURISTIC",
+      "claim": "Futuristic -> Styles_Futuristic",
+      "code_location": "#20804 @0x008ece41 +0x1133 (hasm line 808713)",
+      "data_flow": "#26356 renderer -> #26357 onPress(item.id,item.title) -> #26355 -> _setSelectedStyleId/#16830 -> #20314 env4/5/6 -> #20355 itemIds[0]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_BODY_KIT",
+      "claim": "Body Kit -> Extra_BodyKit",
+      "code_location": "#20804 @0x008ece41 +0x1265 (hasm line 808758)",
+      "data_flow": "#26392 renderer -> #26393 onPress(item.id,item.title) -> #26391 -> _setSelectedExtraId/#16831 -> #20314 env4/5/6 -> #20355 itemIds[1]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_SPOILER",
+      "claim": "Spoiler -> Extra_Spoiler",
+      "code_location": "#20804 @0x008ece41 +0x12f1 (hasm line 808778)",
+      "data_flow": "#26392 renderer -> #26393 onPress(item.id,item.title) -> #26391 -> _setSelectedExtraId/#16831 -> #20314 env4/5/6 -> #20355 itemIds[1]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_GOLDEN_ACCENTS",
+      "claim": "Golden Accents -> Extra_GoldenAccents",
+      "code_location": "#20804 @0x008ece41 +0x129d (hasm line 808766)",
+      "data_flow": "#26392 renderer -> #26393 onPress(item.id,item.title) -> #26391 -> _setSelectedExtraId/#16831 -> #20314 env4/5/6 -> #20355 itemIds[1]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_build": "Modyfy 1.2.0 build71",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ],
+      "runtime": "NOT_RUN",
+      "evidence_id": "MFY_OPT_MAP_GOLDEN_ACCENTS_1",
+      "claim": "Golden Accents 1 -> Extra_GoldenAccents-1",
+      "code_location": "#20804 @0x008ece41 +0x12ab (hasm line 808768)",
+      "data_flow": "#26392 renderer -> #26393 onPress(item.id,item.title) -> #26391 -> _setSelectedExtraId/#16831 -> #20314 env4/5/6 -> #20355 itemIds[1]",
+      "limits": [
+        "Static fallback catalog + conditional same-build UI chain; success response replaces directory; active online catalog/runtime selection/server compatibility/effective prompt/model UNKNOWN"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "普通 Regenerate 的非 CarMod/非 MotorcycleMod、extraParameters 存在分支恢复 inputs[0].urls[0]，下一次 CarStyle 的 imageData 直接读取相同 selectedImage 状态值。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22481,
+          "function_offset": "0x0092fb03",
+          "relative_pc": [
+            "0xff",
+            "0x10e",
+            "0x118",
+            "0x137",
+            "0x13d",
+            "0x28d",
+            "0x297",
+            "0x2a6",
+            "0x2d3",
+            "0x2ef",
+            "0x303",
+            "0x30c"
+          ],
+          "hasm_lines": [
+            889680,
+            889684,
+            889686,
+            889693,
+            889694,
+            889778,
+            889780,
+            889784,
+            889795,
+            889801,
+            889806,
+            889808
+          ],
+          "meaning": "非两类 Mod collection且 inputs[0].extraParameters truthy；urls[0]??empty → _setSelectedImage；step=1；Home/Generate"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 16820,
+          "function_offset": "0x008889c2",
+          "relative_pc": [
+            "0x03",
+            "0x0b",
+            "0x10"
+          ],
+          "hasm_lines": [
+            662896,
+            662898,
+            662899
+          ],
+          "meaning": "state.value.selectedImage=action.payload"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 26400,
+          "function_offset": "0x00995ca5",
+          "relative_pc": [
+            "0x78",
+            "0x7d",
+            "0x96",
+            "0x9c"
+          ],
+          "hasm_lines": [
+            1028833,
+            1028834,
+            1028839,
+            1028840
+          ],
+          "meaning": "selector state.generate.value.selectedImage → GenerateStepFour env slot5"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 26417,
+          "function_offset": "0x00996259",
+          "relative_pc": [
+            "0x0a",
+            "0x6e",
+            "0x72",
+            "0x83",
+            "0x8d"
+          ],
+          "hasm_lines": [
+            1029303,
+            1029328,
+            1029329,
+            1029334,
+            1029337
+          ],
+          "meaning": "GetEnvironment depth2=GenerateStepFour；env1生成func，env5首参；Call3 generateCarStyle(imageValue,collection)"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20352,
+          "function_offset": "0x008dd107",
+          "relative_pc": [
+            "0x0f",
+            "0x12"
+          ],
+          "hasm_lines": [
+            787962,
+            787963
+          ],
+          "meaning": "首参→新 environment slot0"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20355,
+          "function_offset": "0x008dd511",
+          "relative_pc": [
+            "0x16",
+            "0x7c",
+            "0x80",
+            "0xb2"
+          ],
+          "hasm_lines": [
+            788239,
+            788262,
+            788263,
+            788275
+          ],
+          "meaning": "GetEnvironment depth2=#20352 env；slot0→imageData→Callable"
+        }
+      ],
+      "data_flow": [
+        "ResultBottom #28433 → onPressRegenerate #22481",
+        "item.inputs[0].urls[0] ?? empty → module1329._setSelectedImage → state.generate.value.selectedImage",
+        "GenerateStepFour #26400 env5 → #26417 generateCarStyle first argument",
+        "wrapper #20358 → factory #20350 → #20351 generator → #20352 env0",
+        "runGeneration factory #20353 → #20354 generator → #20355 depth2.env0 → imageData"
+      ],
+      "limitations": [
+        "Static control/data flow only; no app or bytecode was executed and no request was captured.",
+        "The actual value/bytes behind server-returned inputs[0].urls[0] remain UNKNOWN: it is not proven to be the untouched camera original.",
+        "The branch sends metadata input value directly; the traced path does not re-run compressImage, fetch or FileReader.",
+        "Intervening Replace/photo selection changes selectedImage and therefore changes the next imageData.",
+        "CarStyle restore here does not restore style/extra/color IDs: it re-enters Generate step1. No automatic selection/default claim."
+      ],
+      "evidence_id": "MFY_REGEN_STYLE_FIRST_INPUT",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "CarMod Regenerate 的 collection=carModItems 分支恢复同一 metadata 输入值；各 CarModsContent 的生成回调读取共享 selectedImage，作为 generateCarMod 的首参。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22481,
+          "function_offset": "0x0092fb03",
+          "relative_pc": [
+            "0xc7",
+            "0xd1",
+            "0x3f4",
+            "0x412",
+            "0x421",
+            "0x44e",
+            "0x4a2",
+            "0x4b4"
+          ],
+          "hasm_lines": [
+            889665,
+            889667,
+            889869,
+            889878,
+            889882,
+            889893,
+            889916,
+            889920
+          ],
+          "meaning": "collection equality→CarMods branch；urls[0]??empty→_setSelectedImage；extraParameters.itemIds→route prop"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28627,
+          "function_offset": "0x009e2fca",
+          "relative_pc": [
+            "0x69",
+            "0x6f",
+            "0x85",
+            "0x8a",
+            "0x8f",
+            "0x95",
+            "0x297"
+          ],
+          "hasm_lines": [
+            1133587,
+            1133588,
+            1133593,
+            1133594,
+            1133595,
+            1133596,
+            1133715
+          ],
+          "meaning": "generateCarMod→env4；selectedImage→env5；#28645 callback closure"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28645,
+          "function_offset": "0x009e3e9e",
+          "relative_pc": [
+            "0x93",
+            "0x97",
+            "0x9d",
+            "0xa1"
+          ],
+          "hasm_lines": [
+            1134704,
+            1134705,
+            1134707,
+            1134708
+          ],
+          "meaning": "env4 func + env5 source + selected itemIds + carModItems → Call4"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20361,
+          "function_offset": "0x008ddba4",
+          "relative_pc": [
+            "0x0f",
+            "0x12",
+            "0x16",
+            "0x1a",
+            "0x1d"
+          ],
+          "hasm_lines": [
+            788709,
+            788710,
+            788711,
+            788712,
+            788713
+          ],
+          "meaning": "first arg→env0；IDs→env1；collection→env2"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20364,
+          "function_offset": "0x008ddef2",
+          "relative_pc": [
+            "0x16",
+            "0x86",
+            "0x8a",
+            "0xa1"
+          ],
+          "hasm_lines": [
+            788945,
+            788970,
+            788971,
+            788976
+          ],
+          "meaning": "depth2=#20361 env；env0→imageData→Callable"
+        }
+      ],
+      "data_flow": [
+        "collection carModItems → inputs[0].urls[0] ?? empty → shared selectedImage",
+        "CarModsContent #28627 env5 → #28645 generateCarMod(source,ids,carModItems)",
+        "wrapper #20367 → factory #20359 → #20360 generator → #20361 env0",
+        "runGeneration #20362 → #20363 generator → #20364 depth2.env0 → imageData"
+      ],
+      "limitations": [
+        "Static control/data flow only; no app or bytecode was executed and no request was captured.",
+        "The actual value/bytes behind server-returned inputs[0].urls[0] remain UNKNOWN: it is not proven to be the untouched camera original.",
+        "The concrete mod selector changes itemIds; the traced #28645 source read is independent of selected part/type. This does not prove server treatment of any part.",
+        "No output-to-input assignment occurs in this Regenerate branch."
+      ],
+      "evidence_id": "MFY_REGEN_CARMOD_FIRST_INPUT",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "MotorcycleMod 的 Regenerate 分支也恢复 metadata 首项输入；独立 MotorcycleModsContent 回调读取相同 selectedImage store并调用共用 generateCarMod。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22481,
+          "function_offset": "0x0092fb03",
+          "relative_pc": [
+            "0x114",
+            "0x118",
+            "0x320",
+            "0x33e",
+            "0x34d",
+            "0x37a",
+            "0x3ce",
+            "0x3e0"
+          ],
+          "hasm_lines": [
+            889685,
+            889686,
+            889813,
+            889822,
+            889826,
+            889837,
+            889860,
+            889864
+          ],
+          "meaning": "collection=motorcycleModItems→urls[0]→_setSelectedImage；itemIds→MotorcycleMods route"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28841,
+          "function_offset": "0x009ed9ec",
+          "relative_pc": [
+            "0x69",
+            "0x6f",
+            "0x8f",
+            "0x95",
+            "0x293"
+          ],
+          "hasm_lines": [
+            1146974,
+            1146975,
+            1146982,
+            1146983,
+            1147101
+          ],
+          "meaning": "generateCarMod→env4；selectedImage→env5；#28859 callback"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28859,
+          "function_offset": "0x009ee838",
+          "relative_pc": [
+            "0x93",
+            "0x97",
+            "0x9d",
+            "0xa1"
+          ],
+          "hasm_lines": [
+            1148064,
+            1148065,
+            1148067,
+            1148068
+          ],
+          "meaning": "env5 source + motorcycleModItems →共用generateCarMod首参"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20364,
+          "function_offset": "0x008ddef2",
+          "relative_pc": [
+            "0x86",
+            "0x8a"
+          ],
+          "hasm_lines": [
+            788970,
+            788971
+          ],
+          "meaning": "与CarMods共用source到imageData写入"
+        }
+      ],
+      "data_flow": [
+        "motorcycleModItems branch → inputs[0].urls[0] ?? empty → selectedImage",
+        "MotorcycleModsContent #28841 env5 → #28859 → generateCarMod(first arg,ids,motorcycleModItems)",
+        "#20361 env0 → #20364 imageData"
+      ],
+      "limitations": [
+        "Static control/data flow only; no app or bytecode was executed and no request was captured.",
+        "The actual value/bytes behind server-returned inputs[0].urls[0] remain UNKNOWN: it is not proven to be the untouched camera original."
+      ],
+      "evidence_id": "MFY_REGEN_MOTORCYCLE_FIRST_INPUT",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "extraParameters 缺失/falsey 的 EffectsUpload 分支也恢复 metadata 首项输入，但下一次 effect 请求的 imageData 是数组，第二项由当前 selectedImageDouble 状态决定。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22481,
+          "function_offset": "0x0092fb03",
+          "relative_pc": [
+            "0x137",
+            "0x13d",
+            "0x14c",
+            "0x16a",
+            "0x179",
+            "0x1c5",
+            "0x1fa",
+            "0x27e",
+            "0x282"
+          ],
+          "hasm_lines": [
+            889693,
+            889694,
+            889698,
+            889707,
+            889711,
+            889731,
+            889744,
+            889775,
+            889776
+          ],
+          "meaning": "extraParameters falsey→first URL restored；modelId/title restored；EffectsUpload；此函数不读取 inputs.urls[1]"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 27593,
+          "function_offset": "0x009c3489",
+          "relative_pc": [
+            "0x70",
+            "0x76",
+            "0xcc",
+            "0xd2",
+            "0xe2",
+            "0xe8",
+            "0xec",
+            "0xf2"
+          ],
+          "hasm_lines": [
+            1089779,
+            1089780,
+            1089799,
+            1089800,
+            1089803,
+            1089804,
+            1089805,
+            1089806
+          ],
+          "meaning": "generateOutput→env4；selectedImage→env6；selectedModelId→env7；selectedImageDouble→env8"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 27611,
+          "function_offset": "0x009c432a",
+          "relative_pc": [
+            "0x34",
+            "0x4e",
+            "0x52",
+            "0x58",
+            "0x66",
+            "0x6a",
+            "0x6e",
+            "0x79",
+            "0x7f"
+          ],
+          "hasm_lines": [
+            1090853,
+            1090861,
+            1090862,
+            1090864,
+            1090868,
+            1090869,
+            1090870,
+            1090873,
+            1090875
+          ],
+          "meaning": "single calls generateOutput(firstSource,modelId)；double passes current second source"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20343,
+          "function_offset": "0x008dc6bb",
+          "relative_pc": [
+            "0x01",
+            "0x07",
+            "0x257",
+            "0x25a",
+            "0x25e",
+            "0x264",
+            "0x268",
+            "0x26c",
+            "0x273"
+          ],
+          "hasm_lines": [
+            787233,
+            787235,
+            787375,
+            787376,
+            787377,
+            787379,
+            787380,
+            787381,
+            787383
+          ],
+          "meaning": "first/optional third arg→[first] or [first,second]→env3"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20346,
+          "function_offset": "0x008dca84",
+          "relative_pc": [
+            "0x52",
+            "0x60",
+            "0x64",
+            "0x72",
+            "0x77"
+          ],
+          "hasm_lines": [
+            787518,
+            787522,
+            787523,
+            787526,
+            787527
+          ],
+          "meaning": "GetEnvironment depth2=#20343 env；slot3→inputObject.imageData"
+        }
+      ],
+      "data_flow": [
+        "inputs[0].urls[0] ?? empty → selectedImage",
+        "EffectsUploadContent env6 → #27611 generateOutput first arg",
+        "optional existing selectedImageDouble env8 → generateOutput third arg",
+        "#20343 forms [first] / [first,second] → env3 → #20346 inputObject.imageData"
+      ],
+      "limitations": [
+        "Static control/data flow only; no app or bytecode was executed and no request was captured.",
+        "The actual value/bytes behind server-returned inputs[0].urls[0] remain UNKNOWN: it is not proven to be the untouched camera original.",
+        "The second historical input is NOT restored by #22481; actual second source after state/navigation/runtime is UNKNOWN.",
+        "This is an effect-specific array request path, separate from CarStyle/CarMod imageData string paths.",
+        "No assertion about actual effect model/provider, prompt or output quality."
+      ],
+      "evidence_id": "MFY_REGEN_EFFECTS_FIRST_INPUT_ARRAY",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "普通 ResultBottom 的三个静态按钮为 RESULT.REGENERATE、RESULT.DOWNLOAD、RESULT.SHARE。Regenerate 传 {effect,tabName,item}，没有传展示用 resultImage；生成响应 output URL进入独立 resultImage 状态。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28421,
+          "function_offset": "0x009da867",
+          "relative_pc": [
+            "0x56",
+            "0x5c",
+            "0x9c",
+            "0xa2",
+            "0xb5",
+            "0x18e",
+            "0x1d8",
+            "0x239",
+            "0x34b",
+            "0x45d"
+          ],
+          "hasm_lines": [
+            1122102,
+            1122103,
+            1122117,
+            1122118,
+            1122123,
+            1122173,
+            1122190,
+            1122211,
+            1122273,
+            1122335
+          ],
+          "meaning": "onPressRegenerate→env4；resultImage/image→display/download/share env7；按钮translation keys"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 28433,
+          "function_offset": "0x009db175",
+          "relative_pc": [
+            "0x03",
+            "0x09",
+            "0x12",
+            "0x1b",
+            "0x1f",
+            "0x26"
+          ],
+          "hasm_lines": [
+            1122865,
+            1122867,
+            1122869,
+            1122871,
+            1122872,
+            1122874
+          ],
+          "meaning": "env4 Regenerate receives object with effect/tabName/item only"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20355,
+          "function_offset": "0x008dd511",
+          "relative_pc": [
+            "0x1a2",
+            "0x1b9",
+            "0x1c9",
+            "0x228",
+            "0x22e"
+          ],
+          "hasm_lines": [
+            788331,
+            788338,
+            788343,
+            788365,
+            788366
+          ],
+          "meaning": "response.result.outputs[0].url→_setResultImage"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20364,
+          "function_offset": "0x008ddef2",
+          "relative_pc": [
+            "0x191",
+            "0x1a8",
+            "0x1b8",
+            "0x21a",
+            "0x220"
+          ],
+          "hasm_lines": [
+            789032,
+            789039,
+            789044,
+            789067,
+            789068
+          ],
+          "meaning": "CarMod response output→_setResultImage"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 16824,
+          "function_offset": "0x00888a2a",
+          "relative_pc": [
+            "0x10"
+          ],
+          "hasm_lines": [
+            662959
+          ],
+          "meaning": "state.value.resultImage=action.payload；independent of selectedImage"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 27622,
+          "function_offset": "0x009c45b4",
+          "relative_pc": [
+            "0x0e",
+            "0x1f",
+            "0x2c",
+            "0x3b",
+            "0x4b"
+          ],
+          "hasm_lines": [
+            1091194,
+            1091199,
+            1091203,
+            1091207,
+            1091212
+          ],
+          "meaning": "getInputUrl returns item.inputs[0].urls[0]??null for comparison display"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 27623,
+          "function_offset": "0x009c4601",
+          "relative_pc": [
+            "0x3e",
+            "0x44",
+            "0x4e",
+            "0xd7",
+            "0xdc",
+            "0x105",
+            "0x10a"
+          ],
+          "hasm_lines": [
+            1091236,
+            1091237,
+            1091239,
+            1091270,
+            1091271,
+            1091280,
+            1091281
+          ],
+          "meaning": "route item/input helper vs resultImage passed separately to ResultContent/ResultBottom"
+        }
+      ],
+      "data_flow": [
+        "outputs[0].url → resultImage → result display/download/share",
+        "item.inputs[0].urls[0] → originalImage comparison display",
+        "ResultBottom Regenerate #28433 → {effect,tabName,item} → #22481 → metadata input restoration"
+      ],
+      "limitations": [
+        "This is the ordinary ResultBottom action boundary in this build, not a global assertion that no other screen can ever use an output image.",
+        "No separate continue-edit/apply-output-to-input action was found among the three buttons in this inspected ResultBottom.",
+        "A user can explicitly select a saved output photo through Replace; then it becomes a newly selected source.",
+        "Static button translation keys are CLIENT_CODE_LINKED, not UI_OBSERVED."
+      ],
+      "evidence_id": "MFY_RESULT_BUTTON_AND_DISPLAY_BOUNDARY",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "手动选照片/Replace走 compressImage，返回 base64 字段实际上来自 FileReader.readAsDataURL 结果；Regenerate 的 metadata 恢复入口跳过该助手。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22429,
+          "function_offset": "0x0092e49a",
+          "relative_pc": [
+            "0xa9",
+            "0xbc",
+            "0x102",
+            "0x104",
+            "0x11f",
+            "0x15b",
+            "0x16f"
+          ],
+          "hasm_lines": [
+            887431,
+            887437,
+            887454,
+            887455,
+            887461,
+            887477,
+            887482
+          ],
+          "meaning": "picked assets[0].uri/width/height → compressImage → result.base64 → _setSelectedImage"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22518,
+          "function_offset": "0x00931713",
+          "relative_pc": [
+            "0x19",
+            "0x33",
+            "0x50",
+            "0x7e",
+            "0xbe",
+            "0xc9",
+            "0xe3"
+          ],
+          "hasm_lines": [
+            891857,
+            891865,
+            891872,
+            891881,
+            891898,
+            891900,
+            891908
+          ],
+          "meaning": "compressImage resolves/resizes to URI→fileUriToBase64DataUrl→returned base64"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22526,
+          "function_offset": "0x00931a6d",
+          "relative_pc": [
+            "0x1e",
+            "0x2b",
+            "0x3a",
+            "0x4e",
+            "0x71",
+            "0x80",
+            "0x86"
+          ],
+          "hasm_lines": [
+            892155,
+            892158,
+            892163,
+            892169,
+            892177,
+            892180,
+            892181
+          ],
+          "meaning": "fetch URI→blob→FileReader→readAsDataURL"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22527,
+          "function_offset": "0x0092e83d",
+          "relative_pc": [
+            "0x0b",
+            "0x13"
+          ],
+          "hasm_lines": [
+            892223,
+            892225
+          ],
+          "meaning": "FileReader.result→promise resolve；no base64-prefix stripping"
+        }
+      ],
+      "data_flow": [
+        "explicit photo selection → resize helper → file URI→fetch/blob→FileReader data URL → selectedImage",
+        "Regenerate → metadata inputs[0].urls[0] directly → selectedImage",
+        "both source types → same next CarStyle/CarMod imageData field"
+      ],
+      "limitations": [
+        "The exact photo bytes, codec output, real network transfer and native cache behavior were not observed.",
+        "Existing resize helpers do not prove a fresh resize happens after Regenerate."
+      ],
+      "evidence_id": "MFY_PHOTO_IMPORT_DATA_URL_DISTINCTION",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "onPressRegenerateAiTools 使用 metadata 第一项输入恢复独立 Diagnostic/Identifier 图像状态；TryCarModsFromAiTools也取 input URLs，不取 outputs。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22482,
+          "function_offset": "0x0092ffbf",
+          "relative_pc": [
+            "0x5f",
+            "0x7d",
+            "0x8c",
+            "0xa1",
+            "0xf9",
+            "0xff",
+            "0x112",
+            "0x158",
+            "0x15e"
+          ],
+          "hasm_lines": [
+            889954,
+            889963,
+            889967,
+            889973,
+            889997,
+            889998,
+            890002,
+            890019,
+            890020
+          ],
+          "meaning": "first input URL→diagnostic or identifier setter；diagnostic also restores inputs[0].prompt text field without reproducing content"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22483,
+          "function_offset": "0x00930142",
+          "relative_pc": [
+            "0x50",
+            "0x6e",
+            "0x7d",
+            "0xe0",
+            "0xe6",
+            "0xf9",
+            "0x102",
+            "0x116",
+            "0x11f"
+          ],
+          "hasm_lines": [
+            890058,
+            890067,
+            890071,
+            890094,
+            890095,
+            890099,
+            890101,
+            890106,
+            890108
+          ],
+          "meaning": "TryCarModsFromAiTools uses first input URL →selectedImage；Generate step1；Home/Generate"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22417,
+          "function_offset": "0x0092dfbc",
+          "relative_pc": [
+            "0x18e",
+            "0x193",
+            "0x198",
+            "0x19d"
+          ],
+          "hasm_lines": [
+            887070,
+            887071,
+            887072,
+            887073
+          ],
+          "meaning": "exports separate AI-tools regenerate and TryCarMods handlers"
+        }
+      ],
+      "data_flow": [
+        "item.inputs[0].urls[0] → _setSelectedCarDiagnosticScanImage or _setSelectedCarIdentifierImage",
+        "TryCarModsFromAiTools: same metadata input → selectedImage → Home/Generate step1"
+      ],
+      "limitations": [
+        "AI-tools next diagnostic request paths were not expanded; the focused proof here is restored source-state origin.",
+        "AI-tools metadata prompt is not a CarStyle private prompt-builder recovery.",
+        "Runtime values and outputs remain UNKNOWN."
+      ],
+      "evidence_id": "MFY_AI_TOOLS_REGEN_SEPARATE_STATE",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "app_build": "Modyfy 1.2.0 build71; com.ai.car.app; Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "claim": "所有 #22481 分支以 empty string作为缺失 metadata 输入的fallback；所查下一次 CarStyle/CarMod请求会拒绝 null/undefined/empty 输入，没有fallback到 output。",
+      "code_locations": [
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 22481,
+          "function_offset": "0x0092fb03",
+          "relative_pc": [
+            "0x17d",
+            "0x181",
+            "0x18b",
+            "0x2aa",
+            "0x2ae",
+            "0x2b5",
+            "0x351",
+            "0x355",
+            "0x35c",
+            "0x425",
+            "0x429",
+            "0x430"
+          ],
+          "hasm_lines": [
+            889712,
+            889713,
+            889716,
+            889785,
+            889786,
+            889788,
+            889827,
+            889828,
+            889830,
+            889883,
+            889884,
+            889886
+          ],
+          "meaning": "four nullish fallbacks are empty string, no outputs lookup"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20355,
+          "function_offset": "0x008dd511",
+          "relative_pc": [
+            "0x19",
+            "0x1f",
+            "0x26",
+            "0x2a",
+            "0x31",
+            "0x35",
+            "0x39"
+          ],
+          "hasm_lines": [
+            788240,
+            788242,
+            788243,
+            788244,
+            788245,
+            788246,
+            788247
+          ],
+          "meaning": "null/undefined/empty source jumps away before payload construction"
+        },
+        {
+          "source_alias": "MODYFY_HASM",
+          "source_sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+          "function_id": 20364,
+          "function_offset": "0x008ddef2",
+          "relative_pc": [
+            "0x19",
+            "0x1f",
+            "0x26",
+            "0x2a",
+            "0x31",
+            "0x35",
+            "0x39",
+            "0x40",
+            "0x44"
+          ],
+          "hasm_lines": [
+            788946,
+            788948,
+            788949,
+            788950,
+            788951,
+            788952,
+            788953,
+            788954,
+            788955
+          ],
+          "meaning": "same checks plus falsey source check"
+        }
+      ],
+      "data_flow": [
+        "missing metadata → empty selectedImage → next generator early non-request branch"
+      ],
+      "limitations": [
+        "The actual user-visible failure/route behavior of missing metadata was not executed.",
+        "Do not infer untouched-original availability or server fallback behavior from these client checks."
+      ],
+      "evidence_id": "MFY_NULLISH_INPUT_NO_RESULT_FALLBACK",
+      "source_refs": [
+        "MODYFY_BUNDLE",
+        "MODYFY_HASM"
+      ]
+    },
+    {
+      "evidence_id": "MODY_C01",
+      "ui_label": "Style + Extra + Color",
+      "branch": "MainVM f_0x1e0=false; positional X2=false",
+      "client_dataflow": "Style -> Extra -> Color interpolation -> trim",
+      "receiver_fields": "MainViewModel.f_0x198 / f_0xa8 / f_0x1a0,f_0x1a8",
+      "request_field": "prompt",
+      "source_pc": "0x295860;0x295c90;0x295d10;0x295d34;0x295d54;0x295d5c;0x295d64",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "Semantic conflict winner / remote template UNKNOWN",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_295558",
+          "function_pc": "0x295558",
+          "sites_or_range_endpoints": [
+            "0x295860",
+            "0x295c90",
+            "0x295d10",
+            "0x295d34",
+            "0x295d54",
+            "0x295d5c",
+            "0x295d64"
+          ]
+        }
+      ],
+      "primary_export_sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5"
+    },
+    {
+      "evidence_id": "MODY_C02",
+      "ui_label": "Style resolver",
+      "branch": "promptCarItem non-null vs null",
+      "client_dataflow": "CarItem.style.prompt if car item exists; VM selected style only if car item is null",
+      "receiver_fields": "CarItemModel.f_0xb8 -> StyleModel.f_0x20; MainViewModel.f_0x198 -> f_0x20",
+      "request_field": "prompt fragment",
+      "source_pc": "0x295c9c-0x295cf4",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "CarItem with null style does not fall back to current VM style; remote contents UNKNOWN",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_295558",
+          "function_pc": "0x295558",
+          "sites_or_range_endpoints": [
+            "0x295c9c",
+            "0x295cf4"
+          ]
+        }
+      ],
+      "primary_export_sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5"
+    },
+    {
+      "evidence_id": "MODY_C03",
+      "ui_label": "Extra submission",
+      "branch": "temporary/current and historical extras submit",
+      "client_dataflow": "map -> join -> setExtraPrompt; current list clear + addAll temp list",
+      "receiver_fields": "MainViewModel.f_0x1b8,f_0x1c0 -> f_0xa8; CarItemModel.f_0xc0",
+      "request_field": "prompt fragment",
+      "source_pc": "0x2c3a20;0x2c3a64;0x2c3a70;0x2c3a7c;0x296490",
+      "coverage": "CODE_FLOW_CONFIRMED",
+      "cannot_infer": "No arbitrary-extra compatibility or server rules inferred",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/OldStyleBuilder/sub_2b51f8.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_296478",
+          "function_pc": "0x296478",
+          "sites_or_range_endpoints": [
+            "0x296490"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2C39F8",
+          "function_pc": "0x2c39f8",
+          "sites_or_range_endpoints": [
+            "0x2c3a20",
+            "0x2c3a64",
+            "0x2c3a70",
+            "0x2c3a7c"
+          ]
+        }
+      ],
+      "primary_export_sha256": "1c543fa0939202f4b7e07cbba0eef85681864017402a609157f8045bfdfc249c"
+    },
+    {
+      "evidence_id": "MODY_C04",
+      "ui_label": "Color resolver",
+      "branch": "named non-null/nonempty -> custom non-null -> historical non-null -> controller",
+      "client_dataflow": "Named > RGB custom > historical selectedColor > nonempty text-controller fallback",
+      "receiver_fields": "MainViewModel.f_0x1a0,f_0x1a8; CarItemModel.f_0xc8; MainViewModel.f_0x208",
+      "request_field": "template fragment via {yourColor}",
+      "source_pc": "0x2956d0;0x295734;0x295780;0x2957d4;0x295720;0x29576c;0x2957c4",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "Remote template value and visual effect UNKNOWN",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_295558",
+          "function_pc": "0x295558",
+          "sites_or_range_endpoints": [
+            "0x2956d0",
+            "0x295734",
+            "0x295780",
+            "0x2957d4",
+            "0x295720",
+            "0x29576c",
+            "0x2957c4"
+          ]
+        }
+      ],
+      "primary_export_sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5"
+    },
+    {
+      "evidence_id": "MODY_C05",
+      "ui_label": "Named Color / Custom Color",
+      "branch": "select named or custom",
+      "client_dataflow": "Named setter clears custom; custom setter clears named",
+      "receiver_fields": "MainViewModel.f_0x1a0/f_0x1a8",
+      "request_field": "color fragment",
+      "source_pc": "0x2c7008;0x2c7028;0x2c75e0;0x2c7600",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "Not runtime picker use or actual RGB validation",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/MainViewModel/changeSelectedColor_2b87d8.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2C6FD8",
+          "function_pc": "0x2c6fd8",
+          "sites_or_range_endpoints": [
+            "0x2c7008",
+            "0x2c7028"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2C75B4",
+          "function_pc": "0x2c75b4",
+          "sites_or_range_endpoints": [
+            "0x2c75e0",
+            "0x2c7600"
+          ]
+        }
+      ],
+      "primary_export_sha256": "47fb106a2133e522c124d78ef7fe7ad5732a0dea577c1ee54e620b9235538502"
+    },
+    {
+      "evidence_id": "MODY_C06",
+      "ui_label": "Advanced modifications / Angle",
+      "branch": "MainVM f_0x1e0=false; positional X2=true",
+      "client_dataflow": "Angle -> comma-joined advanced item prompts -> Color",
+      "receiver_fields": "CarItemModel.f_0x98,f_0xa0; MainViewModel.f_0x1f8,f_0x1b0",
+      "request_field": "prompt",
+      "source_pc": "0x29588c;0x29593c;0x295a18;0x295acc;0x295b64;0x295b8c;0x295bb4;0x295bfc;0x295c80",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "This Angle path is Style Builder evidence, not a Detail Angle mapping",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_295558",
+          "function_pc": "0x295558",
+          "sites_or_range_endpoints": [
+            "0x29588c",
+            "0x29593c",
+            "0x295a18",
+            "0x295acc",
+            "0x295b64",
+            "0x295b8c",
+            "0x295bb4",
+            "0x295bfc",
+            "0x295c80"
+          ]
+        }
+      ],
+      "primary_export_sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5"
+    },
+    {
+      "evidence_id": "MODY_C07",
+      "ui_label": "Selected Detail item prompt",
+      "branch": "templatePromptIsActive=false and selected item.prompt nonempty",
+      "client_dataflow": "Return selected item.prompt directly before typed template lookup",
+      "receiver_fields": "ToolBoxModel.f_0x98; ToolBoxViewModel.f_0xd0 -> ExtraModifyModel.f_0x20",
+      "request_field": "tool prompt",
+      "source_pc": "0x2f5854-0x2f5888",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "This is textual-source priority, not image-model semantic precedence",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/getMultiSectionPrompt_2e7034.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2F5834",
+          "function_pc": "0x2f5834",
+          "sites_or_range_endpoints": [
+            "0x2f5854",
+            "0x2f5888"
+          ]
+        }
+      ],
+      "primary_export_sha256": "b71f62cd74cefb0c7798c193624df1d25a41bd8b6d5fcac0a87a4ca51e546f57"
+    },
+    {
+      "evidence_id": "MODY_C08",
+      "ui_label": "Detail typed section",
+      "branch": "eventName=Tire and remote flag / generateType branches",
+      "client_dataflow": "Select PromptTypes PP12637/12638/12639; non-Tire PP12640/12641/12639; title + selected prompt -> replaceFirst {MOD_PARTS_HERE}",
+      "receiver_fields": "ToolBoxModel.f_0x88,f_0x90,f_0x20; ExtraModifyModel.f_0x20",
+      "request_field": "tool prompt",
+      "source_pc": "0x2f588c;0x2f58e8;0x2f58f8;0x2f591c;0x2f5928;0x2f5950;0x2f596c;0x2f5978;0x2f59bc;0x2f5a3c",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "Enum source names and remote template UNKNOWN; PP slots are not restored enum names",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/getMultiSectionPrompt_2e7034.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2F5834",
+          "function_pc": "0x2f5834",
+          "sites_or_range_endpoints": [
+            "0x2f588c",
+            "0x2f58e8",
+            "0x2f58f8",
+            "0x2f591c",
+            "0x2f5928",
+            "0x2f5950",
+            "0x2f596c",
+            "0x2f5978",
+            "0x2f59bc",
+            "0x2f5a3c"
+          ]
+        }
+      ],
+      "primary_export_sha256": "b71f62cd74cefb0c7798c193624df1d25a41bd8b6d5fcac0a87a4ca51e546f57"
+    },
+    {
+      "evidence_id": "MODY_C09",
+      "ui_label": "Rims",
+      "branch": "default title if local target title is null; selected list item click",
+      "client_dataflow": "Rims picker -> PP11108 builder -> PP11113 click -> selectExtraModify -> target prompt",
+      "receiver_fields": "ToolBoxViewModel.f_0xd0; ExtraModifyModel.id/image/prompt/title",
+      "request_field": "tool prompt / reference image parameters",
+      "source_pc": "0x2f2c90;0x2f2d18;0x2f3208;0x2f328c;0x2f32ec;0x2f47cc;0x2f581c",
+      "coverage": "CODE_FLOW_CONFIRMED_WITH_PARTIAL_POOL_METADATA",
+      "cannot_infer": "Specific remote rim labels, IDs and template values UNKNOWN; no UI runtime",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_openRimsPickerBottomSheet@841265525_2e4408.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2F2C08",
+          "function_pc": "0x2f2c08",
+          "sites_or_range_endpoints": [
+            "0x2f2c90",
+            "0x2f2d18"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F2DDC",
+          "function_pc": "0x2f2ddc",
+          "sites_or_range_endpoints": [
+            "0x2f3208"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F325C",
+          "function_pc": "0x2f325c",
+          "sites_or_range_endpoints": [
+            "0x2f328c"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F32C0",
+          "function_pc": "0x2f32c0",
+          "sites_or_range_endpoints": [
+            "0x2f32ec"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F4510",
+          "function_pc": "0x2f4510",
+          "sites_or_range_endpoints": [
+            "0x2f47cc"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F57C4",
+          "function_pc": "0x2f57c4",
+          "sites_or_range_endpoints": [
+            "0x2f581c"
+          ]
+        }
+      ],
+      "primary_export_sha256": "f52ad62b0cd814937560bf0c8a75371f42dfd07c78f2934bb223fec3639f3439"
+    },
+    {
+      "evidence_id": "MODY_C10",
+      "ui_label": "Change Tires / Change Tire Colors",
+      "branch": "Tire bottom sheet widget labels",
+      "client_dataflow": "Same-version labels stored in widget; buildItemsTab/buildColorsTab direct calls; both event methods have downstream setters",
+      "receiver_fields": "NewItemAndColorPickerTabWidget.f_0x18/f_0x20; ToolBoxModel.eventName=Tire",
+      "request_field": "tool prompt / reference image parameters",
+      "source_pc": "0x2f3f40;0x2f3f4c;0x43e240;0x43e24c;0x3f3ff4;0x3f1e00",
+      "coverage": "PARTIAL_UI_CALLBACK_LINK",
+      "cannot_infer": "PP23455/23456/23461 exact callback identity unresolved; do not claim full UI click observed",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/_openTireAndColorPickerBottomSheet@841265525_2e56e4.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2F3EE4",
+          "function_pc": "0x2f3ee4",
+          "sites_or_range_endpoints": [
+            "0x2f3f40",
+            "0x2f3f4c"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_3F1D78",
+          "function_pc": "0x3f1d78",
+          "sites_or_range_endpoints": [
+            "0x3f1e00"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_3F3FB4",
+          "function_pc": "0x3f3fb4",
+          "sites_or_range_endpoints": [
+            "0x3f3ff4"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_43DCD8",
+          "function_pc": "0x43dcd8",
+          "sites_or_range_endpoints": [
+            "0x43e240",
+            "0x43e24c"
+          ]
+        }
+      ],
+      "primary_export_sha256": "12b640027fce1ada36e6591fb8f73fc8533032af54c241d8ade9e3a41de1fd7a"
+    },
+    {
+      "evidence_id": "MODY_C11",
+      "ui_label": "Named Tire color event",
+      "branch": "palette non-clear event",
+      "client_dataflow": "color string and image field -> selectColor; clears custom color",
+      "receiver_fields": "CarColorModel.f_0x10=serialized color, f_0x18=serialized image; ToolBoxViewModel.f_0xa8,f_0xb0,f_0xb8",
+      "request_field": "tool prompt / targetImageUrl candidate",
+      "source_pc": "0x3f1df0;0x3f1df4;0x3f1e00;0x3ef424;0x3ef444;0x3ef460",
+      "coverage": "CODE_FLOW_CONFIRMED",
+      "cannot_infer": "Palette values UNKNOWN; image field is not a RGB Color object; exact UI callback slot unresolved",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e3578.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_3EF3F4",
+          "function_pc": "0x3ef3f4",
+          "sites_or_range_endpoints": [
+            "0x3ef424",
+            "0x3ef444",
+            "0x3ef460"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_3F1D78",
+          "function_pc": "0x3f1d78",
+          "sites_or_range_endpoints": [
+            "0x3f1df0",
+            "0x3f1df4",
+            "0x3f1e00"
+          ]
+        }
+      ],
+      "primary_export_sha256": "c46ad9ab760c47d6df22f52ff42f1e3a844f24606e3413523d9e24836262688c"
+    },
+    {
+      "evidence_id": "MODY_C12",
+      "ui_label": "Tire color vs tire replacement route",
+      "branch": "T=eventName Tire; C=T && named color non-null; WC=C && newTireColorFlow; WT=T && !C && newTireFlow",
+      "client_dataflow": "WC: color string prompt; C && !WC: {COLOR} template; else multi-section prompt. T && (WC || WT) selects workflow; ID based on WC",
+      "receiver_fields": "ToolBoxModel.f_0x88=eventName; ToolBoxVM.f_0xa8=color string,f_0xb0=reference image; remote flags",
+      "request_field": "prompt/imageUrls/aspectRatio/workFlowId",
+      "source_pc": "0x2f4860-0x2f49a0;0x2f4904;0x2f492c;0x2f9a3c-0x2f9a54;0x2f9a88;0x2f9ee8;0x2fa54c;0x2fa564;0x2fa830;0x2fa9c4",
+      "coverage": "CODE_BRANCH_CONFIRMED",
+      "cannot_infer": "Remote flag values, workflow IDs, actual backend/model/mask effects UNKNOWN",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_handleGenerate@841265525_2e5d10.txt",
+      "code_locations": [
+        {
+          "source_ref": "MODY_ASM_2F4510",
+          "function_pc": "0x2f4510",
+          "sites_or_range_endpoints": [
+            "0x2f4860",
+            "0x2f49a0",
+            "0x2f4904",
+            "0x2f492c"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F985C",
+          "function_pc": "0x2f985c",
+          "sites_or_range_endpoints": [
+            "0x2f9a3c",
+            "0x2f9a54",
+            "0x2f9a88"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F9AA0",
+          "function_pc": "0x2f9aa0",
+          "sites_or_range_endpoints": [
+            "0x2f9ee8"
+          ]
+        },
+        {
+          "source_ref": "MODY_ASM_2F9F68",
+          "function_pc": "0x2f9f68",
+          "sites_or_range_endpoints": [
+            "0x2fa54c",
+            "0x2fa564",
+            "0x2fa830",
+            "0x2fa9c4"
+          ]
+        }
+      ],
+      "primary_export_sha256": "ff47bc4c124751b482d81ac40aaad458cfad3260c6c81c295307005ad88dd4da"
+    },
+    {
+      "evidence_id": "MODY_C13",
+      "ui_label": "Angle / Spoiler / Exhaust in Detail",
+      "branch": "third-party UI build unknown",
+      "client_dataflow": "UNKNOWN",
+      "receiver_fields": "UNKNOWN",
+      "request_field": "UNKNOWN",
+      "source_pc": "bounded exact-string refs: Angle 0x2c2b0c etc; no exact Spoiler/Exhaust hit",
+      "coverage": "UNKNOWN",
+      "cannot_infer": "Angle only confirms other same-version UI paths; absence of exact labels is not absence of product feature",
+      "app_build": "com.cartuning.appitech 3.1.440 build2",
+      "evidence_class": "UNKNOWN",
+      "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "runtime": "NOT_RUN",
+      "source_refs": [
+        "MODY_AOT_APP"
+      ],
+      "primary_source_ref": "MODY_AOT_EXPORT/string_refs.jsonl",
+      "code_locations": [],
+      "primary_export_sha256": "da6029c4acbeea6a511d7bb5b32d0e79a590342658273dda232f15552b260364",
+      "cross_version_ui_link": "HYPOTHESIS; Detail same-build event-to-request is UNKNOWN"
+    },
+    {
+      "evidence_id": "WRAPR_TYPE",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "Paint / Add Modifications / Swap Components",
+      "claim": "Category title goes through route.params.modificationType to the same request field.",
+      "code_location": "#8518 L345521; #8520 L345747-345749; #8517 L345504-345506; #9666 L379068-379073; #9782 L384177-384179",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this"
+      ]
+    },
+    {
+      "evidence_id": "WRAPR_PARAMETERS",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "Body Kit / Wheels",
+      "claim": "Config key is the parameters key; option text is a single string value; updater copies other keys and overwrites this one.",
+      "code_location": "#9693 L380520,L380619-380625; #9694 L380657-380699; #9695 L380738; #9681 L380091-380099; #9682 L380113-380117; #9685 L380286-380291; #9782 L384179",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this"
+      ]
+    },
+    {
+      "evidence_id": "WRAPR_COLOR",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "Paint Color",
+      "claim": "Color.name, not the swatch hex, becomes selectedColor then parameters.Color.",
+      "code_location": "#9703 @0x001b767b / 0x001b7682 L381096-381098; #9666 L379126-379133; #9685 @0x001b6bb3 / 0x001b6bcd L380260,L380267",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this"
+      ]
+    },
+    {
+      "evidence_id": "WRAPR_VALIDATION",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "Parameter groups / CustomDescription",
+      "claim": "Parameters start {}; all configured parameter keys must be truthy; Paint also requires Color; optional description is appended separately.",
+      "code_location": "#9666 L379103-379152; #9679/#9680 L380022-380047,L380071-380078; #9685/#9690 L380232-380240,L380471-380476; #9685 L380274-380277",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this"
+      ]
+    },
+    {
+      "evidence_id": "WRAPR_SHARED_REQUEST",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "Selected category request",
+      "claim": "LoadingScreen calls one generator; image is prepared, category/parameters are forwarded and serialized into the same POST.",
+      "code_location": "#9798 @0x001ba884 / 0x001ba896 L385310,L385314; #9779/#9780/#9781 L384089-384129; #9782 @0x001b98a3 image L384171; body L384177-384180,L384200,L384226,L384230",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this"
+      ]
+    },
+    {
+      "evidence_id": "WRAPR_QUALITY",
+      "app_build": "Wrapr 1.0.1 build6 / Hermes96",
+      "evidence_class": "CLIENT_CODE_LINKED",
+      "runtime": "NOT_RUN",
+      "ui_label": "LoadingScreen quality",
+      "claim": "Fourth quality argument omitted in this path; generator defaults undefined to high.",
+      "code_location": "#9798 L385314; #9782 L384158-384168,L384180",
+      "source_refs": [
+        "WRAPR_BUNDLE",
+        "WRAPR_HASM"
+      ],
+      "limits": [
+        "Actual runtime UI/request/output not observed",
+        "Backend parameter-to-prompt/workflow/model interpretation UNKNOWN",
+        "Server combination compatibility and localized label handling UNKNOWN",
+        "Meaning of quality=high, actual output resolution/quality and charged amount UNKNOWN",
+        "Whether different category values choose different server models UNKNOWN; client shared function does not answer this",
+        "quality=high proven only for LoadingScreen three-explicit-argument call."
+      ]
+    }
+  ],
+  "modyfy_modules": {
+    "module1329": "#16816 generate reducer; #16820 writes value.selectedImage from payload",
+    "module1784": "#22410 owns useGenerationHook; dep14=1329",
+    "module1586": "#20311 owns useHomeHook; dep19=1329",
+    "module2151": "#26397 owns GenerateStepFour; dep13=1586; dep16=1329",
+    "module2463": "#28624 owns CarModsContent; dep13=1586",
+    "module2491": "#28838 owns MotorcycleModsContent; dep13=1586",
+    "module2434": "#28418 owns ResultBottom; dep14=1784"
+  },
+  "wrapr_literal_catalog": {
+    "schema": "FORM_WRAPR_SAFE_OPTION_CATALOG_V1",
+    "app_build": "Wrapr 1.0.1 build6 / HBC96",
+    "source_sha256": "fce8dafd39715a97b5180573760b69898f675075caf9ae32b5e6cc91daac8917",
+    "evidence_class": "CLIENT_CODE_LINKED",
+    "label_source": "same-build local Hermes UI config; no UI runtime capture",
+    "categories": [
+      {
+        "category": "Custom Paint & Wraps",
+        "configuration_location": {
+          "function_id": 9767,
+          "line": 383543,
+          "pc": "0x001b9240"
+        },
+        "useColorPicker": true,
+        "useCustomDescription": true,
+        "parameters": [
+          {
+            "key": "Finish Type",
+            "option_values": [
+              "Matte",
+              "Glossy",
+              "Metallic",
+              "Pearl",
+              "Chrome"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383547,
+              "pc": "0x001b925e"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383548,
+              "pc": "0x001b9266"
+            }
+          },
+          {
+            "key": "Pattern",
+            "option_values": [
+              "Solid",
+              "Racing Stripes",
+              "Flames",
+              "Carbon Fiber",
+              "Custom Graphics"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383549,
+              "pc": "0x001b926b"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383550,
+              "pc": "0x001b9273"
+            }
+          },
+          {
+            "key": "Intensity",
+            "option_values": [
+              "Subtle",
+              "Moderate",
+              "Bold",
+              "Extreme"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383551,
+              "pc": "0x001b9278"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383552,
+              "pc": "0x001b9280"
+            }
+          }
+        ],
+        "modificationType": "Custom Paint & Wraps",
+        "category_assignment_location": {
+          "function_id": 9767,
+          "line": 383554,
+          "pc": "0x001b928b"
+        }
+      },
+      {
+        "category": "Change Background",
+        "configuration_location": {
+          "function_id": 9767,
+          "line": 383555,
+          "pc": "0x001b9290"
+        },
+        "useColorPicker": false,
+        "useCustomDescription": true,
+        "parameters": [
+          {
+            "key": "Theme",
+            "option_values": [
+              "Sci-Fi",
+              "Fantasy",
+              "Horror",
+              "Nature",
+              "Urban",
+              "Apocalyptic",
+              "Cyberpunk",
+              "Retro"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383559,
+              "pc": "0x001b92ae"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383560,
+              "pc": "0x001b92b6"
+            }
+          },
+          {
+            "key": "Time of Day",
+            "option_values": [
+              "Day",
+              "Night",
+              "Sunset",
+              "Dawn",
+              "Blue Hour"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383561,
+              "pc": "0x001b92bb"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383562,
+              "pc": "0x001b92c3"
+            }
+          },
+          {
+            "key": "Weather",
+            "option_values": [
+              "Clear",
+              "Cloudy",
+              "Rainy",
+              "Stormy",
+              "Foggy"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383563,
+              "pc": "0x001b92c8"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383564,
+              "pc": "0x001b92d0"
+            }
+          },
+          {
+            "key": "Intensity",
+            "option_values": [
+              "Subtle",
+              "Moderate",
+              "Dramatic",
+              "Extreme"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383565,
+              "pc": "0x001b92d5"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383566,
+              "pc": "0x001b92dd"
+            }
+          }
+        ],
+        "modificationType": "Change Background",
+        "category_assignment_location": {
+          "function_id": 9767,
+          "line": 383568,
+          "pc": "0x001b92e8"
+        }
+      },
+      {
+        "category": "Add Modifications",
+        "configuration_location": {
+          "function_id": 9767,
+          "line": 383569,
+          "pc": "0x001b92ed"
+        },
+        "useColorPicker": false,
+        "useCustomDescription": true,
+        "parameters": [
+          {
+            "key": "Body Kit",
+            "option_values": [
+              "Sport",
+              "Aggressive",
+              "Wide Body",
+              "Street",
+              "Track"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383573,
+              "pc": "0x001b930b"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383574,
+              "pc": "0x001b9313"
+            }
+          },
+          {
+            "key": "Spoiler",
+            "option_values": [
+              "Subtle Lip",
+              "Wing Spoiler",
+              "Duck Tail",
+              "Large Wing",
+              "No Spoiler"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383575,
+              "pc": "0x001b9318"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383576,
+              "pc": "0x001b9320"
+            }
+          },
+          {
+            "key": "Wheels",
+            "option_values": [
+              "Stock",
+              "Aftermarket Alloy",
+              "Deep Dish",
+              "Carbon Fiber",
+              "Chrome"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383577,
+              "pc": "0x001b9325"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383578,
+              "pc": "0x001b932d"
+            }
+          },
+          {
+            "key": "Stance",
+            "option_values": [
+              "Stock Height",
+              "Lowered",
+              "Slammed",
+              "Raised",
+              "Air Suspension"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383579,
+              "pc": "0x001b9332"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383580,
+              "pc": "0x001b933a"
+            }
+          }
+        ],
+        "modificationType": "Add Modifications",
+        "category_assignment_location": {
+          "function_id": 9767,
+          "line": 383582,
+          "pc": "0x001b9345"
+        }
+      },
+      {
+        "category": "Clean & Detail",
+        "configuration_location": {
+          "function_id": 9767,
+          "line": 383583,
+          "pc": "0x001b934a"
+        },
+        "useColorPicker": false,
+        "useCustomDescription": true,
+        "parameters": [
+          {
+            "key": "Scratch Removal",
+            "option_values": [
+              "Light Scratches",
+              "Deep Scratches",
+              "All Scratches",
+              "None"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383587,
+              "pc": "0x001b9368"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383588,
+              "pc": "0x001b9370"
+            }
+          },
+          {
+            "key": "Dent Repair",
+            "option_values": [
+              "Small Dents",
+              "Large Dents",
+              "All Dents",
+              "None"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383589,
+              "pc": "0x001b9375"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383590,
+              "pc": "0x001b937d"
+            }
+          },
+          {
+            "key": "Element Removal",
+            "option_values": [
+              "License Plates",
+              "Stickers",
+              "Dirt/Grime",
+              "Background Objects"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383591,
+              "pc": "0x001b9382"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383592,
+              "pc": "0x001b938a"
+            }
+          },
+          {
+            "key": "Enhancement",
+            "option_values": [
+              "Brightness",
+              "Contrast",
+              "Saturation",
+              "Sharpness"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383593,
+              "pc": "0x001b938f"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383594,
+              "pc": "0x001b9397"
+            }
+          }
+        ],
+        "modificationType": "Clean & Detail",
+        "category_assignment_location": {
+          "function_id": 9767,
+          "line": 383596,
+          "pc": "0x001b93a2"
+        }
+      },
+      {
+        "category": "Swap Components",
+        "configuration_location": {
+          "function_id": 9767,
+          "line": 383597,
+          "pc": "0x001b93a7"
+        },
+        "useColorPicker": false,
+        "useCustomDescription": true,
+        "parameters": [
+          {
+            "key": "Headlights",
+            "option_values": [
+              "LED",
+              "HID",
+              "Halo",
+              "Angel Eyes",
+              "Stock"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383601,
+              "pc": "0x001b93c5"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383602,
+              "pc": "0x001b93cd"
+            }
+          },
+          {
+            "key": "Grille",
+            "option_values": [
+              "Honeycomb",
+              "Mesh",
+              "Chrome",
+              "Blacked Out",
+              "Stock"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383603,
+              "pc": "0x001b93d2"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383604,
+              "pc": "0x001b93da"
+            }
+          },
+          {
+            "key": "Wheels",
+            "option_values": [
+              "Sporty",
+              "Luxury",
+              "Off-Road",
+              "Vintage",
+              "Modern"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383605,
+              "pc": "0x001b93df"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383606,
+              "pc": "0x001b93e7"
+            }
+          },
+          {
+            "key": "Bumper",
+            "option_values": [
+              "Aggressive",
+              "Sporty",
+              "Clean",
+              "Off-Road",
+              "Stock"
+            ],
+            "array_location": {
+              "function_id": 9767,
+              "line": 383607,
+              "pc": "0x001b93ec"
+            },
+            "key_assignment_location": {
+              "function_id": 9767,
+              "line": 383608,
+              "pc": "0x001b93f4"
+            }
+          }
+        ],
+        "modificationType": "Swap Components",
+        "category_assignment_location": {
+          "function_id": 9767,
+          "line": 383610,
+          "pc": "0x001b93ff"
+        }
+      }
+    ],
+    "paint_colors_sent_as_names": [
+      {
+        "name": "Red",
+        "function_id": 9700,
+        "line": 380888,
+        "pc": "0x001b72c9"
+      },
+      {
+        "name": "Blue",
+        "function_id": 9700,
+        "line": 380890,
+        "pc": "0x001b72db"
+      },
+      {
+        "name": "Black",
+        "function_id": 9700,
+        "line": 380892,
+        "pc": "0x001b72ed"
+      },
+      {
+        "name": "White",
+        "function_id": 9700,
+        "line": 380894,
+        "pc": "0x001b72ff"
+      },
+      {
+        "name": "Green",
+        "function_id": 9700,
+        "line": 380896,
+        "pc": "0x001b7311"
+      },
+      {
+        "name": "Yellow",
+        "function_id": 9700,
+        "line": 380898,
+        "pc": "0x001b7323"
+      },
+      {
+        "name": "Purple",
+        "function_id": 9700,
+        "line": 380900,
+        "pc": "0x001b7335"
+      },
+      {
+        "name": "Orange",
+        "function_id": 9700,
+        "line": 380902,
+        "pc": "0x001b7347"
+      },
+      {
+        "name": "Pink",
+        "function_id": 9700,
+        "line": 380904,
+        "pc": "0x001b7359"
+      },
+      {
+        "name": "Teal",
+        "function_id": 9700,
+        "line": 380906,
+        "pc": "0x001b736b"
+      },
+      {
+        "name": "Indigo",
+        "function_id": 9700,
+        "line": 380908,
+        "pc": "0x001b737d"
+      },
+      {
+        "name": "Gray",
+        "function_id": 9700,
+        "line": 380910,
+        "pc": "0x001b738f"
+      }
+    ],
+    "server_prompt_model_and_results": "UNKNOWN"
+  },
+  "mody_verified_ranges_and_BL": {
+    "schema": "FORM_MODY_P1C_SELECTED_SOURCE_CHECK_V1",
+    "identity": {
+      "CFBundleIdentifier": "com.cartuning.appitech",
+      "CFBundleShortVersionString": "3.1.440",
+      "CFBundleVersion": "2"
+    },
+    "app_sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+    "limits": [
+      "STATIC ONLY: source-range and BL checks are not an app run or backend result.",
+      "The full tool engine profile patch version remains UNKNOWN."
+    ],
+    "sources": [
+      {
+        "pc": "0x80718",
+        "pc_offset": "0x71f18",
+        "file": "asm/CarColorModel/toJson_71f18.txt",
+        "size": 368,
+        "asm_sha256": "42ace409d10f2fc9acae4c9433f5a4210fa3eb6b23b6341c8a48da8416b21025",
+        "bin_sha256": "46f31b5d697b648675133a10494f613a737a99866abfdd4a24b95abc49ebdd68",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x209618",
+        "pc_offset": "0x1fae18",
+        "file": "asm/CarItemModel/toJson_1fae18.txt",
+        "size": 1776,
+        "asm_sha256": "033de0788019aef2c91f26fd75a422824b538a1aa445d3de19dd026230e03001",
+        "bin_sha256": "a07ab598dfd776f1351febe89a09cf62e6ce3f427cfa8848686a6d2807adc334",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x20a104",
+        "pc_offset": "0x1fb904",
+        "file": "asm/ToolBoxModel/toJson_1fb904.txt",
+        "size": 1732,
+        "asm_sha256": "998811d81251767d54add6db05cd9d71cb97db4366432b336b4095a853c047d3",
+        "bin_sha256": "16807d5885152b0da1591acb9f7f7cf529b8159cc2836ecb25f3d5f8ce2e34a4",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x20d538",
+        "pc_offset": "0x1fed38",
+        "file": "asm/ToolBoxModel/_parseGenerateType@810197262_1fed38.txt",
+        "size": 272,
+        "asm_sha256": "852d8a009a5350a59c6991e0c2271311ebdbae75f5ef538f6ee73f6cdb96a39c",
+        "bin_sha256": "65eceb1b4c6531728d95453d111d8501a3d97c6aa01d6766ecfb769e66b2dfbc",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x221ed4",
+        "pc_offset": "0x2136d4",
+        "file": "asm/ExtraModifyModel/toJson_2136d4.txt",
+        "size": 188,
+        "asm_sha256": "8596d2f287850d1c8b37b0eeb2117b2eb2e389c7f928a7481332e5061d99dd18",
+        "bin_sha256": "f3346bd2c62f186c4358b5d01653cffbd412d202a75c9bac2758d58de4e64957",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x251c78",
+        "pc_offset": "0x243478",
+        "file": "asm/MainViewModel/clearAllPrompts_243478.txt",
+        "size": 152,
+        "asm_sha256": "537100a941304f4ac6fa878f1101ca80234d736a46879d8fe078d042f5db046f",
+        "bin_sha256": "182954c5dd4e06e8d7705af4c349ddc6779f9b4fdfbf995454245890d6ee98eb",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x27ca48",
+        "pc_offset": "0x26e248",
+        "file": "asm/MainViewModel/generateCarAfterPaywall_26e248.txt",
+        "size": 992,
+        "asm_sha256": "d458d16756a43e198237aaaeff1fece18246267c76162b259d421afebcf5b597",
+        "bin_sha256": "c1b6cecf00544949bbd44d5e70804449a8ab4c6d0b305f8b547d04c7d79f51cf",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x27ce28",
+        "pc_offset": "0x26e628",
+        "file": "asm/MainViewModel/generateAdvancedStyle_26e628.txt",
+        "size": 1076,
+        "asm_sha256": "a712b93cc6c60a7eb2ca7c39e5641146046d1ceef051a799ccaad0ba044812d1",
+        "bin_sha256": "783f5a153a7b2846506cd0ce7833499598d8ee64e563f7a8c5588a7d61e88ce2",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x27d25c",
+        "pc_offset": "0x26ea5c",
+        "file": "asm/ApiService/generateAdvancedStyleApiCall_26ea5c.txt",
+        "size": 3216,
+        "asm_sha256": "554050237b05a47607b3c4f1ad404cd9f3aca623b33d1d3823d24e52733bf897",
+        "bin_sha256": "d22fd2241f15fc1193241a92a327e3cfade4cac96b94a845423859a8f703d6aa",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x295558",
+        "pc_offset": "0x286d58",
+        "file": "asm/MainViewModel/createFinalPrompt_286d58.txt",
+        "size": 2164,
+        "asm_sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5",
+        "bin_sha256": "23741a053e15d7c374f801975a3f6c8a1b274a60a8919f357268a28daf7f21c6",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x295dcc",
+        "pc_offset": "0x2875cc",
+        "file": "asm/MainViewModel/getGeneratePromptByType_2875cc.txt",
+        "size": 148,
+        "asm_sha256": "8b62c73610d7910395b61e905c65f1188c0d87aea2bfc94238dbdb6debc02bd2",
+        "bin_sha256": "9ea0bd00ac1137ce9580e3060eb96bd675b5ebb096e42ea9e31c1b8ba4e2b3bb",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x295e60",
+        "pc_offset": "0x287660",
+        "file": "asm/MainViewModel/sub_287660.txt",
+        "size": 92,
+        "asm_sha256": "a64dcedf3d8eb2eab2594e16b1b748cb9b18c9a94391974ead2e43c0b38579b2",
+        "bin_sha256": "a45c5a05a66bd8a968e09ea1b9017da0cf3c9a138b58e41982ee77be4199c546",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x296478",
+        "pc_offset": "0x287c78",
+        "file": "asm/MainViewModel/setExtraPrompt_287c78.txt",
+        "size": 80,
+        "asm_sha256": "75e3b6ca8fc9fbc7f2f66e3a995d43063b7146149652134864ddaf59919edd98",
+        "bin_sha256": "e5e90b63866b0be2bff89f3dd41f9400062d31a3b476d54f8a2028720e48a082",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2c39f8",
+        "pc_offset": "0x2b51f8",
+        "file": "asm/OldStyleBuilder/sub_2b51f8.txt",
+        "size": 208,
+        "asm_sha256": "1c543fa0939202f4b7e07cbba0eef85681864017402a609157f8045bfdfc249c",
+        "bin_sha256": "ff921324bbb59da8ecfef9e4c73971cb46d2aa6b40941d23e582ed5ceccdfda0",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2c3ac8",
+        "pc_offset": "0x2b52c8",
+        "file": "asm/MainViewModel/modifySelectedExtra_2b52c8.txt",
+        "size": 100,
+        "asm_sha256": "23957e582deec94236784177842be8f60d9a40c1937606427f79bed7dedaa270",
+        "bin_sha256": "5c45ba7a1fc290e57a7d1375dd16bddbbc69ebec4e4609bdcc39a5b8e0a38347",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2c5180",
+        "pc_offset": "0x2b6980",
+        "file": "asm/MainViewModel/selectACardStyle_2b6980.txt",
+        "size": 120,
+        "asm_sha256": "55b252631a9c8ada60e2aa3fbe45dcf673c554c2d272c9014fd8eb1f788eecf7",
+        "bin_sha256": "46d451f23248b05c1cdea3824ab68bbbbaabfe5ad54989b5e2154cebcdd455f9",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2c6fd8",
+        "pc_offset": "0x2b87d8",
+        "file": "asm/MainViewModel/changeSelectedColor_2b87d8.txt",
+        "size": 152,
+        "asm_sha256": "47fb106a2133e522c124d78ef7fe7ad5732a0dea577c1ee54e620b9235538502",
+        "bin_sha256": "a0e1e8b97f4d8cc4723c5080f358de2397546d882b3145b5bc208b900c862b98",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2c75b4",
+        "pc_offset": "0x2b8db4",
+        "file": "asm/MainViewModel/changeCustomColor_2b8db4.txt",
+        "size": 164,
+        "asm_sha256": "c2854b94f146591f011a92f3c0941f03f5768ed87a67d3769ccdf41103dc660f",
+        "bin_sha256": "da1ce811d57128b909d994a48a05c4ad4abbf5796e602c9f0ff05934bb35e348",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f2c08",
+        "pc_offset": "0x2e4408",
+        "file": "asm/ToolboxGeneralCutomDetailPage/_openRimsPickerBottomSheet@841265525_2e4408.txt",
+        "size": 468,
+        "asm_sha256": "f52ad62b0cd814937560bf0c8a75371f42dfd07c78f2934bb223fec3639f3439",
+        "bin_sha256": "c0d6440f70c0d042d975d6304de1bb05a98ccf13104d3ad45432e0d90d3cd2c2",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f2ddc",
+        "pc_offset": "0x2e45dc",
+        "file": "asm/ToolboxGeneralCutomDetailPage/sub_2e45dc.txt",
+        "size": 1152,
+        "asm_sha256": "37e79fda2c702e1aaedc81eafad191929710502e605ed618b814a1e0ab98dc97",
+        "bin_sha256": "1057d9662cd70123c005d12a9567c6592a6aa669c72c0045be52e57c9fa18f6c",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f325c",
+        "pc_offset": "0x2e4a5c",
+        "file": "asm/ToolboxGeneralCutomDetailPage/sub_2e4a5c.txt",
+        "size": 100,
+        "asm_sha256": "156d5152348da5a3f094e888e4e91e1030aa6c877939b56bfcf791f7fb66986f",
+        "bin_sha256": "e20bb6217f0a86e83af86914c85506549716e58dfa97a55bcdc6c70fb1963172",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f32c0",
+        "pc_offset": "0x2e4ac0",
+        "file": "asm/ToolBoxViewModel/selectExtraModify_2e4ac0.txt",
+        "size": 152,
+        "asm_sha256": "49318a761513b7b1b0c9a3d24b8c26efee031cc4d0674da5ba87c9efdcfab737",
+        "bin_sha256": "348353e0e54d37b07c532054b1d87d969820409b6e9813015281364d43ad5afb",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f3ee4",
+        "pc_offset": "0x2e56e4",
+        "file": "asm/_openTireAndColorPickerBottomSheet@841265525_2e56e4.txt",
+        "size": 244,
+        "asm_sha256": "12b640027fce1ada36e6591fb8f73fc8533032af54c241d8ade9e3a41de1fd7a",
+        "bin_sha256": "56fc726726b3112c0363ef1a58908ffb27d8aa53786c21e2149469e402cda163",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f4510",
+        "pc_offset": "0x2e5d10",
+        "file": "asm/ToolboxGeneralCutomDetailPage/_handleGenerate@841265525_2e5d10.txt",
+        "size": 2832,
+        "asm_sha256": "ff47bc4c124751b482d81ac40aaad458cfad3260c6c81c295307005ad88dd4da",
+        "bin_sha256": "66951d1b387126df636ce467295921a298af01442fa44c0ecacb3558e42ce08f",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f57c4",
+        "pc_offset": "0x2e6fc4",
+        "file": "asm/ToolboxGeneralCutomDetailPage/handleTargetImagePrompt_2e6fc4.txt",
+        "size": 112,
+        "asm_sha256": "9e905b3fd7efb4f9994a16827e896c08559aa7cedba7f3db21bccf84f6fe1cb3",
+        "bin_sha256": "aafad0a091ad765cc0ecfc7e968ccfad81a91c3a1aac3acb8ac776f40b6e12ae",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f5834",
+        "pc_offset": "0x2e7034",
+        "file": "asm/ToolBoxViewModel/getMultiSectionPrompt_2e7034.txt",
+        "size": 544,
+        "asm_sha256": "b71f62cd74cefb0c7798c193624df1d25a41bd8b6d5fcac0a87a4ca51e546f57",
+        "bin_sha256": "26bbdcd96c10d9422c19c3c15c3a51f5aad245eebad717fe915cb43599b18eac",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f985c",
+        "pc_offset": "0x2eb05c",
+        "file": "asm/ToolboxGeneralCutomDetailPage/tireWorkflowFunc_2eb05c.txt",
+        "size": 580,
+        "asm_sha256": "ed19694624b4b97ee0d4a7aceebab02aaecf0cbf388b54467f758075143e3a5f",
+        "bin_sha256": "00ebd49cf37028ed570c4c47cdc8b7642d90f7088c18953c9a931b68be53b721",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f9aa0",
+        "pc_offset": "0x2eb2a0",
+        "file": "asm/ToolBoxViewModel/toolImageEditWithWorkflow_2eb2a0.txt",
+        "size": 1224,
+        "asm_sha256": "61546b865797f27614cca8c009e620f9b2ca55c4d91fe5717633de3e10dfd435",
+        "bin_sha256": "9245d2f6f03eb50b6d61ea42d4325229897387dc942ff8183778c272e6098829",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x2f9f68",
+        "pc_offset": "0x2eb768",
+        "file": "asm/ToolBoxService/toolImageEditWithWorkflow_2eb768.txt",
+        "size": 4784,
+        "asm_sha256": "89191561f914267cb0649af7486d945a02dc968fccb01aa9602dd89ace4983b4",
+        "bin_sha256": "69956d88ba07381af914c67e55a5ae3a786117146077635a7ec06bdee6981757",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x354c44",
+        "pc_offset": "0x346444",
+        "file": "asm/MainViewModel/getGeneratePrompts_346444.txt",
+        "size": 196,
+        "asm_sha256": "269d261cb4a843a768b1d168dc82146a0783e509ce572e0a9ef44479a0336450",
+        "bin_sha256": "b52797b46a844199cf9367d3f2eb7da2eb3e2367e42fa07291a4dd6fc07040be",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x3ef3f4",
+        "pc_offset": "0x3e0bf4",
+        "file": "asm/ToolBoxViewModel/selectColor_3e0bf4.txt",
+        "size": 192,
+        "asm_sha256": "65da5c8d72efb0bba0b60e2073d1f74d3826e5d4f2266a4136331395f86eeb8c",
+        "bin_sha256": "0ccdf203517e07dcb144f2c5a78dfab013959e3feb20296ccb408255e02d90ea",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x3f1374",
+        "pc_offset": "0x3e2b74",
+        "file": "asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildColorsTab@155370048_3e2b74.txt",
+        "size": 352,
+        "asm_sha256": "6fab18cc1aa4939ac9f95685c36693b77f4ea075b10cd708988f62749edcef2a",
+        "bin_sha256": "c636a9d33cf9cb997c96199bbbd311663eae16abc7f0163b3f235dab91d4ebfa",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x3f1d78",
+        "pc_offset": "0x3e3578",
+        "file": "asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e3578.txt",
+        "size": 240,
+        "asm_sha256": "c46ad9ab760c47d6df22f52ff42f1e3a844f24606e3413523d9e24836262688c",
+        "bin_sha256": "5d2e247f31f80a7729cc85666e9a2a852a800c77162e5da0aa9f44c37557e5d1",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x3f3fb4",
+        "pc_offset": "0x3e57b4",
+        "file": "asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e57b4.txt",
+        "size": 120,
+        "asm_sha256": "a362616ae0a2144fdc44ed0b538609fe26b89a20fc85bc57c72bff1a57894873",
+        "bin_sha256": "e11a7aa5a8b6cc39d6d2376d344cabf4c89911b58f80236f29a4aa84478b31b2",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x3f402c",
+        "pc_offset": "0x3e582c",
+        "file": "asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildItemsTab@155370048_3e582c.txt",
+        "size": 276,
+        "asm_sha256": "88e140f47e5d17b40b19fff32a9b21e054ceaeb075fd295e05db02a6ca5493be",
+        "bin_sha256": "ae1b01c829d44b4d3d8cf7200192ad8fb6bdc7d35d78f44b38f41276e9d13a1c",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x4328f4",
+        "pc_offset": "0x4240f4",
+        "file": "asm/MainViewModel/generateCar_4240f4.txt",
+        "size": 768,
+        "asm_sha256": "16605ff6582fe973c1e6b365cdfdd1b138a0454748bed9e3116c938550f44ad7",
+        "bin_sha256": "c6a4319b077499c1dcd6f641c8a0adff87f47f68d38c3726dee31779c61b4485",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x43dcd8",
+        "pc_offset": "0x42f4d8",
+        "file": "asm/_NewItemAndColorPickerTabWidgetState@155370048/build_42f4d8.txt",
+        "size": 1988,
+        "asm_sha256": "240da10dcc0f0735e532bad68cdee04e8190edb9d6816639dddbcc6856714887",
+        "bin_sha256": "9c814147f562ea253ce838ae692c8bc0f1771c5e92e568beac75a3bc1f3f8d08",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x454ddc",
+        "pc_offset": "0x4465dc",
+        "file": "asm/MainViewModel/selectTab_4465dc.txt",
+        "size": 68,
+        "asm_sha256": "401bfaeb6b1e4d28cd7c7e8e9349b39d209a673118ccbb9c1c54e924a166d660",
+        "bin_sha256": "cc9e872baa5ddf90577a057a3ee2688e2f52bce17ad260d4758712afe2a87a1b",
+        "source_bytes_match": true
+      },
+      {
+        "pc": "0x464ee0",
+        "pc_offset": "0x4566e0",
+        "file": "asm/MainViewModel/backToStyleBuilder_4566e0.txt",
+        "size": 68,
+        "asm_sha256": "522c4321258faf33c80a0e874a3e42698d97715754588a956590ab069a678545",
+        "bin_sha256": "a3e14fa3c98b812001844e3d219ce44a0af6aa6a2fc5eda93b62e735813ed9d5",
+        "source_bytes_match": true
+      }
+    ],
+    "bl_checks": [
+      {
+        "site": "0x2956f0",
+        "target": "0x295dcc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x295720",
+        "target": "0x1f2f4",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x295744",
+        "target": "0x28f1fc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x295758",
+        "target": "0x295dcc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x295798",
+        "target": "0x295dcc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x295bfc",
+        "target": "0x13e178",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2c7038",
+        "target": "0x295dcc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2c760c",
+        "target": "0x28f1fc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x27cb00",
+        "target": "0xf9f84",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x27cb0c",
+        "target": "0x296478",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x27cb3c",
+        "target": "0x295558",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x4329a0",
+        "target": "0x295558",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f47cc",
+        "target": "0x2f57c4",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f581c",
+        "target": "0x2f5834",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f59bc",
+        "target": "0x295dcc",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f5a3c",
+        "target": "0x2bcac",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f328c",
+        "target": "0x2f32c0",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x3f1e00",
+        "target": "0x3ef3f4",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x3f3ff4",
+        "target": "0x2f32c0",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x43e240",
+        "target": "0x3f402c",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x43e24c",
+        "target": "0x3f1374",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f9a88",
+        "target": "0x2f9aa0",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x2f9ee8",
+        "target": "0x2f9f68",
+        "raw_bl_matches": true
+      },
+      {
+        "site": "0x27d1dc",
+        "target": "0x27d25c",
+        "raw_bl_matches": true
+      }
+    ],
+    "base_exports_sha256": {
+      "functions.jsonl": "fc174c8d4776669a7959c8040a4f9e2a515087245d751b76e264801c6f5da518",
+      "index.jsonl": "4e1130e7bdcd75b4022866827cc988a41837563cd2c223aacb66581b080f84a6",
+      "call_edges.jsonl": "8dfc50e7e217f8100ce851afc6196b59fe73150d979ab583c19149f2f31b969b",
+      "string_refs.jsonl": "da6029c4acbeea6a511d7bb5b32d0e79a590342658273dda232f15552b260364",
+      "classes.jsonl": "ebb9f6e4509a62ada1161071dc64d280a50d0251d01f2168ce1f01aecfed45bf"
+    }
+  },
+  "server_effective_prompt_model_workflow": "UNKNOWN",
+  "live_model_calls": 0,
+  "purchases": 0,
+  "personal_uploads": 0
+}

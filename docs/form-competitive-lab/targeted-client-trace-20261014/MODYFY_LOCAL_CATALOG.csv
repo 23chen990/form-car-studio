@@ -1,0 +1,79 @@
+app_build,title,id,type,subType,order,id_source_pc,hasm_line,source_ref,catalog_role
+Modyfy 1.2.0 build71 / Hermes96,American,Styles_American,styles,,0,#20804 @0x008ece41 +0x10c3,808697,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Anime Itasha,Styles_AnimeItasha,styles,,1,#20804 @0x008ece41 +0x10d1,808699,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Cabrio,Styles_Cabrio,styles,,2,#20804 @0x008ece41 +0x10df,808701,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Classic,Styles_Classic,styles,,3,#20804 @0x008ece41 +0x10ed,808703,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Drag Racing,Styles_DragRacing,styles,,4,#20804 @0x008ece41 +0x10fb,808705,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Drift1,Styles_Drift1,styles,,5,#20804 @0x008ece41 +0x1109,808707,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Europe,Styles_Europe,styles,,6,#20804 @0x008ece41 +0x1117,808709,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,F1,Styles_F1,styles,,7,#20804 @0x008ece41 +0x1125,808711,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Futuristic,Styles_Futuristic,styles,,8,#20804 @0x008ece41 +0x1133,808713,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Japanese,Styles_Japanese,styles,,9,#20804 @0x008ece41 +0x1141,808715,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Low Rider,Styles_LowRider,styles,,10,#20804 @0x008ece41 +0x114f,808717,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Luxury,Styles_Luxury,styles,,11,#20804 @0x008ece41 +0x115d,808719,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Mad Max,Styles_MadMax,styles,,12,#20804 @0x008ece41 +0x116b,808721,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Military,Styles_Military,styles,,13,#20804 @0x008ece41 +0x1179,808723,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Monster Truck,Styles_MonsterTruck,styles,,14,#20804 @0x008ece41 +0x1187,808725,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Nascar,Styles_Nascar,styles,,15,#20804 @0x008ece41 +0x1195,808727,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Off Road,Styles_OffRoad,styles,,16,#20804 @0x008ece41 +0x11a3,808729,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Overland,Styles_Overland,styles,,17,#20804 @0x008ece41 +0x11b1,808731,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Pickup,Styles_Pickup,styles,,18,#20804 @0x008ece41 +0x11bf,808733,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Police,Styles_Police,styles,,19,#20804 @0x008ece41 +0x11cd,808735,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Rally,Styles_Rally,styles,,20,#20804 @0x008ece41 +0x11db,808737,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Retro Rally,Styles_RetroRally,styles,,21,#20804 @0x008ece41 +0x11e9,808739,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,S U V,Styles_SUV,styles,,22,#20804 @0x008ece41 +0x11f7,808741,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Stance,Styles_Stance,styles,,23,#20804 @0x008ece41 +0x1205,808743,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Street Racing,Styles_StreetRacing,styles,,24,#20804 @0x008ece41 +0x1213,808745,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Taxi,Styles_Taxi,styles,,25,#20804 @0x008ece41 +0x1221,808747,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Tow Truck,Styles_TowTruck,styles,,26,#20804 @0x008ece41 +0x122f,808749,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Wedding,Styles_Wedding,styles,,27,#20804 @0x008ece41 +0x123d,808751,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Body Kit,Extra_BodyKit,extra,,0,#20804 @0x008ece41 +0x1265,808758,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Carbon Fiber,Extra_CarbonFiber,extra,,1,#20804 @0x008ece41 +0x1273,808760,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Chrome Rims,Extra_ChromeRims,extra,,2,#20804 @0x008ece41 +0x1281,808762,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Flame Wraps,Extra_FlameWraps,extra,,3,#20804 @0x008ece41 +0x128f,808764,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Golden Accents,Extra_GoldenAccents,extra,,4,#20804 @0x008ece41 +0x129d,808766,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Golden Accents 1,Extra_GoldenAccents-1,extra,,5,#20804 @0x008ece41 +0x12ab,808768,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Hood Scoop,Extra_HoodScoop,extra,,6,#20804 @0x008ece41 +0x12b9,808770,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Neon Underglow,Extra_NeonUnderglow,extra,,7,#20804 @0x008ece41 +0x12c7,808772,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Racing Stripes,Extra_RacingStripes,extra,,8,#20804 @0x008ece41 +0x12d5,808774,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Smoked Headlights,Extra_SmokedHeadlights,extra,,9,#20804 @0x008ece41 +0x12e3,808776,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Spoiler,Extra_Spoiler,extra,,10,#20804 @0x008ece41 +0x12f1,808778,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Unique Paint,Extra_UniquePaint,extra,,11,#20804 @0x008ece41 +0x12ff,808780,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Black,ColorsMatte_Black,colors,ColorsMatte,0,#20804 @0x008ece41 +0x1323,808786,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Blue,ColorsMatte_Blue,colors,ColorsMatte,1,#20804 @0x008ece41 +0x1331,808788,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Bright Blue,ColorsMatte_BrightBlue,colors,ColorsMatte,2,#20804 @0x008ece41 +0x133f,808790,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Bright Green,ColorsMatte_BrightGreen,colors,ColorsMatte,3,#20804 @0x008ece41 +0x134d,808792,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Bright Yellow,ColorsMatte_BrightYellow,colors,ColorsMatte,4,#20804 @0x008ece41 +0x135b,808794,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Dark Blue,ColorsMatte_DarkBlue,colors,ColorsMatte,5,#20804 @0x008ece41 +0x1369,808796,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Gray,ColorsMatte_Gray,colors,ColorsMatte,6,#20804 @0x008ece41 +0x1377,808798,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Green,ColorsMatte_Green,colors,ColorsMatte,7,#20804 @0x008ece41 +0x1385,808800,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Medium Gray,ColorsMatte_MediumGray,colors,ColorsMatte,8,#20804 @0x008ece41 +0x1393,808802,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Orange,ColorsMatte_Orange,colors,ColorsMatte,9,#20804 @0x008ece41 +0x13a1,808804,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Pink,ColorsMatte_Pink,colors,ColorsMatte,10,#20804 @0x008ece41 +0x13af,808806,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Purple,ColorsMatte_Purple,colors,ColorsMatte,11,#20804 @0x008ece41 +0x13bd,808808,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Red,ColorsMatte_Red,colors,ColorsMatte,12,#20804 @0x008ece41 +0x13cb,808810,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Vivid Red,ColorsMatte_VividRed,colors,ColorsMatte,13,#20804 @0x008ece41 +0x13d9,808812,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,White,ColorsMatte_White,colors,ColorsMatte,14,#20804 @0x008ece41 +0x13e7,808814,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Yellow,ColorsMatte_Yellow,colors,ColorsMatte,15,#20804 @0x008ece41 +0x13f5,808816,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Anthracite,ColorsMetallic_MetallicAnthracite,colors,ColorsMetallic,16,#20804 @0x008ece41 +0x1403,808818,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Black,ColorsMetallic_MetallicBlack,colors,ColorsMetallic,17,#20804 @0x008ece41 +0x1411,808820,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Blue,ColorsMetallic_MetallicBlue,colors,ColorsMetallic,18,#20804 @0x008ece41 +0x141f,808822,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Bronze,ColorsMetallic_MetallicBronze,colors,ColorsMetallic,19,#20804 @0x008ece41 +0x142d,808824,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Champagne,ColorsMetallic_MetallicChampagne,colors,ColorsMetallic,20,#20804 @0x008ece41 +0x143b,808826,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Copper,ColorsMetallic_MetallicCopper,colors,ColorsMetallic,21,#20804 @0x008ece41 +0x1449,808828,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Gray,ColorsMetallic_MetallicGray,colors,ColorsMetallic,22,#20804 @0x008ece41 +0x1457,808830,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Green,ColorsMetallic_MetallicGreen,colors,ColorsMetallic,23,#20804 @0x008ece41 +0x1465,808832,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Red,ColorsMetallic_MetallicRed,colors,ColorsMetallic,24,#20804 @0x008ece41 +0x1473,808834,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Metallic Silver,ColorsMetallic_MetallicSilver,colors,ColorsMetallic,25,#20804 @0x008ece41 +0x1481,808836,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Arctic White,ColorsPremium_ArcticWhite,colors,ColorsPremium,26,#20804 @0x008ece41 +0x148f,808838,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Bordeaux Red,ColorsPremium_BordeauxRed,colors,ColorsPremium,27,#20804 @0x008ece41 +0x149d,808840,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,British Racing Green,ColorsPremium_BritishRacingGreen,colors,ColorsPremium,28,#20804 @0x008ece41 +0x14ab,808842,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Carbon Black,ColorsPremium_CarbonBlack,colors,ColorsPremium,29,#20804 @0x008ece41 +0x14b9,808844,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Champagne Gold,ColorsPremium_ChampagneGold,colors,ColorsPremium,30,#20804 @0x008ece41 +0x14c7,808846,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Frozen Grey,ColorsPremium_FrozenGrey,colors,ColorsPremium,31,#20804 @0x008ece41 +0x14d5,808848,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Gunmetal Grey,ColorsPremium_GunmetalGrey,colors,ColorsPremium,32,#20804 @0x008ece41 +0x14e3,808850,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Miami Blue,ColorsPremium_MiamiBlue,colors,ColorsPremium,33,#20804 @0x008ece41 +0x14f1,808852,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Midnight Blue,ColorsPremium_MidnightBlue,colors,ColorsPremium,34,#20804 @0x008ece41 +0x14ff,808854,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Nardo Gray,ColorsPremium_NardoGray,colors,ColorsPremium,35,#20804 @0x008ece41 +0x150d,808856,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Rosso Corsa,ColorsPremium_RossoCorsa,colors,ColorsPremium,36,#20804 @0x008ece41 +0x151b,808858,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace
+Modyfy 1.2.0 build71 / Hermes96,Vivid Red,ColorsPremium_VividRed,colors,ColorsPremium,37,#20804 @0x008ece41 +0x1529,808860,MODYFY_HASM,EMBEDDED_IOS_FALLBACK; live response may replace

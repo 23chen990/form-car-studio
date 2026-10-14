@@ -1,3 +1,6 @@
+> Historical snapshot before Owner-authorized recovery. For current state, read [OWNER_RESUME_20261014.md](OWNER_RESUME_20261014.md).
+> The historical counts and blocks below are preserved verbatim and no longer describe current HEAD.
+
 # FORM V2.2 continuation and recovery — 2026-10-14
 
 Implementation snapshot before this documentation-only update: `4e6f7283a3c50e44069597cb30caf61324d0b817`.

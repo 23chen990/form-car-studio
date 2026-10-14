@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { PhotoIntake, type PublishedPhotoDisclosure } from '../features/photo/PhotoIntake.js';
 import { DiscoverEntry } from '../features/discover/DiscoverEntry.js';
@@ -12,6 +12,8 @@ import { FIELDS, type EditRequest, type Field, type SourceRef } from '../../shar
 import { ResultView, type ResultFavoriteAcknowledgement, type ResultFavoriteChange, type ResultFeedbackRequest, type ResultProjectSnapshot, type ResultRefineRequest, type ResultVersionSnapshot } from '../features/result/ResultView.js';
 import { GarageView, type GarageFavoriteRequest, type GarageProjectSnapshot, type GarageServicePort } from '../features/garage/GarageView.js';
 import type { OwnedAssetBlob } from '../lib/export-v2.js';
+import { ExamplePreview, CachedPreview } from '../features/discover/preview.js';
+import { createPrivatePreviewCache, createAuthorizedDisplayLoader } from '../platform/cache.js';
 
 function safeTask(id: string, status: SafeTaskDTO['status'], creditReturned = false, safeErrorCode: string | null = null): SafeTaskDTO {
   return {
@@ -698,7 +700,27 @@ Object.assign(testWindow, { __FORM_V2_UNMOUNT__: () => root.unmount() });
 root.render(<PhotoHarness />);
 }
 
-if (new URLSearchParams(window.location.search).get('feature') === 'result') createRoot(document.getElementById('root')!).render(<ResultHarness />);
+function PreviewHarness() {
+  const [owner, setOwner] = useState('owner-a'), [offline, setOffline] = useState(false), [refreshKey, setRefreshKey] = useState(0), [digest, setDigest] = useState<string | null>(null);
+  const ownerRef = useRef(owner); ownerRef.current = owner;
+  // A generated two-pixel color fixture, not a car photo or licensed launch case.
+  const encoded = 'iVBORw0KGgoAAAANSUhEUgAAAAIAAAABCAIAAAB7QOjdAAAACXBIWXMAAAPoAAAD6AG1e1JrAAAAD0lEQVR4nGMwTptpnDYTAAeZAmWEj5rMAAAAAElFTkSuQmCC';
+  const fixture = useMemo(() => Uint8Array.from(atob(encoded), c => c.charCodeAt(0)), []);
+  const cache = useMemo(() => { const c = createPrivatePreviewCache(); c.setActiveOwner('owner-a'); return c; }, []);
+  const loader = useMemo(() => createAuthorizedDisplayLoader({ cache, owner: () => ownerRef.current, sessionAllowsOffline: () => true, fetchDisplay: async key => ({ ...key, kind: 'display', bytes: fixture }) }), [cache, fixture]);
+  useEffect(() => { void crypto.subtle.digest('SHA-256', fixture.buffer).then(value => setDigest(Array.from(new Uint8Array(value), b => b.toString(16).padStart(2,'0')).join(''))); }, [fixture]);
+  return <div className="harness-shell">
+    <p>DEV HARNESS · SYNTHETIC ONLY</p>
+    <ExamplePreview example={{ id: 'synthetic-color', kind: 'synthetic_demo', beforeUrl: 'data:image/png;base64,' + encoded, afterUrl: 'data:image/png;base64,' + encoded }} />
+    <button type="button" onClick={() => setOffline(true)}>Go offline</button>
+    <button type="button" onClick={() => { const next = owner === 'owner-a' ? 'owner-b' : 'owner-a'; ownerRef.current = next; cache.setActiveOwner(next); setOwner(next); }}>Switch preview account</button>
+    <button type="button" onClick={() => { cache.clearProject(owner,'project-preview'); setRefreshKey(key => key + 1); }}>Purge preview project</button>
+    {digest && <CachedPreview imageKey={{ ownerId: owner, projectId: 'project-preview', assetId: 'display-preview', digest }} viewerOwnerId={owner} sessionAllowed loader={loader} offline={offline} refreshKey={refreshKey} />}
+  </div>;
+}
+
+if (new URLSearchParams(window.location.search).get('feature') === 'preview') createRoot(document.getElementById('root')!).render(<PreviewHarness />);
+else if (new URLSearchParams(window.location.search).get('feature') === 'result') createRoot(document.getElementById('root')!).render(<ResultHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'edit') createRoot(document.getElementById('root')!).render(<EditHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'garage') createRoot(document.getElementById('root')!).render(<GarageHarness />);

@@ -1,0 +1,20 @@
+{
+  "taskId": "F14",
+  "specVersion": "2.2",
+  "codeReady": false,
+  "codeCommit": null,
+  "auditedSourceCommit": "ee618e711399ee898e4c9bfa6c91405c7fde8b66",
+  "status": "BLOCKED_SCOPE_ASSIGNMENT",
+  "verification": [{"kind": "actual-source-route-and-client-audit", "command": "node /private/tmp/form-owner-resume-20261014-zb7351_9/audit-s02.mjs", "exitCode": 2, "status": "Six existing S02 read/mutation bindings absent, including required draft revision CAS; not an application pass.", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F14-S02-scope-audit.log", "sha256": "49fff952e7adb44aad5ad1de69fdbdb1ba425d5f3fa75c970b5b4cd1c783d30a"}, {"kind": "unit/browser", "command": "F14 draft-v2 and v2-edit checks", "exitCode": null, "status": "NOT_RUN: no F14 implementation admitted; no synthetic persistence substitute."}],
+  "changedFiles": ["docs/form-v2/progress/F14.json", "docs/form-v2/progress/F14.md"],
+  "knownIssues": ["S05 requires debounced persisted drafts, revision conflict, failed local save and retry. S02 requires PUT project draft CAS; no matching server controller or V2 client method exists.", "F14 allowlist contains only editor/confirm/draft-client/harness/tests; it cannot implement missing server repositories/controllers. F16/F17 remain dependency-blocked."],
+  "missingExistingContracts": [["GET", "/bootstrap"], ["GET", "/projects/:id"], ["GET", "/projects/:id/versions"], ["PUT", "/projects/:id/draft"], ["PATCH", "/projects/:id"], ["PATCH", "/versions/:id"]],
+  "minimalAmendmentProposal": ["Assign the already specified S02 workspace/history/draft-CAS/favorite/cover bindings to existing task scope before resuming dependent UI; reuse server/v2/projects.ts, server/v2/routes-projects.ts and src/lib/api-v2.ts with dedicated synthetic owner/CAS regression tests.", "Review a measured file/line budget and keep the same39-card graph. This report changes no allowlist/cap and grants no backend authority."],
+  "externalPending": ["Separate S05 visual/staging RFC approval is still pending; it does not resolve the S02 scope gap."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F23 recovery; F14 waits for a reviewed S02 scope assignment"
+}

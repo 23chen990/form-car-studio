@@ -1,0 +1,196 @@
+TAP version 13
+# Subtest: validator is explicitly research-only, no provider or billing hooks
+ok 1 - validator is explicitly research-only, no provider or billing hooks
+  ---
+  duration_ms: 1.49548
+  type: 'test'
+  ...
+# Subtest: build request is kept distinct from legacy schemaVersion 2
+ok 2 - build request is kept distinct from legacy schemaVersion 2
+  ---
+  duration_ms: 0.371749
+  type: 'test'
+  ...
+# Subtest: old explore operation is not silently reinterpreted as build
+ok 3 - old explore operation is not silently reinterpreted as build
+  ---
+  duration_ms: 0.108764
+  type: 'test'
+  ...
+# Subtest: old detail operation is not silently reinterpreted as build
+ok 4 - old detail operation is not silently reinterpreted as build
+  ---
+  duration_ms: 0.100792
+  type: 'test'
+  ...
+# Subtest: valid original build gives one immutable output-intent snapshot
+ok 5 - valid original build gives one immutable output-intent snapshot
+  ---
+  duration_ms: 0.634314
+  type: 'test'
+  ...
+# Subtest: same catalog and request yields identical values
+ok 6 - same catalog and request yields identical values
+  ---
+  duration_ms: 0.136075
+  type: 'test'
+  ...
+# Subtest: explicit no-extra is supported for color changes
+ok 7 - explicit no-extra is supported for color changes
+  ---
+  duration_ms: 0.184608
+  type: 'test'
+  ...
+# Subtest: styles with verified standalone effect can be meaningful without extra/color
+ok 8 - styles with verified standalone effect can be meaningful without extra/color
+  ---
+  duration_ms: 0.115765
+  type: 'test'
+  ...
+# Subtest: a style label with no actual modification is not itself an effective change
+ok 9 - a style label with no actual modification is not itself an effective change
+  ---
+  duration_ms: 0.279951
+  type: 'test'
+  ...
+# Subtest: rejects incompatible style-extra pair before any quote is possible
+ok 10 - rejects incompatible style-extra pair before any quote is possible
+  ---
+  duration_ms: 0.294143
+  type: 'test'
+  ...
+# Subtest: unknown style ID rejected
+ok 11 - unknown style ID rejected
+  ---
+  duration_ms: 0.181913
+  type: 'test'
+  ...
+# Subtest: unknown extra ID rejected
+ok 12 - unknown extra ID rejected
+  ---
+  duration_ms: 0.094863
+  type: 'test'
+  ...
+# Subtest: unknown color ID rejected
+ok 13 - unknown color ID rejected
+  ---
+  duration_ms: 0.077617
+  type: 'test'
+  ...
+# Subtest: disabled style is not silently published
+ok 14 - disabled style is not silently published
+  ---
+  duration_ms: 0.970691
+  type: 'test'
+  ...
+# Subtest: disabled extra not chargeable
+ok 15 - disabled extra not chargeable
+  ---
+  duration_ms: 0.09339
+  type: 'test'
+  ...
+# Subtest: disabled color not chargeable
+ok 16 - disabled color not chargeable
+  ---
+  duration_ms: 0.121423
+  type: 'test'
+  ...
+# Subtest: extra must be one scalar and not an array
+ok 17 - extra must be one scalar and not an array
+  ---
+  duration_ms: 0.077677
+  type: 'test'
+  ...
+# Subtest: free text or client-provided model is not in the API
+ok 18 - free text or client-provided model is not in the API
+  ---
+  duration_ms: 0.065228
+  type: 'test'
+  ...
+# Subtest: client cannot set a permission flag on request
+ok 19 - client cannot set a permission flag on request
+  ---
+  duration_ms: 0.058718
+  type: 'test'
+  ...
+# Subtest: client cannot force provider or price
+ok 20 - client cannot force provider or price
+  ---
+  duration_ms: 0.063465
+  type: 'test'
+  ...
+# Subtest: anonymous or empty catalog fails closed
+ok 21 - anonymous or empty catalog fails closed
+  ---
+  duration_ms: 0.056094
+  type: 'test'
+  ...
+# Subtest: default-off catalog fails closed
+ok 22 - default-off catalog fails closed
+  ---
+  duration_ms: 0.058909
+  type: 'test'
+  ...
+# Subtest: catalog with no immutable versions cannot produce frozen intent
+ok 23 - catalog with no immutable versions cannot produce frozen intent
+  ---
+  duration_ms: 0.095203
+  type: 'test'
+  ...
+# Subtest: exact saved source retained, not replaced with latest
+ok 24 - exact saved source retained, not replaced with latest
+  ---
+  duration_ms: 0.089865
+  type: 'test'
+  ...
+# Subtest: saved-version source requires separately published capability
+ok 25 - saved-version source requires separately published capability
+  ---
+  duration_ms: 0.0735
+  type: 'test'
+  ...
+# Subtest: arbitrary foreign image URL is not a valid source
+ok 26 - arbitrary foreign image URL is not a valid source
+  ---
+  duration_ms: 0.063696
+  type: 'test'
+  ...
+# Subtest: invalid saved version id is rejected
+ok 27 - invalid saved version id is rejected
+  ---
+  duration_ms: 0.057336
+  type: 'test'
+  ...
+# Subtest: hidden extra property in original source is rejected
+ok 28 - hidden extra property in original source is rejected
+  ---
+  duration_ms: 0.054792
+  type: 'test'
+  ...
+# Subtest: catalog template version is pinned in intent
+ok 29 - catalog template version is pinned in intent
+  ---
+  duration_ms: 0.070335
+  type: 'test'
+  ...
+# Subtest: catalog capability version pinned for replay
+ok 30 - catalog capability version pinned for replay
+  ---
+  duration_ms: 0.097637
+  type: 'test'
+  ...
+# Subtest: all output fields have controlled origin, not arbitrary provider prompt
+ok 31 - all output fields have controlled origin, not arbitrary provider prompt
+  ---
+  duration_ms: 0.141262
+  type: 'test'
+  ...
+1..31
+# tests 31
+# suites 0
+# pass 31
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 87.431428

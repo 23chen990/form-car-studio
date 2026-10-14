@@ -15,10 +15,10 @@ test('offline cached preview never falls back to another account after switch', 
   await page.goto('/tests/harness/v2.html?feature=preview'); await expect(page.getByRole('img', { name: 'Private cached preview' })).toBeVisible();
   await page.getByRole('button', { name: 'Go offline' }).click(); await expect(page.getByRole('img', { name: 'Private cached preview' })).toBeVisible();
   await page.getByRole('button', { name: 'Switch preview account' }).click(); await expect(page.getByRole('img', { name: 'Private cached preview' })).toHaveCount(0);
-  await expect(page.getByText('You are offline. This image has not been downloaded.')).toBeVisible();
+  await expect(page.getByText('You are offline. Already downloaded previews may be available. Reconnect to create a new look.')).toBeVisible();
 });
 test('deleted project cached image disappears and offline copy stays missing', async ({ page }) => {
   await page.goto('/tests/harness/v2.html?feature=preview'); await expect(page.getByRole('img', { name: 'Private cached preview' })).toBeVisible();
   await page.getByRole('button', { name: 'Go offline' }).click(); await page.getByRole('button', { name: 'Purge preview project' }).click();
-  await expect(page.getByRole('img', { name: 'Private cached preview' })).toHaveCount(0); await expect(page.getByText('You are offline. This image has not been downloaded.')).toBeVisible();
+  await expect(page.getByRole('img', { name: 'Private cached preview' })).toHaveCount(0); await expect(page.getByText('You are offline. Already downloaded previews may be available. Reconnect to create a new look.')).toBeVisible();
 });

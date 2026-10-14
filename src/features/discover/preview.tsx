@@ -48,5 +48,5 @@ export function CachedPreview({ imageKey, viewerOwnerId, sessionAllowed, loader,
   // Owner checks occur while rendering, before cleanup effects; no former-owner frame.
   const visible = sessionAllowed && viewerOwnerId === imageKey.ownerId && loaded?.tag === tag;
   return visible ? <img src={loaded!.url} alt="Private cached preview" style={{ width: 180, height: 120, objectFit: 'contain' }} onError={() => { setLoaded(null); setStatus('unavailable'); }} />
-    : <p role="status">{status === 'missing' ? 'You are offline. This image has not been downloaded.' : status === 'loading' ? 'Loading preview.' : 'Preview unavailable. Sign in or reconnect to view your image.'}</p>;
+    : <p role="status">{status === 'missing' ? 'You are offline. Already downloaded previews may be available. Reconnect to create a new look.' : status === 'loading' ? 'Loading preview.' : 'Preview unavailable. Sign in or reconnect to view your image.'}</p>;
 }

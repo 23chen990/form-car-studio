@@ -1,0 +1,21 @@
+{
+  "status": "NOT_CONFIGURED",
+  "selectionRule": "Select only from development results. Lock exact provider, model, profile, prompt, and maximum exposure before heldout evaluation.",
+  "candidates": [
+    { "candidateId": "candidate-1", "selected": false, "providerId": null, "profileVersion": null, "model": null, "promptVersion": null, "promptSha256": null, "maxCostMicrosUSD": null, "qualityEvidence": null },
+    { "candidateId": "candidate-2", "selected": false, "providerId": null, "profileVersion": null, "model": null, "promptVersion": null, "promptSha256": null, "maxCostMicrosUSD": null, "qualityEvidence": null },
+    { "candidateId": "candidate-3", "selected": false, "providerId": null, "profileVersion": null, "model": null, "promptVersion": null, "promptSha256": null, "maxCostMicrosUSD": null, "qualityEvidence": null }
+  ],
+  "finalConfig": {
+    "locked": false,
+    "candidateId": null,
+    "providerId": null,
+    "profileVersion": null,
+    "model": null,
+    "promptVersion": null,
+    "promptSha256": null,
+    "maxCostMicrosUSD": null,
+    "qualityEvidence": null,
+    "lockedAt": null
+  }
+}

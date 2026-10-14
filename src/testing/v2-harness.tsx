@@ -10,6 +10,8 @@ import { createSubmissionStore, type SubmissionStore } from '../lib/submission-s
 import { DraftConflictError, type DraftPersistence, type DraftSnapshot, type DraftWrite } from '../lib/draft-v2.js';
 import { FIELDS, type EditRequest, type Field, type SourceRef } from '../../shared/v2/edit-plan.js';
 import { ResultView, type ResultFavoriteAcknowledgement, type ResultFavoriteChange, type ResultFeedbackRequest, type ResultProjectSnapshot, type ResultRefineRequest, type ResultVersionSnapshot } from '../features/result/ResultView.js';
+import { GarageView, type GarageFavoriteRequest, type GarageProjectSnapshot, type GarageServicePort } from '../features/garage/GarageView.js';
+import type { OwnedAssetBlob } from '../lib/export-v2.js';
 
 function safeTask(id: string, status: SafeTaskDTO['status'], creditReturned = false, safeErrorCode: string | null = null): SafeTaskDTO {
   return {
@@ -467,6 +469,133 @@ function ResultHarness() {
   </>;
 }
 
+export type GarageEvent = { type: string; ownerId: string; projectId: string; versionId?: string; assetId?: string; favorite?: boolean; filename?: string };
+export interface GarageHarnessBridge {
+  activateOwner(ownerId: string): void; events(): GarageEvent[]; owner(): string;
+  holdFavorite(): void; favoriteHeld(): boolean; releaseFavorite(): void;
+  holdShare(): void; shareHeld(): boolean; releaseShare(): void;
+  project(ownerId: string): GarageProjectSnapshot;
+  refreshCanonical(ownerId: string): GarageProjectSnapshot;
+}
+const garageWindow = window as unknown as Window & { __v2GarageHarness?: GarageHarnessBridge };
+
+function garageProject(ownerId: string, allNotFavorite = false): GarageProjectSnapshot {
+  const projectId = ownerId === 'owner-a' ? 'garage-project-a' : 'garage-project-b';
+  const fixture = (id: string, name: string, parentVersionId: string | null, asset: string, color: string, favorite = false): ResultVersionSnapshot => ({
+    id, projectId, taskId: `task-${id}`, parentVersionId, displayAssetId: asset, displayUrl: resultImage(name.toUpperCase(), color), name,
+    favorite, desiredRecipe: [`Requested body color: ${color}`], verification: 'unverified',
+  });
+  return { id: projectId, loadedForOwnerId: ownerId, name: ownerId === 'owner-a' ? 'Synthetic garage project' : 'Other synthetic project',
+    originalAssetId: `${projectId}-original`, originalUrl: resultImage('ORIGINAL', '#62695e'), coverVersionId: ownerId === 'owner-a' ? 'version-old' : null,
+    versions: ownerId === 'owner-a' ? [fixture('version-old', 'Earlier look', null, 'asset-old', '#899b69', !allNotFavorite),
+      fixture('version-branch', 'Branch look', 'version-old', 'asset-branch', '#897f69'), fixture('version-new', 'Newest look', 'version-old', 'asset-new', '#536b7b')]
+      : [fixture('version-b', 'Account B look', null, 'asset-b', '#735b6d')],
+  };
+}
+
+function createGarageHarness(initialOwner: string, query: URLSearchParams): { bridge: GarageHarnessBridge; service: GarageServicePort } {
+  const projects = new Map([['owner-a', garageProject('owner-a', query.get('favorites') === 'none')], ['owner-b', garageProject('owner-b')]]);
+  const events: GarageEvent[] = [];
+  let activeOwner = initialOwner, holdNextFavorite = false, favoriteIsHeld = false, releaseFavorite: (() => void) | null = null;
+  let holdNextShare = false, shareIsHeld = false, releaseShare: (() => void) | null = null;
+  const current = (ownerId: string, projectId: string) => {
+    const project = projects.get(ownerId);
+    if (ownerId !== activeOwner || !project || project.id !== projectId) throw new Error('Synthetic owner or project fence rejected the request.');
+    return project;
+  };
+  const clone = (project: GarageProjectSnapshot) => structuredClone(project);
+  const pause = (which: 'favorite' | 'share') => new Promise<void>(resolve => {
+    if (which === 'favorite') { favoriteIsHeld = true; releaseFavorite = () => { favoriteIsHeld = false; releaseFavorite = null; resolve(); }; }
+    else { shareIsHeld = true; releaseShare = () => { shareIsHeld = false; releaseShare = null; resolve(); }; }
+  });
+  const service: GarageServicePort = {
+    setFavorite: async request => {
+      const project = current(request.ownerId, request.projectId);
+      if (holdNextFavorite) { holdNextFavorite = false; await pause('favorite'); }
+      if (projects.get(request.ownerId) !== project) return clone(project);
+      const version = project.versions.find(item => item.id === request.versionId); if (!version) throw new Error('Version unavailable.');
+      events.push({ type: 'favorite', ...request });
+      const saved = { ...project, versions: project.versions.map(item => item.id === version.id ? { ...item, favorite: request.favorite } : item) };
+      projects.set(request.ownerId, saved); return clone(saved);
+    },
+    setCover: async request => {
+      const project = current(request.ownerId, request.projectId);
+      if (!project.versions.some(item => item.id === request.versionId)) throw new Error('Version unavailable.');
+      events.push({ type: 'cover', ...request }); const saved = { ...project, coverVersionId: request.versionId };
+      projects.set(request.ownerId, saved); return clone(saved);
+    },
+    renameProject: async request => {
+      const project = current(request.ownerId, request.projectId); events.push({ type: 'rename', ...request });
+      const saved = { ...project, name: request.name }; projects.set(request.ownerId, saved); return clone(saved);
+    },
+    deleteVersion: async request => {
+      const project = current(request.ownerId, request.projectId); events.push({ type: 'delete', ...request });
+      const saved = { ...project, coverVersionId: project.coverVersionId === request.versionId ? null : project.coverVersionId,
+        versions: project.versions.filter(item => item.id !== request.versionId) };
+      projects.set(request.ownerId, saved); return clone(saved);
+    },
+    loadOwnedAsset: async request => {
+      const project = current(request.ownerId, request.projectId); events.push({ type: 'load_asset', ownerId: request.ownerId, projectId: request.projectId, assetId: request.assetId,
+        versionId: 'versionId' in request.source ? request.source.versionId : 'original' });
+      const source = request.source;
+      const sourceVersionId = source.kind === 'version' ? source.versionId : null;
+      const expected = sourceVersionId ? project.versions.find(item => item.id === sourceVersionId)?.displayAssetId : project.originalAssetId;
+      if (expected !== request.assetId) throw new Error('Synthetic asset does not match canonical history.');
+      const colors: Record<string, string> = { [`${project.id}-original`]: '#62695e', 'asset-old': '#899b69', 'asset-branch': '#897f69', 'asset-new': '#536b7b', 'asset-b': '#735b6d' };
+      const canvas = document.createElement('canvas'); canvas.width = 640; canvas.height = 400;
+      const context = canvas.getContext('2d')!; context.fillStyle = '#dedfd5'; context.fillRect(0, 0, 640, 400);
+      context.fillStyle = colors[request.assetId] ?? '#666'; context.fillRect(80, 130, 480, 150); context.fillStyle = '#222'; context.font = '18px sans-serif'; context.fillText('SYNTHETIC GARAGE IMAGE', 20, 30);
+      const bytes = await new Promise<Blob>((resolve, reject) => canvas.toBlob(blob => blob ? resolve(blob) : reject(new Error('Fixture encode failed.')), 'image/png'));
+      if (query.get('asset') === 'foreign') return { ownerId: 'owner-b', projectId: project.id, assetId: request.assetId, bytes };
+      if (query.get('asset') === 'corrupt') return { ownerId: request.ownerId, projectId: project.id, assetId: request.assetId, bytes: new Blob(['invalid PNG'], { type: 'image/png' }) };
+      return { ownerId: request.ownerId, projectId: project.id, assetId: request.assetId, bytes };
+    },
+    share: async request => {
+      current(request.ownerId, request.projectId);
+      events.push({ type: 'share', ownerId: request.ownerId, projectId: request.projectId, versionId: request.versionId, filename: request.file.filename });
+      if (request.file.blob.type !== 'image/png') throw new Error('Static image required.');
+      if (query.get('share') === 'cancelled' || query.get('share') === 'unavailable') return query.get('share') as 'cancelled' | 'unavailable';
+      if (holdNextShare) { holdNextShare = false; await pause('share'); }
+      return 'opened';
+    },
+  };
+  const bridge: GarageHarnessBridge = {
+    activateOwner: ownerId => { if (!projects.has(ownerId)) throw new Error('Unknown fixture owner.'); activeOwner = ownerId; },
+    events: () => events.map(event => ({ ...event })), owner: () => activeOwner,
+    holdFavorite: () => { holdNextFavorite = true; }, favoriteHeld: () => favoriteIsHeld, releaseFavorite: () => releaseFavorite?.(),
+    holdShare: () => { holdNextShare = true; }, shareHeld: () => shareIsHeld, releaseShare: () => releaseShare?.(),
+    project: ownerId => clone(projects.get(ownerId)!),
+    refreshCanonical: ownerId => {
+      const project = projects.get(ownerId)!;
+      const refreshed = { ...project, coverVersionId: project.versions.some(version => version.id === 'version-branch') ? 'version-branch' : project.coverVersionId,
+        versions: project.versions.map(version => version.id === 'version-branch' ? { ...version, favorite: false } : version) };
+      projects.set(ownerId, refreshed); return clone(refreshed);
+    },
+  };
+  return { bridge, service };
+}
+
+function GarageHarness() {
+  const query = new URLSearchParams(window.location.search);
+  const [ownerId, setOwner] = useState('owner-a');
+  const fixture = useMemo(() => createGarageHarness('owner-a', query), []);
+  const [project, setProject] = useState(fixture.bridge.project('owner-a'));
+  useEffect(() => { garageWindow.__v2GarageHarness = fixture.bridge; return () => { delete garageWindow.__v2GarageHarness; }; }, [fixture]);
+  function switchOwner() { const next = ownerId === 'owner-a' ? 'owner-b' : 'owner-a'; fixture.bridge.activateOwner(next); setProject(fixture.bridge.project(next)); setOwner(next); }
+  return <>
+    <aside className="harness-notice"><strong>DEV HARNESS · SYNTHETIC ONLY</strong><span>Synthetic only · no account or image service is connected.</span></aside>
+    <div className="harness-account"><span>Test account: <code>{ownerId}</code></span><button type="button" onClick={switchOwner}>Switch synthetic owner</button></div>
+    <div className="v2-harness__controls" aria-label="Synthetic garage controls">
+      <button type="button" onClick={fixture.bridge.holdFavorite}>Hold favorite acknowledgement</button>
+      <button type="button" onClick={fixture.bridge.releaseFavorite}>Release favorite acknowledgement</button>
+      <button type="button" onClick={fixture.bridge.holdShare}>Hold share acknowledgement</button>
+      <button type="button" onClick={fixture.bridge.releaseShare}>Release held share acknowledgement</button>
+      <button type="button" onClick={() => setProject(fixture.bridge.refreshCanonical(ownerId))}>Refresh canonical snapshot</button>
+    </div>
+    <GarageView ownerId={ownerId} project={project} service={fixture.service} initialVersionId={ownerId === 'owner-a' ? 'version-new' : 'version-b'} />
+  </>;
+}
+
 function mountPhotoHarness() {
 
 interface SyntheticRequest {
@@ -572,5 +701,6 @@ root.render(<PhotoHarness />);
 if (new URLSearchParams(window.location.search).get('feature') === 'result') createRoot(document.getElementById('root')!).render(<ResultHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'edit') createRoot(document.getElementById('root')!).render(<EditHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
+else if (new URLSearchParams(window.location.search).get('feature') === 'garage') createRoot(document.getElementById('root')!).render(<GarageHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
 else createRoot(document.getElementById('root')!).render(<V2Harness />);

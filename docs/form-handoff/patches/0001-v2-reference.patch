@@ -1,0 +1,392 @@
+diff --git a/shared/v2/credit-reservations.ts b/shared/v2/credit-reservations.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/credit-reservations.ts
+@@ -0,0 +1,39 @@
++/** Reference reducer for trusted server events, NOT an HTTP wallet or receipt verifier. */
++import {canonicalJson,demand,exact,record} from './edit-plan.js';
++export type Bucket='purchased'|'promotional';
++export interface Allocation {purchased:number;promotional:number;status:'reserved'|'settled'|'released'}
++export interface Wallet {available:Record<Bucket,number>;reservations:Record<string,Allocation>;events:Record<string,string>}
++export type CreditEvent={key:string;kind:'grant';bucket:Bucket;units:number}|{key:string;kind:'reserve';taskId:string;units:number}|{key:string;kind:'settle'|'release';taskId:string};
++const token=(v:unknown)=>typeof v==='string'&&/^[a-zA-Z0-9][a-zA-Z0-9:_-]{0,199}$/.test(v)&&!['__proto__','constructor','prototype'].includes(v);
++const uint=(v:unknown)=>Number.isSafeInteger(v)&&Number(v)>=0;
++const positive=(v:unknown)=>Number.isSafeInteger(v)&&Number(v)>0;
++const add=(a:number,b:number)=>{const n=a+b;demand(uint(n),'UNSAFE_CREDIT_TOTAL');return n;};
++export function emptyWallet():Wallet{return {available:{purchased:0,promotional:0},reservations:Object.create(null),events:Object.create(null)};}
++export function applyCreditEvent(state:Wallet,raw:unknown):Wallet{
++ demand(record(state)&&record(state.available)&&record(state.reservations)&&record(state.events),'INVALID_WALLET');
++ exact(state,['available','reservations','events']);exact(state.available,['purchased','promotional']);
++ demand(uint(state.available.purchased)&&uint(state.available.promotional),'INVALID_BALANCE');add(state.available.purchased,state.available.promotional);
++ for(const [k,v] of Object.entries(state.reservations)){demand(token(k)&&record(v),'INVALID_RESERVATION');exact(v,['purchased','promotional','status']);demand(uint(v.purchased)&&uint(v.promotional)&&['reserved','settled','released'].includes(v.status),'INVALID_RESERVATION');add(v.purchased,v.promotional);}
++ for(const [k,v] of Object.entries(state.events))demand(token(k)&&typeof v==='string','INVALID_EVENT_HISTORY');
++ demand(record(raw),'EVENT_REQUIRED');demand(token(raw.key),'INVALID_EVENT_KEY');demand(typeof raw.kind==='string'&&['grant','reserve','settle','release'].includes(raw.kind),'INVALID_EVENT');
++ exact(raw,raw.kind==='grant'?['key','kind','bucket','units']:raw.kind==='reserve'?['key','kind','taskId','units']:['key','kind','taskId']);
++ if(raw.kind==='grant')demand(typeof raw.bucket==='string'&&['purchased','promotional'].includes(raw.bucket)&&positive(raw.units),'INVALID_GRANT');
++ else {demand(token(raw.taskId),'INVALID_TASK');if(raw.kind==='reserve')demand(positive(raw.units),'INVALID_RESERVE');}
++ const event=raw as CreditEvent,signature=canonicalJson(event);
++ if(Object.hasOwn(state.events,event.key)){demand(state.events[event.key]===signature,'EVENT_KEY_CONFLICT');return state;}
++ const next:Wallet={available:{...state.available},reservations:Object.assign(Object.create(null),state.reservations),events:Object.assign(Object.create(null),state.events)};
++ if(event.kind==='grant'){next.available[event.bucket]=add(next.available[event.bucket],event.units);add(next.available.purchased,next.available.promotional);}
++ else if(event.kind==='reserve'){
++  demand(!Object.hasOwn(next.reservations,event.taskId),'TASK_ALREADY_RESERVED');
++  demand(add(next.available.purchased,next.available.promotional)>=event.units,'INSUFFICIENT_CREDITS');
++  const promo=Math.min(event.units,next.available.promotional),paid=event.units-promo;
++  next.available.promotional-=promo;next.available.purchased-=paid;
++  next.reservations[event.taskId]={purchased:paid,promotional:promo,status:'reserved'};
++ } else {
++  const reservation=next.reservations[event.taskId];demand(reservation,'RESERVATION_NOT_FOUND');
++  if(reservation.status!=='reserved'){demand(reservation.status===(event.kind==='settle'?'settled':'released'),'RESERVATION_TERMINAL_CONFLICT');next.events[event.key]=signature;return next;}
++  if(event.kind==='release'){next.available.purchased=add(next.available.purchased,reservation.purchased);next.available.promotional=add(next.available.promotional,reservation.promotional);}
++  next.reservations[event.taskId]={...reservation,status:event.kind==='settle'?'settled':'released'};
++ }
++ add(next.available.purchased,next.available.promotional);next.events[event.key]=signature;return next;
++}
+diff --git a/shared/v2/edit-plan.ts b/shared/v2/edit-plan.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/edit-plan.ts
+@@ -0,0 +1,69 @@
++/** Server-side pure contract. It does not check ownership or authorize a provider call. */
++export const COLORS = ['white','black','silver','graphite','blue','green','red','yellow'] as const;
++export const WHEEL_COLORS = ['silver','graphite','bronze','black','white'] as const;
++export const FINISHES = ['gloss','satin','matte'] as const;
++export const WHEEL_DESIGNS = ['sport_multi_spoke','classic_mesh'] as const;
++export const STYLES = ['clean','sport','dark','heritage','track','rally','touring','color'] as const;
++export const FIELDS = ['bodyColor','wheelColor','bodyFinish','wheelDesign'] as const;
++export type Field = typeof FIELDS[number];
++export type Edit = {action:'preserve'} | {action:'restore_original'} | {action:'set';value:string};
++export type SourceRef = {kind:'original'} | {kind:'version';versionId:string};
++export interface EditRequest {schemaVersion:2;source:SourceRef;operation:'explore'|'detail';styleId?:typeof STYLES[number];edits:Partial<Record<Field,Edit>>}
++export interface Capabilities {enabled:boolean;fields:readonly Field[];originalReference:boolean}
++export interface Observation {value:string;provenance:'verified'|'requested'}
++export type Observations = Partial<Record<Field,Observation>>;
++export class ContractError extends Error { constructor(public readonly code:string){super(code);this.name='ContractError';} }
++export function demand(ok:unknown,code:string):asserts ok {if(!ok)throw new ContractError(code);}
++export function record(v:unknown):v is Record<string,unknown>{return v!==null&&typeof v==='object'&&!Array.isArray(v)&&[Object.prototype,null].includes(Object.getPrototypeOf(v));}
++export function exact(v:Record<string,unknown>,keys:readonly string[]):void{demand(Reflect.ownKeys(v).every(k=>typeof k==='string'&&keys.includes(k)),'UNKNOWN_FIELD');}
++const choices:Record<Field,readonly string[]>={bodyColor:COLORS,wheelColor:WHEEL_COLORS,bodyFinish:FINISHES,wheelDesign:WHEEL_DESIGNS};
++const id=(v:unknown)=>typeof v==='string'&&/^[a-zA-Z0-9_-]{1,128}$/.test(v);
++export function parseEditRequest(value:unknown):EditRequest{
++ demand(record(value),'REQUEST_OBJECT_REQUIRED');exact(value,['schemaVersion','source','operation','styleId','edits']);
++ demand(value.schemaVersion===2,'UNSUPPORTED_SCHEMA');demand(record(value.source),'SOURCE_REQUIRED');
++ const source=value.source;demand(source.kind==='original'||source.kind==='version','INVALID_SOURCE');
++ exact(source,source.kind==='original'?['kind']:['kind','versionId']);if(source.kind==='version')demand(id(source.versionId),'INVALID_VERSION_ID');
++ demand(value.operation==='explore'||value.operation==='detail','INVALID_OPERATION');
++ if(value.operation==='explore'){demand(source.kind==='original','EXPLORE_REQUIRES_ORIGINAL');demand(STYLES.includes(value.styleId as typeof STYLES[number]),'INVALID_STYLE');}
++ else demand(value.styleId===undefined,'DETAIL_MUST_NOT_APPLY_STYLE');
++ demand(record(value.edits),'EDITS_REQUIRED');exact(value.edits,FIELDS);
++ const edits:Partial<Record<Field,Edit>>={};
++ for(const field of FIELDS){const item=value.edits[field];if(item===undefined)continue;
++  demand(record(item),'INVALID_EDIT');demand(typeof item.action==='string'&&['preserve','restore_original','set'].includes(item.action),'INVALID_ACTION');
++  exact(item,item.action==='set'?['action','value']:['action']);
++  if(item.action==='set'){demand(typeof item.value==='string'&&choices[field].includes(item.value),'UNSUPPORTED_VALUE');edits[field]={action:'set',value:item.value};}
++  else edits[field]={action:item.action as 'preserve'|'restore_original'};
++ }
++ return {schemaVersion:2,source:source.kind==='original'?{kind:'original'}:{kind:'version',versionId:source.versionId as string},operation:value.operation,...(value.operation==='explore'?{styleId:value.styleId as typeof STYLES[number]}:{}),edits};
++}
++export interface ResolvedEdit {field:Field;action:'set'|'restore_original';value?:string}
++/** Call only after expanding the chosen, versioned server preset into explicit edits. */
++export function resolveEdits(raw:unknown,cap:Capabilities,base:Observations={}):{request:EditRequest;changes:ResolvedEdit[];preserve:Field[]}{
++ const request=parseEditRequest(raw);demand(record(cap),'INVALID_CAPABILITY');exact(cap,['enabled','fields','originalReference']);demand(cap.enabled===true,'CAPABILITY_DISABLED');
++ demand(Array.isArray(cap.fields)&&cap.fields.every(f=>FIELDS.includes(f))&&typeof cap.originalReference==='boolean','INVALID_CAPABILITY');
++ demand(record(base),'INVALID_OBSERVATIONS');exact(base,FIELDS);
++ for(const field of FIELDS){const o=base[field];if(o===undefined)continue;demand(record(o),'INVALID_OBSERVATION');exact(o,['value','provenance']);demand(typeof o.value==='string'&&choices[field].includes(o.value)&&['verified','requested'].includes(o.provenance),'INVALID_OBSERVATION');}
++ const changes:ResolvedEdit[]=[];
++ for(const field of FIELDS){const edit=request.edits[field];if(!edit||edit.action==='preserve')continue;
++  demand(cap.fields.includes(field),'FIELD_NOT_ENABLED');
++  if(edit.action==='restore_original'){if(request.source.kind==='original')continue;demand(cap.originalReference,'ORIGINAL_REFERENCE_UNSUPPORTED');changes.push({field,action:'restore_original'});}
++  else {const observation=base[field];if(observation?.provenance==='verified'&&observation.value===edit.value)continue;changes.push({field,action:'set',value:edit.value});}
++ }
++ demand(changes.length>0,'NO_EFFECTIVE_CHANGE');
++ return {request,changes,preserve:FIELDS.filter(f=>!changes.some(c=>c.field===f))};
++}
++/** Data-only canonical JSON. Unknown/unsupported JS values fail rather than disappear. */
++export function canonicalJson(value:unknown):string{
++ const active=new Set<object>();
++ const visit=(v:unknown):unknown=>{
++  if(v===null||typeof v==='string'||typeof v==='boolean')return v;
++  if(typeof v==='number'){demand(Number.isFinite(v),'NON_FINITE_NUMBER');return v;}
++  demand(Array.isArray(v)||record(v),'NON_JSON_VALUE');demand(!active.has(v as object),'CYCLIC_VALUE');active.add(v as object);
++  let out:unknown;
++  if(Array.isArray(v)){demand(Reflect.ownKeys(v).length===v.length+1&&v.every((_item,i)=>Object.hasOwn(v,i))&&Array.from({length:v.length},(_item,i)=>Object.hasOwn(v,i)).every(Boolean),'SPARSE_OR_EXTRA_ARRAY');out=v.map(visit);}
++  else {demand(Reflect.ownKeys(v).every(k=>typeof k==='string'),'SYMBOL_KEY');const next:Record<string,unknown>=Object.create(null);for(const k of Object.keys(v).sort())next[k]=visit(v[k]);out=next;}
++  active.delete(v as object);return out;
++ };return JSON.stringify(visit(value));
++}
++/** Hash all frozen semantics with owner identity; HTTP replay lookup remains owner-scoped. */
++export async function semanticDigest(value:unknown):Promise<string>{const bytes=new TextEncoder().encode(canonicalJson(value));const hash=await globalThis.crypto.subtle.digest('SHA-256',bytes);return Array.from(new Uint8Array(hash),b=>b.toString(16).padStart(2,'0')).join('');}
+diff --git a/shared/v2/form-quality-policy.ts b/shared/v2/form-quality-policy.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/form-quality-policy.ts
+@@ -0,0 +1,43 @@
++/** Pure recommendation policy. NOT a quality detector, authorizer, or money writer. */
++export type Problem = 'identity_changed' | 'target_not_applied' | 'unwanted_structure' | 'image_artifacts';
++export type Decision = { deliver: boolean; creditAction: 'settle' | 'release'; quality: 'unassessed' | 'accepted' | 'rejected'; reason: string };
++export interface PixelDigest { normalizerVersion: string; sha256: string; width: number; height: number }
++export interface OutputCheck {requestedEdits: number;decode: 'valid' | 'invalid';sourcePixels?: PixelDigest;outputPixels?: PixelDigest;assessment?: { status: 'not_assessed' | 'accepted' | 'rejected'; issue?: Problem };}
++const issues: readonly Problem[] = ['identity_changed','target_not_applied','unwanted_structure','image_artifacts'];
++const object = (v: unknown): v is Record<string, unknown> => v !== null && typeof v === 'object' && !Array.isArray(v) && [Object.prototype, null].includes(Object.getPrototypeOf(v));
++function demand(ok: unknown, message: string): asserts ok { if (!ok) throw new Error(message); }
++function exact(v: Record<string, unknown>, allowed: string[]) { demand(Reflect.ownKeys(v).every(k => typeof k === 'string' && allowed.includes(k)), 'Unknown field'); }
++function digest(v: unknown): PixelDigest {
++ demand(object(v), 'Pixel digest object required'); exact(v,['normalizerVersion','sha256','width','height']);
++ demand(typeof v.normalizerVersion === 'string' && /^[a-zA-Z0-9._-]{1,80}$/.test(v.normalizerVersion), 'Normalizer version required');
++ demand(typeof v.sha256 === 'string' && /^[a-f0-9]{64}$/.test(v.sha256), 'Normalized pixel SHA256 required');
++ demand(Number.isSafeInteger(v.width) && Number(v.width)>0 && Number(v.width)<=40000, 'Invalid width');
++ demand(Number.isSafeInteger(v.height) && Number(v.height)>0 && Number(v.height)<=40000, 'Invalid height');
++ return v as unknown as PixelDigest;
++}
++/** Hash canonical oriented, color-normalized RGBA pixels, NOT encoded PNG/JPEG bytes. */
++export function sameNormalizedPixels(a: PixelDigest, b: PixelDigest): boolean {const x=digest(a),y=digest(b);return x.normalizerVersion===y.normalizerVersion && x.width===y.width && x.height===y.height && x.sha256===y.sha256;}
++/** Server must construct assessment from its approved review record, never client claims. */
++export function classifyOutput(input: OutputCheck): Decision {
++ demand(object(input),'Output check object required');exact(input,['requestedEdits','decode','sourcePixels','outputPixels','assessment']);
++ demand(Number.isSafeInteger(input.requestedEdits) && input.requestedEdits>0,'At least one resolved edit required');
++ demand(input.decode==='valid'||input.decode==='invalid','Invalid decode result');
++ if(input.sourcePixels!==undefined) digest(input.sourcePixels);if(input.outputPixels!==undefined) digest(input.outputPixels);
++ if(input.assessment!==undefined) {const a=input.assessment;demand(object(a),'Assessment object required');exact(a,['status','issue']);demand(['not_assessed','accepted','rejected'].includes(a.status),'Invalid assessment status');if(a.status==='rejected') demand(issues.includes(a.issue as Problem),'A supported issue is required');else demand(a.issue===undefined,'Issue contradicts assessment status');}
++ if(input.decode==='invalid') return {deliver:false,creditAction:'release',quality:'rejected',reason:'OUTPUT_INVALID'};
++ if(input.sourcePixels && input.outputPixels && sameNormalizedPixels(input.sourcePixels,input.outputPixels))return {deliver:false,creditAction:'release',quality:'rejected',reason:'OUTPUT_UNCHANGED'};
++ if(input.assessment?.status==='rejected')return {deliver:false,creditAction:'release',quality:'rejected',reason:input.assessment.issue!.toUpperCase()};
++ return {deliver:true,creditAction:'settle',quality:input.assessment?.status==='accepted'?'accepted':'unassessed',reason:'OUTPUT_DELIVERABLE'};
++}
++export interface CompensationInput {rootTaskId:string;taskStatus:'succeeded'|'failed'|'cancelled'|'processing';creditCost:number;rootAlreadyCompensated:boolean;review:'approved'|'pending'|'rejected';policyVersion:string}
++/** Pure plan only: transaction + UNIQUE(root_task_id) are mandatory during integration. */
++export function planCompensation(v:CompensationInput):{grantUnits:number;benefitKey:string;eventKey:string;reason:string}{
++ demand(object(v),'Compensation object required');exact(v,['rootTaskId','taskStatus','creditCost','rootAlreadyCompensated','review','policyVersion']);
++ demand(typeof v.rootTaskId==='string' && /^[a-zA-Z0-9_-]{1,128}$/.test(v.rootTaskId),'Invalid root task');
++ demand(typeof v.policyVersion==='string' && /^[a-zA-Z0-9._-]{1,80}$/.test(v.policyVersion),'Invalid policy version');
++ demand(['succeeded','failed','cancelled','processing'].includes(v.taskStatus),'Invalid task status');demand(['approved','pending','rejected'].includes(v.review),'Invalid review');
++ demand(Number.isSafeInteger(v.creditCost) && v.creditCost>0,'Invalid frozen task cost');demand(typeof v.rootAlreadyCompensated==='boolean','Invalid duplicate state');
++ const benefitKey=`quality_compensation:${v.rootTaskId}`,eventKey=`${benefitKey}:${v.policyVersion}`;
++ const grant=v.taskStatus==='succeeded' && v.review==='approved' && !v.rootAlreadyCompensated;
++ return {grantUnits:grant?v.creditCost:0,benefitKey,eventKey,reason:grant?'APPROVED_COMPENSATION':'NO_NEW_COMPENSATION'};
++}
+diff --git a/shared/v2/launch-policy.ts b/shared/v2/launch-policy.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/launch-policy.ts
+@@ -0,0 +1,19 @@
++/** Fail-closed local checks, not legal advice and not App Store authorization. */
++import {demand,exact,record} from './edit-plan.js';
++export const RECOMMENDED_MARKETS=['US'] as const;
++export const EXPANSION_CANDIDATES=['AU','GB','NZ'] as const;
++export interface TrialPolicy {enabled:boolean;units:number;budgetApproved:boolean;stableAccount:boolean;claimedBefore:boolean;reservedExposureMicros:number;spentMicros:number;newMaxCostMicros:number;budgetMicros:number}
++export function canGrantTrial(v:TrialPolicy):{allowed:boolean;reason:string}{
++ demand(record(v),'INVALID_TRIAL_POLICY');exact(v,['enabled','units','budgetApproved','stableAccount','claimedBefore','reservedExposureMicros','spentMicros','newMaxCostMicros','budgetMicros']);
++ for(const key of ['enabled','budgetApproved','stableAccount','claimedBefore'] as const)demand(typeof v[key]==='boolean','INVALID_BOOLEAN');
++ for(const key of ['units','reservedExposureMicros','spentMicros','newMaxCostMicros','budgetMicros'] as const)demand(Number.isSafeInteger(v[key])&&v[key]>=0,'INVALID_COST_OR_UNITS');
++ if(!v.enabled)return {allowed:false,reason:'TRIAL_DISABLED'};
++ if(!v.budgetApproved||v.units<1||v.newMaxCostMicros<1||v.budgetMicros<1)return {allowed:false,reason:'APPROVAL_OR_COST_MISSING'};
++ if(!v.stableAccount)return {allowed:false,reason:'STABLE_ACCOUNT_REQUIRED'};
++ if(v.claimedBefore)return {allowed:false,reason:'ALREADY_CLAIMED'};
++ const sum=v.spentMicros+v.reservedExposureMicros+v.newMaxCostMicros;
++ if(!Number.isSafeInteger(sum)||sum>v.budgetMicros)return {allowed:false,reason:'TRIAL_BUDGET_EXHAUSTED'};
++ return {allowed:true,reason:'ELIGIBLE_PENDING_ATOMIC_RESERVATION'};
++}
++/** ISO alpha-3 from StoreKit is mapped explicitly; language/IP must never be passed here. */
++export function marketFromStorefront(v:unknown):string|null {if(typeof v!=='string')return null;const m:Record<string,string>={USA:'US',AUS:'AU',GBR:'GB',NZL:'NZ',CAN:'CA'};return Object.hasOwn(m,v)?m[v]:null;}
+diff --git a/shared/v2/provider-prompt.ts b/shared/v2/provider-prompt.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/provider-prompt.ts
+@@ -0,0 +1,14 @@
++/** Only server-resolved fields go in this prompt. No project names, user notes or raw references. */
++import {FIELDS,resolveEdits,type Capabilities,type Observations} from './edit-plan.js';
++const labels:Record<string,string>={bodyColor:'body paint color',wheelColor:'wheel finish color',bodyFinish:'body paint surface finish',wheelDesign:'generic wheel spoke design',white:'white',black:'black',silver:'silver',graphite:'graphite',blue:'deep blue',green:'forest green',red:'ruby red',yellow:'yellow',bronze:'warm bronze',gloss:'gloss',satin:'satin',matte:'matte',sport_multi_spoke:'generic sport multi-spoke wheels',classic_mesh:'generic classic mesh wheels'};
++export function buildEditPrompt(raw:unknown,cap:Capabilities,base:Observations={}):string{
++ const plan=resolveEdits(raw,cap,base);
++ const lines=['Edit the supplied primary car photo. Keep the same vehicle identity, door count, windows, lights, visible badges, camera angle, composition, lighting and background. Keep the entire visible vehicle in frame.',
++ 'Do not invent hidden vehicle details or change the visible steering side or license plate layout. This is a visual concept, not a real product fitment specification.'];
++ for(const c of plan.changes)lines.push(c.action==='restore_original'?`Restore only the ${labels[c.field]} from the separately supplied original reference photo; do not adopt its camera or background.`:`Change only the ${labels[c.field]} to ${labels[c.value!]}.`);
++ if(plan.changes.some(c=>c.field==='wheelDesign'))lines.push('Change the visible wheel spoke appearance only. Keep wheel center positions, apparent outer diameter, tire geometry, axle position and stance unchanged. No brand, dimensions or fitment claims.');
++ else lines.push('Keep existing wheel spoke structure, tire geometry and stance unchanged.');
++ for(const field of FIELDS.filter(f=>plan.preserve.includes(f)))lines.push(`Preserve the current ${labels[field]}.`);
++ lines.push('Do not add a body kit, spoiler, decals, people or scene objects.');
++ return lines.join(' ');
++}
+diff --git a/shared/v2/task-policy.ts b/shared/v2/task-policy.ts
+new file mode 100644
+--- /dev/null
++++ b/shared/v2/task-policy.ts
+@@ -0,0 +1,21 @@
++/** Pure V2 state decisions. DB compare-and-swap, worker leases and cost accounting are separate. */
++import {ContractError} from './edit-plan.js';
++export type Status='queued'|'processing'|'uncertain'|'succeeded'|'failed'|'cancelled';
++export type Event='start'|'deliver'|'technical_failure'|'restart'|'recovery_expired'|'cancel'|'leave';
++export interface Transition {status:Status;credits:'none'|'settle'|'release';upstream:'none'|'start_once'|'no_auto_retry';}
++const statuses:readonly string[]=['queued','processing','uncertain','succeeded','failed','cancelled'];
++const events:readonly string[]=['start','deliver','technical_failure','restart','recovery_expired','cancel','leave'];
++export function transition(status:Status,event:Event):Transition{
++ if(!statuses.includes(status)||!events.includes(event))throw new ContractError('INVALID_STATE_EVENT');
++ const unchanged:Transition={status,credits:'none',upstream:'none'};
++ if(event==='leave')return unchanged;
++ if(['succeeded','failed','cancelled'].includes(status))return unchanged;
++ if(event==='restart')return status==='processing'?{status:'uncertain',credits:'none',upstream:'no_auto_retry'}:unchanged;
++ if(status==='queued'&&event==='start')return {status:'processing',credits:'none',upstream:'start_once'};
++ if(status==='queued'&&event==='cancel')return {status:'cancelled',credits:'release',upstream:'none'};
++ if(event==='cancel')throw new ContractError('ALREADY_SUBMITTED_CANNOT_CANCEL');
++ if(status==='processing'&&event==='deliver')return {status:'succeeded',credits:'settle',upstream:'none'};
++ if(event==='technical_failure')return {status:'failed',credits:'release',upstream:'none'};
++ if(status==='uncertain'&&event==='recovery_expired')return {status:'failed',credits:'release',upstream:'no_auto_retry'};
++ throw new ContractError('ILLEGAL_TRANSITION');
++}
+diff --git a/tests/v2/contracts.test.mjs b/tests/v2/contracts.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tests/v2/contracts.test.mjs
+@@ -0,0 +1,40 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';import {createHash} from 'node:crypto';
++import {parseEditRequest,resolveEdits,canonicalJson,semanticDigest} from '../../shared/v2/edit-plan.js';
++import {buildEditPrompt} from '../../shared/v2/provider-prompt.js';
++const cap={enabled:true,fields:['bodyColor','wheelColor','bodyFinish','wheelDesign'],originalReference:true};
++const req={schemaVersion:2,source:{kind:'original'},operation:'detail',edits:{bodyColor:{action:'set',value:'blue'}}};
++const error=(fn,code)=>assert.throws(fn,e=>e.code===code);
++test('direct original edit does not need a previous version',()=>assert.equal(resolveEdits(req,cap).changes[0].value,'blue'));
++test('specific version ID is retained',()=>assert.equal(parseEditRequest({...req,source:{kind:'version',versionId:'old-v1'}}).source.versionId,'old-v1'));
++test('parser copies nested edits',()=>{const r=parseEditRequest(req);r.edits.bodyColor.value='red';assert.equal(req.edits.bodyColor.value,'blue');});
++test('unknown top field rejected',()=>error(()=>parseEditRequest({...req,projectName:'ignore rules'}),'UNKNOWN_FIELD'));
++test('unknown edit field rejected',()=>error(()=>parseEditRequest({...req,edits:{spoiler:{action:'set',value:'big'}}}),'UNKNOWN_FIELD'));
++test('old raw target is not silently treated as new contract',()=>error(()=>parseEditRequest({target:{bodyColor:'blue'}}),'UNKNOWN_FIELD'));
++test('explore must start from original',()=>error(()=>parseEditRequest({...req,operation:'explore',styleId:'sport',source:{kind:'version',versionId:'v1'}}),'EXPLORE_REQUIRES_ORIGINAL'));
++test('all historical style IDs still parse for explore',()=>{for(const styleId of ['clean','sport','dark','heritage','track','rally','touring','color'])assert.equal(parseEditRequest({...req,operation:'explore',styleId}).styleId,styleId);});
++test('detail request cannot smuggle a style',()=>error(()=>parseEditRequest({...req,styleId:'sport'}),'DETAIL_MUST_NOT_APPLY_STYLE'));
++for(const value of ['pink','keep','ruby red','',null,4])test(`unsupported body color ${value}`,()=>error(()=>parseEditRequest({...req,edits:{bodyColor:{action:'set',value}}}),'UNSUPPORTED_VALUE'));
++for(const source of [{kind:'latest'},{kind:'version',versionId:'../secret'},{kind:'original',versionId:'v1'}])test(`bad source ${JSON.stringify(source)}`,()=>assert.throws(()=>parseEditRequest({...req,source})));
++test('preserve cannot carry a hidden value',()=>error(()=>parseEditRequest({...req,edits:{bodyColor:{action:'preserve',value:'blue'}}}),'UNKNOWN_FIELD'));
++test('preserve all is a no-op',()=>error(()=>resolveEdits({...req,edits:{bodyColor:{action:'preserve'}}},cap),'NO_EFFECTIVE_CHANGE'));
++test('no-op requires verified base, not requested recipe',()=>{assert.equal(resolveEdits(req,cap,{bodyColor:{value:'blue',provenance:'requested'}}).changes.length,1);error(()=>resolveEdits(req,cap,{bodyColor:{value:'blue',provenance:'verified'}}),'NO_EFFECTIVE_CHANGE');});
++test('one verified unchanged field removed while other change remains',()=>{const r=resolveEdits({...req,edits:{...req.edits,wheelColor:{action:'set',value:'bronze'}}},cap,{bodyColor:{value:'blue',provenance:'verified'}});assert.deepEqual(r.changes,[{field:'wheelColor',action:'set',value:'bronze'}]);assert.ok(r.preserve.includes('bodyColor'));});
++test('restore original from original is no-op',()=>error(()=>resolveEdits({...req,edits:{bodyColor:{action:'restore_original'}}},cap),'NO_EFFECTIVE_CHANGE'));
++test('restore original requires reference capability',()=>error(()=>resolveEdits({...req,source:{kind:'version',versionId:'v1'},edits:{bodyColor:{action:'restore_original'}}},{...cap,originalReference:false}),'ORIGINAL_REFERENCE_UNSUPPORTED'));
++test('restore original does not guess an unknown color',()=>assert.deepEqual(resolveEdits({...req,source:{kind:'version',versionId:'v1'},edits:{bodyColor:{action:'restore_original'}}},cap).changes,[{field:'bodyColor',action:'restore_original'}]));
++test('disabled capability is closed',()=>error(()=>resolveEdits(req,{...cap,enabled:false}),'CAPABILITY_DISABLED'));
++test('disabled field is closed',()=>error(()=>resolveEdits(req,{...cap,fields:['wheelColor']}),'FIELD_NOT_ENABLED'));
++test('invalid observation provenance rejected',()=>error(()=>resolveEdits(req,cap,{bodyColor:{value:'blue',provenance:'assumed'}}),'INVALID_OBSERVATION'));
++test('JSON key order canonical',()=>assert.equal(canonicalJson({b:2,a:{z:1,y:3}}),canonicalJson({a:{y:3,z:1},b:2})));
++test('digest matches SHA256 of canonical JSON',async()=>assert.equal(await semanticDigest(req),createHash('sha256').update(canonicalJson(req)).digest('hex')));
++test('source, output, price and policy versions change digest',async()=>{const base={owner:'u1',request:req,output:'standard',units:1,policy:'1',provider:'a'};const h=await semanticDigest(base);for(const change of [{owner:'u2'},{output:'large'},{units:2},{policy:'2'},{provider:'b'},{request:{...req,source:{kind:'version',versionId:'v1'}}}])assert.notEqual(await semanticDigest({...base,...change}),h);});
++for(const value of [undefined,NaN,Infinity,()=>0,BigInt(1),new Date()])test(`non JSON ${String(value)}`,()=>assert.throws(()=>canonicalJson(value)));
++test('cyclic input rejected',()=>{const a={};a.a=a;error(()=>canonicalJson(a),'CYCLIC_VALUE');});
++test('shared non cyclic object allowed',()=>{const a={x:1};assert.equal(canonicalJson({a,b:a}),'{"a":{"x":1},"b":{"x":1}}');});
++test('sparse or extended arrays rejected',()=>{const a=new Array(1);a.foo=1;assert.throws(()=>canonicalJson(a));const b=[1];b.extra=2;assert.throws(()=>canonicalJson(b));const c=[1];c[Symbol('s')]=3;assert.throws(()=>canonicalJson(c));});
++test('symbol object keys rejected',()=>assert.throws(()=>canonicalJson({[Symbol('k')]:1})));
++test('proto key encoded as data, never mutates global',()=>{const obj=JSON.parse('{"__proto__":{"test":1},"a":2}');assert.equal(canonicalJson(obj),'{"__proto__":{"test":1},"a":2}');assert.equal({}.test,undefined);});
++test('color prompt preserves wheel structure',()=>{const p=buildEditPrompt(req,cap);assert.match(p,/Keep existing wheel spoke structure/);assert.doesNotMatch(p,/sport multi-spoke wheels/);});
++test('wheel design prompt permits design only, keeps tire geometry',()=>{const p=buildEditPrompt({...req,edits:{wheelDesign:{action:'set',value:'sport_multi_spoke'}}},cap);assert.match(p,/Change the visible wheel spoke appearance only/);assert.doesNotMatch(p,/Preserve the current generic wheel spoke design/);assert.match(p,/tire geometry/);});
++test('prompt cannot accept arbitrary notes',()=>assert.throws(()=>buildEditPrompt({...req,note:'replace car'},cap)));
++test('no broad preserve geometry instruction contradicts wheel design',()=>assert.doesNotMatch(buildEditPrompt({...req,edits:{wheelDesign:{action:'set',value:'classic_mesh'}}},cap),/do not alter any vehicle geometry/i));
+diff --git a/tests/v2/credit.test.mjs b/tests/v2/credit.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tests/v2/credit.test.mjs
+@@ -0,0 +1,27 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';import {emptyWallet,applyCreditEvent as apply} from '../../shared/v2/credit-reservations.js';
++const seed=()=>apply(apply(emptyWallet(),{key:'purchase:t1',kind:'grant',bucket:'purchased',units:5}),{key:'promo:p1',kind:'grant',bucket:'promotional',units:1});
++const reserve={key:'reserve:task1',kind:'reserve',taskId:'task1',units:2};
++test('promo consumed before purchased',()=>{const w=apply(seed(),reserve);assert.deepEqual(w.available,{purchased:4,promotional:0});assert.deepEqual(w.reservations.task1,{purchased:1,promotional:1,status:'reserved'});});
++test('release restores exact buckets',()=>{const w=apply(apply(seed(),reserve),{key:'release:task1',kind:'release',taskId:'task1'});assert.deepEqual(w.available,seed().available);});
++test('settle does not charge again',()=>{const w=apply(apply(seed(),reserve),{key:'settle:task1',kind:'settle',taskId:'task1'});assert.deepEqual(w.available,{purchased:4,promotional:0});assert.equal(w.reservations.task1.status,'settled');});
++test('identical grant replay no duplication',()=>{const e={key:'purchase:a',kind:'grant',bucket:'purchased',units:5};const w=apply(emptyWallet(),e);assert.equal(apply(w,e),w);});
++test('same event key with different body is rejected',()=>assert.throws(()=>apply(seed(),{key:'purchase:t1',kind:'grant',bucket:'purchased',units:10}),/EVENT_KEY_CONFLICT/));
++test('identical reserve replay idempotent',()=>{const w=apply(seed(),reserve);assert.equal(apply(w,reserve),w);});
++test('same task cannot reserve under different key',()=>assert.throws(()=>apply(apply(seed(),reserve),{...reserve,key:'another'}),/TASK_ALREADY_RESERVED/));
++for(const kind of ['settle','release'])test(`repeat ${kind} under different key preserves money and records replay identity`,()=>{const w=apply(apply(seed(),reserve),{key:'terminal',kind,taskId:'task1'});const next=apply(w,{key:'new-terminal',kind,taskId:'task1'});assert.deepEqual(next.available,w.available);assert.deepEqual(next.reservations,w.reservations);assert.ok(Object.hasOwn(next.events,'new-terminal'));});
++test('release cannot rewrite settled history',()=>assert.throws(()=>apply(apply(apply(seed(),reserve),{key:'s',kind:'settle',taskId:'task1'}),{key:'r',kind:'release',taskId:'task1'}),/RESERVATION_TERMINAL_CONFLICT/));
++test('late settle after release rejected',()=>assert.throws(()=>apply(apply(apply(seed(),reserve),{key:'r',kind:'release',taskId:'task1'}),{key:'s',kind:'settle',taskId:'task1'}),/RESERVATION_TERMINAL_CONFLICT/));
++test('insufficient credits changes nothing',()=>{const w=seed(),before=JSON.stringify(w);assert.throws(()=>apply(w,{...reserve,units:7}),/INSUFFICIENT_CREDITS/);assert.equal(JSON.stringify(w),before);});
++for(const units of [0,-1,1.1,NaN,Infinity,'2',Number.MAX_SAFE_INTEGER+1])test(`bad grant ${units}`,()=>assert.throws(()=>apply(seed(),{key:'x',kind:'grant',bucket:'purchased',units})));
++test('addition overflow rejected',()=>{const w=apply(emptyWallet(),{key:'max',kind:'grant',bucket:'purchased',units:Number.MAX_SAFE_INTEGER});assert.throws(()=>apply(w,{key:'one',kind:'grant',bucket:'purchased',units:1}),/UNSAFE_CREDIT_TOTAL/);});
++test('unrecognized bucket rejected',()=>assert.throws(()=>apply(seed(),{key:'x',kind:'grant',bucket:'cash',units:1})));
++test('unknown field such as client price rejected',()=>assert.throws(()=>apply(seed(),{...reserve,price:0}),/UNKNOWN_FIELD/));
++test('prototype keys rejected',()=>assert.throws(()=>apply(seed(),{...reserve,key:'__proto__'}),/INVALID_EVENT_KEY/));
++test('missing reservation rejected',()=>assert.throws(()=>apply(seed(),{key:'r',kind:'release',taskId:'missing'}),/RESERVATION_NOT_FOUND/));
++test('prior nested records remain unchanged',()=>{const w=apply(seed(),reserve),before=JSON.stringify(w);apply(w,{key:'r',kind:'release',taskId:'task1'});assert.equal(JSON.stringify(w),before);});
++test('ledger accepts only trusted server grants, not receipt fields',()=>assert.throws(()=>apply(seed(),{key:'purchase:a',kind:'grant',bucket:'purchased',units:5,verifiedByClient:true}),/UNKNOWN_FIELD/));
++
++for(const kind of ['settle','release'])test(`recorded duplicate ${kind} key cannot become a grant`,()=>{const w=apply(apply(seed(),reserve),{key:'done',kind,taskId:'task1'});const next=apply(w,{key:'duplicate',kind,taskId:'task1'});assert.throws(()=>apply(next,{key:'duplicate',kind:'grant',bucket:'purchased',units:1}),/EVENT_KEY_CONFLICT/);});
++test('cross-bucket grant overflow rejected before mutation',()=>{const w=apply(emptyWallet(),{key:'max',kind:'grant',bucket:'purchased',units:Number.MAX_SAFE_INTEGER});assert.throws(()=>apply(w,{key:'promo',kind:'grant',bucket:'promotional',units:1}),/UNSAFE_CREDIT_TOTAL/);});
++test('invalid cross-bucket starting sum rejected',()=>{const w=emptyWallet();w.available={purchased:Number.MAX_SAFE_INTEGER,promotional:1};assert.throws(()=>apply(w,{key:'grant',kind:'grant',bucket:'purchased',units:1}),/UNSAFE_CREDIT_TOTAL/);});
++test('release cannot overflow aggregate available balance',()=>{let w=apply(emptyWallet(),{key:'p',kind:'grant',bucket:'promotional',units:Number.MAX_SAFE_INTEGER});w=apply(w,{key:'res',kind:'reserve',taskId:'task',units:1});w=apply(w,{key:'paid',kind:'grant',bucket:'purchased',units:1});assert.throws(()=>apply(w,{key:'release',kind:'release',taskId:'task'}),/UNSAFE_CREDIT_TOTAL/);});
+diff --git a/tests/v2/quality.test.mjs b/tests/v2/quality.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tests/v2/quality.test.mjs
+@@ -0,0 +1,25 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';
++import {classifyOutput,sameNormalizedPixels,planCompensation} from '../../shared/v2/form-quality-policy.js';
++const px={normalizerVersion:'rgba-srgb-v1',sha256:'a'.repeat(64),width:640,height:480};const good={requestedEdits:1,decode:'valid'};
++test('valid pixels without review are not quality verified',()=>{const r=classifyOutput(good);assert.equal(r.quality,'unassessed');assert.equal(r.deliver,true)});
++test('invalid output returns reserved credit',()=>assert.equal(classifyOutput({...good,decode:'invalid'}).creditAction,'release'));
++test('exact normalized identity rejects no change',()=>assert.equal(classifyOutput({...good,sourcePixels:px,outputPixels:{...px}}).reason,'OUTPUT_UNCHANGED'));
++test('identity evidence overrides accepted annotation',()=>assert.equal(classifyOutput({...good,sourcePixels:px,outputPixels:px,assessment:{status:'accepted'}}).deliver,false));
++for (const key of ['sha256','normalizerVersion','width','height']) test(`different ${key} is not exact equality`,()=>{const b={...px,[key]:key==='sha256'?'b'.repeat(64):key==='normalizerVersion'?'rgba-v2':999};assert.equal(sameNormalizedPixels(px,b),false)});
++for (const issue of ['identity_changed','target_not_applied','unwanted_structure','image_artifacts']) test(`confirmed ${issue} rejects`,()=>assert.equal(classifyOutput({...good,assessment:{status:'rejected',issue}}).deliver,false));
++test('accepted review stays accepted',()=>assert.equal(classifyOutput({...good,assessment:{status:'accepted'}}).quality,'accepted'));
++for(const requestedEdits of [0,-1,NaN,1.5,'1'])test(`bad edit count ${requestedEdits}`,()=>assert.throws(()=>classifyOutput({...good,requestedEdits})));
++test('unknown input field rejected',()=>assert.throws(()=>classifyOutput({...good,qualityPassed:true})));
++test('empty pixel normalizer rejected',()=>assert.throws(()=>sameNormalizedPixels({...px,normalizerVersion:''},px)));
++test('file hash field not accepted as pixel digest',()=>assert.throws(()=>sameNormalizedPixels({...px,fileHash:px.sha256},px)));
++test('contradictory review rejected',()=>assert.throws(()=>classifyOutput({...good,assessment:{status:'accepted',issue:'identity_changed'}})));
++test('rejected review needs category',()=>assert.throws(()=>classifyOutput({...good,assessment:{status:'rejected'}})));
++const comp={rootTaskId:'root-1',taskStatus:'succeeded',creditCost:1,rootAlreadyCompensated:false,review:'approved',policyVersion:'v1'};
++test('approved compensation uses frozen cost',()=>assert.equal(planCompensation({...comp,creditCost:2}).grantUnits,2));
++for(const taskStatus of ['failed','cancelled','processing'])test(`no double benefit for ${taskStatus}`,()=>assert.equal(planCompensation({...comp,taskStatus}).grantUnits,0));
++for(const review of ['pending','rejected'])test(`no credit for ${review}`,()=>assert.equal(planCompensation({...comp,review}).grantUnits,0));
++test('already compensated stays zero across policy change',()=>assert.equal(planCompensation({...comp,rootAlreadyCompensated:true,policyVersion:'v2'}).grantUnits,0));
++test('root-level benefit stable across versions',()=>assert.equal(planCompensation(comp).benefitKey,planCompensation({...comp,policyVersion:'v2'}).benefitKey));
++test('invalid coercion rejected',()=>assert.throws(()=>planCompensation({...comp,rootAlreadyCompensated:0})));
++test('unsafe root rejected',()=>assert.throws(()=>planCompensation({...comp,rootTaskId:'../user'})));
++test('functions do not mutate inputs',()=>{const s=JSON.stringify(comp);planCompensation(comp);assert.equal(JSON.stringify(comp),s)});
+diff --git a/tests/v2/task-launch.test.mjs b/tests/v2/task-launch.test.mjs
+new file mode 100644
+--- /dev/null
++++ b/tests/v2/task-launch.test.mjs
+@@ -0,0 +1,22 @@
++import {test} from 'node:test';import assert from 'node:assert/strict';import {transition} from '../../shared/v2/task-policy.js';import {canGrantTrial,marketFromStorefront} from '../../shared/v2/launch-policy.js';
++test('queued starts once',()=>assert.deepEqual(transition('queued','start'),{status:'processing',credits:'none',upstream:'start_once'}));
++test('queued cancellation releases without upstream',()=>assert.deepEqual(transition('queued','cancel'),{status:'cancelled',credits:'release',upstream:'none'}));
++test('processing cancel must not pretend cost-free',()=>assert.throws(()=>transition('processing','cancel'),/ALREADY_SUBMITTED/));
++test('processing failure releases user reservation',()=>assert.equal(transition('processing','technical_failure').credits,'release'));
++test('deliver settles',()=>assert.equal(transition('processing','deliver').credits,'settle'));
++test('restart processing becomes uncertain without retry',()=>assert.deepEqual(transition('processing','restart'),{status:'uncertain',credits:'none',upstream:'no_auto_retry'}));
++test('uncertain expiry fails and releases user only',()=>assert.equal(transition('uncertain','recovery_expired').credits,'release'));
++test('uncertain cannot be restarted as a new provider call',()=>assert.throws(()=>transition('uncertain','start'),/ILLEGAL_TRANSITION/));
++for(const s of ['queued','processing','uncertain','succeeded','failed','cancelled'])test(`leaving ${s} never changes state or charges`,()=>assert.deepEqual(transition(s,'leave'),{status:s,credits:'none',upstream:'none'}));
++for(const s of ['succeeded','failed','cancelled'])test(`late output to ${s} does nothing`,()=>assert.deepEqual(transition(s,'deliver'),{status:s,credits:'none',upstream:'none'}));
++test('queued cannot deliver',()=>assert.throws(()=>transition('queued','deliver'),/ILLEGAL_TRANSITION/));
++test('invalid states fail',()=>assert.throws(()=>transition('unknown','start'),/INVALID_STATE/));
++const policy={enabled:true,units:1,budgetApproved:true,stableAccount:true,claimedBefore:false,reservedExposureMicros:20,spentMicros:30,newMaxCostMicros:50,budgetMicros:100};
++test('trial exact budget boundary allowed only pending transaction',()=>assert.equal(canGrantTrial(policy).reason,'ELIGIBLE_PENDING_ATOMIC_RESERVATION'));
++test('trial cannot exceed reserved exposure',()=>assert.equal(canGrantTrial({...policy,newMaxCostMicros:51}).reason,'TRIAL_BUDGET_EXHAUSTED'));
++for(const change of [{enabled:false},{budgetApproved:false},{stableAccount:false},{claimedBefore:true},{units:0},{budgetMicros:0},{newMaxCostMicros:0}])test(`closed trial ${JSON.stringify(change)}`,()=>assert.equal(canGrantTrial({...policy,...change}).allowed,false));
++test('unknown cost is not zero',()=>assert.throws(()=>canGrantTrial({...policy,newMaxCostMicros:null})));
++test('unsafe sum closes trial',()=>assert.equal(canGrantTrial({...policy,spentMicros:Number.MAX_SAFE_INTEGER,budgetMicros:Number.MAX_SAFE_INTEGER}).allowed,false));
++test('boolean strings rejected',()=>assert.throws(()=>canGrantTrial({...policy,budgetApproved:'true'})));
++test('ISO3 normalized explicitly',()=>{assert.equal(marketFromStorefront('USA'),'US');assert.equal(marketFromStorefront('GBR'),'GB');});
++for(const value of ['en-US','US','en','GB','__proto__','constructor',null,1])test(`not a known storefront ${value}`,()=>assert.equal(marketFromStorefront(value),null));
+diff --git a/tools/check-v2.mjs b/tools/check-v2.mjs
+new file mode 100644
+--- /dev/null
++++ b/tools/check-v2.mjs
+@@ -0,0 +1,18 @@
++import {mkdtempSync,writeFileSync,mkdirSync,copyFileSync,rmSync,readdirSync,existsSync} from 'node:fs';
++import {tmpdir} from 'node:os';import {resolve,join,dirname} from 'node:path';import {fileURLToPath} from 'node:url';import {spawnSync} from 'node:child_process';
++const root=resolve(dirname(fileURLToPath(import.meta.url)),'..');
++const out=mkdtempSync(join(tmpdir(),'form-v2-tests-'));
++const modules=['edit-plan','task-policy','credit-reservations','launch-policy','provider-prompt','form-quality-policy'];
++const referenceTests=['contracts.test.mjs','credit.test.mjs','task-launch.test.mjs','quality.test.mjs'];
++const run=(cmd,args)=>{const r=spawnSync(cmd,args,{cwd:root,stdio:'inherit'});if(r.error||r.status!==0)throw r.error||new Error(`Exit ${r.status}`);};
++try {
++ const local=join(root,'node_modules/.bin/tsc');
++ const compiler=process.env.FORM_TSC_BIN||(existsSync(local)?local:'tsc');
++ const config={compilerOptions:{target:'ES2023',module:'ESNext',moduleResolution:'Bundler',strict:true,lib:['ES2023','DOM'],types:[],rootDir:root,outDir:out,noEmitOnError:true},files:modules.map(f=>join(root,'shared/v2',f+'.ts'))};
++ writeFileSync(join(out,'tsconfig.json'),JSON.stringify(config));run(compiler,['-p',join(out,'tsconfig.json')]);
++ writeFileSync(join(out,'package.json'),'{'+'"type":"module"'+'}');mkdirSync(join(out,'tests/v2'),{recursive:true});
++ for(const f of referenceTests)copyFileSync(join(root,'tests/v2',f),join(out,'tests/v2',f));
++ run(process.execPath,['--test',...referenceTests.map(f=>join(out,'tests/v2',f))]);
++ const other=readdirSync(join(root,'tests/v2')).filter(f=>/\.test\.(ts|tsx|mjs)$/.test(f)&&!referenceTests.includes(f)).sort();
++ if(other.length)run(process.execPath,['--import','tsx','--test',...other.map(f=>join(root,'tests/v2',f))]);
++} catch(e){console.error(e);process.exitCode=1;} finally {rmSync(out,{recursive:true,force:true});}

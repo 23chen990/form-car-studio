@@ -1,0 +1,69 @@
+{
+  "changedFiles": [
+    "server/v2/provider.ts",
+    "server/v2/provider-profile.ts",
+    "tests/v2/provider.test.ts"
+  ],
+  "knownIssues": [
+    "Supplied preflight tool can silently skip when invoked through a macOS /tmp symlink; validation used its physical path. Tool was not copied into application.",
+    "Injected transport is server-owned test code; .invalid is protection against accidental dispatch, not a boundary against malicious executable code.",
+    "A high-severity inherited sharp advisory remains a release blocker; npm audit returned 1. No mass dependency update was performed."
+  ],
+  "externalPending": [
+    "Real model/profile approval, quality evidence and defended cost upper bound",
+    "F08-F10/F27 ownership/consent/task/wallet/budget wiring",
+    "Independent high-risk review; live model, iPhone and StoreKit remain NOT_RUN"
+  ],
+  "taskId": "F05",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "339b7b096b47807dfc90a3584591ea3372794728",
+  "verification": [
+    {
+      "kind": "unit",
+      "command": "node --import tsx --test tests/v2/provider.test.ts",
+      "exitCode": 0,
+      "status": "PASS_45_SYNTHETIC_TESTS",
+      "rawLogSha256": "c4ebf7b2b30c47340b9b5dafea1b38a9d07a0865ffbb29b59d429e99b2a57ca1",
+      "evidencePath": "docs/form-v2/progress/F05.md",
+      "sha256": "efd00fd6ad74ee242dc66ed086c6a5de6f9de59c8f232b4dc6b1929f6853421b"
+    },
+    {
+      "kind": "v2-regression",
+      "command": "node tools/check-v2.mjs",
+      "exitCode": 0,
+      "status": "PASS_151_REFERENCE_PLUS_60_SERVICE_TESTS",
+      "rawLogSha256": "d8047197eaea50b60f8f9aed9cc8b96c9d56b3232615d25f9305672d404bd0d2",
+      "evidencePath": "docs/form-v2/progress/F05.md",
+      "sha256": "efd00fd6ad74ee242dc66ed086c6a5de6f9de59c8f232b4dc6b1929f6853421b"
+    },
+    {
+      "kind": "typecheck",
+      "command": "./node_modules/.bin/tsc --noEmit",
+      "exitCode": 0,
+      "status": "PASS",
+      "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "evidencePath": "docs/form-v2/progress/F05.md",
+      "sha256": "efd00fd6ad74ee242dc66ed086c6a5de6f9de59c8f232b4dc6b1929f6853421b"
+    },
+    {
+      "kind": "red-regression",
+      "command": "node --import tsx --test tests/v2/provider.test.ts (before content-length fix)",
+      "exitCode": 1,
+      "status": "EXPECTED_RED_1_FAILURE_STREAM_NOT_CANCELLED",
+      "rawLogSha256": "3cf6b7554818f53d1a4a7f02f6e01033792c943ba6d797e9eb551e3b1cd24046",
+      "evidencePath": "docs/form-v2/progress/F05.md",
+      "sha256": "efd00fd6ad74ee242dc66ed086c6a5de6f9de59c8f232b4dc6b1929f6853421b"
+    }
+  ],
+  "independentReviewer": null,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F02",
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false
+}

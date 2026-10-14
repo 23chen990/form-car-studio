@@ -1,0 +1,107 @@
+{
+  "taskId": "F32",
+  "specVersion": "2.2",
+  "codeReady": false,
+  "codeCommit": null,
+  "status": "BLOCKED_REVIEW_AND_SERVICE_BINDING",
+  "codeReferenceSnapshot": "ae59a3e2ae97595435e30baea4fe94f21d7d8423",
+  "dependencies": {
+    "F03": {
+      "codeReady": true,
+      "codeCommit": "40401656194bbb413d4ef09c6439d6a112553b64"
+    },
+    "F15": {
+      "codeReady": true,
+      "codeCommit": "0c5852e8706bc61fa2d9d76f6e6b554cad785787"
+    },
+    "F20": {
+      "codeReady": true,
+      "codeCommit": "4e0118769c3001d8e74c1a3398782487f8adf1fe"
+    },
+    "F22": {
+      "codeReady": true,
+      "codeCommit": "34f999c648777c48c6aa641b242634a844493539"
+    },
+    "F25": {
+      "codeReady": true,
+      "codeCommit": "2cc23d23e05ad357f55d812260286a924c547305"
+    },
+    "F27": {
+      "codeReady": true,
+      "codeCommit": "beb549f71b0f8be73ab998a1de303200811e9f95"
+    },
+    "F28": {
+      "codeReady": true,
+      "codeCommit": "15f25fadee873a92a908add7caf255e4f723befb"
+    },
+    "F31": {
+      "codeReady": true,
+      "codeCommit": "431d016227680f161b75020fecbdfdc2bda31ddd"
+    },
+    "F35": {
+      "codeReady": true,
+      "codeCommit": "88001a92138b1201010b307294dce076a24ed914"
+    },
+    "F36": {
+      "codeReady": true,
+      "codeCommit": "1c2576168a5f672a711cfa7d3394c927462ecd9e"
+    },
+    "F37": {
+      "codeReady": true,
+      "codeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c"
+    },
+    "F38": {
+      "codeReady": true,
+      "codeCommit": "b2aac5d810e2e81410072b3b10e236128439fae3"
+    }
+  },
+  "verification": [
+    {
+      "kind": "dependency-checkpoint",
+      "command": "python3 docs/form-handoff/tools/guard.py begin F32 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F32-gate-checkpoint.json",
+      "exitCode": 0,
+      "status": "PASS_SCOPE_PRECONDITIONS_ONLY",
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F32-gate-checkpoint.json",
+      "sha256": "7f1adc2aa2c2ca9c0d5acd3efea4b96d30a312643c4861eb433c27477c8b0738"
+    },
+    {
+      "kind": "full-app-integration",
+      "command": null,
+      "exitCode": null,
+      "status": "NOT_RUN",
+      "evidencePath": null,
+      "sha256": null
+    }
+  ],
+  "changedFiles": [],
+  "knownIssues": [
+    "All 12 code-readiness dependencies are satisfied, but REVIEW_GATES.md and open Issue #2 prohibit critical dependent runtime wiring without independent verification.",
+    "Original application entrypoints remain unchanged and V2 modules stay isolated. No full-app integration or real iPhone flow is established.",
+    "Existing S02 project/history/draft-CAS/cover/favorite persistence and authenticated wallet runtime bindings remain missing; full implementation cannot be hidden inside F32 thin entrypoints.",
+    "F18 SDK build/simulator launch remains unverified; latest actual Xcode attempts exit 69 before compilation because license is pending."
+  ],
+  "externalPending": [
+    "Named independent migration, wallet/worker/idempotency, identity, purchase/refund, deletion/privacy and F32 integration review",
+    "Service owner: bind existing S02 bootstrap/projects/versions/draft/cover/favorite/owned-assets contracts and authenticated GET /api/v2/wallet using existing ledger summary",
+    "Service owner: segregated Sandbox catalog/ledger durable acknowledgment; existing F23 Sandbox crediting stays disabled",
+    "Actual approved API/bundle/team/config and genuine native SDK, iPhone/Apple/Sandbox/quality evidence"
+  ],
+  "sizeBudget": {
+    "maxFiles": 10,
+    "maxLines": 1000,
+    "unchanged": true,
+    "completeCandidateMeasured": false,
+    "status": "NOT_MEASURED_NO_SIZE_PASS_CLAIM",
+    "requiredIfOverBudget": "BLOCKED_TASK_TOO_BIG with reviewed amendment/split; preserve migration/tests/guard"
+  },
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": null
+}

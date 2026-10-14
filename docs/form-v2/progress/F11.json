@@ -1,0 +1,24 @@
+{
+  "taskId": "F11",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "7041ddc38f2645bfe04b7bcb57034701bd64b2fb",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/client-submission.test.ts", "exitCode": 0, "status": "25/25 PASS; committed source, 0 skipped", "rawLogPath": "/tmp/form-F11-operation-committed.log", "rawLogSha256": "54c6f9eba3038177eac4784e34b64b94fdd911cb11dd24326661d5f4e4334d8b", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 236 service = 387 PASS, 0 skipped", "rawLogPath": "/tmp/form-F11-operation-final-v2.log", "rawLogSha256": "475896ed08888a18772769f8021bd5d81e35e13d4323df9b7bca30fe053f48ee", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "TypeScript and Vite PASS; notices unchanged", "rawLogPath": "/tmp/form-F11-operation-final-build.log", "rawLogSha256": "2ede662401087772adde9f566810fdbf20bd3b0e6bd9589a9d3ecf807d219b8b", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"},
+    {"kind": "browser", "command": "node /tmp/form-F11-operation-browser-smoke.mjs", "exitCode": 0, "status": "Real Chromium153 + Vite module runtime PASS: secure UUID, refreshed identity, 40 terminal acknowledgments, pending retention, logout, lost-trial-response refresh/repost same endpoint and ID; synthetic fetch only, external calls0", "rawLogPath": "/tmp/form-F11-operation-browser.log", "rawLogSha256": "aa47f500cd22b206015f2ee7fbc046f5092cbb76e87c265649194b62531dce0c", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"},
+    {"kind": "tdd-red", "command": "node --import tsx --test /var/folders/f2/s76hhpss3llc2_zw9g63x7380000gn/T/form-F11-operation-red-base-h88yh0wj/tests/v2/client-submission.test.ts", "exitCode": 1, "status": "Read-only client snapshot basebe716736 with unchanged new regression assertions: 20/25 PASS; five actual pre-operation behavior failures", "rawLogPath": "/tmp/form-F11-operation-baseline-red.log", "rawLogSha256": "44ca00134a59f0bf0e68f2fd9b02d9faf24e1e4575470fd98dfd4927c0623556", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/client-submission.test.ts (before null/symbol option checks)", "exitCode": 1, "status": "Actual RED: explicit null fell back to ordinary task; strict pre-IO rejection repaired", "rawLogPath": "/tmp/form-F11-operation-null-red.log", "rawLogSha256": "46cb70e2412667ce77ad0def17e8b1d82a03f0c27332f646ccc96bc030d03e3b", "evidencePath": "docs/form-v2/progress/F11.md", "sha256": "f4ce02e2e0d5dc57cb91c450401b4e15194c11649655f9fe5888ca49db692586"}
+  ],
+  "changedFiles": ["src/lib/api-v2.ts", "src/lib/submission-store.ts", "tests/v2/client-submission.test.ts"],
+  "knownIssues": ["F36 must verify the actual trial router uses the same exact TaskRequest/SafeTaskDTO and shared owned lookup; current browser uses synthetic fetch.", "Production main/App remains unchanged and V2 unmounted pending reviewed F32; workspace API and queue-runtime scopes remain missing.", "Prior Linux old style-save browser failure5/6 remains recorded; local original6/6 passed, and no assertions were weakened."],
+  "externalPending": ["Native approved-host/Keychain integration, real Apple/provider/iPhone and independent review remain NOT_RUN / NOT_INDEPENDENT."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F20 Apple identity and sessions",
+  "history": [{"reportAtCommit": "7041ddc38f2645bfe04b7bcb57034701bd64b2fb", "codeCommit": "5b8e485a23685834fbaf530f6faccac145645dbb", "reportPath": "docs/form-v2/progress/F11.json", "sha256": "8de3eff9b340cd3a0eaa1a5b6c79c8b33edad1bf44dca83c30e40efb463a0daa"}]
+}

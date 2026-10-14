@@ -1,0 +1,23 @@
+{
+  "taskId": "F20",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "4e0118769c3001d8e74c1a3398782487f8adf1fe",
+  "verification": [
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/auth.test.ts", "exitCode": 1, "status": "EXPECTED_RED: malformed expiry accepted and frozen Apple route 404 before fixes", "rawLogPath": "/tmp/form-F20-boundaries-red.log", "rawLogSha256": "2de27c3685c5ae7d06681eb06bd0bc01d04ee1b025c9cee250590fd6f77a7518", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"},
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/auth.test.ts", "exitCode": 0, "status": "PASS 13/13, synthetic RSA signatures and independent SQLite worker refresh race", "rawLogPath": "/tmp/form-F20-committed-focus.log", "rawLogSha256": "55e16c0ed9cedc0e3ec7ab49f30b45c8fcddc87e4dcdf3957ab94e99dbb549ac", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"},
+    {"kind": "unit", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS 400/400 (151 reference + 249 service/client)", "rawLogPath": "/tmp/form-F20-committed-v2.log", "rawLogSha256": "2da9e6eb56a43af3bff5c8f27217dfcca74a6e941597ea8b045cad1e40788af4", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"},
+    {"kind": "regression", "command": "npm test", "exitCode": 0, "status": "PASS 30/30 original tests unchanged", "rawLogPath": "/tmp/form-F20-committed-legacy.log", "rawLogSha256": "18671ebd765a37158ffb3ef5a41b320d092bfab66f75898ed5cea6e161951e78", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"},
+    {"kind": "typecheck", "command": "npx --no-install tsc --noEmit", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F20-final-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F20-committed-build.log", "rawLogSha256": "d3d44463195d733de9f311208882feb9eb1f033ccddedc3e6fa606a378782e00", "evidencePath": "docs/form-v2/progress/F20.md", "sha256": "1eb8482e72cd57cc58536c152f80811aa3ea6744809d548c3a6f1a4b8707b216"}
+  ],
+  "changedFiles": ["server/v2/auth-apple.ts", "server/v2/sessions.ts", "server/v2/routes-auth.ts", "tests/v2/auth.test.ts", "package.json", "package-lock.json"],
+  "knownIssues": ["Isolated router only; no runtime auth wiring before F32. Inherited Sharp high advisory unresolved."],
+  "externalPending": ["Real Apple configuration/login and independent identity/privacy review NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F22"
+}

@@ -1,0 +1,11 @@
+ACTUAL LOCAL VALIDATION 2026-10-11
+Node v22.16.0; TypeScript5.8.3; Python standard unittest.
+Pure reference runner:151 tests,151 pass,0 fail,0 skipped.
+Python guard/release-record checks:42 tests,42 pass.
+Distinct automated cases:193. Patch/installer repeats not added to this count.
+Task graph:39 tasks,156 planned acceptance conditions, graph validated.
+Patch:git apply --check + git apply in temporary synthetic repo, eleven files matched, same151 tests passed.
+Installer:dry-run no writes; eleven add-only writes; repeat write refused; same151 tests passed.
+Unfilled release-evidence template:RELEASE_BLOCKED as expected.
+NOT_RUN:original app suite, SQLite migration, browser UI, actual provider, iPhone, Apple IAP, independent/legal review, production deployment.
+Raw TAP/unittest logs are included only in the downloadable archive, not needed to execute the public reference sources.

@@ -1,0 +1,21 @@
+{
+  "taskId": "F35",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "88001a92138b1201010b307294dce076a24ed914",
+  "status": "CODE_READY_OFFLINE",
+  "checkpointBase": "c2310d1686b35aade1dbc1471d8c0f7afdf4f31f",
+  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+  "verification": [{"kind": "unit-regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS; current reference and application suites including13 quality integration tests, purchases/refunds/identity/worker regressions", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F35-committed-v2.log", "sha256": "36d309bb5f112bb901f629dcca25963bc79cfe982202507b46a143666bcc9705"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS TypeScript and application build", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F35-committed-build.log", "sha256": "289c454a849f2187ed8b5c436e73c98e1f072272a18f82dc85afc1ab1e45db7d"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F35 --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F35-current-source-checkpoint.json", "exitCode": 0, "status": "PASS original checkpoint; complete source+evidence728/900 across5 allowed paths", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F35-code-and-reports-guard.log", "sha256": "9177980c3a674050590da3d01fba93c5801f74b053f638a9b8576d703890e642"}],
+  "changedFiles": ["server/v2/compensation.ts", "server/v2/quality.ts", "tests/v2/quality-integration.test.ts"],
+  "knownIssues": ["Quality/compensation ports remain isolated and unmounted until reviewed F32 wiring. A complaint acceptance approves the reported case, not image quality; unassessed output stays unassessed.", "Operator authorization, evidence/policy and root provenance require independent review before live use. Service-level audit checks do not claim database tamper resistance.", "Tasks funded from quality-compensation lots cannot receive further compensation. Normal F09 tasks do not set root_task_id; this bounded existing-provenance guard prevents a remedial benefit chain without changing F09."],
+  "externalPending": ["Independent ledger/worker/quality and actual operator-policy review; real model assessments, Apple/refund, device and F32 runtime integration remain NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "sourceChangedLines": 696,
+  "developmentEvidence": ["F35-red-quality-1.log", "F35-red-compensation-2.log", "F35-root-result-provenance-red.log"],
+  "testEnvironment": {"runtime": "Node24.14.0", "os": "macOS arm64", "scope": "Synthetic generated PNGs and temporary SQLite, including separate-connection Worker race; no real operator/device/purchase/model"}
+}

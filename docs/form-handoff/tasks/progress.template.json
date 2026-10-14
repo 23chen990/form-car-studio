@@ -1,0 +1,13 @@
+{
+ "taskId":"F00",
+ "specVersion":"2.2",
+ "codeReady":false,
+ "codeCommit":null,
+ "verification":[{"kind":"unit","command":null,"exitCode":null,"status":"NOT_RUN","evidencePath":null,"sha256":null}],
+ "changedFiles":[],
+ "knownIssues":[],
+ "externalPending":[],
+ "independentReviewer":null,
+ "authorization":{"productionTouched":false,"externalSpendMicrosUSD":0,"merged":false},
+ "nextEligibleTask":null
+}

@@ -1,0 +1,16 @@
+{
+  "specVersion": "2.2",
+  "repository": "23chen990/form-car-studio",
+  "handoffBranch": "handoff/form-v2-briefing-20261011",
+  "handoffCommit": "c6fcf3a94295bbfc45a204388be3cc2bb480f017",
+  "draftPullRequest": "https://github.com/23chen990/form-car-studio/pull/1",
+  "originalApplicationCommit": "3df0b392f4c81364a34d5083dc75284eafbe2eb1",
+  "publicHandoffTree": "d8d6a393b02705ddd81811fbd003d894b628465f",
+  "rootStartBlob": "4940963934cacae140e3044e839b7af8cd51b6b7",
+  "githubCoreFiles": 44,
+  "state": "HANDOFF_ONLY_NOT_APPLICATION_INTEGRATION",
+  "distinctSyntheticTests": 193,
+  "paidCalls": 0,
+  "published": false,
+  "note": "Core files match the GitHub handoff tree byte-for-byte. Archive adds raw synthetic logs, optional equivalent add-only patch, this provenance and an archive manifest. GitHub instructions are self-contained without the archive."
+}

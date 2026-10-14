@@ -1,0 +1,22 @@
+{
+  "taskId": "F25",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "2cc23d23e05ad357f55d812260286a924c547305",
+  "status": "CODE_READY_OFFLINE",
+  "checkpointBase": "bdbcc81b9d3a6c3b426885505dfd9823f9fdaea1",
+  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+  "verification": [{"kind": "unit-regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference +349 application =500/500; includes12 signed synthetic refund tests,17 purchases, wallet/auth/worker regressions", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F25-committed-v2.log", "sha256": "ed19808aad8409f99dd9406fa6f33057a3052cac09086f8fcddc96caa44d8312"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS tsc and production build; existing entry bundle unchanged", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F25-committed-build.log", "sha256": "a713ffe66ee2cd4a3d514e1a0de11abd84e49d00514414fa448569508055a1d8"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F25 --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F25-authorized-resume-checkpoint.json", "exitCode": 0, "status": "PASS original authorized-resume checkpoint; complete source and evidence837/900", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F25-code-and-reports-guard.log", "sha256": "2e3166cf0019161c6554b3101e58932a9b0225854322d1d36c7e30ec25d1dc87"}],
+  "changedFiles": ["server/v2/apple-notifications.ts", "server/v2/refunds.ts", "tests/v2/refunds.test.ts", "tools/reconcile-purchases.mjs"],
+  "knownIssues": ["Production purchase construction must bind the canonical synchronous revocation transaction helper before live use; F23 bridge follow-up is required.", "Reconciliation is dry-run by default; apply requires trusted injected operator authorization. No deployed webhook or production reconciliation is wired."],
+  "externalPending": ["Real Apple/StoreKit/Sandbox/refund operations, production configuration and independent identity/purchase/refund review remain NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "sourceChangedLines": 805,
+  "testEnvironment": {"runtime": "Node24.14.0", "os": "macOS arm64", "Apple": "synthetic locally generated CA/JWS only; no network or purchase"},
+  "developmentEvidence": ["F25-red-contract-20261014-1420a.log", "F25-red-replay-cursor-20261014-1510.log", "F25-red-ledger-replay-20261014-1528.log"],
+  "checkpointRestartReceipt": "/private/tmp/form-owner-resume-20261014-zb7351_9/F25-unused-checkpoint-restart-receipt.json"
+}

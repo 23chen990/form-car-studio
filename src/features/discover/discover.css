@@ -1,0 +1,31 @@
+.entry-flow { width: min(1140px, calc(100% - 2rem)); margin-inline: auto; padding-bottom: max(1rem, env(safe-area-inset-bottom)); color: #22271f; font-family: "Avenir Next", Avenir, "Helvetica Neue", sans-serif; }
+.entry-flow *, .entry-flow *::before, .entry-flow *::after { box-sizing: border-box; min-width: 0; }
+.entry-flow button { min-height: 48px; max-width: 100%; padding: .75rem 1rem; border: 1px solid #dedfd5; background: #f7f7f2; color: #22271f; font: inherit; white-space: normal; overflow-wrap: anywhere; cursor: pointer; }
+.entry-flow button:disabled { opacity: .55; cursor: not-allowed; }
+.entry-flow :focus-visible { outline: 3px solid #5d7f23; outline-offset: 3px; }
+.entry-header { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 1rem; padding-block: 1.5rem; border-bottom: 1px solid #dedfd5; }
+.entry-header > span:last-child, .entry-eyebrow { font: .7rem/1.6 "SFMono-Regular", Consolas, monospace; letter-spacing: .1em; color: #62695e; overflow-wrap: anywhere; }
+.entry-wordmark { font-size: 2rem; letter-spacing: -.08em; font-weight: 800; }
+.entry-hero { padding-block: 2rem; }
+.entry-flow h1 { margin: .6rem 0 1.5rem; font: 500 clamp(2rem, 6vw, 4rem)/1.05 "Helvetica Neue", sans-serif; letter-spacing: -.05em; overflow-wrap: anywhere; }
+.entry-case { margin: 0; }
+.entry-case > div { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: .5rem; background: #efefe8; }
+.entry-case img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: contain; }
+.entry-case figcaption { display: flex; flex-wrap: wrap; justify-content: space-between; gap: .5rem 1rem; padding-block: .8rem; font-size: .85rem; }
+.entry-case figcaption span, .entry-source, .entry-footer { color: #62695e; }
+.entry-actions { display: flex; flex-wrap: wrap; gap: .65rem; margin-top: 1rem; }
+.entry-flow .entry-primary { background: #d2fa69; border-color: #22271f; font-weight: 600; }
+.entry-recent { padding-block: 1.5rem; border-bottom: 1px solid #dedfd5; }
+.entry-recent h2 { font-size: 1.3rem; font-weight: 500; }
+.entry-projects { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr)); gap: 1rem; }
+.entry-projects article { padding: 1rem; border: 1px solid #dedfd5; }
+.entry-projects img { width: 100%; height: 9rem; object-fit: contain; }
+.entry-projects h3, .entry-projects p { margin-block: .5rem; overflow-wrap: anywhere; }
+.entry-projects button { margin: .3rem .3rem 0 0; }
+.entry-missing { padding: 2rem 1rem; background: #efefe8; }
+.entry-source { padding-block: .75rem; overflow-wrap: anywhere; }
+.entry-details { max-width: 45rem; padding-block: 2rem; }
+.entry-details p { line-height: 1.6; overflow-wrap: anywhere; }
+.entry-footer { padding-block: 1rem; border-top: 1px solid #dedfd5; font-size: .75rem; line-height: 1.6; }
+@media (max-width: 600px) { .entry-case > div { grid-template-columns: minmax(0, 1fr); } .entry-actions { flex-direction: column; } }
+@media (prefers-reduced-motion: reduce) { .entry-flow *, .entry-flow *::before, .entry-flow *::after { animation: none; transition: none; scroll-behavior: auto; } }

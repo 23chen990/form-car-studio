@@ -1,0 +1,8 @@
+{
+  "gitApplyCheck": true,
+  "gitApply": true,
+  "files": 11,
+  "byteEquivalent": true,
+  "referenceTestExit": 0,
+  "environment": "temporary synthetic Git repository; Node 22.16.0 and TypeScript 5.8.3; no original application, npm install, provider or Apple call"
+}

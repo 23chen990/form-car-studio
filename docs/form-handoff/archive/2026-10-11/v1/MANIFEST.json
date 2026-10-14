@@ -1,0 +1,64 @@
+{
+  "created_on": "2026-10-11",
+  "repository_baseline": "3df0b392f4c81364a34d5083dc75284eafbe2eb1",
+  "real_model_calls_executed": 0,
+  "original_repo_tests_executed": false,
+  "offline_synthetic_tests_passed": 12,
+  "files": [
+    {
+      "name": "README.md",
+      "bytes": 4435,
+      "sha256": "394c4b9f329aa72943328f06e874d837bd45cee06cdd4059809a2e65bc6e612a"
+    },
+    {
+      "name": "research.md",
+      "bytes": 41288,
+      "sha256": "9b06900e7daa15481f6f530b2c5cf099ef8da5ef9a758cc0076a3d89a19446ac"
+    },
+    {
+      "name": "Codex_handoff.md",
+      "bytes": 12406,
+      "sha256": "9c973cffe92ebad11a43a8ff7beaa0a0fdd09b452988d300b6a4f222bda4da40"
+    },
+    {
+      "name": "User_research_protocol.md",
+      "bytes": 7271,
+      "sha256": "48545793a22db77a97f740f2b94f73000c54b11836f192cb0f694a4467add6b7"
+    },
+    {
+      "name": "Experiment_decision_board.md",
+      "bytes": 5981,
+      "sha256": "9dac5b6e7b4bd97f7128e3cbb55bc80c48ca96c75c8193a05005a8337e2ce347"
+    },
+    {
+      "name": "sources.json",
+      "bytes": 13001,
+      "sha256": "037d98e3ee44a8a07c454acded466187719e04c3bce0bd476d2208fb1ced216a"
+    },
+    {
+      "name": "summarize_eval.py",
+      "bytes": 8817,
+      "sha256": "2a8af8894bfbab668ff4289b7bb5de2e460c6c780a29a931855f034252e6f923"
+    },
+    {
+      "name": "eval_runs.template.jsonl",
+      "bytes": 331,
+      "sha256": "1ec0fbc056fc8d30c41cc370b1b2411378d9799d20f1ac0cdb246bc748af6e32"
+    },
+    {
+      "name": "test_summarize_eval.py",
+      "bytes": 4532,
+      "sha256": "cec9754c4c9975c994cb2042c9c95909c02d1fcb481cfd1021024542ed79f4f1"
+    },
+    {
+      "name": "FORM_research_2026-10-11.docx",
+      "bytes": 60938,
+      "sha256": "f9674610245dfb2dca9d51f8e44a49f0d0dc5c1583b496c33b8d89706d371230"
+    },
+    {
+      "name": "Launch_addendum.md",
+      "bytes": 2563,
+      "sha256": "778fcd93a178e3288c6009eb83bb7360e69871d1b2ec96bb57d0d5e82cf907ed"
+    }
+  ]
+}

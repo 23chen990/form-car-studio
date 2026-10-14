@@ -1,0 +1,22 @@
+{
+  "taskId": "F06",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "3cb56b52c62e7bdfb090ab891a0b6f71521bd202",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/images.test.ts", "exitCode": 0, "status": "36/36 PASS; committed source, 0 skipped", "rawLogPath": "/tmp/form-F06-upgrade-reader-committed.log", "rawLogSha256": "3b0e42438a8344220aaaa8d3c8b2b83b5663708f8abbd8ecab426570b16a0905", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "35af487b31d1d707e2a31b570898c4473d52c380196ccc496382e3d0b381c3dc"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 218 service = 369 PASS, 0 skipped", "rawLogPath": "/tmp/form-F06-upgrade-reader-v2.log", "rawLogSha256": "0ca87c6906989d023059fc830c869c851e46514b1dabc60a34cf0960ef27c7be", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "35af487b31d1d707e2a31b570898c4473d52c380196ccc496382e3d0b381c3dc"},
+    {"kind": "typecheck", "command": "npx tsc --noEmit", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F06-upgrade-reader-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "35af487b31d1d707e2a31b570898c4473d52c380196ccc496382e3d0b381c3dc"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/images.test.ts (before origin hook)", "exitCode": 1, "status": "Actual RED: 32 PASS / 4 new origin-authority failures; existing assertions preserved", "rawLogPath": "/tmp/form-F06-upgrade-reader-red.log", "rawLogSha256": "086b97982c77a75dd711fbcfb6b9dd945092935a4b25a0b119bd9e84cdf1b21f", "evidencePath": "docs/form-v2/progress/F06.md", "sha256": "35af487b31d1d707e2a31b570898c4473d52c380196ccc496382e3d0b381c3dc"}
+  ],
+  "changedFiles": ["server/v2/assets.ts", "tests/v2/images.test.ts"],
+  "knownIssues": ["Generic reader contract is repaired; the SQL reader must implement the authority in F07 before upgraded legacy assets work.", "Production V2 mounting remains disabled until F32 and required review."],
+  "externalPending": ["Independent privacy/access review remains NOT_INDEPENDENT; no real photos or production data used."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F07 SQL reader consistency repair",
+  "history": [{"reportAtCommit": "3cb56b52c62e7bdfb090ab891a0b6f71521bd202", "codeCommit": "8b917783a6939b02e05905f5c7b4bc460675113f", "reportPath": "docs/form-v2/progress/F06.json", "sha256": "1b0fe8f9b0b4499f98b59d7f79b6d659d0c81a1badfc13befbfd2c1cc8508ef9"}]
+}

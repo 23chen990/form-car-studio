@@ -1,0 +1,47 @@
+{
+  "schemaVersion": 1,
+  "status": "NOT_RUN",
+  "slotId": null,
+  "split": null,
+  "taskClass": null,
+  "mode": null,
+  "blindOutputId": null,
+  "sourceCodeCommit": null,
+  "outputPrivateRef": null,
+  "outputSha256": null,
+  "requestedChanges": null,
+  "protectedVisibleFeatures": null,
+  "candidateId": null,
+  "providerId": null,
+  "profileVersion": null,
+  "model": null,
+  "promptVersion": null,
+  "promptSha256": null,
+  "attemptStartedAt": null,
+  "firstAttempt": null,
+  "attempts": [],
+  "assessment": {
+    "reviewerCode": null,
+    "identity": null,
+    "targetExecuted": null,
+    "nonTargetPreserved": null,
+    "artifacts": null,
+    "wouldKeep": null
+  },
+  "sequentialDrift": {
+    "immediateBasePrivateRef": null,
+    "originalBasePrivateRef": null,
+    "fromImmediateBase": null,
+    "fromOriginalBase": null
+  },
+  "cost": {
+    "actualCostMicrosUSD": null,
+    "retryCostMicrosUSD": null,
+    "maxExposureMicrosUSD": null,
+    "exposureStatus": null,
+    "costSource": null
+  },
+  "latencyMs": null,
+  "overlap": { "status": "NOT_CHECKED", "count": null },
+  "recordPolicy": "Append every attempt; preserve failures privately. The local CLI checks first-attempt consistency only; it cannot enforce append-only storage, private retention, or tamper resistance."
+}

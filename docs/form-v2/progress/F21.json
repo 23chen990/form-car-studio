@@ -1,0 +1,159 @@
+{
+  "taskId": "F21",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
+  "status": "CODE_READY_OFFLINE_SDK_UNVERIFIED",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-red.log",
+      "sha256": "48a7a2c565c0809545b77389f27d98e6fa4cca72aeceb7e512a28225f2c399ac",
+      "kind": "F21-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-race-red.log",
+      "sha256": "0d8698779c464c0245c2f79a1e46f098f30d07c5a5edbf5ad10aa659d7c3b133",
+      "kind": "F21-race-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-committed-focus.log",
+      "sha256": "14d96afbe7b93fc73ddc382093cbadd7f41b502765aa3bdc2a3b63e98ce59938",
+      "kind": "F21-committed-focus",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-committed-build.log",
+      "sha256": "6a7e65b08f545ddc874b1cbb4d38e53f553ab11d3283bc24a4cfe9623f83dcf4",
+      "kind": "F21-committed-build",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMAuth.swift",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-final-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "F21-final-parse",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/auth.test.ts tests/v2/native-auth.test.ts tests/v2/deletion.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-auth-regression.log",
+      "sha256": "03e1b3936cef49fbee4f712cc26e4100755238465a45a404bbb6ea101aa6dc6f",
+      "kind": "F21-auth-regression",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F21 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F21-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F21-source-guard.log",
+      "sha256": "e9929cf8c5b0ed1e5117d95f613065adbf94dcb0a26ab32d9bc2cee889b92996",
+      "kind": "F21-source-guard",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 1,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-red.log",
+      "sha256": "30e5cc84707a5647a57d79a72fe55fdf782dcd48b7e223955c86d9d84c2afc8d",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "b7f8510422c532b1e870a62b5e1c45c23f53e6fa3c5d2b1fa252825b90f0e234",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-committed.log",
+      "sha256": "f5ad39d522b985c181a2429bb55156255f0be802a1987a5f5ad36e05027d09c6",
+      "headAtStart": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-committed",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMAuth.swift",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "941b14102f27197ec1413559f828353c5711d8c76538ae49f1d9d58e0bae6fd2",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-parse",
+      "status": "PASS",
+      "limitation": "Syntax only; no iOS SDK compilation"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F21 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-checkpoint.json",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-guard.log",
+      "sha256": "9d28874c7cf82c17fdd760ddb5fbb935136c03d6fab58e26bd134e96974ef063",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "941b14102f27197ec1413559f828353c5711d8c76538ae49f1d9d58e0bae6fd2",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-guard",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "ios/App/App.xcodeproj/project.pbxproj",
+    "ios/App/App/App.entitlements",
+    "ios/App/App/FORMPluginRegistry.swift",
+    "ios/App/App/Plugins/FORMAuth.swift",
+    "src/features/account/AppleSignIn.tsx",
+    "src/features/account/native-acceptance.md",
+    "src/platform/native-auth.ts",
+    "tests/v2/native-auth.test.ts"
+  ],
+  "knownIssues": [
+    "All production bindings disabled/unmounted pending F32.",
+    "No full Xcode/Apple SDK build. Offline logout cannot prove remote revocation; uncertain refresh requires sign-in recovery."
+  ],
+  "externalPending": [
+    "Provisioned Sign in with Apple / Keychain device acceptance NOT_RUN",
+    "Independent identity/privacy review and F32 cleanup/approved config wiring"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F24",
+  "sourceHistory": [
+    "41e18c7203835df702ff95f68ab2cfeb5672eb90",
+    "ea9dbed4fe767622fa8314c4387f337286e0d1ef"
+  ],
+  "auditCorrection": "Authenticated native balance allowlist now reuses frozen S02 /api/v2/wallet; no /credits endpoint requested. Historical /private/tmp raw logs no longer exist; durable current reruns are supplemental evidence.",
+  "scopeWindows": [
+    "9bdf000b16d974acc496af3c81e6d61d2efdffe4..c2d3a98aa33b4d5fb05a3f1f20586c6dea25d40f",
+    "b50e312aa9a20e47a965973362acefda318f1aed..current F21 wallet report"
+  ]
+}

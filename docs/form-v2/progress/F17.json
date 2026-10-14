@@ -1,0 +1,21 @@
+{
+  "taskId": "F17",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "65dd20c633255f6735363113cd4df693dd243885",
+  "status": "CODE_READY_OFFLINE",
+  "checkpointBase": "e6c17ea48ba343d18cfe0808d9327b822a80e11c",
+  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+  "verification": [{"kind": "unit-regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference+337 application=488/488, including8 exporter units; synthetic only", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F17-committed-v2.log", "sha256": "8dd66b72e88e71f34144851690cc2d0f6cf32c6ad6a4915172b6a0acdcdc3c09"}, {"kind": "component-browser", "command": "npx --no-install playwright test --config=playwright.v2.config.ts --output /private/tmp/form-owner-resume-20261014-zb7351_9/F17-committed-all-artifacts", "exitCode": 0, "status": "69/69:15 Garage plus all54 earlier components; actual API interception; all4 viewport widths also tested at200% text", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F17-committed-all-browser.log", "sha256": "b411e019fda545dfb4861a62275abd3b65cd67536c05922eb23bf86d2bc7ceb4"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS including tsc --noEmit; original production bundle unchanged", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F17-committed-build.log", "sha256": "9fbfb39549c00e1c97525e16029b308b82fbc2c6257fbaaf4904e3f52ee695a6"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F17 --repo . --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F17-checkpoint.json", "exitCode": 0, "status": "PASS original checkpoint, complete source+evidence838/900", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F17-code-and-reports-guard.log", "sha256": "f0b8acb24b6368cc8eb58dcdc92425ffb88b578307120b22eda977983cdb789e"}],
+  "changedFiles": ["src/features/garage/GarageView.tsx", "src/features/garage/garage.css", "src/lib/export-v2.ts", "src/testing/v2-harness.tsx", "tests/e2e/v2-garage.spec.ts", "tests/v2/export-v2.test.ts"],
+  "knownIssues": ["Project/history/rename/cover/favorite/delete service bindings described by S02 are still absent; the injected synthetic port does not verify remote persistence or actual deletion.", "Share is a typed outcome port; native sharing, device interruption, actual VoiceOver and iPhone exports remain NOT_RUN."],
+  "externalPending": ["Independent review and F32 service/navigation wiring remain pending. The separate S05 dark/staged UI RFC is still PROPOSED."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "sourceChangedLines": 804,
+  "testEnvironment": {"runtime": "Node24.14.0", "os": "macOS arm64", "browser": "installed Chromium153;320/375/390/430px each at200% text; Reduce Motion; synthetic assets only"},
+  "developmentEvidence": ["F17-root-ack-regression-red.log", "F17-root-empty-export-red.log", "F17-root-mobile-200-red.log", "F17-root-reviewed-green.log", "F17-root-mobile-200-green.log"]
+}

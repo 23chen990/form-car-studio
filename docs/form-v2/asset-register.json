@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "productionApproved": false,
+  "assets": [],
+  "developmentTemplates": [
+    {
+      "path": "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
+      "sha256": "29e4777e319de3ee5a52c3a8004ec19d0568414004257e36d7c94a077d71c93b",
+      "productionApproved": false,
+      "license": "MIT upstream Capacitor CLI template",
+      "sourcePackage": "@capacitor/cli@8.5.3",
+      "templateArchiveSha256": "b59343ca68fdfe71e1a264e4e9ac83cff3d7f1e4aaf8ceca9186be27126e89b5"
+    },
+    {
+      "path": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png",
+      "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530",
+      "productionApproved": false,
+      "license": "MIT upstream Capacitor CLI template",
+      "sourcePackage": "@capacitor/cli@8.5.3",
+      "templateArchiveSha256": "b59343ca68fdfe71e1a264e4e9ac83cff3d7f1e4aaf8ceca9186be27126e89b5"
+    },
+    {
+      "path": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png",
+      "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530",
+      "productionApproved": false,
+      "license": "MIT upstream Capacitor CLI template",
+      "sourcePackage": "@capacitor/cli@8.5.3",
+      "templateArchiveSha256": "b59343ca68fdfe71e1a264e4e9ac83cff3d7f1e4aaf8ceca9186be27126e89b5"
+    },
+    {
+      "path": "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png",
+      "sha256": "1b5002b74a5500e697298ced06ca2811ac33f2771f236f3c720ff23243890530",
+      "productionApproved": false,
+      "license": "MIT upstream Capacitor CLI template",
+      "sourcePackage": "@capacitor/cli@8.5.3",
+      "templateArchiveSha256": "b59343ca68fdfe71e1a264e4e9ac83cff3d7f1e4aaf8ceca9186be27126e89b5"
+    }
+  ],
+  "warning": "No commercial FORM launch case/artwork or Owner license approval is established. Generated templates are development placeholders only."
+}

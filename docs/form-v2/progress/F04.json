@@ -1,0 +1,22 @@
+{
+  "taskId": "F04",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "8aad2ac5b5cf80079a0aa62cb87d54e7bb4f807c",
+  "verification": [
+    {"kind": "wallet", "command": "node --import tsx --test tests/v2/wallet.test.ts", "exitCode": 0, "status": "PASS_16_SQLITE_TESTS_ZERO_SKIPPED", "rawLogPath": "/tmp/form-F04-committed-unit.log", "rawLogSha256": "aa1bf3195a0aad69858e8cef139c7c018d088757db27ecbdca2e34bd66189bb3", "evidencePath": "docs/form-v2/progress/F04.md", "sha256": "99d6b409846c49c26fc2b9023dc6bc848bb8b203cd4b9446747901c9f5f442e2"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS_151_REFERENCE_PLUS_118_SERVICE_TESTS", "rawLogPath": "/tmp/form-F04-v2-final.log", "rawLogSha256": "6ccae0e28f2dcfa6d0c7ccc3d935c6b8afbc34efcb8e642365854d5f4a46f977", "evidencePath": "docs/form-v2/progress/F04.md", "sha256": "99d6b409846c49c26fc2b9023dc6bc848bb8b203cd4b9446747901c9f5f442e2"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "PASS_30_TESTS", "rawLogPath": "/tmp/form-F04-committed-legacy.log", "rawLogSha256": "2c9780f98721328714d6722778f1c761c283c64a76fee0605564b65cb82eea3e", "evidencePath": "docs/form-v2/progress/F04.md", "sha256": "99d6b409846c49c26fc2b9023dc6bc848bb8b203cd4b9446747901c9f5f442e2"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS_TYPESCRIPT_AND_VITE", "rawLogPath": "/tmp/form-F04-committed-build.log", "rawLogSha256": "9327295b23de15a15c9c94fc2e014194776464db7b3fe93f7327a43fa8f0cf45", "evidencePath": "docs/form-v2/progress/F04.md", "sha256": "99d6b409846c49c26fc2b9023dc6bc848bb8b203cd4b9446747901c9f5f442e2"},
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/wallet.test.ts (async/tombstone regression before fix)", "exitCode": 1, "status": "EXPECTED_ASYNC_PROCESS_CRASH_AND_DELETED_REPLAY_FAILURE", "rawLogPath": "/tmp/form-F04-async-red.log", "rawLogSha256": "5dafc5ece7f59ea416c3a7d104452ff5e59bd936e9a213af63c4e44ee233b211", "evidencePath": "docs/form-v2/progress/F04.md", "sha256": "99d6b409846c49c26fc2b9023dc6bc848bb8b203cd4b9446747901c9f5f442e2"}
+  ],
+  "changedFiles": ["server/v2/wallet.ts", "server/v2/wallet-repo.ts", "tests/v2/wallet.test.ts"],
+  "knownIssues": ["All code remains unmounted. Grant input is a trusted server event, not Apple verification or a client authorization mechanism.", "F25 must define processing-job revocation policy; refunded units cannot be revived. Legacy scope-less allocations can be finalized without resubmission."],
+  "externalPending": ["Independent wallet/task/worker concurrency review", "Real Apple verification and refund ordering evidence; production and release approval"],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F07"
+}

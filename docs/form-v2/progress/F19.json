@@ -1,0 +1,74 @@
+{
+  "taskId": "F19",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "85db404ab1d3c4b2ad9040fa05f34dcb9369bcb7",
+  "status": "CODE_READY_OFFLINE_SDK_UNVERIFIED",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/native-media.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F19-red.log",
+      "sha256": "9d8c7a241e0f1e1fe5c12fd56175150b08f51564827e0d9105dbb451188f44df",
+      "kind": "F19-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-media.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F19-committed-focus.log",
+      "sha256": "03d5ecfccadcf535133dba50ec4a502fb4d5c345173709ac5c852eff71403697",
+      "kind": "F19-committed-focus",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F19-committed-build.log",
+      "sha256": "d8429c88ed01aec18a101c9401a0f81d654bb1b82ecda7d532e03c6bd7c4c269",
+      "kind": "F19-committed-build",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMMedia.swift",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F19-final-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "F19-final-parse",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F19 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F19-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F19-source-guard.log",
+      "sha256": "4a5535302305459487e8dcfe0b3f94acfc9f0da9532fb56456884bad54e82a63",
+      "kind": "F19-source-guard",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "docs/form-v2/device/F19-media.md",
+    "ios/App/App/FORMPluginRegistry.swift",
+    "ios/App/App/Info.plist",
+    "ios/App/App/Plugins/FORMMedia.swift",
+    "src/platform/native-media.ts",
+    "tests/v2/native-media.test.ts"
+  ],
+  "knownIssues": [
+    "V2 native adapters not mounted until F32; no real iOS SDK build without Xcode."
+  ],
+  "externalPending": [
+    "F19 device checklist all NOT_RUN",
+    "Independent privacy/deletion review and F32 consent/intake/export wiring"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F21"
+}

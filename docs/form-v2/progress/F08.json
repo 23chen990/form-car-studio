@@ -1,0 +1,24 @@
+{
+  "taskId": "F08",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "aee0aa4ab12581ea08fa4f91acb2c660d5fc7087",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/plans.test.ts", "exitCode": 0, "status": "22/22 PASS; committed source, 0 skipped; real synthetic SQLite task/worker/version/next-quote flow", "rawLogPath": "/tmp/form-F08-consistency-committed.log", "rawLogSha256": "3ac3208ce9f1e6259c08ab540e7a8e045b6205678427840b4e8296d1719aa47a", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 226 service = 377 PASS, 0 skipped", "rawLogPath": "/tmp/form-F08-consistency-final-v2.log", "rawLogSha256": "bd46f40fd7dced5f866d236aadb12aad7d5ffd56d38d30abb3a352dd8b887a14", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "30/30 PASS", "rawLogPath": "/tmp/form-F08-consistency-final-legacy.log", "rawLogSha256": "225ea59a039aa24ae32a12bcb868762d156a74cc20863e6c0a55fcddd5eae5da", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "TypeScript and Vite PASS; notices unchanged", "rawLogPath": "/tmp/form-F08-consistency-final-build.log", "rawLogSha256": "9fbfb39549c00e1c97525e16029b308b82fbc2c6257fbaaf4904e3f52ee695a6", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/plans.test.ts (before version-two parser)", "exitCode": 1, "status": "Actual RED: F10-produced historical restore/finish intent dropped on next quote", "rawLogPath": "/tmp/form-F08-consistency-red.log", "rawLogSha256": "0f197b5ebbf38a33060dc26ae01d64a16e984c15b9b0fac9e82fdd2b8bd4a747", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/plans.test.ts (before final preserve correction)", "exitCode": 1, "status": "Actual RED: 21/22; legacy keep followed by explicit change made next quote PLAN_ROW_INVALID", "rawLogPath": "/tmp/form-F08-inherited-preserve-red.log", "rawLogSha256": "216f0e878069736dcc64346e83b45de768b44fce3e5b7ad8e3063403bdfaa8e3", "evidencePath": "docs/form-v2/progress/F08.md", "sha256": "04d770e80af5b64eb17e6f26b6d6d052060f9c03a31dee1859730b2baa1e245a"}
+  ],
+  "changedFiles": ["server/v2/plans.ts", "tests/v2/plans.test.ts"],
+  "knownIssues": ["Result recipe preserves requested intent only; image appearance and quality remain unknown/unassessed.", "V2 is isolated pending F32; quotes require approved provider/source/consent configuration."],
+  "externalPending": ["Real model/quality/photo and independent migration/privacy/task verification remain NOT_RUN / NOT_INDEPENDENT."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F09 atomic admission seam, then F11 trial replay seam and F20",
+  "history": [{"reportAtCommit": "aee0aa4ab12581ea08fa4f91acb2c660d5fc7087", "codeCommit": "cc8612e75242f67a4da76ea0e7c95ad1010d24e4", "reportPath": "docs/form-v2/progress/F08.json", "sha256": "d720196f06eaf66d53780607bed001ceaa064830a62edb494a07d069a45fd7d7"}]
+}

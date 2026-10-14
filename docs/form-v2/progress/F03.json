@@ -1,0 +1,25 @@
+{
+  "taskId": "F03",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "40401656194bbb413d4ef09c6439d6a112553b64",
+  "verification": [
+    {"kind": "migration", "command": "node --import tsx --test tests/v2/migration.test.ts", "exitCode": 0, "status": "PASS_8_SYNTHETIC_SQLITE_TESTS", "rawLogPath": "/tmp/form-F03-committed-unit.log", "rawLogSha256": "a9029075fc1d58daa6a782b56841de6d7504a0e9a5b04dc8a15d86e00e356c6f", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS_151_REFERENCE_PLUS_71_SERVICE_TESTS", "rawLogPath": "/tmp/form-F03-final-v2.log", "rawLogSha256": "81cee27af3edc1ae066de47038c9dd00017d33e709927c4bd61fb65be617ed5a", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "PASS_30_TESTS", "rawLogPath": "/tmp/form-F03-final-legacy.log", "rawLogSha256": "e8d8089b157e8885e0ebd0de97eaa2702298ccd8ebcb0e9076037dc598ce2b6e", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "PASS_TYPESCRIPT_AND_VITE", "rawLogPath": "/tmp/form-F03-build-passed.log", "rawLogSha256": "9327295b23de15a15c9c94fc2e014194776464db7b3fe93f7327a43fa8f0cf45", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "scope", "command": "python3 docs/form-handoff/tools/guard.py check F03 --repo . --checkpoint /tmp/form-20261013-F03-repair-checkpoint.json", "exitCode": 0, "status": "PASS_SOURCE_SCOPE_768_LINES", "rawLogPath": "/tmp/form-F03-final-scope.log", "rawLogSha256": "2a99627e9cacd59188c283505b77ce1351dc4f56ad6af05d95d81db128baa9d0", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "prior-failure", "command": "node --import tsx --test tests/v2/migration.test.ts (repair attempt 2)", "exitCode": 1, "status": "FAIL_DIAGNOSTIC_ALIAS_VS_ALREADY_EXISTS", "rawLogPath": "/tmp/form-F03-green-attempt2.log", "rawLogSha256": "affff6e197057461c9cdc7256da6d35440fd1400661288891a27dda9fe931533", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"},
+    {"kind": "prior-failure", "command": "npm run build (before typed validated mappings)", "exitCode": 2, "status": "FAIL_3_TYPESCRIPT_OPTIONAL_MAP_RESULTS", "rawLogPath": "/tmp/form-F03-final-build.log", "rawLogSha256": "dd755374cf9a410a4c718ee00fcee7ecbe35d4c2a1698462e32182d94be06ad3", "evidencePath": "docs/form-v2/progress/F03.md", "sha256": "b3ce19fc7085bf567a90d1f2f1401ade123c898bab7a5c06ec3f383b3b33fc3a"}
+  ],
+  "changedFiles": ["server/v2/migrate.ts", "tests/v2/migration.test.ts", "tools/migrate-form.mjs"],
+  "knownIssues": ["Two failed focused runs were recorded; the remaining alias diagnostic was corrected without weakening assertions. Type-check failure was fixed only at prevalidated references.", "The V2 tests ran against the same runtime source before three type-only assertions; committed migration tests and final build passed. CLI executable mode was restored in a follow-up source commit.", "Image bytes remain private legacy references; F06 must decode/validate them before use. Schema and migration markers are not release approvals."],
+  "externalPending": ["Independent migration/schema/backup restore review", "Production migration and backup/retention authorization", "Wallet/worker, identity, purchase/refund, deletion and final integration gates"],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F06",
+  "history": [{"reportAtCommit": "40401656194bbb413d4ef09c6439d6a112553b64", "codeCommit": "4980b5bc85dcf696f323dc33360f88a1dc17e9c1", "reportPath": "docs/form-v2/progress/F03.json", "sha256": "cf69793690f78d273f51634259f60c7a0feeb5c1a7809a3aedff06355fa6c82b"}]
+}

@@ -1,0 +1,916 @@
+TAP version 13
+# Subtest: direct original edit does not need a previous version
+ok 1 - direct original edit does not need a previous version
+  ---
+  duration_ms: 2.001903
+  type: 'test'
+  ...
+# Subtest: specific version ID is retained
+ok 2 - specific version ID is retained
+  ---
+  duration_ms: 0.21018
+  type: 'test'
+  ...
+# Subtest: parser copies nested edits
+ok 3 - parser copies nested edits
+  ---
+  duration_ms: 0.145875
+  type: 'test'
+  ...
+# Subtest: unknown top field rejected
+ok 4 - unknown top field rejected
+  ---
+  duration_ms: 0.33228
+  type: 'test'
+  ...
+# Subtest: unknown edit field rejected
+ok 5 - unknown edit field rejected
+  ---
+  duration_ms: 0.116572
+  type: 'test'
+  ...
+# Subtest: old raw target is not silently treated as new contract
+ok 6 - old raw target is not silently treated as new contract
+  ---
+  duration_ms: 0.158103
+  type: 'test'
+  ...
+# Subtest: explore must start from original
+ok 7 - explore must start from original
+  ---
+  duration_ms: 0.202299
+  type: 'test'
+  ...
+# Subtest: all historical style IDs still parse for explore
+ok 8 - all historical style IDs still parse for explore
+  ---
+  duration_ms: 0.231351
+  type: 'test'
+  ...
+# Subtest: detail request cannot smuggle a style
+ok 9 - detail request cannot smuggle a style
+  ---
+  duration_ms: 0.30513
+  type: 'test'
+  ...
+# Subtest: unsupported body color pink
+ok 10 - unsupported body color pink
+  ---
+  duration_ms: 0.485807
+  type: 'test'
+  ...
+# Subtest: unsupported body color keep
+ok 11 - unsupported body color keep
+  ---
+  duration_ms: 0.138524
+  type: 'test'
+  ...
+# Subtest: unsupported body color ruby red
+ok 12 - unsupported body color ruby red
+  ---
+  duration_ms: 0.064686
+  type: 'test'
+  ...
+# Subtest: unsupported body color 
+ok 13 - unsupported body color 
+  ---
+  duration_ms: 0.107449
+  type: 'test'
+  ...
+# Subtest: unsupported body color null
+ok 14 - unsupported body color null
+  ---
+  duration_ms: 0.067299
+  type: 'test'
+  ...
+# Subtest: unsupported body color 4
+ok 15 - unsupported body color 4
+  ---
+  duration_ms: 0.048431
+  type: 'test'
+  ...
+# Subtest: bad source {"kind":"latest"}
+ok 16 - bad source {"kind":"latest"}
+  ---
+  duration_ms: 0.078926
+  type: 'test'
+  ...
+# Subtest: bad source {"kind":"version","versionId":"../secret"}
+ok 17 - bad source {"kind":"version","versionId":"../secret"}
+  ---
+  duration_ms: 0.153607
+  type: 'test'
+  ...
+# Subtest: bad source {"kind":"original","versionId":"v1"}
+ok 18 - bad source {"kind":"original","versionId":"v1"}
+  ---
+  duration_ms: 0.057424
+  type: 'test'
+  ...
+# Subtest: preserve cannot carry a hidden value
+ok 19 - preserve cannot carry a hidden value
+  ---
+  duration_ms: 0.092096
+  type: 'test'
+  ...
+# Subtest: preserve all is a no-op
+ok 20 - preserve all is a no-op
+  ---
+  duration_ms: 0.086217
+  type: 'test'
+  ...
+# Subtest: no-op requires verified base, not requested recipe
+ok 21 - no-op requires verified base, not requested recipe
+  ---
+  duration_ms: 0.195628
+  type: 'test'
+  ...
+# Subtest: one verified unchanged field removed while other change remains
+ok 22 - one verified unchanged field removed while other change remains
+  ---
+  duration_ms: 0.628648
+  type: 'test'
+  ...
+# Subtest: restore original from original is no-op
+ok 23 - restore original from original is no-op
+  ---
+  duration_ms: 0.106728
+  type: 'test'
+  ...
+# Subtest: restore original requires reference capability
+ok 24 - restore original requires reference capability
+  ---
+  duration_ms: 0.096162
+  type: 'test'
+  ...
+# Subtest: restore original does not guess an unknown color
+ok 25 - restore original does not guess an unknown color
+  ---
+  duration_ms: 0.09458
+  type: 'test'
+  ...
+# Subtest: disabled capability is closed
+ok 26 - disabled capability is closed
+  ---
+  duration_ms: 0.084284
+  type: 'test'
+  ...
+# Subtest: disabled field is closed
+ok 27 - disabled field is closed
+  ---
+  duration_ms: 0.083784
+  type: 'test'
+  ...
+# Subtest: invalid observation provenance rejected
+ok 28 - invalid observation provenance rejected
+  ---
+  duration_ms: 0.154298
+  type: 'test'
+  ...
+# Subtest: JSON key order canonical
+ok 29 - JSON key order canonical
+  ---
+  duration_ms: 0.326692
+  type: 'test'
+  ...
+# Subtest: digest matches SHA256 of canonical JSON
+ok 30 - digest matches SHA256 of canonical JSON
+  ---
+  duration_ms: 19.893901
+  type: 'test'
+  ...
+# Subtest: source, output, price and policy versions change digest
+ok 31 - source, output, price and policy versions change digest
+  ---
+  duration_ms: 1.823625
+  type: 'test'
+  ...
+# Subtest: non JSON undefined
+ok 32 - non JSON undefined
+  ---
+  duration_ms: 0.141399
+  type: 'test'
+  ...
+# Subtest: non JSON NaN
+ok 33 - non JSON NaN
+  ---
+  duration_ms: 0.043935
+  type: 'test'
+  ...
+# Subtest: non JSON Infinity
+ok 34 - non JSON Infinity
+  ---
+  duration_ms: 0.032378
+  type: 'test'
+  ...
+# Subtest: non JSON ()=>0
+ok 35 - non JSON ()=>0
+  ---
+  duration_ms: 0.030886
+  type: 'test'
+  ...
+# Subtest: non JSON 1
+ok 36 - non JSON 1
+  ---
+  duration_ms: 0.028051
+  type: 'test'
+  ...
+# Subtest: non JSON Sun Oct 11 2026 10:52:15 GMT+0000 (Coordinated Universal Time)
+ok 37 - non JSON Sun Oct 11 2026 10:52:15 GMT+0000 (Coordinated Universal Time)
+  ---
+  duration_ms: 0.040941
+  type: 'test'
+  ...
+# Subtest: cyclic input rejected
+ok 38 - cyclic input rejected
+  ---
+  duration_ms: 0.087229
+  type: 'test'
+  ...
+# Subtest: shared non cyclic object allowed
+ok 39 - shared non cyclic object allowed
+  ---
+  duration_ms: 0.076963
+  type: 'test'
+  ...
+# Subtest: sparse or extended arrays rejected
+ok 40 - sparse or extended arrays rejected
+  ---
+  duration_ms: 0.174157
+  type: 'test'
+  ...
+# Subtest: symbol object keys rejected
+ok 41 - symbol object keys rejected
+  ---
+  duration_ms: 0.118194
+  type: 'test'
+  ...
+# Subtest: proto key encoded as data, never mutates global
+ok 42 - proto key encoded as data, never mutates global
+  ---
+  duration_ms: 0.094279
+  type: 'test'
+  ...
+# Subtest: color prompt preserves wheel structure
+ok 43 - color prompt preserves wheel structure
+  ---
+  duration_ms: 0.248907
+  type: 'test'
+  ...
+# Subtest: wheel design prompt permits design only, keeps tire geometry
+ok 44 - wheel design prompt permits design only, keeps tire geometry
+  ---
+  duration_ms: 0.136161
+  type: 'test'
+  ...
+# Subtest: prompt cannot accept arbitrary notes
+ok 45 - prompt cannot accept arbitrary notes
+  ---
+  duration_ms: 0.079247
+  type: 'test'
+  ...
+# Subtest: no broad preserve geometry instruction contradicts wheel design
+ok 46 - no broad preserve geometry instruction contradicts wheel design
+  ---
+  duration_ms: 0.184522
+  type: 'test'
+  ...
+# Subtest: promo consumed before purchased
+ok 47 - promo consumed before purchased
+  ---
+  duration_ms: 2.21676
+  type: 'test'
+  ...
+# Subtest: release restores exact buckets
+ok 48 - release restores exact buckets
+  ---
+  duration_ms: 0.412459
+  type: 'test'
+  ...
+# Subtest: settle does not charge again
+ok 49 - settle does not charge again
+  ---
+  duration_ms: 0.241015
+  type: 'test'
+  ...
+# Subtest: identical grant replay no duplication
+ok 50 - identical grant replay no duplication
+  ---
+  duration_ms: 0.136581
+  type: 'test'
+  ...
+# Subtest: same event key with different body is rejected
+ok 51 - same event key with different body is rejected
+  ---
+  duration_ms: 0.432108
+  type: 'test'
+  ...
+# Subtest: identical reserve replay idempotent
+ok 52 - identical reserve replay idempotent
+  ---
+  duration_ms: 0.165134
+  type: 'test'
+  ...
+# Subtest: same task cannot reserve under different key
+ok 53 - same task cannot reserve under different key
+  ---
+  duration_ms: 0.988749
+  type: 'test'
+  ...
+# Subtest: repeat settle under different key preserves money and records replay identity
+ok 54 - repeat settle under different key preserves money and records replay identity
+  ---
+  duration_ms: 0.316707
+  type: 'test'
+  ...
+# Subtest: repeat release under different key preserves money and records replay identity
+ok 55 - repeat release under different key preserves money and records replay identity
+  ---
+  duration_ms: 0.290669
+  type: 'test'
+  ...
+# Subtest: release cannot rewrite settled history
+ok 56 - release cannot rewrite settled history
+  ---
+  duration_ms: 0.540057
+  type: 'test'
+  ...
+# Subtest: late settle after release rejected
+ok 57 - late settle after release rejected
+  ---
+  duration_ms: 0.22346
+  type: 'test'
+  ...
+# Subtest: insufficient credits changes nothing
+ok 58 - insufficient credits changes nothing
+  ---
+  duration_ms: 0.154047
+  type: 'test'
+  ...
+# Subtest: bad grant 0
+ok 59 - bad grant 0
+  ---
+  duration_ms: 0.115491
+  type: 'test'
+  ...
+# Subtest: bad grant -1
+ok 60 - bad grant -1
+  ---
+  duration_ms: 0.070113
+  type: 'test'
+  ...
+# Subtest: bad grant 1.1
+ok 61 - bad grant 1.1
+  ---
+  duration_ms: 0.080859
+  type: 'test'
+  ...
+# Subtest: bad grant NaN
+ok 62 - bad grant NaN
+  ---
+  duration_ms: 0.087339
+  type: 'test'
+  ...
+# Subtest: bad grant Infinity
+ok 63 - bad grant Infinity
+  ---
+  duration_ms: 0.083053
+  type: 'test'
+  ...
+# Subtest: bad grant 2
+ok 64 - bad grant 2
+  ---
+  duration_ms: 0.163782
+  type: 'test'
+  ...
+# Subtest: bad grant 9007199254740992
+ok 65 - bad grant 9007199254740992
+  ---
+  duration_ms: 0.078526
+  type: 'test'
+  ...
+# Subtest: addition overflow rejected
+ok 66 - addition overflow rejected
+  ---
+  duration_ms: 0.137042
+  type: 'test'
+  ...
+# Subtest: unrecognized bucket rejected
+ok 67 - unrecognized bucket rejected
+  ---
+  duration_ms: 0.098455
+  type: 'test'
+  ...
+# Subtest: unknown field such as client price rejected
+ok 68 - unknown field such as client price rejected
+  ---
+  duration_ms: 0.10827
+  type: 'test'
+  ...
+# Subtest: prototype keys rejected
+ok 69 - prototype keys rejected
+  ---
+  duration_ms: 0.105396
+  type: 'test'
+  ...
+# Subtest: missing reservation rejected
+ok 70 - missing reservation rejected
+  ---
+  duration_ms: 0.272452
+  type: 'test'
+  ...
+# Subtest: prior nested records remain unchanged
+ok 71 - prior nested records remain unchanged
+  ---
+  duration_ms: 0.136531
+  type: 'test'
+  ...
+# Subtest: ledger accepts only trusted server grants, not receipt fields
+ok 72 - ledger accepts only trusted server grants, not receipt fields
+  ---
+  duration_ms: 1.285157
+  type: 'test'
+  ...
+# Subtest: recorded duplicate settle key cannot become a grant
+ok 73 - recorded duplicate settle key cannot become a grant
+  ---
+  duration_ms: 0.181618
+  type: 'test'
+  ...
+# Subtest: recorded duplicate release key cannot become a grant
+ok 74 - recorded duplicate release key cannot become a grant
+  ---
+  duration_ms: 0.109381
+  type: 'test'
+  ...
+# Subtest: cross-bucket grant overflow rejected before mutation
+ok 75 - cross-bucket grant overflow rejected before mutation
+  ---
+  duration_ms: 0.141329
+  type: 'test'
+  ...
+# Subtest: invalid cross-bucket starting sum rejected
+ok 76 - invalid cross-bucket starting sum rejected
+  ---
+  duration_ms: 0.153386
+  type: 'test'
+  ...
+# Subtest: release cannot overflow aggregate available balance
+ok 77 - release cannot overflow aggregate available balance
+  ---
+  duration_ms: 0.159115
+  type: 'test'
+  ...
+# Subtest: valid pixels without review are not quality verified
+ok 78 - valid pixels without review are not quality verified
+  ---
+  duration_ms: 0.957933
+  type: 'test'
+  ...
+# Subtest: invalid output returns reserved credit
+ok 79 - invalid output returns reserved credit
+  ---
+  duration_ms: 0.155309
+  type: 'test'
+  ...
+# Subtest: exact normalized identity rejects no change
+ok 80 - exact normalized identity rejects no change
+  ---
+  duration_ms: 0.257249
+  type: 'test'
+  ...
+# Subtest: identity evidence overrides accepted annotation
+ok 81 - identity evidence overrides accepted annotation
+  ---
+  duration_ms: 0.122321
+  type: 'test'
+  ...
+# Subtest: different sha256 is not exact equality
+ok 82 - different sha256 is not exact equality
+  ---
+  duration_ms: 0.243529
+  type: 'test'
+  ...
+# Subtest: different normalizerVersion is not exact equality
+ok 83 - different normalizerVersion is not exact equality
+  ---
+  duration_ms: 0.077134
+  type: 'test'
+  ...
+# Subtest: different width is not exact equality
+ok 84 - different width is not exact equality
+  ---
+  duration_ms: 0.112025
+  type: 'test'
+  ...
+# Subtest: different height is not exact equality
+ok 85 - different height is not exact equality
+  ---
+  duration_ms: 0.059208
+  type: 'test'
+  ...
+# Subtest: confirmed identity_changed rejects
+ok 86 - confirmed identity_changed rejects
+  ---
+  duration_ms: 0.249959
+  type: 'test'
+  ...
+# Subtest: confirmed target_not_applied rejects
+ok 87 - confirmed target_not_applied rejects
+  ---
+  duration_ms: 0.322686
+  type: 'test'
+  ...
+# Subtest: confirmed unwanted_structure rejects
+ok 88 - confirmed unwanted_structure rejects
+  ---
+  duration_ms: 0.114068
+  type: 'test'
+  ...
+# Subtest: confirmed image_artifacts rejects
+ok 89 - confirmed image_artifacts rejects
+  ---
+  duration_ms: 0.057775
+  type: 'test'
+  ...
+# Subtest: accepted review stays accepted
+ok 90 - accepted review stays accepted
+  ---
+  duration_ms: 0.078536
+  type: 'test'
+  ...
+# Subtest: bad edit count 0
+ok 91 - bad edit count 0
+  ---
+  duration_ms: 0.907419
+  type: 'test'
+  ...
+# Subtest: bad edit count -1
+ok 92 - bad edit count -1
+  ---
+  duration_ms: 0.055893
+  type: 'test'
+  ...
+# Subtest: bad edit count NaN
+ok 93 - bad edit count NaN
+  ---
+  duration_ms: 0.047811
+  type: 'test'
+  ...
+# Subtest: bad edit count 1.5
+ok 94 - bad edit count 1.5
+  ---
+  duration_ms: 0.041281
+  type: 'test'
+  ...
+# Subtest: bad edit count 1
+ok 95 - bad edit count 1
+  ---
+  duration_ms: 0.037435
+  type: 'test'
+  ...
+# Subtest: unknown input field rejected
+ok 96 - unknown input field rejected
+  ---
+  duration_ms: 0.155209
+  type: 'test'
+  ...
+# Subtest: empty pixel normalizer rejected
+ok 97 - empty pixel normalizer rejected
+  ---
+  duration_ms: 0.082922
+  type: 'test'
+  ...
+# Subtest: file hash field not accepted as pixel digest
+ok 98 - file hash field not accepted as pixel digest
+  ---
+  duration_ms: 0.148439
+  type: 'test'
+  ...
+# Subtest: contradictory review rejected
+ok 99 - contradictory review rejected
+  ---
+  duration_ms: 0.08779
+  type: 'test'
+  ...
+# Subtest: rejected review needs category
+ok 100 - rejected review needs category
+  ---
+  duration_ms: 0.072767
+  type: 'test'
+  ...
+# Subtest: approved compensation uses frozen cost
+ok 101 - approved compensation uses frozen cost
+  ---
+  duration_ms: 0.140117
+  type: 'test'
+  ...
+# Subtest: no double benefit for failed
+ok 102 - no double benefit for failed
+  ---
+  duration_ms: 0.098735
+  type: 'test'
+  ...
+# Subtest: no double benefit for cancelled
+ok 103 - no double benefit for cancelled
+  ---
+  duration_ms: 0.041521
+  type: 'test'
+  ...
+# Subtest: no double benefit for processing
+ok 104 - no double benefit for processing
+  ---
+  duration_ms: 0.034391
+  type: 'test'
+  ...
+# Subtest: no credit for pending
+ok 105 - no credit for pending
+  ---
+  duration_ms: 0.058636
+  type: 'test'
+  ...
+# Subtest: no credit for rejected
+ok 106 - no credit for rejected
+  ---
+  duration_ms: 0.034992
+  type: 'test'
+  ...
+# Subtest: already compensated stays zero across policy change
+ok 107 - already compensated stays zero across policy change
+  ---
+  duration_ms: 0.108881
+  type: 'test'
+  ...
+# Subtest: root-level benefit stable across versions
+ok 108 - root-level benefit stable across versions
+  ---
+  duration_ms: 0.075962
+  type: 'test'
+  ...
+# Subtest: invalid coercion rejected
+ok 109 - invalid coercion rejected
+  ---
+  duration_ms: 0.0947
+  type: 'test'
+  ...
+# Subtest: unsafe root rejected
+ok 110 - unsafe root rejected
+  ---
+  duration_ms: 0.065917
+  type: 'test'
+  ...
+# Subtest: functions do not mutate inputs
+ok 111 - functions do not mutate inputs
+  ---
+  duration_ms: 0.097294
+  type: 'test'
+  ...
+# Subtest: queued starts once
+ok 112 - queued starts once
+  ---
+  duration_ms: 1.401237
+  type: 'test'
+  ...
+# Subtest: queued cancellation releases without upstream
+ok 113 - queued cancellation releases without upstream
+  ---
+  duration_ms: 0.106758
+  type: 'test'
+  ...
+# Subtest: processing cancel must not pretend cost-free
+ok 114 - processing cancel must not pretend cost-free
+  ---
+  duration_ms: 0.374432
+  type: 'test'
+  ...
+# Subtest: processing failure releases user reservation
+ok 115 - processing failure releases user reservation
+  ---
+  duration_ms: 0.120608
+  type: 'test'
+  ...
+# Subtest: deliver settles
+ok 116 - deliver settles
+  ---
+  duration_ms: 0.619594
+  type: 'test'
+  ...
+# Subtest: restart processing becomes uncertain without retry
+ok 117 - restart processing becomes uncertain without retry
+  ---
+  duration_ms: 0.130372
+  type: 'test'
+  ...
+# Subtest: uncertain expiry fails and releases user only
+ok 118 - uncertain expiry fails and releases user only
+  ---
+  duration_ms: 0.133487
+  type: 'test'
+  ...
+# Subtest: uncertain cannot be restarted as a new provider call
+ok 119 - uncertain cannot be restarted as a new provider call
+  ---
+  duration_ms: 0.089431
+  type: 'test'
+  ...
+# Subtest: leaving queued never changes state or charges
+ok 120 - leaving queued never changes state or charges
+  ---
+  duration_ms: 0.221877
+  type: 'test'
+  ...
+# Subtest: leaving processing never changes state or charges
+ok 121 - leaving processing never changes state or charges
+  ---
+  duration_ms: 0.260865
+  type: 'test'
+  ...
+# Subtest: leaving uncertain never changes state or charges
+ok 122 - leaving uncertain never changes state or charges
+  ---
+  duration_ms: 0.117403
+  type: 'test'
+  ...
+# Subtest: leaving succeeded never changes state or charges
+ok 123 - leaving succeeded never changes state or charges
+  ---
+  duration_ms: 0.053369
+  type: 'test'
+  ...
+# Subtest: leaving failed never changes state or charges
+ok 124 - leaving failed never changes state or charges
+  ---
+  duration_ms: 0.037255
+  type: 'test'
+  ...
+# Subtest: leaving cancelled never changes state or charges
+ok 125 - leaving cancelled never changes state or charges
+  ---
+  duration_ms: 0.082161
+  type: 'test'
+  ...
+# Subtest: late output to succeeded does nothing
+ok 126 - late output to succeeded does nothing
+  ---
+  duration_ms: 0.06774
+  type: 'test'
+  ...
+# Subtest: late output to failed does nothing
+ok 127 - late output to failed does nothing
+  ---
+  duration_ms: 0.037475
+  type: 'test'
+  ...
+# Subtest: late output to cancelled does nothing
+ok 128 - late output to cancelled does nothing
+  ---
+  duration_ms: 0.032428
+  type: 'test'
+  ...
+# Subtest: queued cannot deliver
+ok 129 - queued cannot deliver
+  ---
+  duration_ms: 0.073739
+  type: 'test'
+  ...
+# Subtest: invalid states fail
+ok 130 - invalid states fail
+  ---
+  duration_ms: 0.063353
+  type: 'test'
+  ...
+# Subtest: trial exact budget boundary allowed only pending transaction
+ok 131 - trial exact budget boundary allowed only pending transaction
+  ---
+  duration_ms: 0.165664
+  type: 'test'
+  ...
+# Subtest: trial cannot exceed reserved exposure
+ok 132 - trial cannot exceed reserved exposure
+  ---
+  duration_ms: 0.071686
+  type: 'test'
+  ...
+# Subtest: closed trial {"enabled":false}
+ok 133 - closed trial {"enabled":false}
+  ---
+  duration_ms: 0.098906
+  type: 'test'
+  ...
+# Subtest: closed trial {"budgetApproved":false}
+ok 134 - closed trial {"budgetApproved":false}
+  ---
+  duration_ms: 0.092546
+  type: 'test'
+  ...
+# Subtest: closed trial {"stableAccount":false}
+ok 135 - closed trial {"stableAccount":false}
+  ---
+  duration_ms: 0.051676
+  type: 'test'
+  ...
+# Subtest: closed trial {"claimedBefore":true}
+ok 136 - closed trial {"claimedBefore":true}
+  ---
+  duration_ms: 0.043715
+  type: 'test'
+  ...
+# Subtest: closed trial {"units":0}
+ok 137 - closed trial {"units":0}
+  ---
+  duration_ms: 0.037325
+  type: 'test'
+  ...
+# Subtest: closed trial {"budgetMicros":0}
+ok 138 - closed trial {"budgetMicros":0}
+  ---
+  duration_ms: 0.035432
+  type: 'test'
+  ...
+# Subtest: closed trial {"newMaxCostMicros":0}
+ok 139 - closed trial {"newMaxCostMicros":0}
+  ---
+  duration_ms: 0.033519
+  type: 'test'
+  ...
+# Subtest: unknown cost is not zero
+ok 140 - unknown cost is not zero
+  ---
+  duration_ms: 0.091255
+  type: 'test'
+  ...
+# Subtest: unsafe sum closes trial
+ok 141 - unsafe sum closes trial
+  ---
+  duration_ms: 0.11559
+  type: 'test'
+  ...
+# Subtest: boolean strings rejected
+ok 142 - boolean strings rejected
+  ---
+  duration_ms: 0.10155
+  type: 'test'
+  ...
+# Subtest: ISO3 normalized explicitly
+ok 143 - ISO3 normalized explicitly
+  ---
+  duration_ms: 0.084565
+  type: 'test'
+  ...
+# Subtest: not a known storefront en-US
+ok 144 - not a known storefront en-US
+  ---
+  duration_ms: 0.052807
+  type: 'test'
+  ...
+# Subtest: not a known storefront US
+ok 145 - not a known storefront US
+  ---
+  duration_ms: 0.06102
+  type: 'test'
+  ...
+# Subtest: not a known storefront en
+ok 146 - not a known storefront en
+  ---
+  duration_ms: 0.039909
+  type: 'test'
+  ...
+# Subtest: not a known storefront GB
+ok 147 - not a known storefront GB
+  ---
+  duration_ms: 0.033409
+  type: 'test'
+  ...
+# Subtest: not a known storefront __proto__
+ok 148 - not a known storefront __proto__
+  ---
+  duration_ms: 0.359941
+  type: 'test'
+  ...
+# Subtest: not a known storefront constructor
+ok 149 - not a known storefront constructor
+  ---
+  duration_ms: 0.059057
+  type: 'test'
+  ...
+# Subtest: not a known storefront null
+ok 150 - not a known storefront null
+  ---
+  duration_ms: 0.036443
+  type: 'test'
+  ...
+# Subtest: not a known storefront 1
+ok 151 - not a known storefront 1
+  ---
+  duration_ms: 0.06143
+  type: 'test'
+  ...
+1..151
+# tests 151
+# suites 0
+# pass 151
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 170.148414

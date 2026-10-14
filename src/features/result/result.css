@@ -1,0 +1,35 @@
+.v2-result { width: min(1160px, calc(100% - 2rem)); margin: 1.5rem auto 3rem; color: #22271f; }
+.v2-result__panel { padding: clamp(1rem, 3vw, 2rem); border: 1px solid #dedfd5; border-radius: 1.25rem; background: #fff; }
+.v2-result__header { max-width: 70ch; margin-bottom: 1.4rem; }
+.v2-result__header h1 { margin: .25rem 0 .6rem; font-size: clamp(1.8rem, 5vw, 3rem); line-height: 1.05; letter-spacing: -.04em; overflow-wrap: anywhere; }
+.v2-result__eyebrow { color: #62695e; font: 600 .7rem/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .08em; }
+.v2-result__saved { color: #465c28; font-weight: 600; }
+.v2-result__layout { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(17rem, .7fr); gap: clamp(1rem, 3vw, 2rem); align-items: start; }
+.v2-result__visuals, .v2-result__details { min-width: 0; }
+.v2-result__image-frame { display: grid; width: 100%; aspect-ratio: 16 / 10; place-items: center; overflow: hidden; border: 1px solid #dedfd5; border-radius: .8rem; background: #f1f1eb; }
+.v2-result__image-frame img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.v2-result__history, .v2-result__actions { display: flex; flex-wrap: wrap; gap: .5rem; margin: .8rem 0 1rem; }
+.v2-result button { min-width: 44px; min-height: 44px; padding: .55rem .8rem; border: 1px solid #c9cbbf; border-radius: .55rem; background: #fff; color: inherit; font: inherit; line-height: 1.25; overflow-wrap: anywhere; }
+.v2-result button:focus-visible, .v2-result select:focus-visible, .v2-result textarea:focus-visible, .v2-result input:focus-visible { outline: 3px solid #5d7f23; outline-offset: 2px; }
+.v2-result button:disabled { cursor: not-allowed; opacity: .62; }
+.v2-result .v2-result__primary { border-color: #22271f; background: #22271f; color: #fff; }
+.v2-result__compare { display: grid; gap: .5rem; margin-top: 1.2rem; }
+.v2-result__compare select { width: 100%; min-height: 44px; padding: .5rem; border: 1px solid #c9cbbf; border-radius: .45rem; background: #fff; color: inherit; font: inherit; }
+.v2-result__comparison { width: 100%; min-width: 0; overflow: hidden; border-radius: .7rem; }
+.v2-result__comparison .comparison { width: 100%; height: auto; aspect-ratio: 16 / 10; }
+.v2-result__comparison .comparison-photo { min-width: 0; min-height: 0; }
+.v2-result__comparison img { width: 100%; height: 100%; object-fit: contain; }
+.v2-result__comparison .comparison-tag { max-width: 45%; overflow-wrap: anywhere; }
+.v2-result__details h2 { margin: .2rem 0 .7rem; font-size: 1.25rem; }
+.v2-result__recipe-label, .v2-result__verification { color: #62695e; line-height: 1.5; }
+.v2-result__recipe { padding-left: 1.25rem; overflow-wrap: anywhere; }
+.v2-result__feedback { display: grid; gap: .75rem; margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #dedfd5; }
+.v2-result__feedback fieldset { display: grid; gap: .3rem; min-width: 0; padding: .75rem; border: 1px solid #dedfd5; border-radius: .6rem; }
+.v2-result__feedback fieldset label { display: flex; min-height: 44px; align-items: center; gap: .6rem; padding: .35rem; line-height: 1.35; }
+.v2-result__feedback input[type="radio"] { width: 1.2rem; height: 1.2rem; flex: 0 0 auto; accent-color: #465c28; }
+.v2-result__feedback textarea { width: 100%; min-height: 6rem; resize: vertical; padding: .65rem; border: 1px solid #c9cbbf; border-radius: .45rem; color: inherit; font: inherit; }
+.v2-result__unavailable { max-width: 40rem; margin: 2rem auto; padding: clamp(1.25rem, 5vw, 2.5rem); border: 1px solid #dedfd5; border-radius: 1rem; background: #fff; }
+.v2-result__unavailable h1 { font-size: clamp(1.8rem, 6vw, 3rem); }
+@media (max-width: 760px) { .v2-result { width: min(100% - 1rem, 38rem); margin-top: .5rem; } .v2-result__layout { grid-template-columns: minmax(0, 1fr); } }
+@media (max-width: 360px) { .v2-result { width: calc(100% - .5rem); } .v2-result__panel { padding: .7rem; } .v2-result__history button, .v2-result__actions button { flex: 1 1 100%; } }
+@media (prefers-reduced-motion: reduce) { .v2-result, .v2-result *, .v2-result *::before, .v2-result *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }

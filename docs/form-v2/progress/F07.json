@@ -1,0 +1,23 @@
+{
+  "taskId": "F07",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "12168d428aa186974559121080559d920843c742",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/projects.test.ts", "exitCode": 0, "status": "20/20 PASS; committed source, 0 skipped; actual synthetic F03 migration and FK-on transfer", "rawLogPath": "/tmp/form-F07-upgrade-reader-committed.log", "rawLogSha256": "a2266ba07470877a056f7ef8ca501a7250fdb5119d75a6c6eb36a66c7035f437", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "00ee555f08b7b12031d83acdc123fc6b02697956751a62f13be0aae03e3e4b02"},
+    {"kind": "regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 223 service = 374 PASS, 0 skipped", "rawLogPath": "/tmp/form-F07-upgrade-reader-v2.log", "rawLogSha256": "4b789c31dc662d4e891292b013fe57afe9a4ed5e12e8689dae9de8fb17130916", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "00ee555f08b7b12031d83acdc123fc6b02697956751a62f13be0aae03e3e4b02"},
+    {"kind": "typecheck", "command": "npx tsc --noEmit", "exitCode": 0, "status": "PASS", "rawLogPath": "/tmp/form-F07-upgrade-reader-tsc.log", "rawLogSha256": "755d3fd66677aa82ab0857ef0b53440ba2d43bbb3ee40f1a1105d4b7c7730078", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "00ee555f08b7b12031d83acdc123fc6b02697956751a62f13be0aae03e3e4b02"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/projects.test.ts (before transfer helper)", "exitCode": 1, "status": "Actual RED: new upgrade authorization/locator/read-revocation assertions fail before repair", "rawLogPath": "/tmp/form-F07-upgrade-reader-red.log", "rawLogSha256": "1fb83aea9bd81bab1e9a4218cf2ca712c03a532b92f23860db5241976d788273", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "00ee555f08b7b12031d83acdc123fc6b02697956751a62f13be0aae03e3e4b02"},
+    {"kind": "tdd-red", "command": "node --import tsx --test tests/v2/projects.test.ts (before hybrid private-locator refusal)", "exitCode": 1, "status": "Actual RED: hybrid legacy row could bypass origin using private locator; fixed with original assertions intact", "rawLogPath": "/tmp/form-F07-upgrade-hybrid-red.log", "rawLogSha256": "c1bdab3923bf00f9e3a07dc4b7ee5113b542a345ce2aa0c6c6c7d76ac154f5f3", "evidencePath": "docs/form-v2/progress/F07.md", "sha256": "00ee555f08b7b12031d83acdc123fc6b02697956751a62f13be0aae03e3e4b02"}
+  ],
+  "changedFiles": ["server/v2/projects.ts", "tests/v2/projects.test.ts"],
+  "knownIssues": ["F08 synchronous quote revalidation still needs this helper before upgraded legacy sources can be confirmed.", "V2 remains unmounted; generic/current SQL behavior is synthetic evidence, not production account upgrade."],
+  "externalPending": ["Independent privacy/migration/identity review remains NOT_INDEPENDENT; native/real photos NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F08 version intent and synchronous source consistency repair",
+  "history": [{"reportAtCommit": "12168d428aa186974559121080559d920843c742", "codeCommit": "d7ed749d6c294bc84516f6c1679739ad6391ecfc", "reportPath": "docs/form-v2/progress/F07.json", "sha256": "4b5ffe1f888a1418e75e0b09f9678e643003c180b2a6f227b9b02f980d02ffd6"}]
+}

@@ -1,0 +1,22 @@
+{
+  "taskId": "F15",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "0c5852e8706bc61fa2d9d76f6e6b554cad785787",
+  "verification": [
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/poller.test.ts", "exitCode": 0, "status": "4/4 passed; none skipped", "rawLogPath": "/tmp/form-F15-committed-poller.log", "rawLogSha256": "a175cd499e568eda196568b5396fbc056bc694ed2fc4e77f783aebe29f0d1e81", "evidencePath": "docs/form-v2/progress/F15.md", "sha256": "030e1efd9bc91c8ef5fc57e0126fb205bb4e817503a1e3ad6f442517cc3a8c73"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference +306 application=457 passed; none skipped", "rawLogPath": "/tmp/form-F15-committed-v2.log", "rawLogSha256": "e06b6f25ca1b5925b6b0c60cdab1dd2903b41d6d4de2dabfa99ac175a34474ae", "evidencePath": "docs/form-v2/progress/F15.md", "sha256": "030e1efd9bc91c8ef5fc57e0126fb205bb4e817503a1e3ad6f442517cc3a8c73"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "30/30 passed; original assertions unchanged", "rawLogPath": "/tmp/form-F15-committed-legacy.log", "rawLogSha256": "1407032679dc6399bb1e9659c3eb567f5e01a1b8717bae440d378f5f9233d2ff", "evidencePath": "docs/form-v2/progress/F15.md", "sha256": "030e1efd9bc91c8ef5fc57e0126fb205bb4e817503a1e3ad6f442517cc3a8c73"},
+    {"kind": "build-typescript", "command": "npm run build", "exitCode": 0, "status": "Node24 TypeScript and Vite production build passed", "rawLogPath": "/tmp/form-F15-committed-build.log", "rawLogSha256": "790ae88b962170838e9636dc3babd01cd48c207d14ba224271495c06d0e9fa24", "evidencePath": "docs/form-v2/progress/F15.md", "sha256": "030e1efd9bc91c8ef5fc57e0126fb205bb4e817503a1e3ad6f442517cc3a8c73"},
+    {"kind": "browser", "command": "FORM_TEST_CHROMIUM=(installed Chromium153) npx --no-install playwright test --config=playwright.v2.config.ts", "exitCode": 0, "status": "9/9 passed in actual Chromium with deterministic synthetic backend", "rawLogPath": "/tmp/form-F15-committed-e2e.log", "rawLogSha256": "53eac409f3d048f7978ff04b0ce57f58dbbf5230a3ae401e29132b4c9002d32d", "evidencePath": "docs/form-v2/progress/F15.md", "sha256": "030e1efd9bc91c8ef5fc57e0126fb205bb4e817503a1e3ad6f442517cc3a8c73"}
+  ],
+  "changedFiles": ["src/features/task/task-wait.tsx", "src/features/task/task-wait.css", "src/lib/task-poller.ts", "src/testing/v2-harness.tsx", "tests/harness/v2.html", "tests/v2/poller.test.ts", "tests/e2e/v2-task.spec.ts"],
+  "knownIssues": ["UI stays in the shared development harness; F12 remains partial and F32 main-app wiring is not implemented or verified.", "Network/status failures keep bounded retries;401/404/offline are distinct messages. A stopped poller is one-shot. Synthetic visibility events do not certify native background execution."],
+  "externalPending": ["Real iPhone termination/foreground, native identity/session and independently reviewed task/wallet/runtime integration remain NOT_RUN.", "CI needs F38 maintenance to run the legacy app and V2 component suite with their separate servers; no assertions or browser cases may be dropped."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F38 CI maintenance, then F00 final recovery inventory"
+}

@@ -1,0 +1,21 @@
+{
+  "taskId": "F26",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "e4d3ad6d04de23634e9302faf31f01edb0fe58d4",
+  "status": "CODE_READY_OFFLINE",
+  "checkpointBase": "c9af86b151bab5668e2b0cf0cb6a2b1615e606b3",
+  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+  "verification": [{"kind": "unit-regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference+362 application=513/513, including13 deletion cases; actual synthetic worker late-result discard and session/wallet/refund regressions", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F26-final-source-v2.log", "sha256": "e5cc67ac84057cf5fb391e2e4360512a53d5e7418058ab2e9bf7b811651baf95"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS including tsc; production bundle unchanged", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F26-final-source-build.log", "sha256": "d9ce6dfebf26cda568eba753a3127bd6d8cd628754c72c57f609c869ef53fed9"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F26 --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F26-checkpoint.json", "exitCode": 0, "status": "PASS original checkpoint; complete source/evidence855/1200 across7 allowed paths", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F26-code-and-reports-guard.log", "sha256": "e8102bf98953cdf6e437f59247937c2952cf0b1899a8a54e34120d110da4b2d9"}],
+  "changedFiles": ["server/v2/deletion.ts", "server/v2/routes-deletion.ts", "src/features/account/deletion.tsx", "src/platform/cache.ts", "tests/v2/deletion.test.ts"],
+  "knownIssues": ["Actual journal path outside the backup restore set, its finite retention/max-restore policy and startup replay are not configured. The local journal is a single-writer primitive; deployment concurrency/durability boundary needs independent review.", "Financial/identity retention and Apple token revocation facts/credentials are absent. Cleanup remains pending_policy, with redacted last-error and explicit operator-required or awaiting-policy retry state; no automatic retry schedule is claimed.", "V2 deletion/cache/confirmation are unmounted. Legacy live route/worker coordination, real cache/device behavior and actual backup recovery remain F32/F37 integration gates."],
+  "externalPending": ["Independent deletion/privacy/identity/ledger review, actual backup restore and approved finite data/finance retention; real Apple credential revocation and iPhone/VoiceOver remain NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "sourceChangedLines": 823,
+  "testEnvironment": {"runtime": "Node24.14.0", "os": "macOS arm64", "device": "SSR only for confirmation; real iPhone/VoiceOver NOT_RUN"},
+  "developmentEvidence": ["F26-red-core-20261014-01.log", "F26-red-journal-20261014-01.log", "F26-root-revoked-status-red.log", "F26-root-support-status-red.log", "F26-root-status-privacy-red.log", "F26-root-reviewed-green.log"]
+}

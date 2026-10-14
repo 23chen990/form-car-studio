@@ -1,0 +1,22 @@
+{
+  "taskId": "F36",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "1c2576168a5f672a711cfa7d3394c927462ecd9e",
+  "verification": [
+    {"kind": "regression-red", "command": "node --import tsx --test --test-name-pattern='asynchronous campaign configuration' tests/v2/trial.test.ts", "exitCode": 1, "status": "EXPECTED_RED: unhandled rejected campaign caused failed test", "rawLogPath": "/tmp/form-F36-campaign-unit-red.log", "rawLogSha256": "9e62da775647748849c5b3782e9e0d62b78a1ae248e805bca5e214e031fbd0a9", "evidencePath": "docs/form-v2/progress/F36.md", "sha256": "1d7382efe4651c837f56cf70e32e7f7c73523adf540e29477fda9622d1043d62"},
+    {"kind": "unit-integration", "command": "node --import tsx --test tests/v2/trial.test.ts", "exitCode": 0, "status": "17/17 passed; all prior assertions retained", "rawLogPath": "/tmp/form-F36-campaign-committed-unit.log", "rawLogSha256": "8554b55068bbb8f54d5846c381a9de3e154c86fefebcf51f5444641749a58e75", "evidencePath": "docs/form-v2/progress/F36.md", "sha256": "1d7382efe4651c837f56cf70e32e7f7c73523adf540e29477fda9622d1043d62"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference+302 application=453 passed; none skipped", "rawLogPath": "/tmp/form-F36-campaign-committed-v2.log", "rawLogSha256": "2112c049edba079ea443576d69a096b396a2a246668d726a1ad563abe80f0700", "evidencePath": "docs/form-v2/progress/F36.md", "sha256": "1d7382efe4651c837f56cf70e32e7f7c73523adf540e29477fda9622d1043d62"},
+    {"kind": "typescript", "command": "./node_modules/.bin/tsc --noEmit", "exitCode": 0, "status": "passed", "rawLogPath": "/tmp/form-F36-campaign-committed-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F36.md", "sha256": "1d7382efe4651c837f56cf70e32e7f7c73523adf540e29477fda9622d1043d62"}
+  ],
+  "changedFiles": ["server/v2/trial.ts", "tests/v2/trial.test.ts"],
+  "knownIssues": ["Current FIFO requires zero existing live spendable balance for a new trial; legitimate existing credits remain intact and UI directs their use.", "Shared submission GET proves owned task existence, not trial operation; only POST verifies trial marker. Recovery must display task state without claiming new entitlement.", "Services and UI remain isolated until F32. No frontend/legacy behavior changed by this repair; prior Node24 build and 30/30 legacy evidence is retained in report history."],
+  "externalPending": ["Owner-approved campaign economics/profile/quality/processor policy and real Apple/live model facts missing; external calls0, trial still disabled.", "Independent trial/ledger/worker/identity review remains pending; same-team audit NOT_INDEPENDENT."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F15",
+  "history": [{"reportAtCommit": "1c2576168a5f672a711cfa7d3394c927462ecd9e", "codeCommit": "d8a151b163f518572da20bbd400d58edeb03d5ef", "reportPath": "docs/form-v2/progress/F36.json", "sha256": "0ceb3d07d4edf07067886f8ac1b8b532785cdaff4f376ed413e72511a3836fa4"}]
+}

@@ -1,0 +1,23 @@
+{
+  "taskId": "F10",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "63f740126488d631a684783bafdd9495d1aea5ca",
+  "verification": [
+    {"kind": "regression-red", "command": "node --import tsx --test tests/v2/worker.test.ts (unchanged assertions against source snapshot 995fec9)", "exitCode": 1, "status": "EXPECTED_RED: 17/23 pass, six cases fail on missing batch API; recreated because agent RED was stdout-only", "rawLogPath": "/tmp/form-F10-batch-baseline-red.log", "rawLogSha256": "fb0c026ef049337a34252788da4c4fd9fc68af2f255756dbf196f7420a2d902a", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "27149076417e765a72a1a92f9666446e80f0688e242650adc1e583a2cdbe2b1f"},
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/worker.test.ts", "exitCode": 0, "status": "PASS 23/23, synthetic provider only; real SQLite workers and process termination retained", "rawLogPath": "/tmp/form-F10-batch-committed.log", "rawLogSha256": "a9f175084de291243e5beb5409efbcd28dab287826215b6de0ff941c013d6188", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "27149076417e765a72a1a92f9666446e80f0688e242650adc1e583a2cdbe2b1f"},
+    {"kind": "unit", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "PASS 420/420 (151 reference + 269 service/client)", "rawLogPath": "/tmp/form-F10-batch-v2.log", "rawLogSha256": "93a327fbdac6b01732221bd6011b6f00a302aed8120b2f80a8005eb87063048e", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "27149076417e765a72a1a92f9666446e80f0688e242650adc1e583a2cdbe2b1f"},
+    {"kind": "regression", "command": "npm test", "exitCode": 0, "status": "PASS 30/30 original tests unchanged", "rawLogPath": "/tmp/form-F10-batch-legacy.log", "rawLogSha256": "207c2e50f57d174ec28dee14508cce4a9a88e70f6459ab1e6218fe8fdd785dde", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "27149076417e765a72a1a92f9666446e80f0688e242650adc1e583a2cdbe2b1f"},
+    {"kind": "typecheck", "command": "npx --no-install tsc --noEmit", "exitCode": 0, "status": "PASS same final source tree", "rawLogPath": "/tmp/form-F10-batch-root-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F10.md", "sha256": "27149076417e765a72a1a92f9666446e80f0688e242650adc1e583a2cdbe2b1f"}
+  ],
+  "changedFiles": ["server/v2/worker.ts", "tests/v2/worker.test.ts"],
+  "knownIssues": ["Inert batch API only. F32 thin lifecycle wiring must call recovery.markInterrupted once per single writable-instance startup, then bounded batch/reconcile ticks; shutdown stops new ticks before closing DB.", "Malformed queued records remain unchanged for operator repair and appear as rejected batch results; they no longer block healthy owners forever.", "Correction to earlier handoff: F10/S03/D18 owns this bounded scan. No new scheduler table, distributed lease, automatic supplier retry or product scope was added.", "F32 still lacks reviewed workspace-backend implementation scope and independently verified native/privacy/payment gates."],
+  "externalPending": ["Independent wallet/worker/idempotency and migration review remain pending. Live supplier, iPhone, production migration and real costs NOT_RUN."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F27",
+  "history": [{"reportAtCommit": "63f740126488d631a684783bafdd9495d1aea5ca", "codeCommit": "ffc62245b9bf32a1939043847eae765aab432869", "reportPath": "docs/form-v2/progress/F10.json", "sha256": "49c51ca2f4cd68ac0be393d2b3eca9f6af3c4e1a0fa4fe18329af67f61ee37d1"}]
+}

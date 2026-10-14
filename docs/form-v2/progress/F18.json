@@ -1,0 +1,221 @@
+{
+  "taskId": "F18",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "6bc977be9e8304aed8fee731e59167799e2a539c",
+  "status": "CODE_READY_OFFLINE_SDK_UNVERIFIED",
+  "checkpointBase": "76cec35247af5ef10a4bc4dda28057121636452f",
+  "taskConfigSha256": "d475cb1009fef48bd278077ca894dc788cd3c0b6258fe01b737d0c019680739f",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-red.log",
+      "sha256": "7df43e363115807bec07098f0b51e6330917c085af4bed6c5f02d16eb0a3ad2d",
+      "kind": "F18-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "npm ci --no-audit --no-fund",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-install.log",
+      "sha256": "c4641d534a3c364997519aa43c6996a17119baf7e9b4d780995cb71cdae68867",
+      "kind": "F18-install",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-committed-focus.log",
+      "sha256": "34dedaba4561ba3d2802f33064d66410504e043f0e3abf805aaf73a06b3cf343",
+      "kind": "F18-committed-focus",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-committed-sync.log",
+      "sha256": "d06175a9c44c648e7f08cdbd02fb2f2855006598faf85ace6c7791806bc6c16f",
+      "kind": "F18-committed-sync",
+      "status": "PASS"
+    },
+    {
+      "command": "node tools/check-v2.mjs",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-v2.log",
+      "sha256": "f36fcdb8508a4fc1145a5d29dc107b1e21a2a95f9059d41e14fbac5e91def550",
+      "kind": "F18-v2",
+      "status": "PASS",
+      "testedBeforeCommit": true
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-legacy.log",
+      "sha256": "599e4464dd096bf5529e6939e581ec0a7bcb0708b9fe6b6e0e93452aca330de2",
+      "kind": "F18-legacy",
+      "status": "PASS",
+      "testedBeforeCommit": true
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/AppDelegate.swift ios/App/App/SceneDelegate.swift ios/App/App/FORMPluginRegistry.swift",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-swift-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "F18-swift-parse",
+      "status": "PASS",
+      "limitation": "Syntax/manifest validation only; no iOS SDK typecheck or compilation"
+    },
+    {
+      "command": "swift package --package-path ios/App/CapApp-SPM dump-package",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-spm.log",
+      "sha256": "9b315476ace24668eb8bc9f12783d0249f09730c653b64e9266e28f4f524f447",
+      "kind": "F18-spm",
+      "status": "PASS",
+      "limitation": "Syntax/manifest validation only; no iOS SDK typecheck or compilation"
+    },
+    {
+      "command": "npm run cap:build",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-xcode.log",
+      "sha256": "e063bb5fb2f04cd8ba02c5136584e4688bc8dfa11700723bca724445c6ab91b4",
+      "kind": "F18-xcode",
+      "status": "NOT_RUN_ENV_UNAVAILABLE"
+    },
+    {
+      "command": "xcrun simctl list devices available",
+      "exitCode": 72,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-simulator.log",
+      "sha256": "99b8da8adc7e70feba56cd931740e16d0f5724d7515e98d84d2c8bf1bb63dec8",
+      "kind": "F18-simulator",
+      "status": "NOT_RUN_ENV_UNAVAILABLE"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F18 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F18-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-source-guard.log",
+      "sha256": "53c5a8907b452b019c47ce84ed04556a4289a633a97d302c04b8217f3dbd6c26",
+      "kind": "F18-source-guard",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F18 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F18-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-final-guard.log",
+      "sha256": "ff0fd537e99cc0bc3f8399c35e52ef0483c93dce3af888865fec99f8db3a2135",
+      "kind": "scope-guard",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts tests/v2/native-media.test.ts tests/v2/native-auth.test.ts tests/v2/native-purchases.test.ts tests/v2/cache.test.ts tests/v2/deletion.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-native-unit.log",
+      "sha256": "88fe65f9288bb41bd10128367d4852ae739222764a9d99eced9e865a53179e24",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-native-unit",
+      "status": "PASS",
+      "limitation": "Descendant-source revalidation; sync/unit tests do not compile iOS SDK."
+    },
+    {
+      "command": "npm run cap:sync",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-sync.log",
+      "sha256": "d6798ee9cca503d74ba2edd0fec8c6d81ffeed7681b34d0b0f5e05a58b04a2c3",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-sync",
+      "status": "PASS",
+      "limitation": "Descendant-source revalidation; sync/unit tests do not compile iOS SDK."
+    },
+    {
+      "command": "env DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer npm run cap:build",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 69,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/installed-xcode-build.log",
+      "sha256": "d9bd1b32a4d3632668f40e65c67189a2acab6029e648f9ece37409eb748d6754",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "installed-xcode-build",
+      "status": "NOT_RUN_LICENSE_PENDING",
+      "limitation": "Xcode 27 installed; license rejected the command before compilation/launch. Native DEVELOPER_DIR is explicit in command."
+    },
+    {
+      "command": "env DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun simctl list devices available",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 69,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/installed-simulator-list.log",
+      "sha256": "411522ec89779639df259fa9f595942811c505c31bc2eb85696023376304b203",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "installed-simulator-list",
+      "status": "NOT_RUN_LICENSE_PENDING",
+      "limitation": "Xcode 27 installed; license rejected the command before compilation/launch. Native DEVELOPER_DIR is explicit in command."
+    }
+  ],
+  "changedFiles": [
+    "capacitor.config.ts",
+    "ios/.gitignore",
+    "ios/App/App.xcodeproj/project.pbxproj",
+    "ios/App/App/AppDelegate.swift",
+    "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
+    "ios/App/App/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "ios/App/App/Assets.xcassets/Contents.json",
+    "ios/App/App/Assets.xcassets/Splash.imageset/Contents.json",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png",
+    "ios/App/App/Base.lproj/LaunchScreen.storyboard",
+    "ios/App/App/Base.lproj/Main.storyboard",
+    "ios/App/App/FORMPluginRegistry.swift",
+    "ios/App/App/Info.plist",
+    "ios/App/App/SceneDelegate.swift",
+    "ios/App/CapApp-SPM/.gitignore",
+    "ios/App/CapApp-SPM/Package.swift",
+    "ios/App/CapApp-SPM/Sources/CapApp-SPM/CapApp-SPM.swift",
+    "ios/debug.xcconfig",
+    "package-lock.json",
+    "package.json",
+    "src/platform/ios-shell.ts",
+    "tests/v2/platform.test.ts"
+  ],
+  "knownIssues": [
+    "iOS SDK typecheck/build and simulator launch NOT_RUN: Xcode 27 was installed during continuation, but Apple SDK license remains unaccepted (actual exit 69).",
+    "All live bindings disabled and V2 unmounted pending F32/independent gates.",
+    "Inherited dependency advisories unchanged; production license notices/facts belong to F31."
+  ],
+  "externalPending": [
+    "Owner Xcode first-launch/license/components, available iOS runtime; then genuine SDK build and simulator launch",
+    "Approved bundle/team/API facts, real Apple/StoreKit and real iPhone/VoiceOver checks",
+    "Independent review and F32 runtime integration, archive/TestFlight/release approval"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F19",
+  "preflightEvidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-preflight-measurement.json",
+  "preflightSha256": "4d501cf358ce962f74dc1da924dba2a67922c4ba4a19a3749de9c8eb73ae460f",
+  "originalWorkspacePreserved": true,
+  "historicalEvidenceAvailability": "Prior /private/tmp raw logs/checkpoints/snapshot are unavailable after interruption. Retained historical hashes are not reconstructed logs; durable descendant reruns supplement them.",
+  "originalWorkspaceFileCount": 31,
+  "originalWorkspaceCountCorrection": "Earlier Markdown count 40 was a reporting error. Current nonignored tracked/untracked dirty-file manifest records 31 files; original HEAD and contents are preserved.",
+  "recoveryEvidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/recovery.json",
+  "recoverySha256": "f89529bcf99422625de287d687752290e163b6e404e343a300d014d023445fc4",
+  "scopeWindows": [
+    "76cec35247af5ef10a4bc4dda28057121636452f..bcebd7176968fd9be37300668b0ba5ba84bfd56f",
+    "32ea159871babeec0f635c771237effc57a8440b..current F18 audit report"
+  ]
+}

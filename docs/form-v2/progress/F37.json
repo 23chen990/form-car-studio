@@ -1,0 +1,73 @@
+{
+  "taskId": "F37",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+  "status": "CODE_READY_OFFLINE",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts tests/v2/native-media.test.ts tests/v2/native-auth.test.ts tests/v2/native-purchases.test.ts tests/v2/cache.test.ts tests/v2/deletion.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-native-unit.log",
+      "sha256": "88fe65f9288bb41bd10128367d4852ae739222764a9d99eced9e865a53179e24",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-native-unit",
+      "status": "PASS"
+    },
+    {
+      "command": "npx --no-install playwright test --config=playwright.v2.config.ts tests/e2e/v2-preview.spec.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-preview-browser.log",
+      "sha256": "b6719cebaefea8dda0ff8bf0570c96ab7b65f68bf3c153a85456e6d8a1cebb42",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "browserExecutable": "/Users/kker/Library/Caches/ms-playwright/chromium-1243/chrome-mac-arm64/Google Chrome for Testing.app/Contents/MacOS/Google Chrome for Testing",
+      "kind": "resume-preview-browser",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-sync.log",
+      "sha256": "d6798ee9cca503d74ba2edd0fec8c6d81ffeed7681b34d0b0f5e05a58b04a2c3",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-sync",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "src/features/discover/preview.tsx",
+    "src/platform/cache.ts",
+    "src/testing/v2-harness.tsx",
+    "tests/e2e/v2-preview.spec.ts",
+    "tests/v2/cache.test.ts"
+  ],
+  "knownIssues": [
+    "Memory cache only; no guarantee after app termination.",
+    "Production example license registry and F32 owner/session/deletion binding still absent.",
+    "Prior temporary raw logs/checkpoints were lost; current evidence rerun preserves full original task budget."
+  ],
+  "externalPending": [
+    "Real iPhone/VoiceOver and independent privacy/cache/deletion review NOT_RUN",
+    "F32 actual display/identity/deletion signals and licensed launch cases"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F30",
+  "originalTaskBase": "b8d7d117b3244abe6fdd9e88531421d15d3f8afd",
+  "sourceHistory": [
+    "5322ce76d366b27c4fb7975a4cc7216cc49374c1",
+    "d3a1557799ecab0f466a37d0fb431edec760569c"
+  ],
+  "recoveryEvidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/recovery.json",
+  "recoverySha256": "f89529bcf99422625de287d687752290e163b6e404e343a300d014d023445fc4"
+}

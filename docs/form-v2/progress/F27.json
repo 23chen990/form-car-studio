@@ -1,0 +1,23 @@
+{
+  "taskId": "F27",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "beb549f71b0f8be73ab998a1de303200811e9f95",
+  "verification": [
+    {"kind": "regression-red", "command": "node --import tsx --test --test-name-pattern='actual supplier limit incident' tests/v2/budget.test.ts", "exitCode": 1, "status": "EXPECTED_RED: writable sibling accepted despite incident", "rawLogPath": "/tmp/form-F27-cross-connection-red.log", "rawLogSha256": "263144ff53b73fcb9c9237df815c3d23900efb4d6adf341b7097ecaffa3f01dc", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"},
+    {"kind": "unit", "command": "node --import tsx --test tests/v2/budget.test.ts", "exitCode": 0, "status": "12/12 passed, including two SQLite Workers, one-slot windows and restart/connection audit failure", "rawLogPath": "/tmp/form-F27-committed-focus.log", "rawLogSha256": "4d58aca783e19e5dc6d7f1b6f90d122b2b7f2f5b638d34af71c4e3591d39b91d", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"},
+    {"kind": "v2", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference + 281 application tests passed; none skipped", "rawLogPath": "/tmp/form-F27-committed-all-v2.log", "rawLogSha256": "3d62c17454110895769fa74676bfe25298b54a1a685fd1305ace7ecb2381abb3", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"},
+    {"kind": "legacy", "command": "npm test", "exitCode": 0, "status": "30/30 passed", "rawLogPath": "/tmp/form-F27-committed-legacy.log", "rawLogSha256": "be56c9ec5f2650cdf7f356ea6fcead8f6bf9f45044ea04ba61d50f0e16683f7a", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"},
+    {"kind": "typescript", "command": "./node_modules/.bin/tsc --noEmit", "exitCode": 0, "status": "passed", "rawLogPath": "/tmp/form-F27-committed-tsc.log", "rawLogSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"},
+    {"kind": "build", "command": "npm run build", "exitCode": 0, "status": "Node24/Vite build passed", "rawLogPath": "/tmp/form-F27-committed-build.log", "rawLogSha256": "89c4c6024f2b2b47d9298dacff9de7e862feaa259fd36ddd30e013eb5b7f14a5", "evidencePath": "docs/form-v2/progress/F27.md", "sha256": "7752cd8c517f66af60825aaa8c578ab52954f8fd07cfb3a9fc82e32aa5c142d2"}
+  ],
+  "changedFiles": [".env.example", "server/v2/budget.ts", "server/v2/rate-limits.ts", "tests/v2/budget.test.ts"],
+  "knownIssues": ["Pause controls live supplier spend; licensed prebuilt demo has no external calls and remains outside supplier budgets.", "If both incident audit and the financial hold write fail, only the current service can close; database/operator repair is required before runtime use. Invalid uncaptured calls are denied without supplier invocation.", "An unverifiable-bound hold cannot be erased by resume or ordinary settlement; reviewed reconciliation is required. Runtime startup/dispatch wiring remains F32."],
+  "externalPending": ["Actual supplier profile, defensible price ceiling, quality evidence, processor/retention policy and owner budget approval missing; no paid calls run.", "Independent budget/worker/ledger review pending; same-team Luna audit is NOT_INDEPENDENT."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F23"
+}

@@ -1,6 +1,8 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
 import { PhotoIntake, type PublishedPhotoDisclosure } from '../features/photo/PhotoIntake.js';
+import { DiscoverEntry } from '../features/discover/DiscoverEntry.js';
+import type { EntryCapabilities } from '../features/navigation/entry.js';
 import { TaskWait } from '../features/task/task-wait.js';
 import { createV2Api, type SafeTaskDTO } from '../lib/api-v2.js';
 import { createSubmissionStore } from '../lib/submission-store.js';
@@ -166,6 +168,42 @@ function V2Harness() {
   </main>;
 }
 
+function EntryHarness() {
+  const query = new URLSearchParams(window.location.search);
+  const [ownerId, setOwner] = useState('owner-a');
+  const [closed, setClosed] = useState(query.get('closed') === '1');
+  const [events, setEvents] = useState('');
+  const image = 'data:image/svg+xml,' + encodeURIComponent('<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400"><rect width="640" height="400" fill="#dedfd5"/><rect x="100" y="160" width="440" height="120" rx="30" fill="#62695e"/><text x="90" y="60" font-size="25">SYNTHETIC TEST FIXTURE</text></svg>');
+  const capabilities: EntryCapabilities = {
+    explore: !closed, detail: !closed, publishedStyleIds: closed ? [] : ['clean'],
+    example: query.get('missing') === '1' ? null : {
+      id: 'case-fixture', styleId: 'clean', name: 'Synthetic color study',
+      description: 'Synthetic fixture only; no production license or model quality is asserted.',
+      beforeUrl: image, afterUrl: image,
+      licenseEvidenceId: 'synthetic-license-fixture', qualityEvidenceId: 'synthetic-quality-fixture',
+    },
+  };
+  const restoredView = query.get('restore') === 'explore' ? {
+    screen: 'photo', intent: { schemaVersion: 2, source: { kind: 'original' }, operation: 'explore', styleId: 'clean', edits: {} },
+  } : null;
+  return <>
+    <p className="v2-harness__notice">DEV HARNESS · SYNTHETIC ONLY</p>
+    <div className="v2-harness__controls">
+      <button type="button" onClick={() => setClosed(true)}>Close entry capabilities</button>
+      <button type="button" onClick={() => setOwner(ownerId === 'owner-a' ? 'owner-b' : 'owner-a')}>Switch entry account</button>
+    </div>
+    <DiscoverEntry ownerId={ownerId} capabilities={capabilities} restoredView={restoredView}
+      recent={[
+        { ownerId: 'owner-a', projectId: 'project-own', name: 'Earlier rally look', selectedSource: { kind: 'version', versionId: 'version-old' }, styleId: 'rally', favorite: true, thumbnailUrl: image, activeTaskId: 'task-own' },
+        { ownerId: 'owner-b', projectId: 'project-other', name: 'Other account private car', selectedSource: { kind: 'original' }, styleId: null, favorite: false, thumbnailUrl: null, activeTaskId: null },
+      ]}
+      renderPhoto={intent => <><output data-testid="entry-intent">{JSON.stringify(intent)}</output><PhotoIntake actorId={ownerId} api={null} disclosure={null} /></>}
+      onOpenProject={(id, source) => setEvents(id + ':' + (source.kind === 'version' ? source.versionId : 'original'))}
+      onOpenTask={setEvents} />
+    <output data-testid="entry-events">{events}</output>
+  </>;
+}
+
 function mountPhotoHarness() {
 
 interface SyntheticRequest {
@@ -268,5 +306,6 @@ Object.assign(testWindow, { __FORM_V2_UNMOUNT__: () => root.unmount() });
 root.render(<PhotoHarness />);
 }
 
-if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
+if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
+else if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
 else createRoot(document.getElementById('root')!).render(<V2Harness />);

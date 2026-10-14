@@ -2,7 +2,7 @@
   "taskId": "F21",
   "specVersion": "2.2",
   "codeReady": true,
-  "codeCommit": "41e18c7203835df702ff95f68ab2cfeb5672eb90",
+  "codeCommit": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
   "status": "CODE_READY_OFFLINE_SDK_UNVERIFIED",
   "verification": [
     {
@@ -60,6 +60,63 @@
       "sha256": "e9929cf8c5b0ed1e5117d95f613065adbf94dcb0a26ab32d9bc2cee889b92996",
       "kind": "F21-source-guard",
       "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 1,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-red.log",
+      "sha256": "30e5cc84707a5647a57d79a72fe55fdf782dcd48b7e223955c86d9d84c2afc8d",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "b7f8510422c532b1e870a62b5e1c45c23f53e6fa3c5d2b1fa252825b90f0e234",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-auth.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-committed.log",
+      "sha256": "f5ad39d522b985c181a2429bb55156255f0be802a1987a5f5ad36e05027d09c6",
+      "headAtStart": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "ea9dbed4fe767622fa8314c4387f337286e0d1ef",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-committed",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMAuth.swift",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "941b14102f27197ec1413559f828353c5711d8c76538ae49f1d9d58e0bae6fd2",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-parse",
+      "status": "PASS",
+      "limitation": "Syntax only; no iOS SDK compilation"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F21 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-checkpoint.json",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F21-wallet-guard.log",
+      "sha256": "9d28874c7cf82c17fdd760ddb5fbb935136c03d6fab58e26bd134e96974ef063",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "941b14102f27197ec1413559f828353c5711d8c76538ae49f1d9d58e0bae6fd2",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F21-wallet-guard",
+      "status": "PASS"
     }
   ],
   "changedFiles": [
@@ -89,5 +146,14 @@
     "externalSpendMicrosUSD": 0,
     "merged": false
   },
-  "nextEligibleTask": "F24"
+  "nextEligibleTask": "F24",
+  "sourceHistory": [
+    "41e18c7203835df702ff95f68ab2cfeb5672eb90",
+    "ea9dbed4fe767622fa8314c4387f337286e0d1ef"
+  ],
+  "auditCorrection": "Authenticated native balance allowlist now reuses frozen S02 /api/v2/wallet; no /credits endpoint requested. Historical /private/tmp raw logs no longer exist; durable current reruns are supplemental evidence.",
+  "scopeWindows": [
+    "9bdf000b16d974acc496af3c81e6d61d2efdffe4..c2d3a98aa33b4d5fb05a3f1f20586c6dea25d40f",
+    "b50e312aa9a20e47a965973362acefda318f1aed..current F21 wallet report"
+  ]
 }

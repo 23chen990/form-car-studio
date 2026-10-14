@@ -11,9 +11,12 @@
       "exitCode": 1,
       "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F30-red.log",
       "sha256": "427bf4a25b6bbfb5a01530565c4dd3b4d0c32cf5b34062c63e9abad1a44e4c47",
-      "testedCodeCommit": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "testedCodeCommit": null,
       "kind": "F30-red",
-      "status": "EXPECTED_RED"
+      "status": "EXPECTED_RED",
+      "headAtStart": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "workingTreeDirty": true,
+      "metadataCorrection": "Original helper mislabeled precommit dirty-workspace verification with HEAD. This proves the workspace command only; original log hash is unchanged. No workspace fingerprint was recorded."
     },
     {
       "command": "node --import tsx --test tests/v2/storefront.test.ts",
@@ -31,9 +34,12 @@
       "exitCode": 0,
       "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F30-build.log",
       "sha256": "a93072fd45825370bc19af7fe6b73948ffa419f134116ebfb9bfde957bfda89c",
-      "testedCodeCommit": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "testedCodeCommit": null,
       "kind": "F30-build",
-      "status": "PASS"
+      "status": "PASS",
+      "headAtStart": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "workingTreeDirty": true,
+      "metadataCorrection": "Original helper mislabeled precommit dirty-workspace verification with HEAD. This proves the workspace command only; original log hash is unchanged. No workspace fingerprint was recorded."
     },
     {
       "command": "python3 docs/form-handoff/tools/guard.py check F30 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F30-checkpoint.json",
@@ -41,9 +47,12 @@
       "exitCode": 0,
       "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F30-source-guard.log",
       "sha256": "12ce802bd9e12cbd3897d174ba5ccf6ebe8ae20da20f0fa98ff77b349764ad47",
-      "testedCodeCommit": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "testedCodeCommit": null,
       "kind": "F30-source-guard",
-      "status": "PASS"
+      "status": "PASS",
+      "headAtStart": "91fe0461b51b8a5782b5330086f20ca3a91b1d0c",
+      "workingTreeDirty": true,
+      "metadataCorrection": "Original helper mislabeled precommit dirty-workspace verification with HEAD. This proves the workspace command only; original log hash is unchanged. No workspace fingerprint was recorded."
     }
   ],
   "changedFiles": [
@@ -68,5 +77,6 @@
     "externalSpendMicrosUSD": 0,
     "merged": false
   },
-  "nextEligibleTask": "F31"
+  "nextEligibleTask": "F31",
+  "auditCorrection": "Exact committed unit verification remains 92adbda51d3a095dc9cc3306125ec14958251dfe; precommit build/guard/red are now explicitly workspace checks, not tests of stale HEAD."
 }

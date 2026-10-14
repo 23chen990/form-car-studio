@@ -1,0 +1,202 @@
+TAP version 13
+# Subtest: S02 inventory has unique HTTP method + path and source/ownership contract
+ok 1 - S02 inventory has unique HTTP method + path and source/ownership contract
+  ---
+  duration_ms: 1.450399
+  type: 'test'
+  ...
+# Subtest: plan, submit, task status and idempotent lookup are represented as isolated modules
+ok 2 - plan, submit, task status and idempotent lookup are represented as isolated modules
+  ---
+  duration_ms: 2.041182
+  type: 'test'
+  ...
+# Subtest: do not pretend workspace/history/draft/favorite/feedback handlers already exist
+ok 3 - do not pretend workspace/history/draft/favorite/feedback handlers already exist
+  ---
+  duration_ms: 0.203798
+  type: 'test'
+  ...
+# Subtest: F23/F26 dependent endpoints are not marked ready in existing branch
+ok 4 - F23/F26 dependent endpoints are not marked ready in existing branch
+  ---
+  duration_ms: 0.175966
+  type: 'test'
+  ...
+# Subtest: no main-app integration is claimed
+ok 5 - no main-app integration is claimed
+  ---
+  duration_ms: 0.441517
+  type: 'test'
+  ...
+# Subtest: preflight doc ../01_README_ZH.md labels its approval/runtime boundary
+ok 6 - preflight doc ../01_README_ZH.md labels its approval/runtime boundary
+  ---
+  duration_ms: 1.878216
+  type: 'test'
+  ...
+# Subtest: preflight doc ../02_ENGINEERING_GAPS_ZH.md labels its approval/runtime boundary
+ok 7 - preflight doc ../02_ENGINEERING_GAPS_ZH.md labels its approval/runtime boundary
+  ---
+  duration_ms: 0.757363
+  type: 'test'
+  ...
+# Subtest: preflight doc ../03_UI_RFC_FIXES_ZH.md labels its approval/runtime boundary
+ok 8 - preflight doc ../03_UI_RFC_FIXES_ZH.md labels its approval/runtime boundary
+  ---
+  duration_ms: 4.175514
+  type: 'test'
+  ...
+# Subtest: preflight doc ../04_ACCEPTANCE_AND_CODEX_HANDOFF_ZH.md labels its approval/runtime boundary
+ok 9 - preflight doc ../04_ACCEPTANCE_AND_CODEX_HANDOFF_ZH.md labels its approval/runtime boundary
+  ---
+  duration_ms: 0.354295
+  type: 'test'
+  ...
+# Subtest: source: original has no versionId; explicit version keeps exact historic ID
+ok 10 - source: original has no versionId; explicit version keeps exact historic ID
+  ---
+  duration_ms: 3.221434
+  type: 'test'
+  ...
+# Subtest: source: invalid, cross-shape and empty historic ID are rejected
+ok 11 - source: invalid, cross-shape and empty historic ID are rejected
+  ---
+  duration_ms: 1.010776
+  type: 'test'
+  ...
+# Subtest: explore: approved native style produces strict S01 request and no edit overrides
+ok 12 - explore: approved native style produces strict S01 request and no edit overrides
+  ---
+  duration_ms: 0.33795
+  type: 'test'
+  ...
+# Subtest: explore: none of the eight IDs is automatically published
+ok 13 - explore: none of the eight IDs is automatically published
+  ---
+  duration_ms: 0.635359
+  type: 'test'
+  ...
+# Subtest: explore: editorial concept IDs are not backend style IDs
+ok 14 - explore: editorial concept IDs are not backend style IDs
+  ---
+  duration_ms: 0.337179
+  type: 'test'
+  ...
+# Subtest: explore: combining a style request with a paint override violates S01 first-launch plan
+ok 15 - explore: combining a style request with a paint override violates S01 first-launch plan
+  ---
+  duration_ms: 0.339362
+  type: 'test'
+  ...
+# Subtest: direct detail: original wheel color does not invent styleId
+ok 16 - direct detail: original wheel color does not invent styleId
+  ---
+  duration_ms: 0.68861
+  type: 'test'
+  ...
+# Subtest: direct detail: preserve explicit historic version identity
+ok 17 - direct detail: preserve explicit historic version identity
+  ---
+  duration_ms: 0.352272
+  type: 'test'
+  ...
+# Subtest: direct detail: unsupported bodyFinish, wheelDesign and arbitrary body kit stay blocked
+ok 18 - direct detail: unsupported bodyFinish, wheelDesign and arbitrary body kit stay blocked
+  ---
+  duration_ms: 0.813428
+  type: 'test'
+  ...
+# Subtest: direct detail: disabled supported field stays blocked
+ok 19 - direct detail: disabled supported field stays blocked
+  ---
+  duration_ms: 0.787629
+  type: 'test'
+  ...
+# Subtest: direct detail: only schema-supported colors accepted
+ok 20 - direct detail: only schema-supported colors accepted
+  ---
+  duration_ms: 0.330289
+  type: 'test'
+  ...
+# Subtest: sheet: cancel/escape leaves committed draft intact
+ok 21 - sheet: cancel/escape leaves committed draft intact
+  ---
+  duration_ms: 0.500836
+  type: 'test'
+  ...
+# Subtest: sheet: apply commits explicitly and does not change the original reference
+ok 22 - sheet: apply commits explicitly and does not change the original reference
+  ---
+  duration_ms: 0.216857
+  type: 'test'
+  ...
+# Subtest: sheet: attempts to stage locked feature are rejected
+ok 23 - sheet: attempts to stage locked feature are rejected
+  ---
+  duration_ms: 0.209466
+  type: 'test'
+  ...
+# Subtest: result: refine older version never uses latest or original
+ok 24 - result: refine older version never uses latest or original
+  ---
+  duration_ms: 0.230709
+  type: 'test'
+  ...
+# Subtest: result: another look starts from project original regardless of selected version
+ok 25 - result: another look starts from project original regardless of selected version
+  ---
+  duration_ms: 0.151509
+  type: 'test'
+  ...
+# Subtest: result: refine without explicit version fails closed
+ok 26 - result: refine without explicit version fails closed
+  ---
+  duration_ms: 1.432543
+  type: 'test'
+  ...
+# Subtest: result: unknown action fails closed
+ok 27 - result: unknown action fails closed
+  ---
+  duration_ms: 0.08607
+  type: 'test'
+  ...
+# Subtest: browse, compare, favorite and static export are never generation actions
+ok 28 - browse, compare, favorite and static export are never generation actions
+  ---
+  duration_ms: 0.193502
+  type: 'test'
+  ...
+# Subtest: confirm and submit are NOT classified as zero-call actions
+ok 29 - confirm and submit are NOT classified as zero-call actions
+  ---
+  duration_ms: 0.096576
+  type: 'test'
+  ...
+# Subtest: another approved look recreates strict original-source explore
+ok 30 - another approved look recreates strict original-source explore
+  ---
+  duration_ms: 0.09293
+  type: 'test'
+  ...
+# Subtest: source rejects arrays, prototype instance and malformed object data
+ok 31 - source rejects arrays, prototype instance and malformed object data
+  ---
+  duration_ms: 0.133972
+  type: 'test'
+  ...
+# Subtest: V2.1 visual tokens are exact source-derived reference, not production release
+ok 32 - V2.1 visual tokens are exact source-derived reference, not production release
+  ---
+  duration_ms: 0.991918
+  type: 'test'
+  ...
+1..32
+# tests 32
+# suites 0
+# pass 32
+# fail 0
+# cancelled 0
+# skipped 0
+# todo 0
+# duration_ms 157.233034

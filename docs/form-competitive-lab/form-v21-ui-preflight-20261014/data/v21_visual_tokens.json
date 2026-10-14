@@ -1,0 +1,30 @@
+{
+  "schema": "FORM_V21_STYLE_TOKENS_RESEARCH_ONLY",
+  "source": "FORM_STUDIO_V2_1_OFFLINE.html",
+  "source_sha256": "6b01c48a9b4bd742410ec6aba2d86abeccc5946a0c391a68c461bb9e2d450c63",
+  "source_bytes": 321020,
+  "theme_css_vars": {
+    "--bg": "#070b0d",
+    "--paper": "#f5f8f5",
+    "--muted": "#aab7b3",
+    "--quiet": "#778985",
+    "--accent": "#cbf85b",
+    "--border": "#ffffff25",
+    "--panel": "#171e21",
+    "--panel2": "#222c2f"
+  },
+  "declared_media_conditions": [
+    "max-width:940px",
+    "max-width:359px",
+    "prefers-reduced-motion:reduce"
+  ],
+  "design_intent": [
+    "mobile-first car-centered composition",
+    "full car visible in selected photo",
+    "bottom choice sheets with explicit Apply",
+    "dark surfaces; single bright accent",
+    "always label editorial concept images as examples"
+  ],
+  "approval": "NOT_APPROVED_FOR_PRODUCTION",
+  "asset_license_note": "No concept image/base64 data copied; stylesheet values do not prove image asset rights or model capability"
+}

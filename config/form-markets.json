@@ -1,0 +1,13 @@
+{
+  "schemaVersion": 1,
+  "proposedInitialMarkets": ["US"],
+  "approvedMarkets": [],
+  "releaseApproved": false,
+  "gates": {
+    "nativeVerified": false,
+    "iapVerified": false,
+    "modelQualityVerified": false,
+    "privacyReviewed": false,
+    "entityAgreementsVerified": false
+  }
+}

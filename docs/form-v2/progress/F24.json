@@ -1,0 +1,93 @@
+{
+  "taskId": "F24",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "193c89b3283ed8485640bb62ca4784b2ab92571d",
+  "status": "CODE_READY_OFFLINE_SERVICE_AND_SDK_UNVERIFIED",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/native-purchases.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-red.log",
+      "sha256": "62fc5df22cdfa01bd5e711b9a0073468630aff9126ba004d049ce63d6a7949a9",
+      "kind": "F24-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-purchases.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-sync-red.log",
+      "sha256": "5547b3641102c71a264c3ad8b50d0834a314873eed3d8552b0a27457066abffb",
+      "kind": "F24-sync-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-purchases.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-committed-focus.log",
+      "sha256": "ca7ea42a36b07b92887bcb9e482be0960ee2c9cf84ff0e1641febfbb2c39be01",
+      "kind": "F24-committed-focus",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-committed-build.log",
+      "sha256": "8171171f75264a40fa40978b6d0fff8ff9b44ba2f5835033594cd9db0c440cc9",
+      "kind": "F24-committed-build",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMPurchase.swift",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-final-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "F24-final-parse",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/purchases.test.ts tests/v2/refunds.test.ts tests/v2/native-purchases.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-purchase-regression.log",
+      "sha256": "363abb0fcbd82c40ef24da566de93d09b327362bcceb6eeb6f41c01272b44715",
+      "kind": "F24-purchase-regression",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F24 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F24-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F24-source-guard.log",
+      "sha256": "115f1753d96fc7722bffeec3ace5b31caffefe3557710c14a9592f29d3c8ea83",
+      "kind": "F24-source-guard",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "ios/App/App/FORMPluginRegistry.swift",
+    "ios/App/App/Plugins/FORMPurchase.swift",
+    "src/features/purchase/PurchasePanel.tsx",
+    "src/features/purchase/server-boundary.md",
+    "src/platform/native-purchases.ts",
+    "tests/v2/native-purchases.test.ts"
+  ],
+  "knownIssues": [
+    "Required authenticated GET /api/v2/credits is not implemented/bound; native preflight closes.",
+    "F23 Sandbox credits explicitly disabled; no proven development acknowledgment path.",
+    "V2 native modules unmounted; no full Xcode/StoreKit SDK build."
+  ],
+  "externalPending": [
+    "Minimal service contract in src/features/purchase/server-boundary.md",
+    "Valid Apple products/storefront/environment/signing and real local StoreKit/Sandbox/iPhone tests NOT_RUN",
+    "Independent identity/payment/refund/deletion and F32 review"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F37"
+}

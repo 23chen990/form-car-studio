@@ -1,0 +1,21 @@
+{
+  "taskId": "F28",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "15f25fadee873a92a908add7caf255e4f723befb",
+  "status": "CODE_READY_OFFLINE",
+  "checkpointBase": "ae7e63dd6c1347ae286ad5cc6c784d7483769847",
+  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+  "verification": [{"kind": "unit-regression", "command": "node tools/check-v2.mjs", "exitCode": 0, "status": "151 reference+369 application=520/520 including7 events/feedback/review tests, auth/deletion regressions", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F28-committed-v2.log", "sha256": "0c1bd917549acf0bd268abec8aef76cc614f998e2516196b669444d7dbe49720"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS tsc and build; production bundle unchanged", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F28-committed-build.log", "sha256": "ddffd31ae557f20147f3e4f215881b8b5b60d520ffb7e7e569d79d99a3ad1839"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F28 --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F28-checkpoint.json", "exitCode": 0, "status": "PASS original checkpoint; complete source/evidence604/900 across6 allowed paths", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F28-code-and-reports-guard.log", "sha256": "38ff9d391e9527bf633f611095567cf80db47524e7dd7872a4196494a46677ac"}],
+  "changedFiles": ["server/v2/audit.ts", "server/v2/feedback.ts", "src/lib/events.ts", "tests/v2/events.test.ts"],
+  "knownIssues": ["Transactional event/review helpers remain unmounted; actual producer, HTTP/auth and S02 feedback bindings require reviewed F32 scope. No deployed collector or admin interface is claimed.", "Support redaction covers tested common credential/contact/network/image forms; it is not a general PII classifier. Actual support/analytics data policy and retention remain unconfigured.", "Audit writes are append-only through these service APIs, without a database-level tamper-proof claim. Operator authorization is injected and defaults closed."],
+  "externalPending": ["Independent feedback/quality/compensation and privacy review, actual operator identity/policy and production bindings remain pending."],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "sourceChangedLines": 573,
+  "testEnvironment": {"runtime": "Node24.14.0", "os": "macOS arm64", "scope": "Synthetic SQLite and local service tests; no real operator or production telemetry"},
+  "developmentEvidence": ["F28-red-contract.log", "F28-expanded-red.log", "F28-followup-red.log"]
+}

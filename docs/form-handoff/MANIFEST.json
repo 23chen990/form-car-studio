@@ -41,7 +41,7 @@
     "docs/form-handoff/specs/05-ui-ios-copy.md": "d7bb0740be9ed43546bebdaedb87cc554334ba5885b2ca9805aa3e3e05f508d8",
     "docs/form-handoff/specs/06-research-launch.md": "f21727b39b0d5d72b3fb140111011cd284a80691e8ac4007ea4aebab5a2ee854",
     "docs/form-handoff/tasks/progress.template.json": "7273599eaf7546c6192f2134b8404f56225ae78b42acb07747341597ce85efc5",
-    "docs/form-handoff/tasks/tasks.json": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
+    "docs/form-handoff/tasks/tasks.json": "d475cb1009fef48bd278077ca894dc788cd3c0b6258fe01b737d0c019680739f",
     "docs/form-handoff/tools/check_release.py": "30bb9829f91ddfcf413de40f490df00d34047b5ab014d28618453fe6cb567bf0",
     "docs/form-handoff/tools/guard.py": "6a73a42d31e85bacef026150c33363aeccdc41b965050d96f535eea5526f4eb9",
     "docs/form-handoff/tools/test_guard.py": "761e2410a9e615dda8eb301d6b647505b397372e51e2f45ddf9bf7a7e2f6475b"

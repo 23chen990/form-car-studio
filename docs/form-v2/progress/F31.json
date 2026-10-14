@@ -1,0 +1,91 @@
+{
+  "taskId": "F31",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "431d016227680f161b75020fecbdfdc2bda31ddd",
+  "status": "CODE_READY_OFFLINE",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/legal-copy.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 1,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F31-red-retry.log",
+      "sha256": "3baf555e189be364cd7bf424cc26ae10495f3574bcb3580666e56e8877b4fa77",
+      "headAtStart": "4e60c270a77dc47e6cd63af07192debc9c53d9ed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "16ca995287a101e52dd5312eccf694e2546d7cd3ff8add6cb915ddca2b377e7b",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F31-red-retry",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/legal-copy.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F31-committed-unit.log",
+      "sha256": "fec2f7b80d388c268e5d61f87264b75039f1b2d7cc7057795ca1f17059369f6f",
+      "headAtStart": "431d016227680f161b75020fecbdfdc2bda31ddd",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "431d016227680f161b75020fecbdfdc2bda31ddd",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F31-committed-unit",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run build",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F31-committed-build.log",
+      "sha256": "289c454a849f2187ed8b5c436e73c98e1f072272a18f82dc85afc1ab1e45db7d",
+      "headAtStart": "431d016227680f161b75020fecbdfdc2bda31ddd",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "431d016227680f161b75020fecbdfdc2bda31ddd",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F31-committed-build",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F31 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F31-checkpoint.json",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F31-source-guard.log",
+      "sha256": "3e49e6673f16800af8924d6c8d4d5b55c314ff6a2acba56746628cdf68ed53ee",
+      "headAtStart": "4e60c270a77dc47e6cd63af07192debc9c53d9ed",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "e81d72f25818c03c911f4790fb673fffeaf63395a89f5810d5c1aa3b515e251a",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F31-source-guard",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "docs/form-v2/asset-register.json",
+    "docs/form-v2/store-copy.md",
+    "src/features/legal/LegalLinks.tsx",
+    "src/features/legal/release.ts",
+    "tests/v2/legal-copy.test.ts"
+  ],
+  "knownIssues": [
+    "Real entity, policies, processor/retention facts, public policy URLs and commercial launch assets are absent; packet defaults closed.",
+    "Structural validation is not legal/copyright review or proof of approval.",
+    "Legal surface is isolated; legacy entry/assets remain until reviewed F32 wiring."
+  ],
+  "externalPending": [
+    "Owner/legal/privacy/copyright review and actual approved asset/license records NOT_RUN",
+    "Store metadata, public policy pages and genuine device permission/network agreement NOT_RUN"
+  ],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F32"
+}

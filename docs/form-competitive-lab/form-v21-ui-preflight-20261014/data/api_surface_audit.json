@@ -1,0 +1,356 @@
+{
+  "schema_version": 1,
+  "source_commit": "2cef4a24960361706db7efa472dc5402da00e90c",
+  "status_meanings": {
+    "ISOLATED_PRESENT": "Route handler is defined in inspected isolated server/v2/routes-* source at this commit; production F32 mount NOT claimed.",
+    "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS": "No matching handler in inspected v2 routes at this commit; not proof no alternate implementation elsewhere.",
+    "EXTERNAL_PHASE_BLOCKED": "Route not available at this commit and explicitly tied to later Apple/deletion/etc work."
+  },
+  "base_spec": "docs/form-handoff/specs/02-data-api.md",
+  "inspection_files": [
+    "server/v2/routes-projects.ts",
+    "server/v2/routes-plans.ts",
+    "server/v2/routes-tasks.ts",
+    "server/v2/routes-auth.ts",
+    "server/v2/routes-trial.ts",
+    "src/lib/api-v2.ts",
+    "server/app.ts"
+  ],
+  "rows": [
+    {
+      "method": "GET",
+      "path": "/api/v2/bootstrap",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F13",
+        "F17"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_WORKSPACE",
+      "notes": "Need capability/catalog/owned recents; not substitute legacy /api state"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/consents",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-projects.ts",
+        "line": 38
+      },
+      "frontend_consumer_tasks": [
+        "F12"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/projects",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-projects.ts",
+        "line": 52
+      },
+      "frontend_consumer_tasks": [
+        "F12"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/projects/:id",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F13",
+        "F14",
+        "F17"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_WORKSPACE",
+      "notes": ""
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v2/projects/:id",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F17"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_WORKSPACE",
+      "notes": "Name and selected cover metadata must be owner checked"
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v2/projects/:id",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F17"
+      ],
+      "suggested_owner": "F26_DELETE_CHAIN",
+      "notes": "Must tombstone and respect task races; not just remove rows"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/projects/:id/versions",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F16",
+        "F17"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_HISTORY",
+      "notes": "Cursor paging/immutable versions and favorites metadata"
+    },
+    {
+      "method": "PUT",
+      "path": "/api/v2/projects/:id/draft",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F14"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_DRAFT",
+      "notes": "Revision CAS and safe conflict response required"
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/projects/:id/plans",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-plans.ts",
+        "line": 35
+      },
+      "frontend_consumer_tasks": [
+        "F14"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/tasks",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-tasks.ts",
+        "line": 53
+      },
+      "frontend_consumer_tasks": [
+        "F14",
+        "F15"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/submissions/:submissionId",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-tasks.ts",
+        "line": 57
+      },
+      "frontend_consumer_tasks": [
+        "F15"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/tasks/:id",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-tasks.ts",
+        "line": 60
+      },
+      "frontend_consumer_tasks": [
+        "F15",
+        "F16"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/tasks/:id/cancel",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-tasks.ts",
+        "line": 63
+      },
+      "frontend_consumer_tasks": [
+        "F15"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/tasks/:id/feedback",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F16",
+        "F28"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_FEEDBACK",
+      "notes": "No client-side automatic refund"
+    },
+    {
+      "method": "PATCH",
+      "path": "/api/v2/versions/:id",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F16",
+        "F17"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_FAVORITE",
+      "notes": "Favorite/name only; never let it replace master/source"
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/assets/:id",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-projects.ts",
+        "line": 71
+      },
+      "frontend_consumer_tasks": [
+        "F12",
+        "F16",
+        "F17"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/auth/apple",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-auth.ts",
+        "line": 122
+      },
+      "frontend_consumer_tasks": [
+        "F21"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/session/refresh",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-auth.ts",
+        "line": 134
+      },
+      "frontend_consumer_tasks": [
+        "F21"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/session/logout",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-auth.ts",
+        "line": 155
+      },
+      "frontend_consumer_tasks": [
+        "F21"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/wallet",
+      "current_status": "NOT_PRESENT_IN_INSPECTED_V2_ROUTERS",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F14",
+        "F24"
+      ],
+      "suggested_owner": "OWNER_ASSIGN_S02_WALLET_READ",
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/catalog",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F24"
+      ],
+      "suggested_owner": "F23_PURCHASE_CHAIN",
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/purchases/verify",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F23",
+        "F24"
+      ],
+      "suggested_owner": "F23_PURCHASE_CHAIN",
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/webhooks/apple",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F25"
+      ],
+      "suggested_owner": "F25_APPLE_NOTIFICATIONS",
+      "notes": ""
+    },
+    {
+      "method": "POST",
+      "path": "/api/v2/trial/claim",
+      "current_status": "ISOLATED_PRESENT",
+      "source": {
+        "file": "server/v2/routes-trial.ts",
+        "line": 53
+      },
+      "frontend_consumer_tasks": [
+        "F36"
+      ],
+      "suggested_owner": null,
+      "notes": ""
+    },
+    {
+      "method": "DELETE",
+      "path": "/api/v2/account",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F26"
+      ],
+      "suggested_owner": "F26_DELETE_CHAIN",
+      "notes": ""
+    },
+    {
+      "method": "GET",
+      "path": "/api/v2/deletion/:id",
+      "current_status": "EXTERNAL_PHASE_BLOCKED",
+      "source": null,
+      "frontend_consumer_tasks": [
+        "F26"
+      ],
+      "suggested_owner": "F26_DELETE_CHAIN",
+      "notes": ""
+    }
+  ],
+  "truth_gate": "No codeReady/integration/live claims; this file is a source-snapshot audit only."
+}

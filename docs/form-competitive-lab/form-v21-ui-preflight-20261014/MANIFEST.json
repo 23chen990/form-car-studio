@@ -1,0 +1,83 @@
+{
+  "schemaVersion": 1,
+  "scope": "RESEARCH_ONLY_UI_AND_API_PREFLIGHT",
+  "baselinePr3": "2cef4a24960361706db7efa472dc5402da00e90c",
+  "status": "NOT_PRODUCTION_INTEGRATED",
+  "offlineNodeTests": {
+    "count": 32,
+    "passed": 32,
+    "failed": 0,
+    "command": "node --test tests/*.test.mjs",
+    "nodeRuntime": "22.16.0"
+  },
+  "externalRequests": 0,
+  "modelCalls": 0,
+  "purchases": 0,
+  "files": [
+    {
+      "path": "01_README_ZH.md",
+      "size": 2668,
+      "sha256": "ed20d023ed1c8e2dafef7b31d8fe4fa9cfe000d765ce950ec54ace1d71a952de"
+    },
+    {
+      "path": "02_ENGINEERING_GAPS_ZH.md",
+      "size": 4606,
+      "sha256": "394395c29ccd3999f81fff350628558f05ec72b1a5ca621f64e95a9cec74d8cd"
+    },
+    {
+      "path": "03_UI_RFC_FIXES_ZH.md",
+      "size": 4296,
+      "sha256": "69c2dd0b130eae64972816cdd77a18195e04ffeca607c32cd6ae738b8837f772"
+    },
+    {
+      "path": "04_ACCEPTANCE_AND_CODEX_HANDOFF_ZH.md",
+      "size": 3908,
+      "sha256": "c29e7df61ba2af145c38acda573700c7612f4412f2ab01ef23b982f5a47714af"
+    },
+    {
+      "path": "05_VISUAL_TOKENS_ZH.md",
+      "size": 1680,
+      "sha256": "0f9f39c023ded376598c0fb3d3761ed7181ae18befad53789bb6e9f07743975f"
+    },
+    {
+      "path": "data/api_surface_audit.json",
+      "size": 9271,
+      "sha256": "0d9c15e3a97e31a273ae56109f4b850eb91901d5ea32ac3ca11d6efb00e9f631"
+    },
+    {
+      "path": "data/v21_visual_tokens.json",
+      "size": 1007,
+      "sha256": "298ee29949f0be399cbd6f2be06392a1be666df6173b063cd854b4044fe01bb6"
+    },
+    {
+      "path": "reference/ui_intent_oracle.mjs",
+      "size": 4974,
+      "sha256": "1986720672484255c05b1976965e1be872d74cdfac6c5d6745e990d21195d7ac"
+    },
+    {
+      "path": "test.log",
+      "size": 6639,
+      "sha256": "d6eb57a5a8e97866469447058e7ad9069153d8343377f03053c035dc8aa77a2a"
+    },
+    {
+      "path": "tests/api_surface_audit.test.mjs",
+      "size": 2228,
+      "sha256": "40e9042368adccb9b9013f6f10bc9d941840a6269e7f567db62bc084ee73c8b6"
+    },
+    {
+      "path": "tests/integrity.test.mjs",
+      "size": 518,
+      "sha256": "c4dc7f422e733e5503961369d9f98d658ffb5d803952e218e22ac9269eda2b22"
+    },
+    {
+      "path": "tests/ui_intent_oracle.test.mjs",
+      "size": 6466,
+      "sha256": "2770e4d5e2b063cc306f76df79c3655de87b60c5556dc47afe6474ded30544c1"
+    },
+    {
+      "path": "tests/visual_tokens.test.mjs",
+      "size": 691,
+      "sha256": "a009f96656e81ab134810651d6056d42bc2b2e76cf54705d306aa476f7a6f1bd"
+    }
+  ]
+}

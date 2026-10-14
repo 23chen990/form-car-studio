@@ -58,6 +58,7 @@ def summarize(files,targets):
           'No full prompts, sensitive strings, internal hosts or original binary bytes exported.',
           'Output remains PRIVATE and needs human redaction review before any public upload.']}
     funs={}
+    symbol_pcs={}
     for kind,path in files.items():
         if path is None: continue
         if not path.is_file(): raise FileNotFoundError(path)
@@ -69,14 +70,22 @@ def summarize(files,targets):
                 first_keys.update(row.keys());known+=1
             if kind=='functions':
                 start=pick_num(row,F_START)
+                name=row.get('name') or row.get('function_name') or ''
+                if not isinstance(name,str): name=''
+                if start is not None and name:
+                    symbol_pcs.setdefault(name,set()).add(start)
                 if start in targets:
                     size=pick_num(row,F_SIZE) or 0
-                    name=row.get('name') or row.get('function_name') or ''
-                    if not isinstance(name,str): name=''
                     name=name if any(a in name for a in ALLOWED_NAMES) else '<unverified-name>'
                     funs[start]={'pc':hex(start),'size':size,'name_safe':name}
             elif kind=='edges':
                 source=pick_num(row,E_SOURCE);target=pick_num(row,E_TARGET)
+                if target is None:
+                    for key in E_TARGET:
+                        symbol=row.get(key)
+                        matches=symbol_pcs.get(symbol,set()) if isinstance(symbol,str) else set()
+                        if len(matches)==1:
+                            target=next(iter(matches));break
                 if source is None or target is None:continue
                 source_in = any(t==source or t <= source < t+max(1,funs.get(t,{}).get('size',0)) for t in targets)
                 target_in = target in targets

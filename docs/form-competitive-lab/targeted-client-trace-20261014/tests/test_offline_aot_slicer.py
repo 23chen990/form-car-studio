@@ -62,4 +62,38 @@ class AotSliceTests(unittest.TestCase):
             self.assertEqual(res['function_found_count'],0)
             self.assertEqual(res['input_example_keys']['functions'],['strange_key'])
 
+    def test_exact_function_symbols_resolve_exported_targets(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d);f=p/'functions.jsonl';e=p/'call_edges.jsonl'
+            f.write_text('\n'.join(json.dumps(row) for row in [
+                {'pc':'0x295558','size':100,'name':'MainViewModel.createFinalPrompt_286d58'},
+                {'pc':'0x50000','size':80,'name':'Helper.privateTarget_41800'},
+            ])+'\n')
+            e.write_text('\n'.join(json.dumps(row) for row in [
+                {'from_pc':'0x27cb3c','kind':'bl','target':'MainViewModel.createFinalPrompt_286d58'},
+                {'from_pc':'0x295570','kind':'bl','target':'Helper.privateTarget_41800'},
+                {'from_pc':'0x295578','kind':'blr','target':'UNKNOWN_SYMBOL'},
+            ])+'\n')
+            res=summarize({'functions':f,'edges':e},{0x295558})
+            self.assertEqual([(r['from_pc'],r['to_pc']) for r in res['relevant_edges']],
+                             [('0x27cb3c','0x295558'),('0x295570','0x50000')])
+            self.assertNotIn('privateTarget',json.dumps(res))
+
+    def test_ambiguous_symbol_is_not_guessed(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d);f=p/'functions.jsonl';e=p/'call_edges.jsonl'
+            f.write_text('\n'.join(json.dumps(row) for row in [
+                {'pc':'0x295558','size':100,'name':'createFinalPrompt'},
+                {'pc':'0x50000','name':'repeatedSymbol'},
+                {'pc':'0x60000','name':'repeatedSymbol'},
+                {'pc':'0x70000','name':'uniqueSymbol'},
+            ])+'\n')
+            e.write_text('\n'.join(json.dumps(row) for row in [
+                {'from_pc':'0x295570','kind':'bl','target':'repeatedSymbol'},
+                {'from_pc':'0x295578','kind':'bl','target':'uniqueSymbol'},
+            ])+'\n')
+            res=summarize({'functions':f,'edges':e},{0x295558})
+            self.assertEqual(res['relevant_edges'],
+                             [{'from_pc':'0x295578','to_pc':'0x70000','kind':'BL'}])
+
 if __name__=='__main__':unittest.main()

@@ -78,3 +78,10 @@ test('native has no exposed finish bridge and finishes only after durable server
   assert.match(source, /await transaction.finish\(\)/); assert.match(source, /kSecAttrAccessibleWhenUnlockedThisDeviceOnly/);
   assert.doesNotMatch(source, /@objc public func finish|Transaction.all|UserDefaults|print\(/);
 });
+test('purchase preflight consumes the existing server wallet spendable summary', () => {
+  const source = readFileSync(new URL('../../ios/App/App/Plugins/FORMPurchase.swift', import.meta.url), 'utf8');
+  assert.match(source, /authenticatedRequest\("\/wallet"\)/); assert.match(source, /result\["spendable"\]/);
+  assert.doesNotMatch(source, /authenticatedRequest\("\/credits"\)/);
+  const boundary = readFileSync(new URL('../../src/features/purchase/server-boundary.md', import.meta.url), 'utf8');
+  assert.match(boundary, /GET \/api\/v2\/wallet/); assert.match(boundary, /WalletRepository\.summary/);
+});

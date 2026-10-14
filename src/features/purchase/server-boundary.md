@@ -4,11 +4,13 @@ This is an interface request, not a second backend implementation. F20 native
 session and F23 catalog/verification routes are reused, with stable server owner
 UUID as the existing appAccountToken. No client owner/product price/units grant.
 
-Required missing read: authenticated `GET /api/v2/credits`, returning
-`{ownerId, scope: "live", availableUnits}` from the current account ledger.
-Owner is derived from the validated Bearer session, availableUnits is an atomic
-nonnegative integer snapshot. Reject deleted/revoked/upgraded actors, ignore no
-caller-supplied owner, send no-store, and never regrant historical purchases.
+Bind the already specified authenticated `GET /api/v2/wallet` from frozen S02;
+reuse `WalletRepository.summary(ownerId, "live")`, returning `{ownerId, ...summary}`
+with `scope`, `spendable`, `totalReserved`, purchased/promo available and reserved.
+Derive owner from the validated Bearer session and read one atomic snapshot;
+reject deleted/revoked/upgraded actors and caller-supplied owner/scope selection.
+Send no-store and never regrant historical purchases. Native maps server
+`spendable` to the existing JS `availableUnits` view; no second balance API.
 F24 calls this preflight before opening Apple purchase UI and after confirmed
 purchase/unfinished replay/Sync balance. A missing or mismatched response closes
 purchase preflight; it never fabricates a balance. Assign binding in reviewed

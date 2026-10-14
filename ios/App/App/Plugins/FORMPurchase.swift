@@ -70,8 +70,8 @@ public final class FORMPurchasePlugin: CAPPlugin, CAPBridgedPlugin {
         }]
     }
     @MainActor private func readBalance() async throws -> JSObject {
-        let owner = try await FORMAuthSessionStore.owner(), result = try await FORMAuthSessionStore.authenticatedRequest("/credits")
-        guard result["ownerId"] as? String == owner, result["scope"] as? String == "live", let units = result["availableUnits"] as? Int, units >= 0,
+        let owner = try await FORMAuthSessionStore.owner(), result = try await FORMAuthSessionStore.authenticatedRequest("/wallet")
+        guard result["ownerId"] as? String == owner, result["scope"] as? String == "live", let units = result["spendable"] as? Int, units >= 0, units <= 9_007_199_254_740_991,
               try await FORMAuthSessionStore.owner() == owner else { throw FORMAuthError(code: "BALANCE_UNAVAILABLE") }
         return ["ownerId": owner, "scope": "live", "availableUnits": units]
     }

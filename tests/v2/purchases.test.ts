@@ -87,7 +87,7 @@ type PurchaseFixture = { db: DatabaseSync; ownerId: string; accessToken: string;
 function fixture(root: SyntheticChain, dir: string, config: ApplePurchaseConfig = makeConfig(root)): PurchaseFixture {
   const db = openV2Database(join(dir, `${randomUUID()}.sqlite`));
   const wallet = new WalletRepository(db), sessions = createSessionService({ db, clock: () => NOW });
-  const ownerId = randomUUID();
+  const ownerId = `a${randomUUID().slice(1)}`; // Guaranteed alphabetic UUID digit for the signed casing regression.
   db.prepare('INSERT INTO users(id,created_at) VALUES(?,?)').run(ownerId, NOW.toISOString());
   db.prepare('INSERT INTO identities(id,user_id,provider,subject,created_at) VALUES(?,?,?,?,?)').run(randomUUID(), ownerId, 'apple', `synthetic-${randomUUID()}`, NOW.toISOString());
   const session = sessions.issue(ownerId);
@@ -162,7 +162,7 @@ test('official signed-data verification gates consumable purchase credit', async
         assert.equal((f.db.prepare('SELECT count(*) AS n FROM credit_lots WHERE source_kind=\'purchase\'').get() as { n: number }).n, 1);
         const event = f.db.prepare('SELECT payload_json FROM purchase_events').get() as { payload_json: string };
         assert.equal(event.payload_json.includes(signed), false);
-        const large = await f.service.confirm(f.accessToken, request(signJws(baseTransaction(f.ownerId, Environment.PRODUCTION, { productId: PRODUCT_15 }), trusted)));
+        const large = await f.service.confirm(f.accessToken, request(signJws(baseTransaction(f.ownerId, Environment.PRODUCTION, { productId: PRODUCT_15, appAccountToken: f.ownerId.toUpperCase() }), trusted)));
         assert.equal(large.units, 15);
         assert.equal(f.wallet.summary(f.ownerId, 'live').spendable, 20);
       } finally { f.close(); }

@@ -157,8 +157,8 @@ export function createApplePurchaseService(options: PurchaseOptions) {
         transaction.inAppOwnershipType !== 'PURCHASED') throw new PurchaseError('PURCHASE_METADATA_INVALID', 400);
     const product = findCatalogProduct(productCatalog, transaction.productId);
     if (!product) throw new PurchaseError('PURCHASE_METADATA_INVALID', 400);
-    if (!isUuid(transaction.appAccountToken)) throw new PurchaseError('PURCHASE_METADATA_INVALID', 400);
-    if (transaction.appAccountToken !== principal.ownerId) throw new PurchaseError('PURCHASE_ACCOUNT_TOKEN_MISMATCH', 409);
+    if (typeof transaction.appAccountToken !== 'string' || !isUuid(transaction.appAccountToken.toLowerCase())) throw new PurchaseError('PURCHASE_METADATA_INVALID', 400);
+    if (transaction.appAccountToken.toLowerCase() !== principal.ownerId) throw new PurchaseError('PURCHASE_ACCOUNT_TOKEN_MISMATCH', 409);
 
     const outcome = wallet.transaction(tx => {
       const now = canonicalNow(clock);

@@ -57,7 +57,8 @@ def load_labels(csv_path: Path | None) -> list[str]:
     if csv_path is None:
         return []
     with csv_path.open('r', encoding='utf-8-sig', newline='') as f:
-        labels = [r.get('observed_label', '').strip() for r in csv.DictReader(f)]
+        labels = [(r.get('observed_label') or r.get('ui_name') or '').strip()
+                  for r in csv.DictReader(f)]
     return sorted(set(x for x in labels if x), key=lambda x:(-len(x), x))
 
 

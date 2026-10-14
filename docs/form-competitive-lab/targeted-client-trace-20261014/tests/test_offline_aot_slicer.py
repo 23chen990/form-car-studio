@@ -38,6 +38,23 @@ class AotSliceTests(unittest.TestCase):
             self.assertEqual(res['relevant_edges'][0]['kind'],'UNVERIFIED_KIND')
             self.assertNotIn('UNSAFE_PRIVATE_ID',json.dumps(res))
 
+    def test_all_matching_edges_and_input_identity_survive_edge_kind(self):
+        with tempfile.TemporaryDirectory() as d:
+            p=Path(d)
+            f=p/'functions.jsonl';e=p/'call_edges.jsonl'
+            f.write_text(json.dumps({'pc':'0x295558','size':100,'name':'createFinalPrompt'})+'\n')
+            e.write_text('\n'.join(json.dumps(row) for row in [
+                {'site_pc':'0x295560','target_pc':'0x27d25c','kind':'BL'},
+                {'site_pc':'0x10000','target_pc':'0x20000','kind':'BL'},
+                {'site_pc':'0x295570','target_pc':'0x27d25c','kind':'BL'},
+            ])+'\n')
+            res=summarize({'functions':f,'edges':e},{0x295558,0x27d25c})
+            self.assertEqual([r['from_pc'] for r in res['relevant_edges']],
+                             ['0x295560','0x295570'])
+            self.assertEqual(res['input_sha256']['edges'],hashlib.sha256(e.read_bytes()).hexdigest())
+            self.assertEqual(res['input_example_keys']['edges'],['kind','site_pc','target_pc'])
+            self.assertNotIn('BL',res['input_sha256'])
+
     def test_unknown_schema_reports_fields_not_guesses(self):
         with tempfile.TemporaryDirectory() as d:
             f=Path(d)/'f.jsonl';f.write_text('{"strange_key":99}\n')

@@ -81,9 +81,9 @@ def summarize(files,targets):
                 source_in = any(t==source or t <= source < t+max(1,funs.get(t,{}).get('size',0)) for t in targets)
                 target_in = target in targets
                 if (source_in or target_in) and len(out['relevant_edges'])<300:
-                    kind=str(row.get('kind','unknown')).upper()
-                    kind=kind if kind in {'BL','BLR','CALL','DIRECT','UNKNOWN'} else 'UNVERIFIED_KIND'
-                    out['relevant_edges'].append({'from_pc':hex(source),'to_pc':hex(target),'kind':kind})
+                    edge_kind=str(row.get('kind','unknown')).upper()
+                    edge_kind=edge_kind if edge_kind in {'BL','BLR','CALL','DIRECT','UNKNOWN'} else 'UNVERIFIED_KIND'
+                    out['relevant_edges'].append({'from_pc':hex(source),'to_pc':hex(target),'kind':edge_kind})
             elif kind=='strings':
                 pc=pick_num(row,S_LOCATION)
                 val=next((row[x] for x in S_VALUE if isinstance(row.get(x),str)),None)

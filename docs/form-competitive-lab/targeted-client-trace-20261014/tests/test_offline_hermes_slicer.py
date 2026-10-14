@@ -61,6 +61,12 @@ class HermessliceTests(unittest.TestCase):
         self.assertIn(20355,r['selected_functions']['20352']['candidate_closure_refs'])
         self.assertNotIn('private.example',json.dumps(r))
         self.assertNotIn('MY_HIDDEN_SECRET',json.dumps(r))
+    def test_catalog_ui_name_column_is_read(self):
+        self.labels_csv.write_text('app,kind,ui_name\nModyfy,Style,Japanese\nModyfy,Style,Futuristic\n',encoding='utf-8')
+        labels=load_labels(self.labels_csv)
+        self.assertEqual(set(labels),{'Japanese','Futuristic'})
+        r=scan(self.path,'modyfy',labels,{20352})
+        self.assertEqual(r['catalog_string_matches']['Japanese']['occurrences'],1)
     def test_wrapr(self):
         r=scan(self.path,'wrapr',[],{9782})
         self.assertEqual(r['selected_functions']['9782']['offset'],'0x001b98a3')

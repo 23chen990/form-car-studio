@@ -1,6 +1,6 @@
 import { createHash, randomUUID } from 'node:crypto';
 import type { DatabaseSync } from 'node:sqlite';
-import { Environment, SignedDataVerifier } from '@apple/app-store-server-library';
+import { Environment, SignedDataVerifier, VerificationException, VerificationStatus } from '@apple/app-store-server-library';
 import { createProductCatalog, findCatalogProduct, type ProductCatalog, type ProductCatalogConfig } from './catalog.js';
 import { resolveAccessPrincipal } from './sessions.js';
 import { WalletRepository, type WalletTransaction } from './wallet-repo.js';
@@ -21,6 +21,12 @@ interface AdapterOptions { enableOnlineChecks?: boolean }
 
 export class PurchaseError extends Error {
   constructor(readonly code: string, readonly status = 409) { super(code); this.name = 'PurchaseError'; }
+}
+
+function purchaseVerificationError(error: unknown): PurchaseError {
+  if (error instanceof PurchaseError) return error;
+  const retryable = error instanceof VerificationException && error.status === VerificationStatus.RETRYABLE_VERIFICATION_FAILURE;
+  return new PurchaseError(retryable ? 'APPLE_VERIFICATION_UNAVAILABLE' : 'APPLE_SIGNATURE_INVALID', retryable ? 503 : 400);
 }
 
 const isEnvironment = (value: unknown): value is ApplePurchaseEnvironment => value === Environment.SANDBOX || value === Environment.PRODUCTION;
@@ -66,8 +72,7 @@ export function createAppleSignedDataAdapter(config: AppleVerifierConfig = {}, o
         revocationDate: decoded.revocationDate,
       };
     } catch (error) {
-      if (error instanceof PurchaseError) throw error;
-      throw new PurchaseError('APPLE_SIGNATURE_INVALID', 400);
+      throw purchaseVerificationError(error);
     }
   }
   async function verifyNotification(signedPayload: string, environment: ApplePurchaseEnvironment): Promise<VerifiedAppleNotification> {
@@ -85,8 +90,7 @@ export function createAppleSignedDataAdapter(config: AppleVerifierConfig = {}, o
         } } : {}),
       };
     } catch (error) {
-      if (error instanceof PurchaseError) throw error;
-      throw new PurchaseError('APPLE_SIGNATURE_INVALID', 400);
+      throw purchaseVerificationError(error);
     }
   }
   return Object.freeze({ enabled: !!setup, productionEnabled: !!setup?.productionEnabled, verifyTransaction, verifyNotification });

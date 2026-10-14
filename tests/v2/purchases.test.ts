@@ -6,7 +6,7 @@ import { createServer } from 'node:http';
 import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import express from 'express';
-import { Environment } from '@apple/app-store-server-library';
+import { Environment, SignedDataVerifier, VerificationException, VerificationStatus } from '@apple/app-store-server-library';
 import test from 'node:test';
 import { createProductCatalog } from '../../server/v2/catalog.js';
 import {
@@ -318,6 +318,38 @@ test('official signed-data verification gates consumable purchase credit', async
         }, trusted);
         await assert.rejects(() => adapter.verifyNotification(invalidOuter, Environment.SANDBOX), isCode('APPLE_SIGNATURE_INVALID'));
       } finally { f.close(); }
+    });
+
+    await t.test('retryable verifier outages preserve same-transaction recovery', async () => {
+      const f = fixture(trusted, dir), app = express(), signed = signJws(baseTransaction(f.ownerId, Environment.PRODUCTION), trusted);
+      const transactionVerifier = SignedDataVerifier.prototype.verifyAndDecodeTransaction;
+      const notificationVerifier = SignedDataVerifier.prototype.verifyAndDecodeNotification;
+      SignedDataVerifier.prototype.verifyAndDecodeTransaction = async () => {
+        SignedDataVerifier.prototype.verifyAndDecodeTransaction = transactionVerifier;
+        throw new VerificationException(VerificationStatus.RETRYABLE_VERIFICATION_FAILURE);
+      };
+      SignedDataVerifier.prototype.verifyAndDecodeNotification = async () => { throw new VerificationException(VerificationStatus.RETRYABLE_VERIFICATION_FAILURE); };
+      app.use(createPurchaseRouter({ purchases: f.service }));
+      const { server, url } = await listen(app), send = (value = signed) => fetch(url + '/purchases/verify', { method: 'POST', headers: {
+        authorization: 'Bearer ' + f.accessToken, 'content-type': 'application/json',
+      }, body: JSON.stringify(request(value)) });
+      try {
+        const failed = await send(), failure = await failed.json();
+        assert.equal(failed.status, 503); assert.equal(failure.code, 'APPLE_VERIFICATION_UNAVAILABLE'); assert.equal(failure.retryable, true);
+        for (const table of ['purchases', 'credit_lots', 'ledger_events']) assert.equal((f.db.prepare(`SELECT count(*) AS n FROM ${table}`).get() as { n: number }).n, 0, table);
+        await assert.rejects(() => f.service.verifier.verifyNotification('synthetic-outage', Environment.PRODUCTION), error => error instanceof PurchaseError && error.code === 'APPLE_VERIFICATION_UNAVAILABLE' && error.status === 503);
+        const recovered = await send(), credited = await recovered.json();
+        assert.equal(recovered.status, 200); assert.equal(credited.status, 'credited');
+        const replay = await send(); assert.equal((await replay.json()).status, 'already-credited');
+        const [header, body, signature] = signed.split('.'), invalid = await send(`${header}.${body}.${signature[0] === 'A' ? 'B' : 'A'}${signature.slice(1)}`), invalidBody = await invalid.json();
+        assert.equal(invalid.status, 400); assert.equal(invalidBody.retryable, false); assert.equal(f.wallet.summary(f.ownerId, 'live').spendable, 5);
+        assert.equal((f.db.prepare('SELECT count(*) AS n FROM purchases').get() as { n: number }).n, 1);
+      } finally {
+        SignedDataVerifier.prototype.verifyAndDecodeTransaction = transactionVerifier;
+        SignedDataVerifier.prototype.verifyAndDecodeNotification = notificationVerifier;
+        await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()));
+        f.close();
+      }
     });
 
     await t.test('S02 canonical catalog and verify routes recover an acknowledgment without alternate APIs', async () => {

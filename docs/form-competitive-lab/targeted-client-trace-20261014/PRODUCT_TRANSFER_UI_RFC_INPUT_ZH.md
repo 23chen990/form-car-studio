@@ -1,7 +1,7 @@
 # FORM｜真实客户端逆向成果 → V2.1 产品转化评审（UI RFC 候选）
 
 **状态：RESEARCH_DERIVED_DESIGN_PROPOSAL / REVIEW_REQUIRED / NOT_IMPLEMENTATION_APPROVED。**  
-研究冻结基线：[PR #8](https://github.com/23chen990/form-car-studio/pull/8) 提交 \`bbc784f5552afabee8e99cf6c2860e234de3a1a0\`；产品当前对照：[PR #3](https://github.com/23chen990/form-car-studio/pull/3) \`2cef4a24960361706db7efa472dc5402da00e90c\`。日期：2026-10-14。
+研究冻结基线：[PR #8](https://github.com/23chen990/form-car-studio/pull/8) 提交 `bbc784f5552afabee8e99cf6c2860e234de3a1a0`；产品当前对照：[PR #3](https://github.com/23chen990/form-car-studio/pull/3) `2cef4a24960361706db7efa472dc5402da00e90c`。日期：2026-10-14。
 
 目的：把**本机同版本静态客户端证据**转成对 FORM V2.1 深色汽车工作台的可审查交互要求。不是新的竞品逆向；不提交竞品私有代码、图片或 Prompt。**没有任何新的 UI 规范批准，原 S05、Fxx task allowlist/行数和高风险评审门槛继续有效。**
 
@@ -9,10 +9,10 @@
 
 | 证据 | 同版本客户端确已关联 | 不可推断 | 对 FORM 的决策用途 |
 |---|---|---|---|
-| Modyfy 1.2.0 build71 | 内置回退目录 28 Style＋12 Extra＋38 Color＝78；七个示例名称与 ID、同类别标量选择、\`itemIds[0/1/2]\` 可追踪 | **在线当前目录不同版本可能替换回退目录**；服务器默认/组合兼容/生成质量未知 | 做清晰的 **单选/多选/必选** 配置契约；切忌把目录数量当已支持能力 |
-| Modyfy Regenerate | 所查普通入口从作品的 \`inputs[0].urls[0]\` 恢复下一次 \`imageData\`，不是自动以 \`outputs[0].url\` 作底图 | metadata URL 是否等于相机原件；其他 App 入口、服务器再处理未知 | 明确区分 **从原图另试** 与 **以所选结果为基础微调**；勿共用含糊的“再生成”按钮 |
+| Modyfy 1.2.0 build71 | 内置回退目录 28 Style＋12 Extra＋38 Color＝78；七个示例名称与 ID、同类别标量选择、`itemIds[0/1/2]` 可追踪 | **在线当前目录不同版本可能替换回退目录**；服务器默认/组合兼容/生成质量未知 | 做清晰的 **单选/多选/必选** 配置契约；切忌把目录数量当已支持能力 |
+| Modyfy Regenerate | 所查普通入口从作品的 `inputs[0].urls[0]` 恢复下一次 `imageData`，不是自动以 `outputs[0].url` 作底图 | metadata URL 是否等于相机原件；其他 App 入口、服务器再处理未知 | 明确区分 **从原图另试** 与 **以所选结果为基础微调**；勿共用含糊的“再生成”按钮 |
 | Mody 3.1.440 build2 | 普通 Style→Extra→Color；Advanced Angle→修改列表→Color；Custom 可提前返回；named/custom 颜色互清；历史与当前来源有具体优先级 | 服务器有效 Prompt、模型、局部准确度、活跃模板未知；部分 Detail UI 回调还未闭合 | FORM 统一由已选底图与确认时快照决定请求，不照搬竞品的历史优先顺序 |
-| Wrapr 1.0.1 build6 | 5 类别/19 参数组/92 预设值＋12 色；类别携带 \`modificationType\`，参数按名称保存在 \`parameters\`；同一键在不同类别有不同值域，客户端共用请求函数 | 服务端是否按类别切模型、选项真实图像效果未知 | 将 **类别、参数键、选项值、允许的组合** 一起保留，不只存显示名称 |
+| Wrapr 1.0.1 build6 | 5 类别/19 参数组/92 预设值＋12 色；类别携带 `modificationType`，参数按名称保存在 `parameters`；同一键在不同类别有不同值域，客户端共用请求函数 | 服务端是否按类别切模型、选项真实图像效果未知 | 将 **类别、参数键、选项值、允许的组合** 一起保留，不只存显示名称 |
 
 研究原证据入口：
 - [本轮负责人摘要](CLIENT_TRACE_OWNER_SUMMARY_ZH.md)
@@ -29,7 +29,7 @@
 
 - 首屏以可授权、可溯源的汽车创意实例为主，图片相对文案占视觉主体；一次选择“试在我的车上”，应直达本地选择照片，不强制经过风格详情页。
 - 给用户两种意图入口：**探索整体造型**、**只改变一个已支持的细节**；后者不能偷偷附加整车 style。首次/回访需要不同优先级：回访优先展示自己的草稿或最近作品。
-- 只显示**已通过当前 FORM 能力约束**的可生成选项；缺少合法同车实测/版权的概念图必须标 \`Example / Demo color study\`，不能伪称“你的车改装后”。
+- 只显示**已通过当前 FORM 能力约束**的可生成选项；缺少合法同车实测/版权的概念图必须标 `Example / Demo color study`，不能伪称“你的车改装后”。
 - 不直接上架竞品的 Japanese / Body Kit / Wide Body / Stance 等未经本项目能力核准的卡片。静态客户端能显示 ≠ 当前 FORM 生图能实现。
 
 ### B. 自己的汽车工作室（F12、F14，受 F08/F11 合同约束）
@@ -38,7 +38,7 @@
 - 用底部操作栏＋抽屉式面板选择。**面板内临时选择、关闭/取消、Apply 明确区分**：取消不修改正式草稿；Apply 才保存本地意图。确认创建前不得调用图像模型。
 - 控件按当前 Provider 已验证的 FORM 能力显隐，不以竞品静态参数填充新的生产字段。多项搭配的可行性由 FORM 自己的能力/profile/冲突检查决定，不能由客户端对 Modyfy 的单选推论。
 - 一项颜色只应存在**一个当前有效来源**（预设色或已获能力批准的自定义输入）；没有被允许的颜色输入不可伪造 picker。展示草稿与真正图像结果的区别。
-- 所有草稿必须绑定明确来源：\`original\` 或具体 \`versionId\`；记录选择时的 ID、可展示文本、来源目录/配置版本、可用性标记。提交时冻结唯一 plan/quote digest，显示名称不参与 prompt。
+- 所有草稿必须绑定明确来源：`original` 或具体 `versionId`；记录选择时的 ID、可展示文本、来源目录/配置版本、可用性标记。提交时冻结唯一 plan/quote digest，显示名称不参与 prompt。
 - 本地照片选择先预览、同意后传输；中断、取消、移除不能触发上传。复用 F12 候选与 F15 harness，保留本地状态和恢复语义。
 
 ### C. 确认与等待（F14/F15）
@@ -52,20 +52,20 @@
 
 | 操作名 | 底图 | 行为要求 |
 |---|---|---|
-| **Refine this look / 微调这一版** | 当前选择的真实完成版本（精确 \`versionId\`，不是 latest） | 以该版本作为新 edit 的 source；如果此来源不具备当前验证的继续编辑能力，说明原因并停用 |
+| **Refine this look / 微调这一版** | 当前选择的真实完成版本（精确 `versionId`，不是 latest） | 以该版本作为新 edit 的 source；如果此来源不具备当前验证的继续编辑能力，说明原因并停用 |
 | **Try another look from original / 从原图探索另一套** | 该 project 唯一拥有的原始输入资产 | 不覆盖原结果，不假装编辑当前生成图；从原始输入另建明确草稿/分支 |
 
 - 比较、收藏、查看历史、静态导出都**不触发 AI**；自动入库、收藏、保存到设备为三个不同状态。
-- 保留选择的原图与 master 身份，展示图不是下一次调用的默认输入。缺失底图时显式提示，不自动降级成 \`latest\`、示例图片或其他用户资产。
+- 保留选择的原图与 master 身份，展示图不是下一次调用的默认输入。缺失底图时显式提示，不自动降级成 `latest`、示例图片或其他用户资产。
 - 关闭作品后再次打开：可恢复作品选择、所用底图、当时的 recipe/draft 及其配置版本；**不要从目录名称或已过期在线文案猜测真实已执行的修改**。
 
 ### E. 容错及说明文案
 
 优先沿用冻结 S05 英文承诺：
-- \`Example - not your car\`、\`Demo color study\`。
-- \`Your changes are selected. Generate to update the image.\`
-- \`Create 1 look - {units} credit\`（仅替换真实计价 token）。
-- \`Refine this look\` 必须以选择版本为底图。任何输出本地存储/credits 返还只在持久化确认后宣称完成。
+- `Example - not your car`、`Demo color study`。
+- `Your changes are selected. Generate to update the image.`
+- `Create 1 look - {units} credit`（仅替换真实计价 token）。
+- `Refine this look` 必须以选择版本为底图。任何输出本地存储/credits 返还只在持久化确认后宣称完成。
 
 语言和样式可作为 V2.1 RFC 候选；**不得在 S05 未经审查批准前把整个品牌重设计植入 V2.2**。
 
@@ -74,9 +74,9 @@
 | 现有任务 | 本次新增的 UX 验收建议 | 改动边界 |
 |---|---|---|
 | F12 | 照片可预览/拒绝，0 上传；本地先处理；图片没有上传就不要强制任务 | 候选仍须按审批恢复；旧候选的历史测试不算当前复测 |
-| F13 | 从实例直达照片；原图单项编辑无整车 preset；浏览不生图；返场显示自己的项目 | F12 \`codeReady\` 前不可执行 F13 |
+| F13 | 从实例直达照片；原图单项编辑无整车 preset；浏览不生图；返场显示自己的项目 | F12 `codeReady` 前不可执行 F13 |
 | F14 | 抽屉 Cancel/Apply 分离；原图 vs 精确版本底图；草稿改动不替换车图；确认摘要=冻结报价 | 仅能在自身 allowlist 内实现；公共样式/视觉大改需要审阅 RFC/任务范围 |
-| F16 | 明确“编辑这一版”与“从原图再试”的路径；比较/收藏无生图 | \`versionId\` 不允许悄悄改成 latest |
+| F16 | 明确“编辑这一版”与“从原图再试”的路径；比较/收藏无生图 | `versionId` 不允许悄悄改成 latest |
 | F17 | 版本分支与封面/收藏分离；reopen 按本人权限恢复 recipe/source；静态导出无 AI | 沿用现有 owner-scoped asset/cache 安全规则 |
 | F29/F31 | 模型质量、受支持能力、生产案例素材必须分别有试验证据与授权 | 30 照片/252 调用仍全部未执行，预算 0，Demo 不可充当实测 |
 
@@ -86,7 +86,7 @@
 
 1. 在工作室选风格后关闭面板：正式 draft、图片和 credits 都不变；点击 Apply 只更改合法 draft。
 2. 切换示例 style/颜色不发模型请求；没有生成时汽车主图仍是原图，明确展示未更新标签。
-3. 选择 \`original\` 与选择旧版 V1，确认页 quote 的 source 不同；编辑 V1 永远不悄悄用最新 V3。
+3. 选择 `original` 与选择旧版 V1，确认页 quote 的 source 不同；编辑 V1 永远不悄悄用最新 V3。
 4. 点击“微调这一版”始终使用该真实版本；点击“从原图探索另一套”始终使用 project original；两条分支保存不同 parent/source。
 5. 历史 recipe 的目录 ID 已下架/变更：可以只读展示旧选择，但新生成应按当前能力显式拒绝或重新确认，不把 ID 当作永久活跃功能。
 6. 颜色预设/自定义来源不冲突；草稿撤销/失败恢复不会造成隐式更改或再次收费。

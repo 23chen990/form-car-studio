@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { createRoot } from 'react-dom/client';
+import { PhotoIntake, type PublishedPhotoDisclosure } from '../features/photo/PhotoIntake.js';
 import { TaskWait } from '../features/task/task-wait.js';
 import { createV2Api, type SafeTaskDTO } from '../lib/api-v2.js';
 import { createSubmissionStore } from '../lib/submission-store.js';
@@ -165,4 +166,107 @@ function V2Harness() {
   </main>;
 }
 
-createRoot(document.getElementById('root')!).render(<V2Harness />);
+function mountPhotoHarness() {
+
+interface SyntheticRequest {
+  path: string;
+  method: string;
+  consent?: { acknowledgePhotoRights: boolean; acknowledgeUploadStorage: boolean; acknowledgeSharing: boolean };
+  project?: { consentId: string; size: number };
+}
+interface HarnessWindow extends Window {
+  __FORM_V2_TEST__: { requests: SyntheticRequest[]; urls: { created: string[]; revoked: string[] } };
+}
+
+const testWindow = window as unknown as HarnessWindow;
+const urls = { created: [] as string[], revoked: [] as string[] };
+const originalCreate = URL.createObjectURL.bind(URL);
+const originalRevoke = URL.revokeObjectURL.bind(URL);
+URL.createObjectURL = (blob: Blob) => {
+  const value = originalCreate(blob);
+  urls.created.push(value);
+  return value;
+};
+URL.revokeObjectURL = (value: string) => {
+  urls.revoked.push(value);
+  originalRevoke(value);
+};
+
+const requests: SyntheticRequest[] = [];
+testWindow.__FORM_V2_TEST__ = { requests, urls };
+const storageValues = new Map<string, string>();
+const store = createSubmissionStore({ storage: {
+  getItem: key => storageValues.get(key) ?? null,
+  setItem: (key, value) => { storageValues.set(key, value); },
+  removeItem: key => { storageValues.delete(key); },
+} });
+store.activateActor('owner-a');
+
+const scenario = new URLSearchParams(window.location.search);
+const json = (body: unknown, status = 200) => new Response(JSON.stringify(body), {
+  status, headers: { 'content-type': 'application/json' },
+});
+
+async function syntheticFetcher(input: RequestInfo | URL, init?: RequestInit): Promise<Response> {
+  const path = new URL(String(input), window.location.origin).pathname;
+  const method = init?.method ?? 'GET';
+  const record: SyntheticRequest = { path, method };
+  requests.push(record);
+  if (path === '/api/v2/consents' && method === 'POST') {
+    try { record.consent = JSON.parse(String(init?.body)) as SyntheticRequest['consent']; }
+    catch { return json({ code: 'INVALID_REQUEST', message: 'The request is invalid.', retryable: false, requestId: 'request-1' }, 400); }
+    if (scenario.get('consent') === 'delay') await new Promise(resolve => setTimeout(resolve, 700));
+    if (scenario.get('consent') === 'fail') return json({ code: 'CONSENT_UNAVAILABLE', message: 'Consent is unavailable right now.', retryable: true, requestId: 'request-2' }, 503);
+    return json({ consentRecordId: 'consent-fixture' }, 201);
+  }
+  if (path === '/api/v2/projects' && method === 'POST') {
+    const form = init?.body as FormData;
+    const file = form?.get('file');
+    const consentId = new Headers(init?.headers).get('X-Form-Consent-Id') ?? '';
+    record.project = { consentId, size: file instanceof Blob ? file.size : 0 };
+    if (scenario.get('project') === 'ambiguous') throw new TypeError('synthetic transport disconnect');
+    return json({ projectId: 'project-fixture', originalAssetId: 'asset-original', displayAssetId: 'asset-display', sourceKind: 'user_upload' }, 201);
+  }
+  return json({ code: 'NOT_FOUND', message: 'This synthetic endpoint is unavailable.', retryable: false, requestId: 'request-404' }, 404);
+}
+
+const api = createV2Api({ store, fetcher: syntheticFetcher });
+const disclosure: PublishedPhotoDisclosure = {
+  policyId: 'policy-fixture-v1',
+  policyVersion: 'fixture-1',
+  providerName: 'Synthetic image service',
+  purpose: 'a local harness upload test',
+};
+
+function PhotoHarness() {
+  const [actorId, setActorId] = useState('owner-a');
+  const policy = useMemo(() => scenario.get('policy') === 'missing' ? null : disclosure, []);
+  function switchActor() {
+    const next = actorId === 'owner-a' ? 'owner-b' : 'owner-a';
+    store.activateActor(next);
+    setActorId(next);
+  }
+  return <div className="harness-shell">
+    <aside className="harness-notice">
+      <strong>DEV HARNESS · SYNTHETIC ONLY</strong>
+      <span>No production server, real photo, model or owner facts are connected.</span>
+    </aside>
+    <div className="harness-account">
+      <span>Test account: <code>{actorId}</code></span>
+      <button type="button" onClick={switchActor}>Switch synthetic account</button>
+    </div>
+    <PhotoIntake actorId={actorId} api={api} disclosure={policy} />
+    <details className="harness-log">
+      <summary>Synthetic service request log</summary>
+      <pre data-testid="synthetic-request-log">{JSON.stringify(requests, null, 2)}</pre>
+    </details>
+  </div>;
+}
+
+const root = createRoot(document.getElementById('root')!);
+Object.assign(testWindow, { __FORM_V2_UNMOUNT__: () => root.unmount() });
+root.render(<PhotoHarness />);
+}
+
+if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
+else createRoot(document.getElementById('root')!).render(<V2Harness />);

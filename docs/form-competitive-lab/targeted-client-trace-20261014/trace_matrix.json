@@ -1,0 +1,532 @@
+{
+  "schema": "FORM_CLIENT_TRACE_V1",
+  "research_only": true,
+  "based_on_public_ledger_commit": "2b25588cfea868d0f27626d68565bd6f94827061",
+  "ledger_path": "docs/form-competitive-lab/deep-dive-20261012/09_EVIDENCE_LEDGER.jsonl",
+  "source_video_originals_available_this_round": false,
+  "real_image_generation_verified": false,
+  "chains": [
+    {
+      "id": "MODY_STYLE",
+      "app_id": "6523376299",
+      "tested_runtime": false,
+      "source_version": "Mody 3.1.440 build2; UI VIDEO01 version not independently matched",
+      "nodes": [
+        {
+          "id": "ui_style_extra_color",
+          "proof": "ARCHIVED_UI",
+          "evidence_ids": [
+            "UX05",
+            "UX11",
+            "UX12",
+            "UX13"
+          ],
+          "note": ""
+        },
+        {
+          "id": "remote_template_collection",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT06",
+            "AOT07",
+            "AOT08"
+          ],
+          "note": ""
+        },
+        {
+          "id": "create_final_prompt",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT05",
+            "AOT09"
+          ],
+          "note": ""
+        },
+        {
+          "id": "standard_api_call",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT13"
+          ],
+          "note": ""
+        },
+        {
+          "id": "effective_backend_prompt_model",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [
+            "QUALITY_UNKNOWN_MODY"
+          ],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "ui_style_extra_color",
+          "to": "create_final_prompt",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": "UI-video version and installed binary not matched"
+        },
+        {
+          "from": "remote_template_collection",
+          "to": "create_final_prompt",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Mody VM template list + type selection as described in AOT05-09"
+        },
+        {
+          "from": "create_final_prompt",
+          "to": "standard_api_call",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Client code callchain AOT05/13"
+        },
+        {
+          "from": "standard_api_call",
+          "to": "effective_backend_prompt_model",
+          "proof": "UNKNOWN",
+          "note": "Server not observed"
+        }
+      ],
+      "open_questions": [
+        "active remote template content",
+        "style/extra priority and overrides",
+        "default configuration",
+        "successful original-to-output evidence"
+      ]
+    },
+    {
+      "id": "MODY_CUSTOM",
+      "app_id": "6523376299",
+      "tested_runtime": false,
+      "source_version": "Mody 3.1.440 build2; VIDEO01 version unknown",
+      "nodes": [
+        {
+          "id": "ui_custom_input",
+          "proof": "ARCHIVED_UI",
+          "evidence_ids": [
+            "UX09"
+          ],
+          "note": ""
+        },
+        {
+          "id": "create_final_prompt",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT05",
+            "AOT10"
+          ],
+          "note": ""
+        },
+        {
+          "id": "conditional_text_rewrite",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT10",
+            "AOT11",
+            "AOT12"
+          ],
+          "note": ""
+        },
+        {
+          "id": "standard_api_call",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT13"
+          ],
+          "note": ""
+        },
+        {
+          "id": "live_remote_flag_or_effective_model",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [
+            "QUALITY_UNKNOWN_MODY"
+          ],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "ui_custom_input",
+          "to": "create_final_prompt",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": "Archived UI version not matched"
+        },
+        {
+          "from": "create_final_prompt",
+          "to": "conditional_text_rewrite",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Conditional remote flag, not guaranteed executed"
+        },
+        {
+          "from": "create_final_prompt",
+          "to": "standard_api_call",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": ""
+        },
+        {
+          "from": "conditional_text_rewrite",
+          "to": "live_remote_flag_or_effective_model",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "current remote flag value",
+        "branch conditions and default fallback",
+        "valid actual image model"
+      ]
+    },
+    {
+      "id": "MODY_DETAIL",
+      "app_id": "6523376299",
+      "tested_runtime": false,
+      "source_version": "Third-party in-app Detail capture unknown build, Mody AOT 3.1.440 build2",
+      "nodes": [
+        {
+          "id": "angle_spoiler_exhaust_ui",
+          "proof": "LOCAL_RECHECK_REQUIRED",
+          "evidence_ids": [],
+          "note": "Third-party in-app screen, version not matched to code; NOT contained in PR7 ledger"
+        },
+        {
+          "id": "detail_handler",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT20",
+            "AOT25"
+          ],
+          "note": ""
+        },
+        {
+          "id": "multi_section_or_workflow",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "AOT18",
+            "AOT20"
+          ],
+          "note": ""
+        },
+        {
+          "id": "angle_specific_request_value",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "angle_spoiler_exhaust_ui",
+          "to": "detail_handler",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": "No same-version UI event link"
+        },
+        {
+          "from": "detail_handler",
+          "to": "multi_section_or_workflow",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Selected handler branches and remote workflow IDs"
+        },
+        {
+          "from": "multi_section_or_workflow",
+          "to": "angle_specific_request_value",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "Angle UI value to actual field",
+        "Spoiler/Exhaust typed section references",
+        "whether local preserve angle applies to Angle edit"
+      ]
+    },
+    {
+      "id": "MODYFY_CAR_STYLE",
+      "app_id": "6762754163",
+      "tested_runtime": false,
+      "source_version": "Hermes 1.2.0 build71; VIDEO02 UI version unknown",
+      "nodes": [
+        {
+          "id": "ui_style_extra_color",
+          "proof": "ARCHIVED_UI",
+          "evidence_ids": [
+            "UX28",
+            "UX29",
+            "UX30"
+          ],
+          "note": ""
+        },
+        {
+          "id": "selection_state",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY02"
+          ],
+          "note": ""
+        },
+        {
+          "id": "input_image_prepare",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY07",
+            "MFY08",
+            "MFY09"
+          ],
+          "note": ""
+        },
+        {
+          "id": "carstyle_callable_payload",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY03"
+          ],
+          "note": ""
+        },
+        {
+          "id": "result_status_output",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY05"
+          ],
+          "note": ""
+        },
+        {
+          "id": "server_id_lookup_prompt_model",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [
+            "QUALITY_UNKNOWN_MODYFY"
+          ],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "ui_style_extra_color",
+          "to": "selection_state",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": "UI video and installed binary version not matched"
+        },
+        {
+          "from": "selection_state",
+          "to": "carstyle_callable_payload",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Fields in generateCarStyle code"
+        },
+        {
+          "from": "input_image_prepare",
+          "to": "carstyle_callable_payload",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": "ImageData assignment from exact selected UI path not runtime-verified"
+        },
+        {
+          "from": "carstyle_callable_payload",
+          "to": "result_status_output",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": "Static response handling"
+        },
+        {
+          "from": "carstyle_callable_payload",
+          "to": "server_id_lookup_prompt_model",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "label-to-ID mapping by same build",
+        "Extra multi-select, exclusivity, defaults",
+        "imageData actual bytes",
+        "backend prompt and active image model"
+      ]
+    },
+    {
+      "id": "MODYFY_CAR_MOD",
+      "app_id": "6762754163",
+      "tested_runtime": false,
+      "source_version": "Hermes 1.2.0 build71; video version unknown",
+      "nodes": [
+        {
+          "id": "ui_effect_or_mod",
+          "proof": "ARCHIVED_UI",
+          "evidence_ids": [
+            "UX31",
+            "UX32"
+          ],
+          "note": ""
+        },
+        {
+          "id": "carmod_callable_payload",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY04"
+          ],
+          "note": ""
+        },
+        {
+          "id": "result_processing",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY05"
+          ],
+          "note": ""
+        },
+        {
+          "id": "live_model_or_precise_part_edit",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [
+            "QUALITY_UNKNOWN_MODYFY"
+          ],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "ui_effect_or_mod",
+          "to": "carmod_callable_payload",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": ""
+        },
+        {
+          "from": "carmod_callable_payload",
+          "to": "result_processing",
+          "proof": "REPORTED_CLIENT_LINK",
+          "note": ""
+        },
+        {
+          "from": "carmod_callable_payload",
+          "to": "live_model_or_precise_part_edit",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "which exact UI CarMods corresponds to which collection",
+        "single vs multiple part operations",
+        "true target-only editing"
+      ]
+    },
+    {
+      "id": "MODYFY_REGEN_BASE",
+      "app_id": "6762754163",
+      "tested_runtime": false,
+      "source_version": "Hermes 1.2.0 build71",
+      "nodes": [
+        {
+          "id": "result_inputs_recipe_restore",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY06"
+          ],
+          "note": ""
+        },
+        {
+          "id": "next_request_image_source",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [],
+          "note": ""
+        },
+        {
+          "id": "next_carstyle_payload",
+          "proof": "CLIENT_STATIC",
+          "evidence_ids": [
+            "MFY03"
+          ],
+          "note": ""
+        },
+        {
+          "id": "runtime_regenerate_result",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [
+            "QUALITY_UNKNOWN_MODYFY"
+          ],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "result_inputs_recipe_restore",
+          "to": "next_request_image_source",
+          "proof": "UNKNOWN",
+          "note": "Recipe restore not equivalent to base image provenance"
+        },
+        {
+          "from": "next_request_image_source",
+          "to": "next_carstyle_payload",
+          "proof": "UNKNOWN",
+          "note": ""
+        },
+        {
+          "from": "next_carstyle_payload",
+          "to": "runtime_regenerate_result",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "distinguish result.inputs.urls vs outputs.url vs original photo",
+        "where imageData is built for next callable"
+      ]
+    },
+    {
+      "id": "WRAPR_PARAMETERS",
+      "app_id": "6747343828",
+      "tested_runtime": false,
+      "source_version": "Local report Wrapr 1.0.1 build6; PR7 ledger has no Wrapr code evidence",
+      "nodes": [
+        {
+          "id": "ui_paint_wheels_bodykit",
+          "proof": "LOCAL_RECHECK_REQUIRED",
+          "evidence_ids": [],
+          "note": "Precise UI states not confirmed in PR7"
+        },
+        {
+          "id": "request_parameter_keys",
+          "proof": "LOCAL_RECHECK_REQUIRED",
+          "evidence_ids": [],
+          "note": "Prior local static report only: modificationType/parameters/quality/requestId"
+        },
+        {
+          "id": "client_modification_branch",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [],
+          "note": ""
+        },
+        {
+          "id": "effective_backend_model",
+          "proof": "UNVERIFIED",
+          "evidence_ids": [],
+          "note": ""
+        }
+      ],
+      "edges": [
+        {
+          "from": "ui_paint_wheels_bodykit",
+          "to": "request_parameter_keys",
+          "proof": "CROSS_SOURCE_HYPOTHESIS",
+          "note": ""
+        },
+        {
+          "from": "request_parameter_keys",
+          "to": "client_modification_branch",
+          "proof": "UNKNOWN",
+          "note": ""
+        },
+        {
+          "from": "client_modification_branch",
+          "to": "effective_backend_model",
+          "proof": "UNKNOWN",
+          "note": ""
+        }
+      ],
+      "open_questions": [
+        "actual Hermes input present and original SHA matches",
+        "exact label-to-modificationType/parameters relationship"
+      ]
+    }
+  ],
+  "proof_definitions": {
+    "ARCHIVED_UI": "PR6 video timecode reread from ledger, original MP4 absent in this study, source version not matched",
+    "CLIENT_STATIC": "Selected client static code association with PR7 evidence ID, not runtime success",
+    "UNVERIFIED": "Server, runtime outcome, or dataflow missing; may contain unknown evidence id",
+    "LOCAL_RECHECK_REQUIRED": "Previous local research or third-party UI; no PR7 evidence-id closed loop",
+    "REPORTED_CLIENT_LINK": "Static relation reported in PR7, not runtime execution or full sound call graph",
+    "CROSS_SOURCE_HYPOTHESIS": "UI or separate report to code version association not verified",
+    "UNKNOWN": "Not established by available evidence"
+  }
+}

@@ -1,0 +1,254 @@
+{
+  "schema": "FORM_LOCAL_TRACE_DELIVERY_VERIFICATION_V1",
+  "research_only": true,
+  "client_date": "2026-10-14",
+  "timezone": "Asia/Shanghai",
+  "recorded_at_utc": "2026-10-14T06:55:00.266621+00:00",
+  "baseline_commit": "07ed7aefa5be96ca363edaa5883a4e51671ba2d2",
+  "tools_code_commit": "93e724826f05d79d68d7a6db5a03de884a828af9",
+  "tested_tool_content_matches_code_commit": true,
+  "public_artifact_checks": {
+    "schema": "FORM_LOCAL_PUBLIC_TRACE_CHECK_V1",
+    "status": "PASS_WITH_EXPLICIT_UNKNOWN_GATES",
+    "source_identities_rechecked": 97,
+    "new_local_evidence_entries": 35,
+    "matrix_rows": 36,
+    "modyfy_catalog_rows": 78,
+    "wrapr_option_rows": 104,
+    "scope_only_research_directory": true,
+    "frozen_manifest": {
+      "status": "CONTENT_HASHES_MATCH_NOT_AUTHENTICATED",
+      "files": 43
+    },
+    "redaction": {
+      "actual_private_value_candidates": 35,
+      "hits": 0,
+      "raw_source_artifacts_published": false
+    },
+    "original_workspace": {
+      "head": "3168cac1799da3d0cad00a76c6f930b546efa124",
+      "head_and_status_unchanged": true,
+      "existing_dirty_file_fingerprints_match": 31
+    },
+    "diff_check_exit": 0,
+    "app_runtime": "NOT_RUN",
+    "live_model_calls": 0,
+    "purchases": 0
+  },
+  "actual_test_history": {
+    "initial_pr8_suite": {
+      "command": "python3 -m unittest discover -v -s tests",
+      "exit_code": 0,
+      "tests": 18,
+      "failures": 0
+    },
+    "pr8_trace_audit": {
+      "command": "python3 tools/audit_trace.py --ledger ../deep-dive-20261012/09_EVIDENCE_LEDGER.jsonl --matrix trace_matrix.json",
+      "exit_code": 0,
+      "chains": 7,
+      "ledger_records": 228,
+      "evidence_references": 41
+    },
+    "regressions": [
+      {
+        "name": "slicer-regression-red",
+        "command": "python3 -m unittest discover -v -s tests",
+        "exit_code": 1,
+        "tests": 20,
+        "failed": 2,
+        "log_sha256": "9eff29af5a028c1892e88cb12ad8ac4a541863f1632f8325f082a47580a17d74"
+      },
+      {
+        "name": "slicer-regression-green",
+        "command": "python3 -m unittest discover -v -s tests",
+        "exit_code": 0,
+        "tests": 20,
+        "failed": 0,
+        "log_sha256": "5f01eab1aba8f5276f02182c77e5b5c9c0361346a6965e451c1c1d719327155f"
+      },
+      {
+        "name": "symbol-target-red",
+        "command": "python3 -m unittest discover -v -s tests",
+        "exit_code": 1,
+        "tests": 22,
+        "failed": 2,
+        "log_sha256": "4904da90325cad087306404f276fb62a4547f5b1f9006ca2de05988ee48502b6"
+      },
+      {
+        "name": "symbol-target-green",
+        "command": "python3 -m unittest discover -v -s tests",
+        "exit_code": 0,
+        "tests": 22,
+        "failed": 0,
+        "log_sha256": "fe35bb50204382318064a592d1c4ed889f84aed7bbf522adb1c2dec8cd4ba309"
+      }
+    ],
+    "guard_invocations": [
+      {
+        "command": "python3 docs/form-handoff/tools/guard.py validate",
+        "exit_code": 0,
+        "tasks": 39
+      },
+      {
+        "command": "python3 docs/form-handoff/tools/guard.py manifest",
+        "exit_code": 2,
+        "reason": "invalid CLI subcommand; no hash comparison"
+      },
+      {
+        "command": "python3 docs/form-handoff/tools/guard.py verify-manifest",
+        "exit_code": 2,
+        "reason": "missing --manifest; no hash comparison"
+      },
+      {
+        "command": "python3 docs/form-handoff/tools/guard.py verify-manifest --repo docs/form-handoff --manifest docs/form-handoff/MANIFEST.json",
+        "exit_code": 2,
+        "reason": "wrong root; FORM_CODEX_START.md absent under supplied root"
+      },
+      {
+        "command": "python3 docs/form-handoff/tools/guard.py verify-manifest --repo . --manifest docs/form-handoff/MANIFEST.json",
+        "exit_code": 0,
+        "files": 43,
+        "status": "CONTENT_HASHES_MATCH_NOT_AUTHENTICATED",
+        "after_tools_commit": "93e724826f05d79d68d7a6db5a03de884a828af9"
+      }
+    ]
+  },
+  "private_command_and_source_record_digests": {
+    "modyfy_options_commands": "acbd1d680704a23785aa5043d97484c82bd0e60e454d73d974d7a121eb2995dc",
+    "modyfy_regen_commands": "beca3a41df7320b5e5128d61040872bf0ec968442ddb12ef0359e0f3e074b6fb",
+    "mody_selected_sources": "2bf9d3e7166592b3346016bf70753299e4dbffcc3519567c785808186c45d369",
+    "mody_tool_files": "de175cf3ec99bb1d2b55ddb00098949fa53559abea4d82be0f351a0f90aa511b",
+    "wrapr_commands_and_sources": "c3534b43722eaa0b95b759aba814924981f6551bc9f3ccb75b06f5c54222a12d",
+    "wrapr_saved_export_binding": "dbe83c18420acf47093509f7431ef93e2a13d98b413ebd235d56e659e4826376"
+  },
+  "limited_cross_review": {
+    "status": "NO_ACTIONABLE_FINDINGS_IN_REVIEWED_SOURCE_SCOPE",
+    "public_artifact_review": "PUBLIC_DRAFT_SOURCE_BOUND_REVIEW_NO_ACTIONABLE_FINDINGS",
+    "reviewer": "separate read-only agent in same model team",
+    "review_report_sha256": "a709ecaa8c1300245ca9e31599116abca79711a495fc39f714f75d421a28af70",
+    "review_notes_sha256": "6fcf7c11f1f230b5694d083659ef94eb77d223e4cbf66231366ff2bd1e1495b0",
+    "scope": "Modyfy 7 mappings/78 catalog objects/38 subtypes and regeneration flow; Mody 8 selected ranges and 6 BL; Wrapr 21 focused functions; public claims/proof labels. Did not rerun author 47-function decoder.",
+    "release_approval": false,
+    "server_unknowns_approved": false
+  },
+  "protected_remote_refs": {
+    "main_start": "3df0b392f4c81364a34d5083dc75284eafbe2eb1",
+    "pr3_start": "2cef4a24960361706db7efa472dc5402da00e90c",
+    "main_before_publish": "3df0b392f4c81364a34d5083dc75284eafbe2eb1",
+    "pr3_before_publish": "2cef4a24960361706db7efa472dc5402da00e90c",
+    "writes_to_main_or_PR3": false
+  },
+  "artifacts_excluding_this_self_hash": [
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/ACTUAL_LOCAL_TRACE_MATRIX.csv",
+      "sha256": "6fced4adc497b99bc2ad0d64ce781c07440ca2aec7237305a00e9ee25629dc4c",
+      "bytes": 31972
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/CLIENT_TRACE_OWNER_SUMMARY_ZH.md",
+      "sha256": "ede2b55c48b7201c51687f4747508960caa056737d70a98211785cb227ab2d81",
+      "bytes": 11229
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/LOCAL_TRACE_EVIDENCE.json",
+      "sha256": "9d882e76fe57f5d879080d57100d8ceb0aa7c2d4ec89558655fa5ce9b97719c7",
+      "bytes": 124222
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/LOCAL_TRACE_INPUTS.json",
+      "sha256": "8db7fdc281c481bcee6d4c62cda3f80e9f7180dad334ec54355afed6f2ab481f",
+      "bytes": 27784
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/MODYFY_LOCAL_CATALOG.csv",
+      "sha256": "b0cdc8cf92f9d8ca9c28eb70f561f394738e927c7ccbecc7d02a9d62f001b5e4",
+      "bytes": 13696
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/MODY_COMPOSITION_DETAIL_ZH.md",
+      "sha256": "043b96464317c9ee92e2b67174d5c8b505f897b97ea69ddc833ca749c97bec35",
+      "bytes": 17253
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/OFFLINE_VALIDATION.md",
+      "sha256": "c4923b00758d323c35face699d0ab25cc93e8072ae134725eb5cc5151ea57ce0",
+      "bytes": 6553
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/README.md",
+      "sha256": "0a7483c91562cbd08b64f4ba080f412803d6fe6324056eef7631c2a1b9cc3058",
+      "bytes": 3115
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/UNRESOLVED_GATES.md",
+      "sha256": "f463a11c0ace06e1414ddb207c87bd844cdc1c8ca4fb751da4ac6b33fe894124",
+      "bytes": 3302
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/WRAPR_LOCAL_OPTIONS.csv",
+      "sha256": "1ab0159609f703c3f6c43ad70dde13c47d3a4d8d832288bb26055914c6ba7e7c",
+      "bytes": 10849
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/WRAPR_PARAMETERS_DETAIL_ZH.md",
+      "sha256": "c5a19090509132a3c06eeb9bc444021215b4f7512e54e29a5a95c34d43427c10",
+      "bytes": 12866
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/offline_aot_slicer.py",
+      "sha256": "75d061ecfa4759182f909f96c23e16d8bd808e74cb961de73dfb338a06ff5318",
+      "bytes": 6421
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/offline_hermes_slicer.py",
+      "sha256": "9b69800b3bd9830a23326742eae45f55c6c4a9e5e94c8a13b7e7e91ab0176319",
+      "bytes": 9262
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/tests/test_offline_aot_slicer.py",
+      "sha256": "aaa632f35ba88cdebbd96f5443cb0f17cc35c75a14fa969563e329e8db5b56ce",
+      "bytes": 5699
+    },
+    {
+      "file": "docs/form-competitive-lab/targeted-client-trace-20261014/tests/test_offline_hermes_slicer.py",
+      "sha256": "785df365e16ca67767e27eff241a20cbbd707000dbb472947635269ca85c1b44",
+      "bytes": 4239
+    }
+  ],
+  "source_artifacts_published": false,
+  "runtime_or_model_pass_claimed": false,
+  "draft_PR": "https://github.com/23chen990/form-car-studio/pull/8",
+  "merge_or_deploy": false,
+  "post_review_formatting": {
+    "changes": [
+      {
+        "file": "ACTUAL_LOCAL_TRACE_MATRIX.csv",
+        "before_sha256": "453faf478ecfb857902d8e83161214f9f5cf1eb979a89630f7f66f64c3ea56bf",
+        "after_sha256": "6fced4adc497b99bc2ad0d64ce781c07440ca2aec7237305a00e9ee25629dc4c",
+        "transformation": "CRLF to LF; parsed rows identical"
+      },
+      {
+        "file": "MODYFY_LOCAL_CATALOG.csv",
+        "before_sha256": "4d1e36ad381f49e4e422c4b9bb8d248d704f659d32fea74d3d6d44cbd7613f6d",
+        "after_sha256": "b0cdc8cf92f9d8ca9c28eb70f561f394738e927c7ccbecc7d02a9d62f001b5e4",
+        "transformation": "CRLF to LF; parsed rows identical"
+      },
+      {
+        "file": "WRAPR_LOCAL_OPTIONS.csv",
+        "before_sha256": "ab70e2d91e7932cb48c46835abcbc0fef8d1abb14ef2ae79c1e0ac30b233d836",
+        "after_sha256": "1ab0159609f703c3f6c43ad70dde13c47d3a4d8d832288bb26055914c6ba7e7c",
+        "transformation": "CRLF to LF; parsed rows identical"
+      },
+      {
+        "file": "WRAPR_PARAMETERS_DETAIL_ZH.md",
+        "transformation": "remove blank line at EOF; text unchanged"
+      }
+    ],
+    "reviewed_semantics_changed": false
+  },
+  "staged_format_check": {
+    "initial_exit_code": 2,
+    "reason": "CSV CRLF and trailing EOF blank line",
+    "corrected_exit_code": 0
+  }
+}

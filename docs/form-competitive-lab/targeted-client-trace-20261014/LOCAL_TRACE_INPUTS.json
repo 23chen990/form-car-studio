@@ -1,0 +1,725 @@
+{
+  "schema": "FORM_LOCAL_TRACE_INPUT_IDENTITIES_V1",
+  "baseline_commit": "07ed7aefa5be96ca363edaa5883a4e51671ba2d2",
+  "tools_code_commit": "93e724826f05d79d68d7a6db5a03de884a828af9",
+  "local_timezone": "Asia/Shanghai",
+  "research_date": "2026-10-14",
+  "app_builds": [
+    {
+      "app": "Mody",
+      "id": "com.cartuning.appitech",
+      "version": "3.1.440",
+      "build": "2",
+      "input_source": "MODY_AOT_APP"
+    },
+    {
+      "app": "Modyfy",
+      "id": "com.ai.car.app",
+      "version": "1.2.0",
+      "build": "71",
+      "hermes": 96,
+      "input_source": "MODYFY_BUNDLE"
+    },
+    {
+      "app": "Wrapr",
+      "id": "com.eldaragayev.Wrapr",
+      "version": "1.0.1",
+      "build": "6",
+      "hermes": 96,
+      "input_source": "WRAPR_BUNDLE"
+    }
+  ],
+  "source_registry": [
+    {
+      "source_id": "MODY_AOT_APP",
+      "locator": "App",
+      "sha256": "7adc3271e13e82528512622b8f5e8303d5f11f4e6485f59c3919575d2f59c727",
+      "bytes": 15099328,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_INFO",
+      "locator": "Info.plist",
+      "sha256": "d6a4aee8abe58365ef0fdc60a4fa62e89742156d079018e51f0afdd6fc00e2ac",
+      "bytes": 7500,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODYFY_BUNDLE",
+      "locator": "main.jsbundle",
+      "sha256": "99172009031933c890db1aca3c1385183bc2ef5104817a84c1155431ef430d0c",
+      "bytes": 10497976,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODYFY_INFO",
+      "locator": "Info.plist",
+      "sha256": "f78f7147de714adac7ee0d96277ceddb75b784deaa04930927f0dd60dae4db56",
+      "bytes": 7341,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODYFY_HASM",
+      "locator": "modyfy-full.hasm",
+      "sha256": "a4057a8f2f275997d723ab9ba34d925ad12b61cda9d8d592a6345cb2a0cc6e25",
+      "bytes": 78144878,
+      "published_contents": false
+    },
+    {
+      "source_id": "WRAPR_BUNDLE",
+      "locator": "main.jsbundle",
+      "sha256": "20b19c5ca6e0969e35ec79e4d699e7748cb6782f331925d7e1798793c67e5bbb",
+      "bytes": 2870393,
+      "published_contents": false
+    },
+    {
+      "source_id": "WRAPR_INFO",
+      "locator": "Info.plist",
+      "sha256": "57965b9526682d09f38fff947da7a0714d6e9afaf34766f69448ca2fae3dc544",
+      "bytes": 6250,
+      "published_contents": false
+    },
+    {
+      "source_id": "WRAPR_HASM",
+      "locator": "wrapr.private.hasm",
+      "sha256": "fce8dafd39715a97b5180573760b69898f675075caf9ae32b5e6cc91daac8917",
+      "bytes": 24177678,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_EXPORT_FUNCTIONS",
+      "locator": "MODY_AOT_EXPORT/functions.jsonl",
+      "sha256": "fc174c8d4776669a7959c8040a4f9e2a515087245d751b76e264801c6f5da518",
+      "bytes": 5607590,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_EXPORT_INDEX",
+      "locator": "MODY_AOT_EXPORT/index.jsonl",
+      "sha256": "4e1130e7bdcd75b4022866827cc988a41837563cd2c223aacb66581b080f84a6",
+      "bytes": 7879612,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_EXPORT_CALL_EDGES",
+      "locator": "MODY_AOT_EXPORT/call_edges.jsonl",
+      "sha256": "8dfc50e7e217f8100ce851afc6196b59fe73150d979ab583c19149f2f31b969b",
+      "bytes": 25208141,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_EXPORT_STRING_REFS",
+      "locator": "MODY_AOT_EXPORT/string_refs.jsonl",
+      "sha256": "da6029c4acbeea6a511d7bb5b32d0e79a590342658273dda232f15552b260364",
+      "bytes": 5508086,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_EXPORT_CLASSES",
+      "locator": "MODY_AOT_EXPORT/classes.jsonl",
+      "sha256": "ebb9f6e4509a62ada1161071dc64d280a50d0251d01f2168ce1f01aecfed45bf",
+      "bytes": 1437196,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_80718",
+      "locator": "MODY_AOT_EXPORT/asm/CarColorModel/toJson_71f18.txt",
+      "sha256": "42ace409d10f2fc9acae4c9433f5a4210fa3eb6b23b6341c8a48da8416b21025",
+      "bytes": 4127,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_80718",
+      "locator": "MODY_AOT_EXPORT/asm/CarColorModel/toJson_71f18.bin",
+      "sha256": "46f31b5d697b648675133a10494f613a737a99866abfdd4a24b95abc49ebdd68",
+      "bytes": 368,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_209618",
+      "locator": "MODY_AOT_EXPORT/asm/CarItemModel/toJson_1fae18.txt",
+      "sha256": "033de0788019aef2c91f26fd75a422824b538a1aa445d3de19dd026230e03001",
+      "bytes": 20742,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_209618",
+      "locator": "MODY_AOT_EXPORT/asm/CarItemModel/toJson_1fae18.bin",
+      "sha256": "a07ab598dfd776f1351febe89a09cf62e6ce3f427cfa8848686a6d2807adc334",
+      "bytes": 1776,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_20A104",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxModel/toJson_1fb904.txt",
+      "sha256": "998811d81251767d54add6db05cd9d71cb97db4366432b336b4095a853c047d3",
+      "bytes": 19736,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_20A104",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxModel/toJson_1fb904.bin",
+      "sha256": "16807d5885152b0da1591acb9f7f7cf529b8159cc2836ecb25f3d5f8ce2e34a4",
+      "bytes": 1732,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_20D538",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxModel/_parseGenerateType@810197262_1fed38.txt",
+      "sha256": "852d8a009a5350a59c6991e0c2271311ebdbae75f5ef538f6ee73f6cdb96a39c",
+      "bytes": 3220,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_20D538",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxModel/_parseGenerateType@810197262_1fed38.bin",
+      "sha256": "65eceb1b4c6531728d95453d111d8501a3d97c6aa01d6766ecfb769e66b2dfbc",
+      "bytes": 272,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_221ED4",
+      "locator": "MODY_AOT_EXPORT/asm/ExtraModifyModel/toJson_2136d4.txt",
+      "sha256": "8596d2f287850d1c8b37b0eeb2117b2eb2e389c7f928a7481332e5061d99dd18",
+      "bytes": 2258,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_221ED4",
+      "locator": "MODY_AOT_EXPORT/asm/ExtraModifyModel/toJson_2136d4.bin",
+      "sha256": "f3346bd2c62f186c4358b5d01653cffbd412d202a75c9bac2758d58de4e64957",
+      "bytes": 188,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_251C78",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/clearAllPrompts_243478.txt",
+      "sha256": "537100a941304f4ac6fa878f1101ca80234d736a46879d8fe078d042f5db046f",
+      "bytes": 1691,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_251C78",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/clearAllPrompts_243478.bin",
+      "sha256": "182954c5dd4e06e8d7705af4c349ddc6779f9b4fdfbf995454245890d6ee98eb",
+      "bytes": 152,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_27CA48",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateCarAfterPaywall_26e248.txt",
+      "sha256": "d458d16756a43e198237aaaeff1fece18246267c76162b259d421afebcf5b597",
+      "bytes": 10979,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_27CA48",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateCarAfterPaywall_26e248.bin",
+      "sha256": "c1b6cecf00544949bbd44d5e70804449a8ab4c6d0b305f8b547d04c7d79f51cf",
+      "bytes": 992,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_27CE28",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateAdvancedStyle_26e628.txt",
+      "sha256": "a712b93cc6c60a7eb2ca7c39e5641146046d1ceef051a799ccaad0ba044812d1",
+      "bytes": 11468,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_27CE28",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateAdvancedStyle_26e628.bin",
+      "sha256": "783f5a153a7b2846506cd0ce7833499598d8ee64e563f7a8c5588a7d61e88ce2",
+      "bytes": 1076,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_27D25C",
+      "locator": "MODY_AOT_EXPORT/asm/ApiService/generateAdvancedStyleApiCall_26ea5c.txt",
+      "sha256": "554050237b05a47607b3c4f1ad404cd9f3aca623b33d1d3823d24e52733bf897",
+      "bytes": 38856,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_27D25C",
+      "locator": "MODY_AOT_EXPORT/asm/ApiService/generateAdvancedStyleApiCall_26ea5c.bin",
+      "sha256": "d22fd2241f15fc1193241a92a327e3cfade4cac96b94a845423859a8f703d6aa",
+      "bytes": 3216,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_295558",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.txt",
+      "sha256": "4ae01b1e41a37a2833dfee036624e2bac85f516a73893ff45dd3f1369e29d6c5",
+      "bytes": 23534,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_295558",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/createFinalPrompt_286d58.bin",
+      "sha256": "23741a053e15d7c374f801975a3f6c8a1b274a60a8919f357268a28daf7f21c6",
+      "bytes": 2164,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_295DCC",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/getGeneratePromptByType_2875cc.txt",
+      "sha256": "8b62c73610d7910395b61e905c65f1188c0d87aea2bfc94238dbdb6debc02bd2",
+      "bytes": 1680,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_295DCC",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/getGeneratePromptByType_2875cc.bin",
+      "sha256": "9ea0bd00ac1137ce9580e3060eb96bd675b5ebb096e42ea9e31c1b8ba4e2b3bb",
+      "bytes": 148,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_295E60",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/sub_287660.txt",
+      "sha256": "a64dcedf3d8eb2eab2594e16b1b748cb9b18c9a94391974ead2e43c0b38579b2",
+      "bytes": 1013,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_295E60",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/sub_287660.bin",
+      "sha256": "a45c5a05a66bd8a968e09ea1b9017da0cf3c9a138b58e41982ee77be4199c546",
+      "bytes": 92,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_296478",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/setExtraPrompt_287c78.txt",
+      "sha256": "75e3b6ca8fc9fbc7f2f66e3a995d43063b7146149652134864ddaf59919edd98",
+      "bytes": 912,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_296478",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/setExtraPrompt_287c78.bin",
+      "sha256": "e5e90b63866b0be2bff89f3dd41f9400062d31a3b476d54f8a2028720e48a082",
+      "bytes": 80,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2C39F8",
+      "locator": "MODY_AOT_EXPORT/asm/OldStyleBuilder/sub_2b51f8.txt",
+      "sha256": "1c543fa0939202f4b7e07cbba0eef85681864017402a609157f8045bfdfc249c",
+      "bytes": 2502,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2C39F8",
+      "locator": "MODY_AOT_EXPORT/asm/OldStyleBuilder/sub_2b51f8.bin",
+      "sha256": "ff921324bbb59da8ecfef9e4c73971cb46d2aa6b40941d23e582ed5ceccdfda0",
+      "bytes": 208,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2C3AC8",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/modifySelectedExtra_2b52c8.txt",
+      "sha256": "23957e582deec94236784177842be8f60d9a40c1937606427f79bed7dedaa270",
+      "bytes": 1132,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2C3AC8",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/modifySelectedExtra_2b52c8.bin",
+      "sha256": "5c45ba7a1fc290e57a7d1375dd16bddbbc69ebec4e4609bdcc39a5b8e0a38347",
+      "bytes": 100,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2C5180",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/selectACardStyle_2b6980.txt",
+      "sha256": "55b252631a9c8ada60e2aa3fbe45dcf673c554c2d272c9014fd8eb1f788eecf7",
+      "bytes": 1315,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2C5180",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/selectACardStyle_2b6980.bin",
+      "sha256": "46d451f23248b05c1cdea3824ab68bbbbaabfe5ad54989b5e2154cebcdd455f9",
+      "bytes": 120,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2C6FD8",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/changeSelectedColor_2b87d8.txt",
+      "sha256": "47fb106a2133e522c124d78ef7fe7ad5732a0dea577c1ee54e620b9235538502",
+      "bytes": 1762,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2C6FD8",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/changeSelectedColor_2b87d8.bin",
+      "sha256": "a0e1e8b97f4d8cc4723c5080f358de2397546d882b3145b5bc208b900c862b98",
+      "bytes": 152,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2C75B4",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/changeCustomColor_2b8db4.txt",
+      "sha256": "c2854b94f146591f011a92f3c0941f03f5768ed87a67d3769ccdf41103dc660f",
+      "bytes": 1889,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2C75B4",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/changeCustomColor_2b8db4.bin",
+      "sha256": "da1ce811d57128b909d994a48a05c4ad4abbf5796e602c9f0ff05934bb35e348",
+      "bytes": 164,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F2C08",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_openRimsPickerBottomSheet@841265525_2e4408.txt",
+      "sha256": "f52ad62b0cd814937560bf0c8a75371f42dfd07c78f2934bb223fec3639f3439",
+      "bytes": 5380,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F2C08",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_openRimsPickerBottomSheet@841265525_2e4408.bin",
+      "sha256": "c0d6440f70c0d042d975d6304de1bb05a98ccf13104d3ad45432e0d90d3cd2c2",
+      "bytes": 468,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F2DDC",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/sub_2e45dc.txt",
+      "sha256": "37e79fda2c702e1aaedc81eafad191929710502e605ed618b814a1e0ab98dc97",
+      "bytes": 13487,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F2DDC",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/sub_2e45dc.bin",
+      "sha256": "1057d9662cd70123c005d12a9567c6592a6aa669c72c0045be52e57c9fa18f6c",
+      "bytes": 1152,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F325C",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/sub_2e4a5c.txt",
+      "sha256": "156d5152348da5a3f094e888e4e91e1030aa6c877939b56bfcf791f7fb66986f",
+      "bytes": 1152,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F325C",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/sub_2e4a5c.bin",
+      "sha256": "e20bb6217f0a86e83af86914c85506549716e58dfa97a55bcdc6c70fb1963172",
+      "bytes": 100,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F32C0",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/selectExtraModify_2e4ac0.txt",
+      "sha256": "49318a761513b7b1b0c9a3d24b8c26efee031cc4d0674da5ba87c9efdcfab737",
+      "bytes": 1717,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F32C0",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/selectExtraModify_2e4ac0.bin",
+      "sha256": "348353e0e54d37b07c532054b1d87d969820409b6e9813015281364d43ad5afb",
+      "bytes": 152,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F3EE4",
+      "locator": "MODY_AOT_EXPORT/asm/_openTireAndColorPickerBottomSheet@841265525_2e56e4.txt",
+      "sha256": "12b640027fce1ada36e6591fb8f73fc8533032af54c241d8ade9e3a41de1fd7a",
+      "bytes": 2972,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F3EE4",
+      "locator": "MODY_AOT_EXPORT/asm/_openTireAndColorPickerBottomSheet@841265525_2e56e4.bin",
+      "sha256": "56fc726726b3112c0363ef1a58908ffb27d8aa53786c21e2149469e402cda163",
+      "bytes": 244,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F4510",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_handleGenerate@841265525_2e5d10.txt",
+      "sha256": "ff47bc4c124751b482d81ac40aaad458cfad3260c6c81c295307005ad88dd4da",
+      "bytes": 32327,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F4510",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/_handleGenerate@841265525_2e5d10.bin",
+      "sha256": "66951d1b387126df636ce467295921a298af01442fa44c0ecacb3558e42ce08f",
+      "bytes": 2832,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F57C4",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/handleTargetImagePrompt_2e6fc4.txt",
+      "sha256": "9e905b3fd7efb4f9994a16827e896c08559aa7cedba7f3db21bccf84f6fe1cb3",
+      "bytes": 1400,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F57C4",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/handleTargetImagePrompt_2e6fc4.bin",
+      "sha256": "aafad0a091ad765cc0ecfc7e968ccfad81a91c3a1aac3acb8ac776f40b6e12ae",
+      "bytes": 112,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F5834",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/getMultiSectionPrompt_2e7034.txt",
+      "sha256": "b71f62cd74cefb0c7798c193624df1d25a41bd8b6d5fcac0a87a4ca51e546f57",
+      "bytes": 6556,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F5834",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/getMultiSectionPrompt_2e7034.bin",
+      "sha256": "26bbdcd96c10d9422c19c3c15c3a51f5aad245eebad717fe915cb43599b18eac",
+      "bytes": 544,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F985C",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/tireWorkflowFunc_2eb05c.txt",
+      "sha256": "ed19694624b4b97ee0d4a7aceebab02aaecf0cbf388b54467f758075143e3a5f",
+      "bytes": 6332,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F985C",
+      "locator": "MODY_AOT_EXPORT/asm/ToolboxGeneralCutomDetailPage/tireWorkflowFunc_2eb05c.bin",
+      "sha256": "00ebd49cf37028ed570c4c47cdc8b7642d90f7088c18953c9a931b68be53b721",
+      "bytes": 580,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F9AA0",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/toolImageEditWithWorkflow_2eb2a0.txt",
+      "sha256": "61546b865797f27614cca8c009e620f9b2ca55c4d91fe5717633de3e10dfd435",
+      "bytes": 13427,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F9AA0",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/toolImageEditWithWorkflow_2eb2a0.bin",
+      "sha256": "9245d2f6f03eb50b6d61ea42d4325229897387dc942ff8183778c272e6098829",
+      "bytes": 1224,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_2F9F68",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxService/toolImageEditWithWorkflow_2eb768.txt",
+      "sha256": "89191561f914267cb0649af7486d945a02dc968fccb01aa9602dd89ace4983b4",
+      "bytes": 55562,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_2F9F68",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxService/toolImageEditWithWorkflow_2eb768.bin",
+      "sha256": "69956d88ba07381af914c67e55a5ae3a786117146077635a7ec06bdee6981757",
+      "bytes": 4784,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_354C44",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/getGeneratePrompts_346444.txt",
+      "sha256": "269d261cb4a843a768b1d168dc82146a0783e509ce572e0a9ef44479a0336450",
+      "bytes": 2289,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_354C44",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/getGeneratePrompts_346444.bin",
+      "sha256": "b52797b46a844199cf9367d3f2eb7da2eb3e2367e42fa07291a4dd6fc07040be",
+      "bytes": 196,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_3EF3F4",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/selectColor_3e0bf4.txt",
+      "sha256": "65da5c8d72efb0bba0b60e2073d1f74d3826e5d4f2266a4136331395f86eeb8c",
+      "bytes": 2138,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_3EF3F4",
+      "locator": "MODY_AOT_EXPORT/asm/ToolBoxViewModel/selectColor_3e0bf4.bin",
+      "sha256": "0ccdf203517e07dcb144f2c5a78dfab013959e3feb20296ccb408255e02d90ea",
+      "bytes": 192,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_3F1374",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildColorsTab@155370048_3e2b74.txt",
+      "sha256": "6fab18cc1aa4939ac9f95685c36693b77f4ea075b10cd708988f62749edcef2a",
+      "bytes": 4034,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_3F1374",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildColorsTab@155370048_3e2b74.bin",
+      "sha256": "c636a9d33cf9cb997c96199bbbd311663eae16abc7f0163b3f235dab91d4ebfa",
+      "bytes": 352,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_3F1D78",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e3578.txt",
+      "sha256": "c46ad9ab760c47d6df22f52ff42f1e3a844f24606e3413523d9e24836262688c",
+      "bytes": 2653,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_3F1D78",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e3578.bin",
+      "sha256": "5d2e247f31f80a7729cc85666e9a2a852a800c77162e5da0aa9f44c37557e5d1",
+      "bytes": 240,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_3F3FB4",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e57b4.txt",
+      "sha256": "a362616ae0a2144fdc44ed0b538609fe26b89a20fc85bc57c72bff1a57894873",
+      "bytes": 1366,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_3F3FB4",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/sub_3e57b4.bin",
+      "sha256": "e11a7aa5a8b6cc39d6d2376d344cabf4c89911b58f80236f29a4aa84478b31b2",
+      "bytes": 120,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_3F402C",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildItemsTab@155370048_3e582c.txt",
+      "sha256": "88e140f47e5d17b40b19fff32a9b21e054ceaeb075fd295e05db02a6ca5493be",
+      "bytes": 3157,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_3F402C",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/_buildItemsTab@155370048_3e582c.bin",
+      "sha256": "ae1b01c829d44b4d3d8cf7200192ad8fb6bdc7d35d78f44b38f41276e9d13a1c",
+      "bytes": 276,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_4328F4",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateCar_4240f4.txt",
+      "sha256": "16605ff6582fe973c1e6b365cdfdd1b138a0454748bed9e3116c938550f44ad7",
+      "bytes": 8655,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_4328F4",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/generateCar_4240f4.bin",
+      "sha256": "c6a4319b077499c1dcd6f641c8a0adff87f47f68d38c3726dee31779c61b4485",
+      "bytes": 768,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_43DCD8",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/build_42f4d8.txt",
+      "sha256": "240da10dcc0f0735e532bad68cdee04e8190edb9d6816639dddbcc6856714887",
+      "bytes": 23297,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_43DCD8",
+      "locator": "MODY_AOT_EXPORT/asm/_NewItemAndColorPickerTabWidgetState@155370048/build_42f4d8.bin",
+      "sha256": "9c814147f562ea253ce838ae692c8bc0f1771c5e92e568beac75a3bc1f3f8d08",
+      "bytes": 1988,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_454DDC",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/selectTab_4465dc.txt",
+      "sha256": "401bfaeb6b1e4d28cd7c7e8e9349b39d209a673118ccbb9c1c54e924a166d660",
+      "bytes": 773,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_454DDC",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/selectTab_4465dc.bin",
+      "sha256": "cc9e872baa5ddf90577a057a3ee2688e2f52bce17ad260d4758712afe2a87a1b",
+      "bytes": 68,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_ASM_464EE0",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/backToStyleBuilder_4566e0.txt",
+      "sha256": "522c4321258faf33c80a0e874a3e42698d97715754588a956590ab069a678545",
+      "bytes": 782,
+      "published_contents": false
+    },
+    {
+      "source_id": "MODY_BIN_464EE0",
+      "locator": "MODY_AOT_EXPORT/asm/MainViewModel/backToStyleBuilder_4566e0.bin",
+      "sha256": "a3e14fa3c98b812001844e3d219ce44a0af6aa6a2fc5eda93b62e735813ed9d5",
+      "bytes": 68,
+      "published_contents": false
+    },
+    {
+      "source_id": "PR8_HERMES_TOOL",
+      "locator": "docs/form-competitive-lab/targeted-client-trace-20261014/offline_hermes_slicer.py",
+      "sha256": "9b69800b3bd9830a23326742eae45f55c6c4a9e5e94c8a13b7e7e91ab0176319",
+      "bytes": 9262,
+      "published_contents": true
+    },
+    {
+      "source_id": "PR8_AOT_TOOL",
+      "locator": "docs/form-competitive-lab/targeted-client-trace-20261014/offline_aot_slicer.py",
+      "sha256": "75d061ecfa4759182f909f96c23e16d8bd808e74cb961de73dfb338a06ff5318",
+      "bytes": 6421,
+      "published_contents": true
+    },
+    {
+      "source_id": "PR8_OPTIONS_ARCHIVE",
+      "locator": "docs/form-competitive-lab/targeted-client-trace-20261014/observed_modyfy_options.csv",
+      "sha256": "ff06b975b41370deb7212c5d3379fe38816776c4ca7c11760b9dcf6ee4347591",
+      "bytes": 3176,
+      "published_contents": true
+    },
+    {
+      "source_id": "LOCAL_SOURCE_95",
+      "locator": "candidates.private.json",
+      "sha256": "c6883f5f9a1bc98d685a93b03225f5342fbd0570cdcfef30b63edc7f702ed028",
+      "bytes": 3386,
+      "published_contents": false
+    },
+    {
+      "source_id": "LOCAL_SOURCE_96",
+      "locator": "hermes.private.log",
+      "sha256": "453f39489c18665dddb229be745613c227319db495a3c12058da5356d0356fbc",
+      "bytes": 98,
+      "published_contents": false
+    },
+    {
+      "source_id": "LOCAL_SOURCE_97",
+      "locator": "hermes.exit",
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2,
+      "published_contents": false
+    }
+  ],
+  "prior_AOT_MFY_source_checks": {
+    "files": 45,
+    "missing": 0,
+    "hash_mismatches": 0
+  },
+  "wrapr_prior_export_binding": {
+    "historical_manifest_had_bundle_sha256": false,
+    "current_source_binding_scope": "47 complete used functions plus relevant global module declarations; same current HBC bytes and annotations.",
+    "report_sha256": "dbe83c18420acf47093509f7431ef93e2a13d98b413ebd235d56e659e4826376",
+    "full_app_semantics_verified": false
+  },
+  "privacy": "Source paths are locators; no binary/assembly/internal host/private service configuration/long prompt/photo is included. Actual authorized local paths remain in the private source inventory."
+}

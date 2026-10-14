@@ -9,6 +9,7 @@ import { createV2Api, type PlanQuoteDTO, type SafeTaskDTO } from '../lib/api-v2.
 import { createSubmissionStore, type SubmissionStore } from '../lib/submission-store.js';
 import { DraftConflictError, type DraftPersistence, type DraftSnapshot, type DraftWrite } from '../lib/draft-v2.js';
 import { FIELDS, type EditRequest, type Field, type SourceRef } from '../../shared/v2/edit-plan.js';
+import { ResultView, type ResultFavoriteAcknowledgement, type ResultFavoriteChange, type ResultFeedbackRequest, type ResultProjectSnapshot, type ResultRefineRequest, type ResultVersionSnapshot } from '../features/result/ResultView.js';
 
 function safeTask(id: string, status: SafeTaskDTO['status'], creditReturned = false, safeErrorCode: string | null = null): SafeTaskDTO {
   return {
@@ -373,6 +374,99 @@ function EditHarness() {
   </div>;
 }
 
+type ResultHarnessEvent = { type: string; ownerId?: string; projectId?: string; versionId?: string; source?: SourceRef; favorite?: boolean; category?: string; description?: string };
+interface ResultHarnessBridge {
+  events(): ResultHarnessEvent[]; modelCalls(): { method: string; path: string }[];
+  holdFavorite(): void; favoriteHeld(): boolean; releaseFavorite(): void; failNextFeedback(): void;
+  recordRefine(request: ResultRefineRequest): void;
+  setFavorite(change: ResultFavoriteChange): Promise<ResultFavoriteAcknowledgement>;
+  saveToDevice(request: { ownerId: string; projectId: string; versionId: string; displayAssetId: string }): Promise<'saved' | 'cancelled' | 'unavailable'>;
+  submitFeedback(request: ResultFeedbackRequest): Promise<void>;
+}
+
+function createResultHarnessBridge(deviceOutcome: string | null): ResultHarnessBridge {
+  const recorded: ResultHarnessEvent[] = [];
+  let holdNext = false, held = false, release: (() => void) | null = null, failFeedback = false;
+  return {
+    events: () => recorded.map(event => ({ ...event })), modelCalls: () => [],
+    holdFavorite: () => { holdNext = true; }, favoriteHeld: () => held,
+    releaseFavorite: () => release?.(), failNextFeedback: () => { failFeedback = true; },
+    recordRefine: request => { recorded.push({ type: 'refine', ...request }); },
+    setFavorite: async change => {
+      if (holdNext) {
+        holdNext = false; held = true;
+        await new Promise<void>(resolve => { release = () => { held = false; release = null; resolve(); }; });
+      }
+      recorded.push({ type: 'favorite', ...change });
+      return { ...change };
+    },
+    saveToDevice: async request => { recorded.push({ type: 'device_save', ...request }); return deviceOutcome === 'cancelled' || deviceOutcome === 'unavailable' ? deviceOutcome : 'saved'; },
+    submitFeedback: async request => {
+      if (failFeedback) { failFeedback = false; throw new Error('Synthetic feedback write failed.'); }
+      recorded.push({ type: 'feedback', ...request });
+    },
+  };
+}
+
+function resultImage(label: string, color: string) {
+  const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400"><rect width="640" height="400" fill="#dedfd5"/><rect x="90" y="150" width="460" height="130" rx="34" fill="${color}"/><text x="22" y="35" font-size="18">SYNTHETIC ${label}</text></svg>`;
+  return `data:image/svg+xml,${encodeURIComponent(svg)}`;
+}
+
+function ResultHarness() {
+  const query = new URLSearchParams(window.location.search);
+  const invalid = query.get('invalid');
+  const bridge = useMemo(() => createResultHarnessBridge(query.get('device')), []);
+  const [ownerId, setOwnerId] = useState('owner-a');
+  const [selectedVersionId, setSelectedVersionId] = useState(query.get('selected') ?? 'version-new');
+  useEffect(() => {
+    Object.assign(window, { __v2ResultHarness: bridge });
+    return () => { delete (window as unknown as { __v2ResultHarness?: unknown }).__v2ResultHarness; };
+  }, [bridge]);
+
+  const projectId = ownerId === 'owner-a' ? 'project-1' : 'project-b';
+  const originalUrl = resultImage('ORIGINAL', '#62695e');
+  const versions: ResultVersionSnapshot[] = ownerId === 'owner-a' ? [
+    { id: 'version-old', projectId, taskId: 'task-old', parentVersionId: null, displayAssetId: 'asset-old', displayUrl: resultImage('EARLIER', '#899b69'), name: 'Earlier look', favorite: false, desiredRecipe: ['Body color requested: green'], verification: 'unverified' as const },
+    { id: 'version-other', projectId, taskId: 'task-other', parentVersionId: 'version-old', displayAssetId: 'asset-other', displayUrl: resultImage('ALTERNATE', '#897f69'), name: 'Alternate look', favorite: false, desiredRecipe: ['Wheel style requested: silver'], verification: 'unknown' as const },
+    { id: 'version-new', projectId, taskId: 'task-new', parentVersionId: 'version-old', displayAssetId: 'asset-new', displayUrl: resultImage('NEWER', '#536b7b'), name: 'Newer look', favorite: false, desiredRecipe: ['Body color requested: blue'], verification: 'unverified' as const },
+  ] : [
+    { id: 'version-b', projectId, taskId: 'task-b', parentVersionId: null, displayAssetId: 'asset-b', displayUrl: resultImage('ACCOUNT B', '#735b6d'), name: 'Account B look', favorite: false, desiredRecipe: ['Color request: violet'], verification: 'unknown' as const },
+  ];
+  const project: ResultProjectSnapshot = {
+    id: projectId, loadedForOwnerId: invalid === 'owner' && ownerId === 'owner-a' ? 'owner-b' : ownerId,
+    name: ownerId === 'owner-a' ? 'Synthetic garage project' : 'Account B project', originalAssetId: 'asset-original', originalUrl,
+    versions: invalid === 'image' && ownerId === 'owner-a' ? versions.map(item => item.id === selectedVersionId ? { ...item, displayUrl: null } : item)
+      : invalid === 'image-load' && ownerId === 'owner-a' ? versions.map(item => item.id === selectedVersionId ? { ...item, displayUrl: 'data:image/png;base64,broken' } : item) : versions,
+  };
+  const version = project.versions.find(item => item.id === selectedVersionId) ?? project.versions[project.versions.length - 1]!;
+  let task: SafeTaskDTO = {
+    id: version.taskId, projectId, planId: 'plan-fixture', status: 'succeeded', userCostUnits: 1,
+    createdAt: '2026-10-14T00:00:00.000Z', updatedAt: null, resultVersionId: version.id, creditReturned: false, safeErrorCode: null,
+  };
+  if (invalid === 'project') task = { ...task, projectId: 'project-other' };
+  if (invalid === 'status') task = { ...task, status: 'processing', resultVersionId: null };
+  if (invalid === 'result-version') task = { ...task, resultVersionId: 'version-other' };
+  if (invalid === 'version-task') task = { ...task, id: 'task-other' };
+
+  function switchOwner() {
+    const next = ownerId === 'owner-a' ? 'owner-b' : 'owner-a';
+    setOwnerId(next); setSelectedVersionId(next === 'owner-a' ? 'version-new' : 'version-b');
+  }
+  return <>
+    <p className="v2-harness__notice">DEV HARNESS · SYNTHETIC ONLY · NO SERVICE, DEVICE, REAL PHOTO OR MODEL CONNECTED</p>
+    <div className="v2-harness__controls" aria-label="Synthetic result controls">
+      <button type="button" onClick={bridge.holdFavorite}>Hold next favorite acknowledgement</button>
+      <button type="button" onClick={bridge.releaseFavorite}>Release held favorite acknowledgement</button>
+      <button type="button" onClick={switchOwner}>Switch result owner</button>
+      <button type="button" onClick={bridge.failNextFeedback}>Fail next feedback</button>
+    </div>
+    <ResultView ownerId={ownerId} project={project} task={task} selectedVersionId={version.id} onSelectVersion={setSelectedVersionId}
+      onRefine={bridge.recordRefine}
+      onSetFavorite={bridge.setFavorite} onSaveToDevice={bridge.saveToDevice} onSubmitFeedback={bridge.submitFeedback} />
+  </>;
+}
+
 function mountPhotoHarness() {
 
 interface SyntheticRequest {
@@ -475,7 +569,8 @@ Object.assign(testWindow, { __FORM_V2_UNMOUNT__: () => root.unmount() });
 root.render(<PhotoHarness />);
 }
 
-if (new URLSearchParams(window.location.search).get('feature') === 'edit') createRoot(document.getElementById('root')!).render(<EditHarness />);
+if (new URLSearchParams(window.location.search).get('feature') === 'result') createRoot(document.getElementById('root')!).render(<ResultHarness />);
+else if (new URLSearchParams(window.location.search).get('feature') === 'edit') createRoot(document.getElementById('root')!).render(<EditHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
 else createRoot(document.getElementById('root')!).render(<V2Harness />);

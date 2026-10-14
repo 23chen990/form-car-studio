@@ -2,7 +2,7 @@
   "taskId": "F24",
   "specVersion": "2.2",
   "codeReady": true,
-  "codeCommit": "193c89b3283ed8485640bb62ca4784b2ab92571d",
+  "codeCommit": "97e766562e1761b45eb5e7a74d976e055e73bc95",
   "status": "CODE_READY_OFFLINE_SERVICE_AND_SDK_UNVERIFIED",
   "verification": [
     {
@@ -60,6 +60,63 @@
       "sha256": "115f1753d96fc7722bffeec3ace5b31caffefe3557710c14a9592f29d3c8ea83",
       "kind": "F24-source-guard",
       "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-purchases.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 1,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F24-wallet-red.log",
+      "sha256": "b1e4507ae9cf86f777f988f97aa722f6cf69289255a871f2da4d3e39765b0be9",
+      "headAtStart": "407ee2cbdfede0153212a40fdc13293ecc2703ae",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "3c7475ea1ccfbc5262ddc9fc65e7bedaaa5893bc08c98600e3e24e0065b8dee3",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F24-wallet-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/native-purchases.test.ts tests/v2/native-auth.test.ts tests/v2/purchases.test.ts tests/v2/refunds.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F24-wallet-committed.log",
+      "sha256": "104b01bbf77a78da0c642d1ea50ff8055f705339fca29faab19d58813847b034",
+      "headAtStart": "97e766562e1761b45eb5e7a74d976e055e73bc95",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "97e766562e1761b45eb5e7a74d976e055e73bc95",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F24-wallet-committed",
+      "status": "PASS"
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/Plugins/FORMPurchase.swift",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F24-wallet-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "headAtStart": "407ee2cbdfede0153212a40fdc13293ecc2703ae",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "94d8aa113712e5556cf589714e3febc728c4746dcbc59b5da00f9d47407ca92b",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F24-wallet-parse",
+      "status": "PASS",
+      "limitation": "Syntax only; no iOS SDK compilation"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F24 --repo . --checkpoint /Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F24-wallet-checkpoint.json",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/F24-wallet-source-guard.log",
+      "sha256": "6cb9d0c7a3e5de2a64450e3017c445246a8a9e12895638671887bfd4fe803e80",
+      "headAtStart": "407ee2cbdfede0153212a40fdc13293ecc2703ae",
+      "workingTreeDirty": true,
+      "testedCodeCommit": null,
+      "workingTreeDeltaSha256": "94d8aa113712e5556cf589714e3febc728c4746dcbc59b5da00f9d47407ca92b",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "F24-wallet-source-guard",
+      "status": "PASS"
     }
   ],
   "changedFiles": [
@@ -71,7 +128,7 @@
     "tests/v2/native-purchases.test.ts"
   ],
   "knownIssues": [
-    "Required authenticated GET /api/v2/credits is not implemented/bound; native preflight closes.",
+    "Required authenticated GET /api/v2/wallet is not implemented/bound; native preflight closes.",
     "F23 Sandbox credits explicitly disabled; no proven development acknowledgment path.",
     "V2 native modules unmounted; no full Xcode/StoreKit SDK build."
   ],
@@ -89,5 +146,14 @@
     "externalSpendMicrosUSD": 0,
     "merged": false
   },
-  "nextEligibleTask": "F37"
+  "nextEligibleTask": "F37",
+  "sourceHistory": [
+    "193c89b3283ed8485640bb62ca4784b2ab92571d",
+    "97e766562e1761b45eb5e7a74d976e055e73bc95"
+  ],
+  "auditCorrection": "Native ledger preflight reuses frozen S02 GET /api/v2/wallet and existing WalletRepository.summary spendable; no duplicate /credits endpoint. Historical temporary raw logs are unavailable, with durable current reruns added.",
+  "scopeWindows": [
+    "c2d3a98aa33b4d5fb05a3f1f20586c6dea25d40f..b8d7d117b3244abe6fdd9e88531421d15d3f8afd",
+    "407ee2cbdfede0153212a40fdc13293ecc2703ae..current F24 wallet report"
+  ]
 }

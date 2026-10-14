@@ -23,8 +23,8 @@ function Confirmation({ kind, requestDeletion, clearPrivateCache }: Props & { ki
     <h2 id={`deletion-title-${kind}`}>{title}</h2>
     <p>{account ? 'This blocks new work and starts removal of FORM cloud content. Some minimal financial records may need to remain until an approved finite retention policy is applied.' : 'This blocks new work for the project and starts removal of its cloud content.'}</p>
     <p>Copies saved to Photos or elsewhere cannot be removed by this request. Existing backups are not erased immediately.</p>
-    <label><input type="checkbox" checked={confirmed} onChange={event => setConfirmed(event.currentTarget.checked)} /> I understand this starts deletion and does not erase my saved copies or every backup.</label>
-    <button type="button" disabled={!confirmed || busy} onClick={() => void submit()}>{busy ? 'Starting deletion…' : account ? 'Delete account' : 'Delete project'}</button>
+    <label style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', minHeight: 44 }}><input type="checkbox" checked={confirmed} onChange={event => setConfirmed(event.currentTarget.checked)} /> I understand this starts deletion and does not erase my saved copies or every backup.</label>
+    <button type="button" style={{ minHeight: 44, minWidth: 44, font: 'inherit' }} disabled={!confirmed || busy} onClick={() => void submit()}>{busy ? 'Starting deletion…' : account ? 'Delete account' : 'Delete project'}</button>
     <p role="status" aria-live="polite">{status}</p>
   </section>;
 }

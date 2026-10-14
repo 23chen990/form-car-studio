@@ -106,6 +106,58 @@
       "sha256": "ff0fd537e99cc0bc3f8399c35e52ef0483c93dce3af888865fec99f8db3a2135",
       "kind": "scope-guard",
       "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts tests/v2/native-media.test.ts tests/v2/native-auth.test.ts tests/v2/native-purchases.test.ts tests/v2/cache.test.ts tests/v2/deletion.test.ts",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-native-unit.log",
+      "sha256": "88fe65f9288bb41bd10128367d4852ae739222764a9d99eced9e865a53179e24",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-native-unit",
+      "status": "PASS",
+      "limitation": "Descendant-source revalidation; sync/unit tests do not compile iOS SDK."
+    },
+    {
+      "command": "npm run cap:sync",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 0,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/resume-sync.log",
+      "sha256": "d6798ee9cca503d74ba2edd0fec8c6d81ffeed7681b34d0b0f5e05a58b04a2c3",
+      "testedCodeCommit": "d3a1557799ecab0f466a37d0fb431edec760569c",
+      "kind": "resume-sync",
+      "status": "PASS",
+      "limitation": "Descendant-source revalidation; sync/unit tests do not compile iOS SDK."
+    },
+    {
+      "command": "env DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer npm run cap:build",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 69,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/installed-xcode-build.log",
+      "sha256": "d9bd1b32a4d3632668f40e65c67189a2acab6029e648f9ece37409eb748d6754",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "installed-xcode-build",
+      "status": "NOT_RUN_LICENSE_PENDING",
+      "limitation": "Xcode 27 installed; license rejected the command before compilation/launch. Native DEVELOPER_DIR is explicit in command."
+    },
+    {
+      "command": "env DEVELOPER_DIR=/Applications/Xcode.app/Contents/Developer xcrun simctl list devices available",
+      "cwd": "/Users/kker/.codex/worktrees/form-ios-native-resume-20261014/car",
+      "exitCode": 69,
+      "evidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/installed-simulator-list.log",
+      "sha256": "411522ec89779639df259fa9f595942811c505c31bc2eb85696023376304b203",
+      "headAtStart": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDirty": false,
+      "testedCodeCommit": "b50e312aa9a20e47a965973362acefda318f1aed",
+      "workingTreeDeltaSha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "developerDirectory": "/Library/Developer/CommandLineTools",
+      "kind": "installed-simulator-list",
+      "status": "NOT_RUN_LICENSE_PENDING",
+      "limitation": "Xcode 27 installed; license rejected the command before compilation/launch. Native DEVELOPER_DIR is explicit in command."
     }
   ],
   "changedFiles": [
@@ -135,12 +187,12 @@
     "tests/v2/platform.test.ts"
   ],
   "knownIssues": [
-    "Native iOS SDK typecheck/build not run: full Xcode absent; code readiness covers offline contracts/structural scaffold only.",
+    "iOS SDK typecheck/build and simulator launch NOT_RUN: Xcode 27 was installed during continuation, but Apple SDK license remains unaccepted (actual exit 69).",
     "All live bindings disabled and V2 unmounted pending F32/independent gates.",
     "Inherited dependency advisories unchanged; production license notices/facts belong to F31."
   ],
   "externalPending": [
-    "Xcode26+ and iOS simulator install/selection; simulator build/launch",
+    "Owner Xcode first-launch/license/components, available iOS runtime; then genuine SDK build and simulator launch",
     "Approved bundle/team/API facts, real Apple/StoreKit and real iPhone/VoiceOver checks",
     "Independent review and F32 runtime integration, archive/TestFlight/release approval"
   ],
@@ -156,5 +208,14 @@
   "nextEligibleTask": "F19",
   "preflightEvidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-preflight-measurement.json",
   "preflightSha256": "4d501cf358ce962f74dc1da924dba2a67922c4ba4a19a3749de9c8eb73ae460f",
-  "originalWorkspacePreserved": true
+  "originalWorkspacePreserved": true,
+  "historicalEvidenceAvailability": "Prior /private/tmp raw logs/checkpoints/snapshot are unavailable after interruption. Retained historical hashes are not reconstructed logs; durable descendant reruns supplement them.",
+  "originalWorkspaceFileCount": 31,
+  "originalWorkspaceCountCorrection": "Earlier Markdown count 40 was a reporting error. Current nonignored tracked/untracked dirty-file manifest records 31 files; original HEAD and contents are preserved.",
+  "recoveryEvidencePath": "/Users/kker/.codex/form-native-evidence/2026-10-14-resume-d3a1557/recovery.json",
+  "recoverySha256": "f89529bcf99422625de287d687752290e163b6e404e343a300d014d023445fc4",
+  "scopeWindows": [
+    "76cec35247af5ef10a4bc4dda28057121636452f..bcebd7176968fd9be37300668b0ba5ba84bfd56f",
+    "32ea159871babeec0f635c771237effc57a8440b..current F18 audit report"
+  ]
 }

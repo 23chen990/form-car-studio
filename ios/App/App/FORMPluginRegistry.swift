@@ -5,6 +5,7 @@ enum FORMPluginRegistry {
     static func register(on bridge: CAPBridgeProtocol) {
         bridge.registerPluginInstance(FORMMediaPlugin())
         bridge.registerPluginInstance(FORMAuthPlugin())
+        bridge.registerPluginInstance(FORMPurchasePlugin())
     }
 }
 

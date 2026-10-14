@@ -82,3 +82,11 @@ test('native Apple challenge and Keychain boundaries are explicit', () => {
   assert.match(source, /completionHandler\(nil\)/); assert.doesNotMatch(source, /UserDefaults|print\(|NSLog/);
   const ts = readFileSync(new URL('../../src/platform/native-auth.ts', import.meta.url), 'utf8'); assert.doesNotMatch(ts, /localStorage|console\./);
 });
+test('native authenticated wallet read uses the frozen S02 route without a duplicate balance API', () => {
+  const spec = readFileSync(new URL('../../docs/form-handoff/specs/02-data-api.md', import.meta.url), 'utf8');
+  assert.match(spec, /GET \/api\/v2\/wallet/);
+  const native = readFileSync(new URL('../../ios/App/App/Plugins/FORMAuth.swift', import.meta.url), 'utf8');
+  assert.match(native, /let paths = .*"\/wallet"/);
+  assert.match(native, /guard \[.*"\/wallet".*\]\.contains\(path\)/);
+  assert.doesNotMatch(native, /"\/credits"/);
+});

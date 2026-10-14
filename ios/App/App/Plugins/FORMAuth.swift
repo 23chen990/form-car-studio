@@ -27,7 +27,7 @@ private final class FORMRejectRedirects: NSObject, URLSessionTaskDelegate {
         origin = value
     }
     static func request(_ path: String, body: JSObject? = nil, access: String? = nil) async throws -> JSObject {
-        let paths = ["/auth/challenge", "/auth/apple", "/session/refresh", "/session/logout", "/catalog", "/purchases/verify", "/credits"]
+        let paths = ["/auth/challenge", "/auth/apple", "/session/refresh", "/session/logout", "/catalog", "/purchases/verify", "/wallet"]
         guard let origin = origin, paths.contains(path), let url = URL(string: origin + "/api/v2" + path) else { throw FORMAuthError(code: "AUTH_DISABLED") }
         var request = URLRequest(url: url); request.httpMethod = body == nil ? "GET" : "POST"
         request.timeoutInterval = 30; request.cachePolicy = .reloadIgnoringLocalCacheData; request.httpShouldHandleCookies = false
@@ -100,7 +100,7 @@ private final class FORMRejectRedirects: NSObject, URLSessionTaskDelegate {
         let value = try await session(); guard let owner = value["ownerId"] as? String else { throw FORMAuthError(code: "AUTH_REQUIRED") }; return owner
     }
     static func authenticatedRequest(_ path: String, body: JSObject? = nil) async throws -> JSObject {
-        guard ["/catalog", "/purchases/verify", "/credits"].contains(path) else { throw FORMAuthError(code: "INVALID_NATIVE_API_PATH") }
+        guard ["/catalog", "/purchases/verify", "/wallet"].contains(path) else { throw FORMAuthError(code: "INVALID_NATIVE_API_PATH") }
         let value = try await session(); guard let access = value["accessToken"] as? String else { throw FORMAuthError(code: "AUTH_REQUIRED") }
         return try await request(path, body: body, access: access)
     }

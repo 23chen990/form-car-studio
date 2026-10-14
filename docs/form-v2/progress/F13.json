@@ -1,0 +1,17 @@
+{
+  "taskId": "F13",
+  "specVersion": "2.2",
+  "codeReady": true,
+  "codeCommit": "ff03693941d03383af60207408093192e4d3b0c8",
+  "verification": [{"kind": "browser", "command": "npx --no-install playwright test --config=playwright.v2.config.ts", "exitCode": 0, "status": "8 entry +15 photo +9 original task =32/32 passed; installed Chromium153, synthetic adapters", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F13-committed-browser.log", "sha256": "1734a9b1a573044fd67a30a6a8edd1b5aa921173b23289de2a8761ff3d764ec8"}, {"kind": "typescript-build", "command": "npm run build", "exitCode": 0, "status": "PASS including tsc --noEmit", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F13-committed-build.log", "sha256": "8690e1d267a3300df391e6bc7ca7f0b3fda83274f6f9ac81b6b3bf70e9e02ff6"}, {"kind": "scope-guard", "command": "python3 docs/form-handoff/tools/guard.py check F13 --repo . --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F13-checkpoint.json", "exitCode": 0, "status": "PASS345 source changed lines;900 cap", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F13-committed-guard.log", "sha256": "8d3446ea414de67ac7c9e381c502f214d5f0df498d30c7c457eefb2adac3e264"}],
+  "changedFiles": ["src/features/discover/DiscoverEntry.tsx", "src/features/discover/discover.css", "src/features/navigation/entry.ts", "src/testing/v2-harness.tsx", "tests/e2e/v2-entry.spec.ts"],
+  "knownIssues": ["Component-only readiness; trusted publication/recent-context props and route callbacks require the missing S02 bindings and F32. No fake persistent project service was added.", "No production case/license/quality approval exists. Missing evidence or closed capability disables preset entry, including restored routes. All8 legacy style IDs remain unchanged."],
+  "externalPending": ["Real licensed same-car example and capability evidence, iPhone/VoiceOver, S02 bootstrap/history binding assignment and independent integration review pending.", "S05 dark-workspace RFC is proposed only; current light direction and original application entry are preserved."],
+  "history": [{"status": "Current missing-entry RED reproduced before implementation.", "evidenceSha256": "462e43b145569bb5595e5f6d7aadcc45eed7c0dbc5a6aea4da9b27e5b14fff83"}],
+  "independentReviewer": null,
+  "integrationVerified": false,
+  "liveVerified": false,
+  "releaseApproved": false,
+  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
+  "nextEligibleTask": "F14 scope preflight; F23 recovery independently eligible"
+}

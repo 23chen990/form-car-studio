@@ -1,26 +1,160 @@
 {
   "taskId": "F18",
   "specVersion": "2.2",
-  "codeReady": false,
-  "codeCommit": null,
-  "status": "BLOCKED_TASK_TOO_BIG",
-  "checkpointBase": "a393cc0794207e3537984cc0c0ac77d1278ab2aa",
-  "taskConfigSha256": "40a0ad5af7c290fcce8d075ab94325a26298c09b77ec1e37285935d627dee66b",
-  "verification": [{"kind": "prospective-full-scope-guard", "command": "python3 /private/tmp/form-owner-resume-20261014-zb7351_9/probe-f18-complete-scope-current.py", "exitCode": 2, "status": "EXPECTED exit2: unmodified guard.check_paths rejects27 prospective paths over20;31 existing template file hashes match; NOT an implemented candidate or native test", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F18-current-complete-scope-probe.log", "sha256": "24cc17e6fb96888f55f5aaedc768d5ccf0b2add04812610f8236c402c95e8d97"}, {"kind": "report-only-guard", "command": "python3 docs/form-handoff/tools/guard.py check F18 --repo . --checkpoint /private/tmp/form-owner-resume-20261014-zb7351_9/F18-checkpoint.json", "exitCode": 0, "status": "PASS scope of2 evidence files only; NOT native candidate readiness", "evidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F18-report-only-guard.log", "sha256": "56618689708986a6dd8f6d21be6e9882ff9ec7cb739c270c41c50410468e14f2"}],
-  "changedFiles": [],
-  "knownIssues": ["Complete reference Capacitor8.5.3 scaffold has20 nonignored native paths; configuration,2 package files,platform boundary,test and2 reports produce27 paths, exceeding maxFiles20. No native source,asset,package or lockfile was generated/copied/edited.", "maxLines2500 is NOT_MEASURED, not certified. This is a prospective complete-template plan, not proof that all alternative reviewed scaffold designs require27 files."],
-  "externalPending": ["Owner-reviewed minimal amendment proposal F18.maxFiles20→27, or an approved complete scaffold design/split; no amendment is inferred.", "Actual app/bundle facts, iOS/Xcode build, iPhone behavior, safe-area/VoiceOver and independent review remain NOT_RUN."],
+  "codeReady": true,
+  "codeCommit": "6bc977be9e8304aed8fee731e59167799e2a539c",
+  "status": "CODE_READY_OFFLINE_SDK_UNVERIFIED",
+  "checkpointBase": "76cec35247af5ef10a4bc4dda28057121636452f",
+  "taskConfigSha256": "d475cb1009fef48bd278077ca894dc788cd3c0b6258fe01b737d0c019680739f",
+  "verification": [
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-red.log",
+      "sha256": "7df43e363115807bec07098f0b51e6330917c085af4bed6c5f02d16eb0a3ad2d",
+      "kind": "F18-red",
+      "status": "EXPECTED_RED"
+    },
+    {
+      "command": "npm ci --no-audit --no-fund",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-install.log",
+      "sha256": "c4641d534a3c364997519aa43c6996a17119baf7e9b4d780995cb71cdae68867",
+      "kind": "F18-install",
+      "status": "PASS"
+    },
+    {
+      "command": "node --import tsx --test tests/v2/platform.test.ts",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-committed-focus.log",
+      "sha256": "34dedaba4561ba3d2802f33064d66410504e043f0e3abf805aaf73a06b3cf343",
+      "kind": "F18-committed-focus",
+      "status": "PASS"
+    },
+    {
+      "command": "npm run cap:sync",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-committed-sync.log",
+      "sha256": "d06175a9c44c648e7f08cdbd02fb2f2855006598faf85ace6c7791806bc6c16f",
+      "kind": "F18-committed-sync",
+      "status": "PASS"
+    },
+    {
+      "command": "node tools/check-v2.mjs",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-v2.log",
+      "sha256": "f36fcdb8508a4fc1145a5d29dc107b1e21a2a95f9059d41e14fbac5e91def550",
+      "kind": "F18-v2",
+      "status": "PASS",
+      "testedBeforeCommit": true
+    },
+    {
+      "command": "npm test",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-legacy.log",
+      "sha256": "599e4464dd096bf5529e6939e581ec0a7bcb0708b9fe6b6e0e93452aca330de2",
+      "kind": "F18-legacy",
+      "status": "PASS",
+      "testedBeforeCommit": true
+    },
+    {
+      "command": "swiftc -frontend -parse ios/App/App/AppDelegate.swift ios/App/App/SceneDelegate.swift ios/App/App/FORMPluginRegistry.swift",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-swift-parse.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "kind": "F18-swift-parse",
+      "status": "PASS",
+      "limitation": "Syntax/manifest validation only; no iOS SDK typecheck or compilation"
+    },
+    {
+      "command": "swift package --package-path ios/App/CapApp-SPM dump-package",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-spm.log",
+      "sha256": "9b315476ace24668eb8bc9f12783d0249f09730c653b64e9266e28f4f524f447",
+      "kind": "F18-spm",
+      "status": "PASS",
+      "limitation": "Syntax/manifest validation only; no iOS SDK typecheck or compilation"
+    },
+    {
+      "command": "npm run cap:build",
+      "exitCode": 1,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-xcode.log",
+      "sha256": "e063bb5fb2f04cd8ba02c5136584e4688bc8dfa11700723bca724445c6ab91b4",
+      "kind": "F18-xcode",
+      "status": "NOT_RUN_ENV_UNAVAILABLE"
+    },
+    {
+      "command": "xcrun simctl list devices available",
+      "exitCode": 72,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-simulator.log",
+      "sha256": "99b8da8adc7e70feba56cd931740e16d0f5724d7515e98d84d2c8bf1bb63dec8",
+      "kind": "F18-simulator",
+      "status": "NOT_RUN_ENV_UNAVAILABLE"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F18 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F18-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-source-guard.log",
+      "sha256": "53c5a8907b452b019c47ce84ed04556a4289a633a97d302c04b8217f3dbd6c26",
+      "kind": "F18-source-guard",
+      "status": "PASS"
+    },
+    {
+      "command": "python3 docs/form-handoff/tools/guard.py check F18 --repo . --checkpoint /private/tmp/form-native-resume-20261014-pe2ln021/F18-checkpoint.json",
+      "exitCode": 0,
+      "evidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-final-guard.log",
+      "sha256": "ff0fd537e99cc0bc3f8399c35e52ef0483c93dce3af888865fec99f8db3a2135",
+      "kind": "scope-guard",
+      "status": "PASS"
+    }
+  ],
+  "changedFiles": [
+    "capacitor.config.ts",
+    "ios/.gitignore",
+    "ios/App/App.xcodeproj/project.pbxproj",
+    "ios/App/App/AppDelegate.swift",
+    "ios/App/App/Assets.xcassets/AppIcon.appiconset/AppIcon-512@2x.png",
+    "ios/App/App/Assets.xcassets/AppIcon.appiconset/Contents.json",
+    "ios/App/App/Assets.xcassets/Contents.json",
+    "ios/App/App/Assets.xcassets/Splash.imageset/Contents.json",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-1.png",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732-2.png",
+    "ios/App/App/Assets.xcassets/Splash.imageset/splash-2732x2732.png",
+    "ios/App/App/Base.lproj/LaunchScreen.storyboard",
+    "ios/App/App/Base.lproj/Main.storyboard",
+    "ios/App/App/FORMPluginRegistry.swift",
+    "ios/App/App/Info.plist",
+    "ios/App/App/SceneDelegate.swift",
+    "ios/App/CapApp-SPM/.gitignore",
+    "ios/App/CapApp-SPM/Package.swift",
+    "ios/App/CapApp-SPM/Sources/CapApp-SPM/CapApp-SPM.swift",
+    "ios/debug.xcconfig",
+    "package-lock.json",
+    "package.json",
+    "src/platform/ios-shell.ts",
+    "tests/v2/platform.test.ts"
+  ],
+  "knownIssues": [
+    "Native iOS SDK typecheck/build not run: full Xcode absent; code readiness covers offline contracts/structural scaffold only.",
+    "All live bindings disabled and V2 unmounted pending F32/independent gates.",
+    "Inherited dependency advisories unchanged; production license notices/facts belong to F31."
+  ],
+  "externalPending": [
+    "Xcode26+ and iOS simulator install/selection; simulator build/launch",
+    "Approved bundle/team/API facts, real Apple/StoreKit and real iPhone/VoiceOver checks",
+    "Independent review and F32 runtime integration, archive/TestFlight/release approval"
+  ],
   "independentReviewer": null,
   "integrationVerified": false,
   "liveVerified": false,
   "releaseApproved": false,
-  "authorization": {"productionTouched": false, "externalSpendMicrosUSD": 0, "merged": false},
-  "auditedSourceCommit": "a393cc0794207e3537984cc0c0ac77d1278ab2aa",
-  "candidateImplemented": false,
-  "prospectivePaths": 27,
-  "approvedMaxFiles": 20,
-  "proposedMaxFiles": 27,
-  "lineBudgetStatus": "NOT_MEASURED",
-  "preflightEvidencePath": "/private/tmp/form-owner-resume-20261014-zb7351_9/F18-preflight-20261014.json",
-  "preflightSha256": "e9b72d7352d40cd6e7468073959459e80d4f8608ed569a13a45b3f3b4bb0af7d"
+  "authorization": {
+    "productionTouched": false,
+    "externalSpendMicrosUSD": 0,
+    "merged": false
+  },
+  "nextEligibleTask": "F19",
+  "preflightEvidencePath": "/private/tmp/form-native-resume-20261014-pe2ln021/F18-preflight-measurement.json",
+  "preflightSha256": "4d501cf358ce962f74dc1da924dba2a67922c4ba4a19a3749de9c8eb73ae460f",
+  "originalWorkspacePreserved": true
 }

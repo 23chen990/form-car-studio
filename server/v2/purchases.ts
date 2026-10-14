@@ -16,7 +16,7 @@ export interface VerifiedAppleNotification {
   notificationUUID: string; notificationType: string; subtype?: string; environment: ApplePurchaseEnvironment;
   transaction?: Pick<VerifiedAppleTransaction, 'transactionId' | 'productId' | 'environment' | 'revocationDate'>;
 }
-interface PurchaseOptions { db: DatabaseSync; config?: ApplePurchaseConfig; enableOnlineChecks?: boolean; clock?: () => Date; id?: () => string }
+interface PurchaseOptions { db: DatabaseSync; config?: ApplePurchaseConfig; enableOnlineChecks?: boolean; clock?: () => Date; id?: () => string; onVerifiedRevocationInTransaction?: (wallet: WalletRepository, tx: WalletTransaction, environment: ApplePurchaseEnvironment, transactionId: string, productId: string, now: string) => true }
 interface AdapterOptions { enableOnlineChecks?: boolean }
 
 export class PurchaseError extends Error {
@@ -140,7 +140,7 @@ export function createApplePurchaseService(options: PurchaseOptions) {
   const wallet = new WalletRepository(db), catalogConfig: ProductCatalogConfig = config;
   const productCatalog = createProductCatalog(catalogConfig);
   const verifier = createAppleSignedDataAdapter(config, { enableOnlineChecks: options.enableOnlineChecks });
-  const productionEnabled = verifier.productionEnabled && productCatalog.enabled;
+  const productionEnabled = verifier.productionEnabled && productCatalog.enabled && typeof options.onVerifiedRevocationInTransaction === 'function';
   function catalog(): ProductCatalog {
     return productionEnabled ? productCatalog : Object.freeze({ enabled: false, products: Object.freeze([]) });
   }
@@ -167,15 +167,14 @@ export function createApplePurchaseService(options: PurchaseOptions) {
       const appleIdentity = tx.get('SELECT 1 FROM identities WHERE user_id=? AND provider=\'apple\'', principal.ownerId);
       if (!fresh || fresh.ownerId !== principal.ownerId || fresh.sessionId !== principal.sessionId || fresh.familyId !== principal.familyId || !user || user.deleted_at || !appleIdentity) throw new PurchaseError('AUTH_REQUIRED', 401);
 
-      if (transaction.revocationDate !== undefined && transaction.revocationDate !== null) {
-        recordAppleRevocationTombstoneInTransaction(tx, request.environment, transaction.transactionId!, now);
-        return { kind: 'revoked' as const };
-      }
-      if (hasAppleRevocationTombstoneInTransaction(tx, request.environment, transaction.transactionId!)) return { kind: 'revoked' as const };
-      if (request.environment === Environment.SANDBOX) return { kind: 'sandbox' as const };
-
       const existing = tx.get<{ id: string; owner_id: string; product_id: string }>('SELECT id,owner_id,product_id FROM purchases WHERE environment=? AND transaction_id=?', request.environment, transaction.transactionId!);
       if (existing && (existing.owner_id !== principal.ownerId || existing.product_id !== product.productId)) throw new PurchaseError('PURCHASE_OWNER_CONFLICT', 409);
+      if ((transaction.revocationDate !== undefined && transaction.revocationDate !== null) || hasAppleRevocationTombstoneInTransaction(tx, request.environment, transaction.transactionId!)) {
+        if (options.onVerifiedRevocationInTransaction?.(wallet, tx, request.environment, transaction.transactionId!, product.productId, now) !== true) throw new PurchaseError('PURCHASE_REVOCATION_UNAVAILABLE', 503);
+        return { kind: 'revoked' as const };
+      }
+      if (request.environment === Environment.SANDBOX) return { kind: 'sandbox' as const };
+
       const purchaseId = existing?.id ?? makeId();
       if (!existing) {
         tx.run('INSERT INTO purchases(id,owner_id,environment,transaction_id,product_id,created_at) VALUES(?,?,?,?,?,?)', purchaseId, principal.ownerId, request.environment, transaction.transactionId!, product.productId, now);

@@ -9,17 +9,18 @@ import express from 'express';
 import { Environment, SignedDataVerifier, VerificationException, VerificationStatus } from '@apple/app-store-server-library';
 import test from 'node:test';
 import { createProductCatalog } from '../../server/v2/catalog.js';
+import { applyAppleRevocationInTransaction } from '../../server/v2/refunds.js';
 import {
   appleRevocationTombstoneId,
   createApplePurchaseService,
   createAppleSignedDataAdapter,
   PurchaseError,
-  type ApplePurchaseConfig,
+  type ApplePurchaseConfig, type ApplePurchaseEnvironment,
 } from '../../server/v2/purchases.js';
 import { createPurchaseRouter } from '../../server/v2/routes-purchases.js';
 import { createSessionService } from '../../server/v2/sessions.js';
 import { openV2Database } from '../../server/v2/db.js';
-import { WalletRepository } from '../../server/v2/wallet-repo.js';
+import { WalletRepository, type WalletTransaction } from '../../server/v2/wallet-repo.js';
 import type { DatabaseSync } from 'node:sqlite';
 
 const BUNDLE = 'com.example.synthetic';
@@ -28,6 +29,7 @@ const PRODUCT_5 = 'com.example.creditpack.small';
 const PRODUCT_15 = 'com.example.creditpack.large';
 let NOW = new Date();
 const isCode = (expected: string) => (error: unknown) => error instanceof PurchaseError && error.code === expected;
+const revocationBridge = (wallet: WalletRepository, tx: WalletTransaction, environment: ApplePurchaseEnvironment, transactionId: string, productId: string, now: string): true => (applyAppleRevocationInTransaction(wallet, tx, { environment, transactionId, productId }, now), true);
 
 type SyntheticChain = { rootDer: Buffer; chainDer: Buffer[]; leafKey: ReturnType<typeof createPrivateKey> };
 function runOpenSSL(cwd: string, args: string[]): void {
@@ -89,7 +91,7 @@ function fixture(root: SyntheticChain, dir: string, config: ApplePurchaseConfig 
   db.prepare('INSERT INTO users(id,created_at) VALUES(?,?)').run(ownerId, NOW.toISOString());
   db.prepare('INSERT INTO identities(id,user_id,provider,subject,created_at) VALUES(?,?,?,?,?)').run(randomUUID(), ownerId, 'apple', `synthetic-${randomUUID()}`, NOW.toISOString());
   const session = sessions.issue(ownerId);
-  const service = createApplePurchaseService({ db, config, enableOnlineChecks: false, clock: () => NOW });
+  const service = createApplePurchaseService({ db, config, enableOnlineChecks: false, clock: () => NOW, onVerifiedRevocationInTransaction: revocationBridge });
   return { db, ownerId, accessToken: session.accessToken, service, wallet, close: () => db.close() };
 }
 function request(signedTransaction: string, environment = Environment.PRODUCTION) { return { signedTransaction, environment }; }
@@ -113,6 +115,13 @@ test('official signed-data verification gates consumable purchase credit', async
         assert.equal(f.service.catalog().enabled, false);
         assert.deepEqual(f.service.catalog().products, []);
         await assert.rejects(() => f.service.confirm(f.accessToken, request('untrusted-input')), isCode('PURCHASES_DISABLED'));
+        const noBridge = createApplePurchaseService({ db: f.db, config: makeConfig(trusted), enableOnlineChecks: false, clock: () => NOW });
+        const signed = signJws(baseTransaction(f.ownerId, Environment.PRODUCTION), trusted);
+        assert.equal(noBridge.catalog().enabled, false);
+        await assert.rejects(() => noBridge.confirm(f.accessToken, request(signed)), isCode('PURCHASES_DISABLED'));
+        const rejectingBridge = createApplePurchaseService({ db: f.db, config: makeConfig(trusted), enableOnlineChecks: false, clock: () => NOW, onVerifiedRevocationInTransaction: () => false as true });
+        const signedRevocation = signJws({ ...baseTransaction(f.ownerId, Environment.PRODUCTION), revocationDate: NOW.getTime() }, trusted);
+        await assert.rejects(() => rejectingBridge.confirm(f.accessToken, request(signedRevocation)), isCode('PURCHASE_REVOCATION_UNAVAILABLE'));
         assert.equal((f.db.prepare('SELECT count(*) AS n FROM purchases').get() as { n: number }).n, 0);
       } finally { f.close(); }
     });
@@ -221,6 +230,7 @@ test('official signed-data verification gates consumable purchase credit', async
         const service = createApplePurchaseService({
           db: f.db, config: makeConfig(trusted), enableOnlineChecks: false,
           clock: () => f.db.isTransaction ? new Date(NOW.getTime() + 2000) : NOW,
+          onVerifiedRevocationInTransaction: revocationBridge,
         });
         const signed = signJws(baseTransaction(f.ownerId, Environment.PRODUCTION), trusted);
         await assert.rejects(() => service.confirm(f.accessToken, request(signed)), isCode('AUTH_REQUIRED'));
@@ -238,9 +248,9 @@ test('official signed-data verification gates consumable purchase credit', async
         const secondSession = createSessionService({ db: f.db, clock: () => NOW }).issue(second);
         const transactionId = 'synthetic-global-transaction';
         const firstJws = signJws(baseTransaction(f.ownerId, Environment.PRODUCTION, { transactionId }), trusted);
-        const otherJws = signJws(baseTransaction(second, Environment.PRODUCTION, { transactionId }), trusted);
+        const otherJws = [{}, { revocationDate: NOW.getTime() }].map(revocation => signJws(baseTransaction(second, Environment.PRODUCTION, { transactionId, ...revocation }), trusted));
         await f.service.confirm(f.accessToken, request(firstJws));
-        await assert.rejects(() => f.service.confirm(secondSession.accessToken, request(otherJws)), isCode('PURCHASE_OWNER_CONFLICT'));
+        for (const conflictingJws of otherJws) await assert.rejects(() => f.service.confirm(secondSession.accessToken, request(conflictingJws)), isCode('PURCHASE_OWNER_CONFLICT'));
         assert.equal(f.wallet.summary(f.ownerId, 'live').spendable, 5);
         assert.equal(f.wallet.summary(second, 'live').spendable, 0);
       } finally { f.close(); }
@@ -262,6 +272,17 @@ test('official signed-data verification gates consumable purchase credit', async
         const oldUnrevoked = signJws(original, trusted);
         await assert.rejects(() => f.service.confirm(f.accessToken, request(oldUnrevoked)), isCode('PURCHASE_REVOKED'));
         assert.equal((f.db.prepare('SELECT count(*) AS n FROM purchases').get() as { n: number }).n, 0);
+        assert.equal(f.wallet.summary(f.ownerId, 'live').spendable, 0);
+
+        const credited = baseTransaction(f.ownerId, Environment.PRODUCTION, { transactionId: 'synthetic-credit-then-revoked' });
+        const signedCredit = signJws(credited, trusted);
+        await f.service.confirm(f.accessToken, request(signedCredit));
+        const signedRevocation = signJws({ ...credited, revocationDate: NOW.getTime() }, trusted);
+        await assert.rejects(() => f.service.confirm(f.accessToken, request(signedRevocation)), isCode('PURCHASE_REVOKED'));
+        const revokedLot = f.db.prepare('SELECT available_units,revoked_units FROM credit_lots WHERE purchase_id=(SELECT id FROM purchases WHERE transaction_id=?)').get(credited.transactionId) as { available_units: number; revoked_units: number }; assert.equal(revokedLot.available_units, 0); assert.equal(revokedLot.revoked_units, 5);
+        await assert.rejects(() => f.service.confirm(f.accessToken, request(signedRevocation)), isCode('PURCHASE_REVOKED'));
+        await assert.rejects(() => f.service.confirm(f.accessToken, request(signedCredit)), isCode('PURCHASE_REVOKED'));
+        assert.equal((f.db.prepare("SELECT count(*) AS n FROM ledger_events WHERE event_type='refund'").get() as { n: number }).n, 1);
         assert.equal(f.wallet.summary(f.ownerId, 'live').spendable, 0);
       } finally { f.close(); }
     });

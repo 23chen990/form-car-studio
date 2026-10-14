@@ -4,8 +4,11 @@ import { PhotoIntake, type PublishedPhotoDisclosure } from '../features/photo/Ph
 import { DiscoverEntry } from '../features/discover/DiscoverEntry.js';
 import type { EntryCapabilities } from '../features/navigation/entry.js';
 import { TaskWait } from '../features/task/task-wait.js';
-import { createV2Api, type SafeTaskDTO } from '../lib/api-v2.js';
-import { createSubmissionStore } from '../lib/submission-store.js';
+import { DraftEditor, type EditorSource } from '../features/editor/DraftEditor.js';
+import { createV2Api, type PlanQuoteDTO, type SafeTaskDTO } from '../lib/api-v2.js';
+import { createSubmissionStore, type SubmissionStore } from '../lib/submission-store.js';
+import { DraftConflictError, type DraftPersistence, type DraftSnapshot, type DraftWrite } from '../lib/draft-v2.js';
+import { FIELDS, type EditRequest, type Field, type SourceRef } from '../../shared/v2/edit-plan.js';
 
 function safeTask(id: string, status: SafeTaskDTO['status'], creditReturned = false, safeErrorCode: string | null = null): SafeTaskDTO {
   return {
@@ -204,6 +207,172 @@ function EntryHarness() {
   </>;
 }
 
+interface EditHarnessRequest { method: string; path: string; submissionStoredAtPost?: boolean; requestEdits?: EditRequest }
+interface EditHarnessBackend {
+  api: ReturnType<typeof createV2Api>; store: SubmissionStore; persistence: DraftPersistence;
+  initialDraft(ownerId: string): DraftSnapshot; activateOwner(ownerId: string): void;
+  refreshRemoteDraft(ownerId: string): void;
+  requests(): EditHarnessRequest[]; draftWrites(): DraftWrite[]; failNextSave(): void;
+  holdNextDraftSave(): void; heldDraftSave(): boolean; releaseHeldDraftSave(): void;
+}
+
+function syntheticQuote(ownerId: string, projectId: string, request: EditRequest): PlanQuoteDTO {
+  const fields: Field[] = [...FIELDS];
+  const requestedChanges = Object.entries(request.edits).flatMap(([field, edit]) => edit && edit.action !== 'preserve'
+    ? [{ field: field as Field, action: edit.action, ...(edit.action === 'set' ? { value: edit.value } : {}) }]
+    : []);
+  const changes = request.operation === 'explore'
+    ? [{ field: 'bodyColor' as const, action: 'set' as const, value: 'silver' }]
+    : requestedChanges;
+  const source = {
+    ...(request.source.kind === 'version' ? { kind: 'version' as const, versionId: request.source.versionId } : { kind: 'original' as const }),
+    assetId: request.source.kind === 'original' ? 'asset-original' : 'asset-version',
+    assetKind: request.source.kind === 'original' ? 'original' as const : 'master' as const,
+    persistedSha256: 'a'.repeat(64), rawSha256: 'b'.repeat(64), canonicalSha256: 'c'.repeat(64), pixelSha256: 'd'.repeat(64),
+    bytes: 400, width: 640, height: 400, rawGeometry: { width: 640, height: 400 }, canonicalGeometry: { width: 640, height: 400 },
+    normalizerVersion: 'synthetic-normalizer-v1', sourceFormat: 'png', sourceOrientation: null,
+  };
+  return {
+    schemaVersion: 1, planId: 'plan-fixture', createdAt: '2026-10-14T00:00:00.000Z', expiresAt: '2026-10-15T00:00:00.000Z', planDigest: 'e'.repeat(64),
+    semantic: {
+      ownerId, projectId, walletScope: 'demo', executionMode: 'licensed_demo', source,
+      requestEdits: request, desiredRecipe: { changes, preserve: fields.filter(field => !changes.some(change => change.field === field)),
+        inherited: { styleId: request.operation === 'explore' ? request.styleId! : null, verification: request.operation === 'explore' ? 'unverified' : 'unknown', requested: request.operation === 'explore' ? changes : [], preserve: fields.filter(field => !changes.some(change => change.field === field)) } },
+      observedRecipe: { status: 'unknown', fields: {} }, userCostUnits: 1, outputCount: 1, supplierExposureMicrosUSD: 0,
+    },
+  };
+}
+
+function createSyntheticEditBackend(query: URLSearchParams): EditHarnessBackend {
+  const requests: EditHarnessRequest[] = [], writes: DraftWrite[] = [];
+  let ownerId = 'owner-a', failSave = false, holdSave = false, held = false, release: (() => void) | null = null;
+  let conflictIssued = false, loseSubmit = query.get('submit') === 'lost';
+  const draftKey = (owner: string) => `form:v2:synthetic-draft:${owner}`;
+  const storage = {
+    getItem: (key: string) => window.localStorage.getItem(key),
+    setItem: (key: string, value: string) => window.localStorage.setItem(key, value),
+    removeItem: (key: string) => window.localStorage.removeItem(key),
+  };
+  const store = createSubmissionStore({ storage, createId: () => 'submission-fixture', now: () => '2026-10-14T00:00:00.000Z' });
+  store.activateActor(ownerId);
+  if (query.get('pending') === '1') store.begin(ownerId, { planId: 'plan-fixture', projectId: 'project-1', expiresAt: '2026-10-15T00:00:00.000Z' }, 'consent-fixture');
+  const remoteDraft: DraftSnapshot = { ownerId, projectId: 'project-1', revision: 5, source: { kind: 'version', versionId: 'version-new' }, edits: { bodyColor: { action: 'set', value: 'red' } } };
+  const saveNow = async (write: DraftWrite): Promise<DraftSnapshot> => {
+    if (failSave) { failSave = false; throw new Error('synthetic save unavailable'); }
+    if (query.get('save') === 'conflict' && !conflictIssued) {
+      conflictIssued = true;
+      storage.setItem(draftKey(write.ownerId), JSON.stringify(remoteDraft));
+      throw new DraftConflictError(remoteDraft);
+    }
+    const raw = storage.getItem(draftKey(write.ownerId));
+    const current = raw ? JSON.parse(raw) as DraftSnapshot : { ownerId: write.ownerId, projectId: write.projectId, revision: 4, source: { kind: 'original' as const }, edits: {} };
+    if (current.revision !== write.expectedRevision) throw new DraftConflictError(current);
+    const saved: DraftSnapshot = { ownerId: write.ownerId, projectId: write.projectId, revision: current.revision + 1, source: write.source, edits: write.edits };
+    storage.setItem(draftKey(write.ownerId), JSON.stringify(saved));
+    return saved;
+  };
+  const persistence: DraftPersistence = { saveDraft: write => {
+    writes.push(structuredClone(write));
+    if (!holdSave) return saveNow(write);
+    holdSave = false;
+    held = true;
+    return new Promise<DraftSnapshot>((resolve, reject) => {
+      release = () => { held = false; release = null; void saveNow(write).then(resolve, reject); };
+    });
+  } };
+  const statuses: SafeTaskDTO['status'][] = ['queued', 'processing', 'uncertain', 'succeeded', 'failed', 'cancelled'];
+  const requestedStatus = query.get('recover-status');
+  const taskStatus = statuses.find(status => status === requestedStatus) ?? 'queued';
+  const task: SafeTaskDTO = {
+    id: 'task-fixture', projectId: 'project-1', planId: 'plan-fixture', status: taskStatus, userCostUnits: 1,
+    createdAt: '2026-10-14T00:00:00.000Z', updatedAt: null, resultVersionId: taskStatus === 'succeeded' ? 'version-recovered' : null,
+    creditReturned: false, safeErrorCode: taskStatus === 'failed' ? 'PROVIDER_UNAVAILABLE' : null,
+  };
+  const api = createV2Api({ store, fetcher: async (input, init) => {
+    const path = new URL(String(input), window.location.origin).pathname, method = init?.method ?? 'GET';
+    const record: EditHarnessRequest = { path, method };
+    if (path === '/api/v2/tasks' && method === 'POST') {
+      record.submissionStoredAtPost = store.list(ownerId).some(item => item.planId === 'plan-fixture');
+      requests.push(record);
+      if (loseSubmit) { loseSubmit = false; throw new TypeError('synthetic lost acknowledgement'); }
+      return json(task, 202);
+    }
+    if (path === '/api/v2/projects/project-1/plans' && method === 'POST') {
+      const requestEdits = JSON.parse(String(init?.body)) as EditRequest;
+      record.requestEdits = requestEdits;
+      requests.push(record);
+      return json(syntheticQuote(ownerId, 'project-1', requestEdits), 201);
+    }
+    requests.push(record);
+    if (path === '/api/v2/submissions/submission-fixture' && method === 'GET') return json(task);
+    return json({ code: 'NOT_FOUND', message: 'Synthetic endpoint unavailable.', retryable: false, requestId: 'request-fixture' }, 404);
+  } });
+  return {
+    api, store, persistence,
+    initialDraft: (owner: string) => {
+      if (query.get('source') === 'missing') return { ownerId: owner, projectId: 'project-1', revision: 4, source: { kind: 'version', versionId: 'version-gone' }, edits: {} };
+      const raw = storage.getItem(draftKey(owner));
+      return raw ? JSON.parse(raw) as DraftSnapshot : { ownerId: owner, projectId: 'project-1', revision: 4, source: { kind: 'original' }, edits: {} };
+    },
+    refreshRemoteDraft: owner => storage.setItem(draftKey(owner), JSON.stringify({ ownerId: owner, projectId: 'project-1', revision: 5,
+      source: { kind: 'version', versionId: 'version-new' }, edits: { bodyColor: { action: 'set', value: 'red' } } } satisfies DraftSnapshot)),
+    activateOwner: next => { ownerId = next; store.activateActor(next); },
+    requests: () => requests.map(request => ({ ...request })),
+    draftWrites: () => writes.map(write => structuredClone(write)),
+    failNextSave: () => { failSave = true; },
+    holdNextDraftSave: () => { holdSave = true; }, heldDraftSave: () => held,
+    releaseHeldDraftSave: () => release?.(),
+  };
+}
+
+function EditHarness() {
+  const query = new URLSearchParams(window.location.search);
+  const backend = useMemo(() => createSyntheticEditBackend(query), []);
+  const [ownerId, setOwnerId] = useState('owner-a');
+  const [, refresh] = useState(0);
+  const explore = query.get('operation') === 'explore';
+  const capabilities = query.get('capabilities') === 'closed' ? undefined : query.get('original') === 'closed'
+    ? { enabled: true, fields: ['bodyColor', 'wheelColor'] as Field[], originalReference: false }
+    : { enabled: true, fields: ['bodyColor', 'wheelColor'] as Field[], originalReference: true };
+  const intent: EditRequest | undefined = explore
+    ? { schemaVersion: 2, source: { kind: 'original' }, operation: 'explore', styleId: 'clean', edits: {} }
+    : undefined;
+  const image = (tone: string) => 'data:image/svg+xml,' + encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" width="640" height="400"><rect width="640" height="400" fill="#dedfd5"/><rect x="100" y="160" width="440" height="120" rx="30" fill="${tone}"/><text x="90" y="60" font-size="25">SYNTHETIC TEST FIXTURE</text></svg>`);
+  const sources: EditorSource[] = [
+    { source: { kind: 'original' }, label: 'Original', imageUrl: image('#62695e') },
+    { source: { kind: 'version', versionId: 'version-old' }, label: 'Earlier version', imageUrl: image('#7f5642') },
+    { source: { kind: 'version', versionId: 'version-new' }, label: 'Newer version', imageUrl: image('#496784') },
+  ];
+  const reasons: Record<string, string> = {
+    offline: 'You are offline. Reconnect to create a new look.', balance: 'You need at least 1 credit to create this look.',
+    consent: 'Confirm the required photo permissions before continuing.', photo: 'This photo is not supported for editing.',
+    active: 'Finish or recover your active task before creating another look.',
+  };
+  function switchOwner() {
+    const next = ownerId === 'owner-a' ? 'owner-b' : 'owner-a';
+    backend.activateOwner(next);
+    setOwnerId(next);
+  }
+  useEffect(() => {
+    Object.assign(window, { __v2EditHarness: backend });
+    return () => { delete (window as unknown as { __v2EditHarness?: unknown }).__v2EditHarness; };
+  }, [backend]);
+  return <div className="harness-shell">
+    <aside className="harness-notice"><strong>DEV HARNESS · SYNTHETIC ONLY</strong><span>No production draft service, model, real photo or paid account is connected.</span></aside>
+    <div className="harness-account"><span>Test account: <code>{ownerId}</code></span><button type="button" onClick={switchOwner}>Switch synthetic owner</button></div>
+    <div className="v2-edit__harness-controls">
+      <button type="button" onClick={backend.failNextSave}>Fail next draft save</button>
+      <button type="button" onClick={backend.holdNextDraftSave}>Hold next draft save</button>
+      <button type="button" onClick={backend.releaseHeldDraftSave}>Release held draft save</button>
+      <button type="button" onClick={() => { backend.refreshRemoteDraft(ownerId); refresh(value => value + 1); }}>Refresh remote draft</button>
+    </div>
+    <DraftEditor ownerId={ownerId} projectId="project-1" consentRecordId="consent-fixture" initialDraft={backend.initialDraft(ownerId)}
+      sources={sources} persistence={backend.persistence} api={backend.api} submissionStore={backend.store} intent={intent} capabilities={capabilities}
+      providerDisclosure="Synthetic demo quote only. No production provider or model is connected."
+      blockingReason={query.get('gate') ? reasons[query.get('gate')!] : undefined} />
+  </div>;
+}
+
 function mountPhotoHarness() {
 
 interface SyntheticRequest {
@@ -306,6 +475,7 @@ Object.assign(testWindow, { __FORM_V2_UNMOUNT__: () => root.unmount() });
 root.render(<PhotoHarness />);
 }
 
-if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
+if (new URLSearchParams(window.location.search).get('feature') === 'edit') createRoot(document.getElementById('root')!).render(<EditHarness />);
+else if (new URLSearchParams(window.location.search).get('feature') === 'entry') createRoot(document.getElementById('root')!).render(<EntryHarness />);
 else if (new URLSearchParams(window.location.search).get('feature') === 'photo') mountPhotoHarness();
 else createRoot(document.getElementById('root')!).render(<V2Harness />);

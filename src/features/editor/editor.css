@@ -1,0 +1,14 @@
+.v2-edit { width: min(760px, calc(100% - 1.5rem)); margin: 1.25rem auto 2rem; display: grid; gap: .8rem; color: #22271f; }
+.v2-edit h1 { margin: 0; font-size: clamp(1.8rem, 6vw, 2.8rem); line-height: 1.05; letter-spacing: -.045em; }
+.v2-edit h2, .v2-edit h3, .v2-edit p, .v2-edit ul { margin: 0; }
+.v2-edit__eyebrow { color: #62695e; font: 600 .68rem/1.5 "SFMono-Regular", Consolas, monospace; letter-spacing: .08em; text-transform: uppercase; }
+.v2-edit__image { display: block; width: min(100%, 640px); max-height: 400px; aspect-ratio: 16 / 10; object-fit: contain; margin: .2rem auto; background: #efefe8; border: 1px solid #dedfd5; }
+.v2-edit label { display: grid; gap: .3rem; width: min(100%, 25rem); font-size: .85rem; font-weight: 600; }
+.v2-edit select { width: 100%; min-height: 44px; padding: .4rem .6rem; border: 1px solid #a6aa9f; border-radius: .2rem; background: #fff; color: inherit; font: inherit; }
+.v2-edit__actions, .v2-edit__harness-controls { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem; }
+.v2-edit__actions button, .v2-edit__harness-controls button, .v2-edit > button { min-height: 44px; max-width: 100%; padding: .45rem .75rem; border: 1px solid #a6aa9f; border-radius: .2rem; background: #fff; color: #22271f; font: inherit; }
+.v2-edit button:disabled { color: #62695e; background: #efefe8; }
+.v2-edit :focus-visible { outline: 3px solid #5d7f23; outline-offset: 2px; }
+.v2-edit__panel { display: grid; gap: .85rem; padding: clamp(1rem, 4vw, 1.5rem); border: 1px solid #dedfd5; background: #fff; }
+.v2-edit__quote { font-size: 1.15rem; font-weight: 650; }
+.v2-edit__harness-controls { width: min(760px, calc(100% - 1.5rem)); margin: .7rem auto; }

@@ -6,6 +6,6 @@
 
 **模拟器** 位于 HTML 外围桌面工具面板，允许切换 no credits / quote failure / offline / generation fail / uncertain / local photo fail 等。所有额度与版本均为模拟，网页不联网。Demo 完成也只创建版本记录、沿用原始车图，**不会修改原图或生成任何 AI 汽车结果**。
 
-建议阅读顺序：`09_UX_REASSESSMENT_ZH.md` → `10_NEW_INTERACTION_DECISION_ZH.md` → 交互 HTML → `12_UX_QA_REPORT_ZH.md`。`screenshots/revision/` 有 42 张真实 Chromium 的 2× 手机截图，`qa/` 有完整可重复运行脚本、真实模拟案例 fixture 和 142 项测试结果。
+建议阅读顺序：`09_UX_REASSESSMENT_ZH.md` → `10_NEW_INTERACTION_DECISION_ZH.md` → 交互 HTML → `12_UX_QA_REPORT_ZH.md`。`13_SCREENSHOT_GALLERY.html` 可以离线浏览每张截图；`screenshots/REVISION_CONTACT_SHEET.png` 是方便快速检查的概览。`screenshots/revision/` 有 42 张真实 Chromium 的 2× 手机截图，`qa/` 有完整可重复运行脚本、真实模拟案例 fixture 和 159 项测试结果。
 
 **旧证据保留在 GitHub 原 PR 的 00–08、03 原型、旧 screenshots、原 QA**；本 ZIP 还附带用户上传旧版原型的单独归档文件。不要删除/覆盖旧报告。未修改生产入口、任何 React / Node / server / wallet 文件；没有付费调用、付款、发布或 PR 合并。

@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-15T11:40:22.201152+00:00",
+  "generated_at": "2026-10-15T12:01:10.340053+00:00",
   "browser": "System Chromium (Playwright Python) with about:blank set_content due managed navigation policy",
   "viewport": "1400x1100 outer; device 390x844 / 320 375 430; @2x screenshot",
-  "checks_total": 142,
-  "passed": 142,
+  "checks_total": 159,
+  "passed": 159,
   "failed": 0,
   "page_or_console_errors": [],
   "checks": [
@@ -573,6 +573,74 @@
     },
     {
       "name": "Screenshot 30_missing_local_photo.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Keep color cannot erase a Style intent",
+      "status": "PASS"
+    },
+    {
+      "name": "Explicit red paint replaces Style",
+      "status": "PASS"
+    },
+    {
+      "name": "Style replaces earlier detailed color draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Incompatible switch exposes immediate Undo",
+      "status": "PASS"
+    },
+    {
+      "name": "Undo reverses Style over Detail replacement",
+      "status": "PASS"
+    },
+    {
+      "name": "Unrelated later color does not expose stale Undo",
+      "status": "PASS"
+    },
+    {
+      "name": "Double-tap photo acceptance creates only one new car",
+      "status": "PASS"
+    },
+    {
+      "name": "Lost user image never falls back to sample-car art",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing source photo explicitly blocks demo creation",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing image removes misleading generation CTA and offers recovery",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing image explains why request is blocked",
+      "status": "PASS"
+    },
+    {
+      "name": "Garage cover also avoids misleading substitute art",
+      "status": "PASS"
+    },
+    {
+      "name": "No fake version thumbnail shown when source disappears",
+      "status": "PASS"
+    },
+    {
+      "name": "Recovery creates a distinct car with a real source photo",
+      "status": "PASS"
+    },
+    {
+      "name": "Reset clears all simulated cars, versions and credits",
+      "status": "PASS"
+    },
+    {
+      "name": "Reset revokes local photo preview records",
       "status": "PASS"
     }
   ],

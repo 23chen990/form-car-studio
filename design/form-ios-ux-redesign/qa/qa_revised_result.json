@@ -1,0 +1,586 @@
+{
+  "generated_at": "2026-10-15T11:40:22.201152+00:00",
+  "browser": "System Chromium (Playwright Python) with about:blank set_content due managed navigation policy",
+  "viewport": "1400x1100 outer; device 390x844 / 320 375 430; @2x screenshot",
+  "checks_total": 142,
+  "passed": 142,
+  "failed": 0,
+  "page_or_console_errors": [],
+  "checks": [
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 01_explore.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Explore primary CTA states chosen direction",
+      "status": "PASS"
+    },
+    {
+      "name": "First visit opens Photo without car-picker detour",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 02_photo_guide.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Local file really decoded and displayed in picker",
+      "status": "PASS"
+    },
+    {
+      "name": "Local photo uses object URL, no network request",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 03_photo_selected.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Reselection changes local preview without creating a car",
+      "status": "PASS"
+    },
+    {
+      "name": "Photo is not committed before explicit continue",
+      "status": "PASS"
+    },
+    {
+      "name": "Accept photo enters central Studio directly",
+      "status": "PASS"
+    },
+    {
+      "name": "Actual local photo is represented as a separate car",
+      "status": "PASS"
+    },
+    {
+      "name": "Studio displays real uploaded pixels not a car SVG",
+      "status": "PASS"
+    },
+    {
+      "name": "Selected local photo persists in Studio visual",
+      "status": "PASS"
+    },
+    {
+      "name": "Photo decodes at original fixture width",
+      "status": "PASS"
+    },
+    {
+      "name": "Studio object-fit contain prevents car crop",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 04_studio_own_photo.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Paint sheet keeps car visible underneath",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 05_paint_sheet.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Color selection replaces incompatible Style draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Color draft leaves actual image bytes and URL untouched",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 06_studio_paint_selected.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Confirm thumbnail is exact selected user photo",
+      "status": "PASS"
+    },
+    {
+      "name": "Confirm explicitly refuses to call fake price a server quote",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 07_review_own_photo.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "One explicit Confirm creates one queued demo task",
+      "status": "PASS"
+    },
+    {
+      "name": "Exactly one simulated credit reserved",
+      "status": "PASS"
+    },
+    {
+      "name": "Task continues to display own photo",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 08_task_queued.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Leaving Task goes to Garage (not a fake back gesture)",
+      "status": "PASS"
+    },
+    {
+      "name": "Garage contains resume entry for active task",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 09_garage_task_active.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Resume uses same stable submission ID",
+      "status": "PASS"
+    },
+    {
+      "name": "Timer moves queued/processing to simulated success",
+      "status": "PASS"
+    },
+    {
+      "name": "Success creates one and only one simulated version",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 10_task_completed.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Repeat settlement cannot double-charge or duplicate version",
+      "status": "PASS"
+    },
+    {
+      "name": "Simulated result visibly retains original pixels instead of fake output",
+      "status": "PASS"
+    },
+    {
+      "name": "Result labels simulation as not a generated output",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 11_result_simulated_own_photo.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Favourite persisted on selected version identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Save simulated result does not falsely report download success",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 12_save_disabled_explained.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Compare makes unchanged pixels explicit",
+      "status": "PASS"
+    },
+    {
+      "name": "Compare divider is controllable",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 13_compare_simulated.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Compare back returns to selected version",
+      "status": "PASS"
+    },
+    {
+      "name": "Refine correctly binds the exact selected version as base",
+      "status": "PASS"
+    },
+    {
+      "name": "Refine begins separate empty draft without inheriting original Style",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 14_refine_old_version.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Second request explicitly names Version 1 as base",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 15_review_version_1.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Second request creates Version 2 not overwrite Version 1",
+      "status": "PASS"
+    },
+    {
+      "name": "Version 2 parent is exactly selected Version 1 ID",
+      "status": "PASS"
+    },
+    {
+      "name": "Result back goes to Garage instead of old Task",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 16_garage_versions.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Opening old V1 does not redirect to newest V2",
+      "status": "PASS"
+    },
+    {
+      "name": "Old V1 Refine still uses V1 not latest",
+      "status": "PASS"
+    },
+    {
+      "name": "Back from version edit returns to that specific V1 result",
+      "status": "PASS"
+    },
+    {
+      "name": "Explore offers recently used car shortcut",
+      "status": "PASS"
+    },
+    {
+      "name": "Returning user gets inline car selection sheet not full choose-car screen",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 17_returning_car_picker.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Switching to Wheel removes full Style, never combines them",
+      "status": "PASS"
+    },
+    {
+      "name": "Undo restores incompatible-mode switch safely",
+      "status": "PASS"
+    },
+    {
+      "name": "Reset clears selection",
+      "status": "PASS"
+    },
+    {
+      "name": "Undo Reset restores prior draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Close sheet with no selection does not change draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Source chooser sheet opens",
+      "status": "PASS"
+    },
+    {
+      "name": "noCredits blocks confirmation before demo submit",
+      "status": "PASS"
+    },
+    {
+      "name": "noCredits shows explanatory error state",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 18_no_credits.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "offline blocks confirmation before demo submit",
+      "status": "PASS"
+    },
+    {
+      "name": "offline shows explanatory error state",
+      "status": "PASS"
+    },
+    {
+      "name": "quoteFail blocks confirmation before demo submit",
+      "status": "PASS"
+    },
+    {
+      "name": "quoteFail shows explanatory error state",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 19_quote_unavailable.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "draftFail blocks confirmation before demo submit",
+      "status": "PASS"
+    },
+    {
+      "name": "draftFail shows explanatory error state",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 20_draft_error.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Draft retry clears simulated save failure",
+      "status": "PASS"
+    },
+    {
+      "name": "First simulated credit is reserved once",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 21_cancel_queued.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Queued cancellation records terminal cancelled state",
+      "status": "PASS"
+    },
+    {
+      "name": "Queued cancellation releases one demo credit",
+      "status": "PASS"
+    },
+    {
+      "name": "Terminal refund idempotency holds",
+      "status": "PASS"
+    },
+    {
+      "name": "Simulated task failure reachable",
+      "status": "PASS"
+    },
+    {
+      "name": "Failure returns reserved demo credit once",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 22_task_failed.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Failure retry recovers same exact draft and source",
+      "status": "PASS"
+    },
+    {
+      "name": "Task enters processing state",
+      "status": "PASS"
+    },
+    {
+      "name": "Processing task offers no free cancel",
+      "status": "PASS"
+    },
+    {
+      "name": "Processing can settle once",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 23_task_uncertain.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Refresh reconstructs same uncertain task ID without auto-success",
+      "status": "PASS"
+    },
+    {
+      "name": "Uncertain resume does not refund or re-charge",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 24_task_uncertain_reloaded.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Active uncertain request prohibits second concurrent submit",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 25_explore_320.png dimensions 320x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 26_studio_320.png dimensions 320x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 27_sheet_320.png dimensions 320x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 28_review_320.png dimensions 320x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "320px no horizontal overflow in confirm UI: {'app': 0, 'phone': 0, 'sheet': 0}",
+      "status": "PASS"
+    },
+    {
+      "name": "320px confirmation CTA inside phone and >=44px",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 25_explore_375.png dimensions 375x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 26_studio_375.png dimensions 375x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 27_sheet_375.png dimensions 375x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 28_review_375.png dimensions 375x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "375px no horizontal overflow in confirm UI: {'app': 0, 'phone': 0, 'sheet': 0}",
+      "status": "PASS"
+    },
+    {
+      "name": "375px confirmation CTA inside phone and >=44px",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 25_explore_390.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 26_studio_390.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 27_sheet_390.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 28_review_390.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "390px no horizontal overflow in confirm UI: {'app': 0, 'phone': 0, 'sheet': 0}",
+      "status": "PASS"
+    },
+    {
+      "name": "390px confirmation CTA inside phone and >=44px",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 25_explore_430.png dimensions 430x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 26_studio_430.png dimensions 430x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 27_sheet_430.png dimensions 430x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 28_review_430.png dimensions 430x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "430px no horizontal overflow in confirm UI: {'app': 0, 'phone': 0, 'sheet': 0}",
+      "status": "PASS"
+    },
+    {
+      "name": "430px confirmation CTA inside phone and >=44px",
+      "status": "PASS"
+    },
+    {
+      "name": "HTML rendered in real Chromium DOM",
+      "status": "PASS"
+    },
+    {
+      "name": "Car A exists as independent concept car",
+      "status": "PASS"
+    },
+    {
+      "name": "Car A has a wheel-colour draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Garage add-car opens separate photo intake",
+      "status": "PASS"
+    },
+    {
+      "name": "Car B creates a separate source identity",
+      "status": "PASS"
+    },
+    {
+      "name": "Car B displays uploaded local file",
+      "status": "PASS"
+    },
+    {
+      "name": "Car B independent draft is paint-blue only",
+      "status": "PASS"
+    },
+    {
+      "name": "Second car returns to its correct Garage origin",
+      "status": "PASS"
+    },
+    {
+      "name": "Garage choose-source opens Studio with source chooser",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch back to Car A restores its own draft",
+      "status": "PASS"
+    },
+    {
+      "name": "Switch from A to B restores B draft without crossover",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 29_second_car_restored.png dimensions 390x844 @2x",
+      "status": "PASS"
+    },
+    {
+      "name": "Missing local photo never silently becomes a generic car illustration",
+      "status": "PASS"
+    },
+    {
+      "name": "Unavailable photo has explicit non-deceptive recovery copy",
+      "status": "PASS"
+    },
+    {
+      "name": "Screenshot 30_missing_local_photo.png dimensions 390x844 @2x",
+      "status": "PASS"
+    }
+  ],
+  "not_run": [
+    "Real file:// navigation in managed Chromium (ERR_BLOCKED_BY_ADMINISTRATOR)",
+    "IndexedDB persistence across a real-origin full reload",
+    "Real iOS/Capacitor/HEIC/camera/Photos permission/VoiceOver/StoreKit",
+    "Real server immutable quote/ownership/consent, paid model and real wallet",
+    "8-12 target-user moderated usability sessions"
+  ]
+}

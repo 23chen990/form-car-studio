@@ -611,6 +611,10 @@ body{margin:0;font-family:var(--chrome-font);background:var(--page);color:var(--
 .hidden{display:none !important}
 @media (max-width:1000px){ .notes{display:none} .stage-main{padding:16px} .board-header{padding:16px} }
 @media (prefers-reduced-motion: reduce){ *{transition:none !important;animation:none !important} }
+.wf .btn, .wf .btn-sm, .wf .btn-icon, .wf .tab, .wf .look-card, .wf .color-opt {min-height:44px}
+.wf .btn-icon {min-width:44px}
+.wf .t-caption {font-size:12px;line-height:16px}
+@media(prefers-reduced-motion:reduce){.wf * {transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
@@ -695,7 +699,7 @@ const uid = () => Math.random().toString(36).slice(2, 9);
 
 function defaults() {
   return {
-    screen:'discover', tab:'explore', sheet:null, sheetField:null,
+    screen:'discover', tab:'explore', sheet:null, sheetField:null, viewVersionId:null,
     cars: [],            // {id,name,kind,versions:[{id,label,parent,changes,fav}]}
     carId: null,
     baseVersionId: null, // null === original photo
@@ -726,6 +730,8 @@ const colorName = (set, id) => (set.find(c => c.id === id) || {}).name || 'Keep 
 const colorHex = (set, id) => (set.find(c => c.id === id) || {}).hex;
 const car = () => S.cars.find(c => c.id === S.carId) || null;
 const version = () => { const c = car(); return c && S.baseVersionId ? c.versions.find(v => v.id === S.baseVersionId) : null; };
+const viewed = () => { const c = car(); return c && S.viewVersionId ? c.versions.find(v => v.id === S.viewVersionId) : null; };
+const activeTask = () => S.task && ['queued','processing','uncertain'].includes(S.task.status);
 const baseLabel = () => S.baseVersionId ? 'Version ' + (version() ? version().label : '?') : 'Original photo';
 const changes = d => {
   const out = [];
@@ -735,12 +741,17 @@ const changes = d => {
   return out;
 };
 const hasChanges = () => changes(S.draft).length > 0;
-const canAddLook = () => S.draft.body === 'keep' && S.draft.wheel === 'keep';
+const canAddLook = () => !S.baseVersionId && S.draft.body === 'keep' && S.draft.wheel === 'keep';
 const canAddColor = () => !S.draft.look;
 const quote = () => {
+  if (activeTask()) return {ok:false, reason:'You already have a request in progress. Open it from Garage before creating another.'};
+  if (S.sim.draftFail) return {ok:false, reason:'Your changes have not been saved. Retry saving before creating.'};
+  if (S.draft.look && S.baseVersionId) return {ok:false, reason:'Full styles start from Original. Choose Original or clear the style.'};
+  if (S.draft.look && (S.draft.body !== 'keep' || S.draft.wheel !== 'keep')) return {ok:false, reason:'A full style cannot be combined with individual colour changes.'};
+  if (!hasChanges()) return {ok:false, reason:'Choose at least one change before generating.'};
   if (S.sim.offline) return {ok:false, reason:'You are offline. Reconnect to create a new look.'};
-  if (S.sim.noCredits || S.balance < COST) return {ok:false, reason:`Not enough credits. This look costs ${COST} credit, you have ${S.sim.noCredits ? 0 : S.balance}.`, buy:true};
-  return {ok:true, cost:COST, balance:S.balance};
+  if (S.sim.noCredits || S.balance < COST) return {ok:false, reason:'Not enough credits. This look costs 1 credit.', buy:true};
+  return {ok:true, cost:COST, balance:S.balance, simulated:true};
 };
 
 const GRAY = {body:'var(--w-surface)', wheel:'var(--w-surface)', line:'var(--w-border)', glass:'var(--w-canvas)'};
@@ -961,10 +972,10 @@ function screenStudio() {
       </div>
     </div>
     <div class="scr-foot">
-      <button class="btn btn-primary btn-block btn-lg" data-act="open-confirm" ${list.length ? '' : 'disabled'}>
+      <button class="btn btn-primary btn-block btn-lg" data-act="open-confirm" ${list.length && !S.sim.draftFail && !activeTask() ? '' : 'disabled'}>
         Create 1 look${q.ok ? ` · ${COST} credit` : ''}
       </button>
-      <p class="fine">${q.ok ? `Server quote: ${COST} credit · you receive 1 image.` : esc(q.reason)}</p>
+      <p class="fine">${q.ok ? `SIMULATED quote: ${COST} credit · 1 image. Real cost comes from the server.` : esc(q.reason)}</p>
     </div>
   </div>`;
 }
@@ -972,11 +983,13 @@ function screenStudio() {
 function screenTask() {
   const t = S.task;
   if (!t) return `<div class="scr">${appbar('Request status', 'Garage')}<div class="scr-body"><div class="pad"><div class="callout"><span class="glyph gl-info"></span><span class="callout-body"><span class="callout-title">No request running</span><span class="callout-text">Start one from a car in your garage.</span></span></div></div></div></div>`;
+  const tc = S.cars.find(c => c.id === t.carId);
+  const tv = tc && t.baseVersionId ? tc.versions.find(v => v.id === t.baseVersionId) : null;
   const copy = {
     queued:['Waiting to start.','You can leave this screen. Your task will continue.'],
     processing:['Creating your look.','Processing is reported by the server. You can leave this screen.'],
     uncertain:['Checking an interrupted request.','We will not submit it again automatically.'],
-    succeeded:['Your look is ready.','One image was created from your request.'],
+    succeeded:['Your look is ready.','A simulated result is ready. No model was called.'],
     failed:['This look was not completed.','Your credit was returned. Your draft is still available.'],
     cancelled:['Request cancelled.','Nothing was charged.']
   }[t.status] || ['…',''];
@@ -990,7 +1003,7 @@ function screenTask() {
       </div>
       <div class="pad" style="padding-top:0">
         <div class="carbox">
-          <span class="stamp">SOURCE · ${esc(t.baseVersionId ? 'VERSION ' + (version() ? version().label : '') : 'ORIGINAL PHOTO')} · UNCHANGED</span>
+          <span class="stamp">SOURCE · ${esc(t.baseVersionId ? 'VERSION ' + (tv ? tv.label : '?') : 'ORIGINAL PHOTO')} · UNCHANGED</span>
           ${carArt()}
         </div>
       </div>
@@ -1018,7 +1031,7 @@ function screenTask() {
 
 function screenResult() {
   const c = car(); if (!c) return screenGarage();
-  const v = c.versions[c.versions.length - 1];
+  const v = viewed() || c.versions[c.versions.length - 1];
   if (!v) return screenGarage();
   const fav = S.favs.includes(v.id);
   return `<div class="scr">
@@ -1056,7 +1069,7 @@ function screenResult() {
 
 function screenCompare() {
   const c = car(); if (!c || !c.versions.length) return screenGarage();
-  const v = c.versions[c.versions.length - 1];
+  const v = viewed() || c.versions[c.versions.length - 1];
   const baseCh = v.parent ? (c.versions.find(x => x.label === v.parent) || {}).changes : null;
   return `<div class="scr">
     ${appbar('Compare', 'Result')}
@@ -1087,9 +1100,9 @@ function screenGarage() {
     rows.push(`<button class="list-row" data-act="edit-original" data-v="${c.id}">
       ${thumb(null)}<span class="grow"><span class="t-body-strong">Original photo</span>
       <span class="t-caption muted" style="display:block">Start a new look from this</span></span>${gl('chevron')}</button>`);
-    c.versions.forEach(v => rows.push(`<button class="list-row" data-act="edit-version" data-v="${v.id}">
+    c.versions.forEach(v => rows.push(`<button class="list-row" data-act="view-version" data-v="${v.id}">
       ${thumb(v.changes)}<span class="grow"><span class="t-body-strong">Version ${esc(v.label)}${S.favs.includes(v.id) ? ' · favourite' : ''}</span>
-      <span class="t-caption muted" style="display:block">From ${esc(v.parent ? 'Version ' + v.parent : 'original')} · ${changes(v.changes).map(x => esc(x.value)).join(' · ') || 'no change recorded'}</span></span>${gl('chevron')}</button>`));
+      <span class="t-caption muted" style="display:block">View or refine · From ${esc(v.parent ? 'Version ' + v.parent : 'original')} · ${changes(v.changes).map(x => esc(x.value)).join(' · ') || 'no change recorded'}</span></span>${gl('chevron')}</button>`));
   });
   return `<div class="scr">
     <div class="appbar"><h2 class="t-heading" style="flex:1">Garage</h2>
@@ -1135,7 +1148,7 @@ function sheetAdd() {
       </div>
       <div class="sheet-scroll" style="padding-top:var(--sp-2)">
         <div class="list">
-          ${item('open-look', 'Full style', 'A complete direction for the whole car', lookOff, 'Remove your colour changes first.')}
+          ${item('open-look', 'Full style', 'A complete direction for the whole car', lookOff, 'Full styles start from Original, with no individual colours.')}
           ${item('open-color', 'Body colour', 'Change the paint', colorOff, 'The selected style already sets the paint.', 'body')}
           ${item('open-color', 'Wheel colour', 'Change the wheel finish', colorOff, 'The selected style already sets the wheels.', 'wheel')}
         </div>
@@ -1194,7 +1207,7 @@ function sheetSource() {
     <div class="sheetwrap detent-md">
       <div class="sheet-head"><span class="sheet-handle"></span>
         <h3 class="t-heading">What are we changing?</h3>
-        <p class="t-caption muted" style="margin:var(--sp-1) 0 0">The base is the image your changes are applied to.</p>
+        <p class="t-caption muted" style="margin:var(--sp-1) 0 0">Choose the exact source image. Full styles are available from Original only.</p>
       </div>
       <div class="sheet-scroll" style="padding-top:var(--sp-2)">
         <div class="list">
@@ -1212,7 +1225,7 @@ function sheetSource() {
 function sheetConfirm() {
   const q = quote();
   const list = changes(S.draft);
-  const blocked = !q.ok;
+  const blocked = !q.ok || !list.length;
   return `<div class="overlay">
     <div class="scrim" data-act="close-sheet"></div>
     <div class="sheetwrap detent-lg">
@@ -1234,7 +1247,7 @@ function sheetConfirm() {
         <div class="row" style="justify-content:space-between"><span class="t-small muted">You receive</span><span class="t-body-strong">1 new image</span></div>
         <div class="row" style="justify-content:space-between;margin-top:var(--sp-2)"><span class="t-small muted">Cost</span><span class="t-body-strong">${COST} credit</span></div>
         <div class="row" style="justify-content:space-between;margin-top:var(--sp-2)"><span class="t-small muted">Balance after</span><span class="t-body-strong">${Math.max(0, S.balance - COST)} credit</span></div>
-        <p class="t-caption muted" style="margin:var(--sp-3) 0 0">Quote comes from the server. This prototype simulates it.</p>
+        <p class="t-caption muted" style="margin:var(--sp-3) 0 0">Prototype pricing only. Production must use the server's immutable quote.</p>
         ${blocked ? `<div class="callout error" style="margin-top:var(--sp-3)"><span class="glyph gl-alert"></span>
           <span class="callout-body"><span class="callout-title">${q.buy ? 'Not enough credits' : 'No quote available'}</span>
           <span class="callout-text">${esc(q.reason)} Nothing is generated until you confirm.</span></span></div>` : ''}
@@ -1360,37 +1373,48 @@ function submitRequest() {
   const t = {
     id: uid(), submissionId: 'sub_' + uid(), status: 'queued',
     carId: S.carId, baseVersionId: S.baseVersionId,
-    changes: JSON.parse(JSON.stringify(S.draft)), cost: COST, createdAt: Date.now()
+    changes: JSON.parse(JSON.stringify(S.draft)), cost: COST, createdAt: Date.now(),
+    settled:false, resultVersionId:null
   };
-  S.task = t; S.balance = Math.max(0, S.balance - COST);
-  go('task');
-  clearTimeout(S._a); clearTimeout(S._b); clearTimeout(S._c);
-  S._a = setTimeout(() => { if (S.task && S.task.id === t.id && S.task.status === 'queued') { S.task.status = 'processing'; render(); } }, 1400);
-  S._b = setTimeout(() => {
-    if (!S.task || S.task.id !== t.id || S.task.status !== 'processing') return;
-    S.task.status = S.sim.interrupt ? 'uncertain' : (S.sim.genFail ? 'failed' : 'succeeded');
-    render();
-    if (S.task.status === 'uncertain') S._c = setTimeout(() => {
-      if (S.task && S.task.id === t.id && S.task.status === 'uncertain') { S.task.status = 'succeeded'; finishTask(); }
-    }, 2600);
-    else finishTask();
-  }, 4200);
+  S.task = t; S.balance -= COST;
+  go('task'); scheduleTask();
 }
 function finishTask() {
   const t = S.task;
-  if (!t) return;
+  if (!t || t.settled || !['succeeded','failed','cancelled'].includes(t.status)) return;
+  t.settled = true;
   if (t.status === 'succeeded') {
     const c = S.cars.find(x => x.id === t.carId);
     if (c) {
-      const parent = t.baseVersionId ? (c.versions.find(v => v.id === t.baseVersionId) || {}).label : null;
-      c.versions.push({id: uid(), label: String(c.versions.length + 1), parent: parent ? String(parent) : null,
-        changes: JSON.parse(JSON.stringify(t.changes))});
+      const parent = t.baseVersionId ? c.versions.find(v => v.id === t.baseVersionId) : null;
+      const id = uid();
+      c.versions.push({id, label:String(c.versions.length + 1),
+        parent:parent ? String(parent.label) : null,
+        changes:JSON.parse(JSON.stringify(t.changes))});
+      t.resultVersionId = id;
+      S.carId = c.id; S.viewVersionId = id;
     }
-    render();
-  } else if (t.status === 'failed' || t.status === 'cancelled') {
-    S.balance += t.cost; // reservation released
-    render();
-  } else render();
+  } else {
+    S.balance += t.cost; // simulation: release reservation at most once
+  }
+  render();
+}
+// Offline wireframe simulation only. In production recover from the server
+// by stable task identity; never infer real work from the local clock.
+function scheduleTask() {
+  if (S._taskTimer) clearTimeout(S._taskTimer);
+  const t = S.task;
+  if (!t || t.settled || t.status === 'uncertain') return;
+  const elapsed = Math.max(0, Date.now() - t.createdAt);
+  if (t.status === 'queued' && elapsed >= 1400) t.status = 'processing';
+  if (t.status === 'processing' && elapsed >= 4200) {
+    t.status = S.sim.interrupt ? 'uncertain' : (S.sim.genFail ? 'failed' : 'succeeded');
+    finishTask(); return;
+  }
+  if (t.status === 'queued' || t.status === 'processing') {
+    const rem = (t.status === 'queued' ? 1400 : 4200) - elapsed;
+    S._taskTimer = setTimeout(() => { scheduleTask(); render(); }, Math.max(1, rem));
+  }
 }
 
 document.addEventListener('click', e => {
@@ -1414,7 +1438,7 @@ document.addEventListener('click', e => {
       break;
     }
     case 'go-garage': S.tab = 'garage'; go('garage'); break;
-    case 'resume': go('task'); break;
+    case 'resume': if(S.task) {S.carId=S.task.carId; scheduleTask();go('task');} break;
     case 'continue-car': S.carId = car().id; S.baseVersionId = null; S.draft = {look:null, body:'keep', wheel:'keep'}; go('studio'); break;
     case 'stage-look': S.stagedLook = v; S.pendingLook = v; render(); break;
     case 'begin-look': S.pendingLook = S.stagedLook; go(S.cars.length ? 'pickcar' : 'photo'); break;
@@ -1433,12 +1457,12 @@ document.addEventListener('click', e => {
     }
     case 'use-sample': { const c = addCar('Sample hatchback', 'sample'); startDraft(c.id, null, S.pendingLook); break; }
     case 'open-source': S.sheet = 'source'; render(); break;
-    case 'set-source': S.baseVersionId = v || null; S.sheet = null; toast('Base set to ' + baseLabel() + '.'); render(); break;
+    case 'set-source': if(S.draft.look && v){toast('Full styles start from Original. Remove this style before switching to a version.');break;}S.baseVersionId=v||null;S.sheet=null;toast('Base set to '+baseLabel()+'. Review your changes before creating.');break;
     case 'open-add': S.sheet = 'add'; render(); break;
     case 'open-look': S.sheet = 'look'; render(); break;
     case 'open-color': S.sheetField = (v || 'body'); S.sheet = 'color'; render(); break;
-    case 'set-look': S.draft.look = v; S.sheet = null; render(); break;
-    case 'set-color': S.draft[S.sheetField] = v; S.sheet = null; render(); break;
+    case 'set-look': if(!canAddLook()){toast('Full styles require Original and no individual colours.');break;}S.draft.look=v;S.sheet=null;render();break;
+    case 'set-color': if(!canAddColor()){toast('Remove the full style before editing a colour.');break;}S.draft[S.sheetField]=v;S.sheet=null;render();break;
     case 'edit': if (v === 'look') { S.sheet = 'look'; } else { S.sheetField = v; S.sheet = 'color'; } render(); break;
     case 'clear': if (v === 'look') S.draft.look = null; else S.draft[v] = 'keep'; render(); break;
     case 'reset': S.undo = JSON.parse(JSON.stringify(S.draft)); S.draft = {look:null, body:'keep', wheel:'keep'}; toast('Changes cleared.', 'undo-reset'); render(); break;
@@ -1447,19 +1471,20 @@ document.addEventListener('click', e => {
     case 'open-confirm': if (!hasChanges()) { toast('Choose at least one change before generating.'); break; } S.sheet = 'confirm'; render(); break;
     case 'open-credits': S.sheet = 'credits'; render(); break;
     case 'close-sheet': S.sheet = null; render(); break;
-    case 'submit': S.sheet = null; submitRequest(); break;
-    case 'set-status': S.task.status = v; S.sheet = null; if (v === 'succeeded' || v === 'failed' || v === 'cancelled') finishTask(); else render(); break;
+    case 'submit': if(S.sheet !== 'confirm')break; S.sheet=null;submitRequest();break;
+    case 'set-status': if(!S.task || S.task.settled){toast('A completed request cannot change state.');break;}S.task.status=v;S.sheet=null;if(['succeeded','failed','cancelled'].includes(v))finishTask();else render();break;
     case 'open-cancel': S.sheet = 'cancel'; render(); break;
-    case 'confirm-cancel': S.task.status = 'cancelled'; S.sheet = null; finishTask(); toast('Request cancelled. Nothing was charged.'); break;
+    case 'confirm-cancel': if(S.task && S.task.status==='queued' && !S.task.settled){S.task.status='cancelled';S.sheet=null;finishTask();toast('Request cancelled. Reserved credit released.');}break;
     case 'retry-request': { const t = S.task; S.task = null; S.carId = t.carId; S.baseVersionId = t.baseVersionId; S.draft = JSON.parse(JSON.stringify(t.changes)); go('studio'); break; }
-    case 'view-result': go('result'); break;
+    case 'view-result': if(S.task && S.task.resultVersionId) {S.carId=S.task.carId;S.viewVersionId=S.task.resultVersionId;go('result');} break;
     case 'compare': go('compare'); break;
-    case 'fav': { const c = car(); if (c && c.versions.length) { const id = c.versions[c.versions.length - 1].id; S.favs = S.favs.includes(id) ? S.favs.filter(x => x !== id) : S.favs.concat(id); } toast(S.favs.length ? 'Favourite toggled on this version.' : 'Favourite removed.'); render(); break; }
+    case 'fav': { const c = car(); if (c && c.versions.length) { const id = (viewed() || c.versions[c.versions.length - 1]).id; S.favs = S.favs.includes(id) ? S.favs.filter(x => x !== id) : S.favs.concat(id); } toast(S.favs.length ? 'Favourite toggled on this version.' : 'Favourite removed.'); render(); break; }
     case 'save-photo': toast('In production this opens the iOS save sheet. Nothing was saved here.'); break;
-    case 'refine': { const c = car(); const v = c.versions[c.versions.length - 1]; startDraft(c.id, v.id, null); toast('Refining Version ' + v.label + '.'); break; }
+    case 'refine': { const c = car(); const v = viewed() || c.versions[c.versions.length - 1]; startDraft(c.id, v.id, null); toast('Refining Version ' + v.label + '.'); break; }
     case 'new-original': { const c = car(); startDraft(c.id, null, null); toast('Starting from your original photo.'); break; }
     case 'edit-original': startDraft(v, null, null); break;
-    case 'edit-version': { const c = S.cars.find(x => x.versions.some(y => y.id === v)); startDraft(c.id, v, null); break; }
+    case 'view-version': {const c=S.cars.find(x=>x.versions.some(y=>y.id===v));if(c){S.carId=c.id;S.viewVersionId=v;go('result');}break;}
+    case 'edit-version': { const c = S.cars.find(x => x.versions.some(y => y.id === v)); if(c)startDraft(c.id, v, null); break; }
     case 'open-states': S.sheet = 'states'; render(); break;
     case 'leave-discard': S.sheet = null; S.sim.draftFail = false; buildSim(); go('garage'); break;
     default: break;
@@ -1523,6 +1548,7 @@ document.documentElement.setAttribute('data-theme', S.theme);
 document.getElementById('themeBtn').textContent = S.theme === 'dark' ? 'Light' : 'Dark';
 document.getElementById('widthSel').value = S.width;
 buildSim();
+scheduleTask();
 render();
 
 window.__FORM_UX__ = {

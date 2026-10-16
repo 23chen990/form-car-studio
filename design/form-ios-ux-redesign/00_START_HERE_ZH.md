@@ -1,5 +1,13 @@
 # FORM iOS UX 审查与交互重构 — 研究分支入口
 
+> **⚠️ 2026-10-16 最新 Owner 结论：当前两轮 UX 原型均未获认可，仍被明确评价为“交互很差、越改越差”。旧版 Change List、第二版三工具栏，以及之后助手提出的汽车画布都不是已批准方案。后续新 Agent 不得将此前推荐视为最终规范。**
+>
+> **新 Agent 从这里开始：** [14 Owner 反对与重启](14_OWNER_REJECTION_AND_UX_RESET_ZH.md) → [15 完整交接提示词](15_NEXT_AGENT_FULL_HANDOFF_PROMPT_ZH.md) → [16 助手未批准猜想](16_PREVIOUS_AGENT_CANVAS_HYPOTHESIS_UNAPPROVED_ZH.md) → [11 被否定的最新版原型](11_INTERACTIVE_PROTOTYPE.html) → [13 全部 42 张实测截图](13_SCREENSHOT_GALLERY.html)。
+>
+> 此页此前的“核心结论”是 2026-10-15 的历史判断，已被 Owner 否定，只能作为研究归档阅读。
+
+---
+
 > 仓库：`23chen990/form-car-studio`  
 > 分支：`research/form-ios-ux-redesign`  
 > 目录：`design/form-ios-ux-redesign/`  
